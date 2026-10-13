@@ -1,0 +1,38 @@
+[
+ {
+  "kind": "luồng",
+  "workers": 1,
+  "seconds": 0.3880248209999877,
+  "gil": true
+ },
+ {
+  "kind": "tiến trình",
+  "workers": 1,
+  "seconds": 0.5275471649999872,
+  "gil": true
+ },
+ {
+  "kind": "luồng",
+  "workers": 2,
+  "seconds": 0.45970945100003746,
+  "gil": true
+ },
+ {
+  "kind": "tiến trình",
+  "workers": 2,
+  "seconds": 0.25028631700001824,
+  "gil": true
+ },
+ {
+  "kind": "luồng",
+  "workers": 4,
+  "seconds": 0.5042983609999965,
+  "gil": true
+ },
+ {
+  "kind": "tiến trình",
+  "workers": 4,
+  "seconds": 0.15538985400002048,
+  "gil": true
+ }
+]

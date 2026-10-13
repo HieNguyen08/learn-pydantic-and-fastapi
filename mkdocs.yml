@@ -1,0 +1,129 @@
+site_name: "Pydantic & FastAPI Masterclass"
+site_description: "Pydantic & FastAPI từ nền tảng đến hệ thống production — xoay quanh API hóa đơn điện tử và AI gateway của Mekong Cloud"
+site_author: "HieNguyen08"
+site_url: "https://hienguyen08.github.io/learn-pydantic-and-fastapi/"
+repo_url: "https://github.com/HieNguyen08/learn-pydantic-and-fastapi"
+repo_name: "HieNguyen08/learn-pydantic-and-fastapi"
+edit_uri: "edit/main/docs/"
+copyright: "Tài liệu học tập — Pydantic & FastAPI Masterclass · 2026"
+
+theme:
+  name: material
+  language: vi
+  font:
+    text: Be Vietnam Pro
+    code: JetBrains Mono
+  icon:
+    logo: material/api
+    repo: fontawesome/brands/github
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: teal
+      accent: deep orange
+      toggle:
+        icon: material/weather-night
+        name: Chuyển sang nền tối
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: teal
+      accent: deep orange
+      toggle:
+        icon: material/weather-sunny
+        name: Chuyển sang nền sáng
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - navigation.indexes
+    - navigation.tracking
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+    - content.action.edit
+
+plugins:
+  - search:
+      lang: en
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      toc_depth: 3
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+extra_css:
+  - stylesheets/extra.css
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/HieNguyen08/learn-pydantic-and-fastapi
+
+nav:
+  - Trang chủ: index.md
+  - "Phần I · Nền tảng":
+      - "00 · Tổng quan & bài toán": 00-tong-quan-va-bai-toan.md
+      - "01 · Kiểu dữ liệu & validation": 01-kieu-du-lieu-va-validation.md
+      - "02 · HTTP, REST & ASGI": 02-http-rest-asgi.md
+  - "Phần II · Pydantic":
+      - "03 · Pydantic v2: kiến trúc": 03-pydantic-v2-kien-truc.md
+      - "04 · Validator, kiểu tùy biến & union": 04-validators-kieu-tuy-bien-union.md
+      - "05 · Serialization, JSON Schema & settings": 05-serialization-json-schema-settings.md
+      - "06 · Hiệu năng Pydantic": 06-hieu-nang-pydantic.md
+  - "Phần III · FastAPI":
+      - "07 · Vòng đời request": 07-fastapi-vong-doi-request.md
+      - "08 · Dependency injection": 08-dependency-injection.md
+      - "09 · Async, đồng thời & hiệu năng": 09-async-dong-thoi-hieu-nang.md
+      - "10 · Database & persistence": 10-database-va-persistence.md
+      - "11 · Bảo mật API": 11-bao-mat-api.md
+  - "Phần IV · Chất lượng & vận hành":
+      - "12 · Testing & chất lượng": 12-testing-va-chat-luong.md
+      - "13 · Production & observability": 13-production-va-observability.md
+      - "14 · Capstone: thiết kế hệ thống": 14-capstone-thiet-ke-he-thong.md
+  - "Phần V · Chuyên đề":
+      - "15 · Pydantic cho LLM": 15-pydantic-cho-llm.md
+  - "Thực hành":
+      - labs/index.md
+      - "Lab 01 · Mô hình hóa hóa đơn": labs/lab01_invoice_models.md
+      - "Lab 02 · Benchmark validation": labs/lab02_benchmark_validation.md
+      - "Lab 03 · invoice-api hoàn chỉnh": labs/lab03_invoice_api.md
+      - "Lab 04 · Đo đồng thời": labs/lab04_concurrency.md
+      - "Lab 05 · Property-based & fuzz": labs/lab05_property_fuzz.md
+      - "Lab 06 · Structured output & SSE": labs/lab06_llm_structured_sse.md

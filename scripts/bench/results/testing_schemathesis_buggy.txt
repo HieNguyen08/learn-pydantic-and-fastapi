@@ -1,0 +1,145 @@
+Schemathesis v4.31.0
+━━━━━━━━━━━━━━━━━━━━
+
+ ✅  Loaded specification from http://127.0.0.1:8000/openapi.json (in 0.22s)
+
+     Base URL:         http://127.0.0.1:8000/
+     Specification:    Open API 3.1.0
+     Operations:       2 selected / 2 total
+
+ ✅  API capabilities:
+
+     Supports NULL byte in headers:                            ✘
+     Accepts backslash and control characters in URL paths:    ✓
+
+ ⏭   Examples (in 0.00s)
+
+     ⏭  2 skipped
+
+ ❌  Coverage (in 0.54s)
+
+     ❌ 2 failed
+
+ ❌  Fuzzing (in 10.10s)
+
+     ❌ 2 failed
+
+=================================== FAILURES ===================================
+_______________________________ GET /v1/invoices _______________________________
+1. Test Case ID: rcVgNo
+
+- Server error
+
+- Undocumented HTTP status code
+
+    Received: 500
+    Documented: 200, 422
+
+[500] Internal Server Error:
+
+    `Internal Server Error`
+
+Reproduce with:
+
+    curl -X GET 'http://127.0.0.1:8000/v1/invoices?limit=199'
+
+    st replay rcVgNo
+
+_____________________________ OPTIONS /v1/invoices _____________________________
+1. Test Case ID: 258obi
+
+- Invalid Allow header
+
+    `Allow` header does not match the schema — missing documented methods: GET
+
+    List exactly the methods this resource supports in `Allow`
+
+[405] Method Not Allowed:
+
+    `{"detail":"Method Not Allowed"}`
+
+Reproduce with:
+
+    curl -X OPTIONS -H 'Content-Type: application/json' -d '{"buyer_name": "0", "lines": [{"name": "0", "quantity": 1, "unit_price": 0}]}' http://127.0.0.1:8000/v1/invoices
+
+    st replay 258obi
+
+______________________________ POST /v1/invoices _______________________________
+1. Test Case ID: oGMJDo
+
+- API accepted schema-violating request
+
+    Invalid data should have been rejected
+    Expected: 400, 401, 403, 404, 405, 406, 409, 415, 422, 428, 429, 5xx
+    Invalid component: in body - lines -> Array with invalid items: unit_price: Incorrect type
+
+[201] Created:
+
+    `{"id":1,"total":0,"average_line":0}`
+
+Reproduce with:
+
+    curl -X POST -H 'Content-Type: application/json' -d '{"buyer_name": "0", "lines": [{"name": "0", "quantity": 1, "unit_price": false}]}' http://127.0.0.1:8000/v1/invoices
+
+    st replay oGMJDo
+
+2. Test Case ID: 5ZXdKk
+
+- Server error
+
+- Undocumented HTTP status code
+
+    Received: 500
+    Documented: 201, 422
+
+[500] Internal Server Error:
+
+    `Internal Server Error`
+
+Reproduce with:
+
+    curl -X POST -H 'Content-Type: application/json' -d '{"": [{}, false], "buyer_name": "\u00de\u00ae=\u00e0\u0010\ud872\ude87\u00e4\f\udbdd\udd5b\u00898Ei\u00acv\uda60\udf7b\u00c2\ud93d\udfc3", "lines": [{"(": {"\u00a0\ud978\udf81\u00861A\u0098\u00f7p\u6f87\u0005\u00e5\u00d1\u000f\u00cd\u00f3$": [false, -67947770296, null]}, "\uda08\udcb2": 17179869184, "b\u00a3\u0091l\u007f\ue23d\udbc4\udd4a\u00ef\\$": {}, "name": "\uda76\udfde\u00d0\u000e\u0015\u0097E\u008f", "unit_price": 78.0, "quantity": 11929.0}]}' http://127.0.0.1:8000/v1/invoices
+
+    st replay 5ZXdKk
+
+3. Test Case ID: CgSkCx
+
+- Undocumented HTTP status code
+
+    Received: 400
+    Documented: 201, 422
+
+[400] Bad Request:
+
+    `{"detail":"There was an error parsing the body"}`
+
+Reproduce with:
+
+    curl -X POST -H 'Content-Type: application/json' -d '85�����' http://127.0.0.1:8000/v1/invoices
+
+    st replay CgSkCx
+
+=================================== SUMMARY ====================================
+
+API Operations:
+  Selected: 2/2
+  Tested: 2
+
+Test Phases:
+  ⏭  Examples
+  ❌ Coverage
+  ❌ Fuzzing
+  ⏭  Stateful (not applicable)
+
+Failures:
+  ❌ Server error: 2
+  ❌ API accepted schema-violating request: 1
+  ❌ Invalid Allow header: 1
+  ❌ Undocumented HTTP status code: 3
+
+Test cases:
+  485 generated, 5 found 7 unique failures, 1 skipped
+
+Seed: 7
+
+============================= 7 failures in 10.72s =============================

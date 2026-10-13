@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="670.186667pt" height="285.12pt" viewBox="0 0 670.186667 285.12" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 285.12 
+L 670.186667 285.12 
+L 670.186667 0 
+L 0 0 
+L 0 285.12 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 21.973333 96.96 
+L 65.546667 96.96 
+Q 71.626667 96.96 71.626667 90.88 
+L 71.626667 67.573333 
+Q 71.626667 61.493333 65.546667 61.493333 
+L 21.973333 61.493333 
+Q 15.893333 61.493333 15.893333 67.573333 
+L 15.893333 90.88 
+Q 15.893333 96.96 21.973333 96.96 
+z
+" clip-path="url(#p8136147534)" style="fill: #fce9e9; stroke: #e34948; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 85.306667 96.96 
+L 128.88 96.96 
+Q 134.96 96.96 134.96 90.88 
+L 134.96 67.573333 
+Q 134.96 61.493333 128.88 61.493333 
+L 85.306667 61.493333 
+Q 79.226667 61.493333 79.226667 67.573333 
+L 79.226667 90.88 
+Q 79.226667 96.96 85.306667 96.96 
+z
+" clip-path="url(#p8136147534)" style="fill: #fce9e9; stroke: #e34948; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 148.64 96.96 
+L 192.213333 96.96 
+Q 198.293333 96.96 198.293333 90.88 
+L 198.293333 67.573333 
+Q 198.293333 61.493333 192.213333 61.493333 
+L 148.64 61.493333 
+Q 142.56 61.493333 142.56 67.573333 
+L 142.56 90.88 
+Q 142.56 96.96 148.64 96.96 
+z
+" clip-path="url(#p8136147534)" style="fill: #fce9e9; stroke: #e34948; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 211.973333 96.96 
+L 255.546667 96.96 
+Q 261.626667 96.96 261.626667 90.88 
+L 261.626667 67.573333 
+Q 261.626667 61.493333 255.546667 61.493333 
+L 211.973333 61.493333 
+Q 205.893333 61.493333 205.893333 67.573333 
+L 205.893333 90.88 
+Q 205.893333 96.96 211.973333 96.96 
+z
+" clip-path="url(#p8136147534)" style="fill: #fce9e9; stroke: #e34948; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 275.306667 96.96 
+L 318.88 96.96 
+Q 324.96 96.96 324.96 90.88 
+L 324.96 67.573333 
+Q 324.96 61.493333 318.88 61.493333 
+L 275.306667 61.493333 
+Q 269.226667 61.493333 269.226667 67.573333 
+L 269.226667 90.88 
+Q 269.226667 96.96 275.306667 96.96 
+z
+" clip-path="url(#p8136147534)" style="fill: #fce9e9; stroke: #e34948; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 366.506667 96.96 
+L 445.546667 96.96 
+Q 451.626667 96.96 451.626667 90.88 
+L 451.626667 67.573333 
+Q 451.626667 61.493333 445.546667 61.493333 
+L 366.506667 61.493333 
+Q 360.426667 61.493333 360.426667 67.573333 
+L 360.426667 90.88 
+Q 360.426667 96.96 366.506667 96.96 
+z
+" clip-path="url(#p8136147534)" style="fill: #d9ecd9; stroke: #008300; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 453.146667 79.226667 
+Q 466.826667 79.226667 478.829616 79.226667 
+" clip-path="url(#p8136147534)" style="fill: none; stroke: #008300; stroke-width: 1.5; stroke-linecap: round"/>
+    <path d="M 474.029616 76.826667 
+L 478.829616 79.226667 
+L 474.029616 81.626667 
+z
+" clip-path="url(#p8136147534)" style="fill: #008300; stroke: #008300; stroke-width: 1.5; stroke-linecap: round"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 488.106667 127.36 
+L 648.213333 127.36 
+Q 654.293333 127.36 654.293333 121.28 
+L 654.293333 37.173333 
+Q 654.293333 31.093333 648.213333 31.093333 
+L 488.106667 31.093333 
+Q 482.026667 31.093333 482.026667 37.173333 
+L 482.026667 121.28 
+Q 482.026667 127.36 488.106667 127.36 
+z
+" clip-path="url(#p8136147534)" style="fill: #f0f8f0; stroke: #008300; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 21.973333 264.16 
+L 648.213333 264.16 
+Q 654.293333 264.16 654.293333 258.08 
+L 654.293333 204.373333 
+Q 654.293333 198.293333 648.213333 198.293333 
+L 21.973333 198.293333 
+Q 15.893333 198.293333 15.893333 204.373333 
+L 15.893333 258.08 
+Q 15.893333 264.16 21.973333 264.16 
+z
+" clip-path="url(#p8136147534)" style="fill: #f4f3ef; stroke: #c9c8c2; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 9.2px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #e34948" x="15.893333" y="26.026667" transform="rotate(-0 15.893333 26.026667)">Smart union</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #1b1b1a" x="43.76" y="82.060042" transform="rotate(-0 43.76 82.060042)">Card?</text>
+   </g>
+   <g id="text_3">
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #1b1b1a" x="107.093333" y="82.060042" transform="rotate(-0 107.093333 82.060042)">Transfer?</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #1b1b1a" x="170.426667" y="82.060042" transform="rotate(-0 170.426667 82.060042)">Cash?</text>
+   </g>
+   <g id="text_5">
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #1b1b1a" x="233.76" y="82.060042" transform="rotate(-0 233.76 82.060042)">EWallet?</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #1b1b1a" x="297.093333" y="82.060042" transform="rotate(-0 297.093333 82.060042)">Voucher?</text>
+   </g>
+   <g id="text_7">
+    <text style="font-size: 7.8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #52514e" x="15.893333" y="122.293333" transform="rotate(-0 15.893333 122.293333)">lượt 1: strict từng thành viên → lượt 2: lax → chọn khớp «tốt nhất»</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 7.8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #e34948" x="15.893333" y="142.56" transform="rotate(-0 15.893333 142.56)">thất bại → lỗi của MỌI thành viên</text>
+   </g>
+   <g id="text_9">
+    <text style="font-weight: 700; font-size: 9.2px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #008300" x="360.426667" y="26.026667" transform="rotate(-0 360.426667 26.026667)">Discriminated union</text>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 7.8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #1b1b1a" x="406.026667" y="81.47587" transform="rotate(-0 406.026667 81.47587)">đọc "method"</text>
+   </g>
+   <g id="text_11">
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: start; fill: #1b1b1a" x="492.16" y="48.826667" transform="rotate(-0 492.16 48.826667)">"card" → Card</text>
+   </g>
+   <g id="text_12">
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: start; fill: #1b1b1a" x="492.16" y="68.08" transform="rotate(-0 492.16 68.08)">"transfer" → Transfer</text>
+   </g>
+   <g id="text_13">
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: start; fill: #1b1b1a" x="492.16" y="87.333333" transform="rotate(-0 492.16 87.333333)">"cash" → Cash</text>
+   </g>
+   <g id="text_14">
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: start; fill: #1b1b1a" x="492.16" y="106.586667" transform="rotate(-0 492.16 106.586667)">"ewallet" → EWallet</text>
+   </g>
+   <g id="text_15">
+    <text style="font-size: 7.8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #52514e" x="360.426667" y="147.626667" transform="rotate(-0 360.426667 147.626667)">bảng băm O(1) → đúng 1 thành viên → 1 lỗi có loc ('transfer', 'ref')</text>
+   </g>
+   <g id="text_16">
+    <text style="font-size: 7.8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #52514e" x="360.426667" y="167.893333" transform="rotate(-0 360.426667 167.893333)">tag lạ → union_tag_invalid, kèm expected_tags</text>
+   </g>
+   <g id="text_17">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #1b1b1a" x="26.026667" y="218.56" transform="rotate(-0 26.026667 218.56)">OpenAPI: smart → anyOf (client phải tự đoán)  ·  discriminated → oneOf + discriminator.propertyName = "method"</text>
+   </g>
+   <g id="text_18">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #52514e" x="26.026667" y="246.426667" transform="rotate(-0 26.026667 246.426667)">→ trình sinh code (TypeScript, Kotlin, Swift) tạo đúng kiểu union có thẻ</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p8136147534">
+   <rect x="5.76" y="5.76" width="658.666667" height="273.6"/>
+  </clipPath>
+ </defs>
+</svg>

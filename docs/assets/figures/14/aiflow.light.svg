@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="717.12pt" height="273.6pt" viewBox="0 0 717.12 273.6" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 273.6 
+L 717.12 273.6 
+L 717.12 0 
+L 0 0 
+L 0 273.6 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 21.888 146.88 
+L 105.552 146.88 
+Q 111.6 146.88 111.6 140.832 
+L 111.6 92.448 
+Q 111.6 86.4 105.552 86.4 
+L 21.888 86.4 
+Q 15.84 86.4 15.84 92.448 
+L 15.84 140.832 
+Q 15.84 146.88 21.888 146.88 
+z
+" clip-path="url(#p1c9fe984e6)" style="fill: #fdede7; stroke: #eb6834; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 127.728 146.88 
+L 211.392 146.88 
+Q 217.44 146.88 217.44 140.832 
+L 217.44 92.448 
+Q 217.44 86.4 211.392 86.4 
+L 127.728 86.4 
+Q 121.68 86.4 121.68 92.448 
+L 121.68 140.832 
+Q 121.68 146.88 127.728 146.88 
+z
+" clip-path="url(#p1c9fe984e6)" style="fill: #e5effa; stroke: #2a78d6; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 233.568 146.88 
+L 317.232 146.88 
+Q 323.28 146.88 323.28 140.832 
+L 323.28 92.448 
+Q 323.28 86.4 317.232 86.4 
+L 233.568 86.4 
+Q 227.52 86.4 227.52 92.448 
+L 227.52 140.832 
+Q 227.52 146.88 233.568 146.88 
+z
+" clip-path="url(#p1c9fe984e6)" style="fill: #e9e7f4; stroke: #4a3aa7; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 339.408 146.88 
+L 423.072 146.88 
+Q 429.12 146.88 429.12 140.832 
+L 429.12 92.448 
+Q 429.12 86.4 423.072 86.4 
+L 339.408 86.4 
+Q 333.36 86.4 333.36 92.448 
+L 333.36 140.832 
+Q 333.36 146.88 339.408 146.88 
+z
+" clip-path="url(#p1c9fe984e6)" style="fill: #e5effa; stroke: #2a78d6; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 460.368 86.4 
+L 559.152 86.4 
+Q 565.2 86.4 565.2 80.352 
+L 565.2 31.968 
+Q 565.2 25.92 559.152 25.92 
+L 460.368 25.92 
+Q 454.32 25.92 454.32 31.968 
+L 454.32 80.352 
+Q 454.32 86.4 460.368 86.4 
+z
+" clip-path="url(#p1c9fe984e6)" style="fill: #fceff4; stroke: #e87ba4; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 460.368 227.52 
+L 559.152 227.52 
+Q 565.2 227.52 565.2 221.472 
+L 565.2 173.088 
+Q 565.2 167.04 559.152 167.04 
+L 460.368 167.04 
+Q 454.32 167.04 454.32 173.088 
+L 454.32 221.472 
+Q 454.32 227.52 460.368 227.52 
+z
+" clip-path="url(#p1c9fe984e6)" style="fill: #e9e7f4; stroke: #4a3aa7; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 596.448 146.88 
+L 680.112 146.88 
+Q 686.16 146.88 686.16 140.832 
+L 686.16 92.448 
+Q 686.16 86.4 680.112 86.4 
+L 596.448 86.4 
+Q 590.4 86.4 590.4 92.448 
+L 590.4 140.832 
+Q 590.4 146.88 596.448 146.88 
+z
+" clip-path="url(#p1c9fe984e6)" style="fill: #e0f0e0; stroke: #008300; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 113.112 116.64 
+Q 116.64 116.64 119.049966 116.64 
+" clip-path="url(#p1c9fe984e6)" style="fill: none; stroke: #52514e; stroke-linecap: round"/>
+    <path d="M 114.249966 114.24 
+L 119.049966 116.64 
+L 114.249966 119.04 
+z
+" clip-path="url(#p1c9fe984e6)" style="fill: #52514e; stroke: #52514e; stroke-linecap: round"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 218.952 116.64 
+Q 222.48 116.64 224.889966 116.64 
+" clip-path="url(#p1c9fe984e6)" style="fill: none; stroke: #52514e; stroke-linecap: round"/>
+    <path d="M 220.089966 114.24 
+L 224.889966 116.64 
+L 220.089966 119.04 
+z
+" clip-path="url(#p1c9fe984e6)" style="fill: #52514e; stroke: #52514e; stroke-linecap: round"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 324.792 116.64 
+Q 328.32 116.64 330.729966 116.64 
+" clip-path="url(#p1c9fe984e6)" style="fill: none; stroke: #52514e; stroke-linecap: round"/>
+    <path d="M 325.929966 114.24 
+L 330.729966 116.64 
+L 325.929966 119.04 
+z
+" clip-path="url(#p1c9fe984e6)" style="fill: #52514e; stroke: #52514e; stroke-linecap: round"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 430.632 101.52 
+Q 441.72 83.88 452.213014 67.186568 
+" clip-path="url(#p1c9fe984e6)" style="fill: none; stroke: #52514e; stroke-linecap: round"/>
+    <path d="M 447.626663 69.973212 
+L 452.213014 67.186568 
+L 451.690518 72.527636 
+z
+" clip-path="url(#p1c9fe984e6)" style="fill: #52514e; stroke: #52514e; stroke-linecap: round"/>
+   </g>
+   <g id="patch_13">
+    <path d="M 452.808 76.32 
+Q 441.72 93.96 431.226986 110.653432 
+" clip-path="url(#p1c9fe984e6)" style="fill: none; stroke: #52514e; stroke-linecap: round"/>
+    <path d="M 435.813337 107.866788 
+L 431.226986 110.653432 
+L 431.749482 105.312364 
+z
+" clip-path="url(#p1c9fe984e6)" style="fill: #52514e; stroke: #52514e; stroke-linecap: round"/>
+   </g>
+   <g id="patch_14">
+    <path d="M 430.632 131.76 
+Q 441.72 159.48 452.392773 186.161932 
+" clip-path="url(#p1c9fe984e6)" style="fill: none; stroke: #52514e; stroke-linecap: round"/>
+    <path d="M 452.838441 180.813906 
+L 452.392773 186.161932 
+L 448.381753 182.596581 
+z
+" clip-path="url(#p1c9fe984e6)" style="fill: #52514e; stroke: #52514e; stroke-linecap: round"/>
+   </g>
+   <g id="patch_15">
+    <path d="M 566.712 197.28 
+Q 583.596 172.836 599.844591 149.311921 
+" clip-path="url(#p1c9fe984e6)" style="fill: none; stroke: #52514e; stroke-linecap: round"/>
+    <path d="M 595.141893 151.897387 
+L 599.844591 149.311921 
+L 599.091345 154.625359 
+z
+" clip-path="url(#p1c9fe984e6)" style="fill: #52514e; stroke: #52514e; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #1b1b1a" transform="translate(49.582078 114.645562)">Zendesk</text>
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #1b1b1a" transform="translate(48.855047 123.555562)">webhook</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #1b1b1a" transform="translate(142.117406 109.931203)">POST /webhooks</text>
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #1b1b1a" transform="translate(142.404094 118.461187)">HMAC · Pydantic</text>
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #1b1b1a" transform="translate(144.948703 127.754297)">→ 202 (vài ms)</text>
+   </g>
+   <g id="text_3">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #1b1b1a" transform="translate(261.016641 109.716703)">bảng job</text>
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #1b1b1a" transform="translate(252.883687 119.042297)">ON CONFLICT</text>
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #1b1b1a" transform="translate(258.763875 127.279406)">(event_id)</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #1b1b1a" transform="translate(369.984938 110.190562)">worker</text>
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #1b1b1a" transform="translate(359.555391 119.042297)">SKIP LOCKED</text>
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #1b1b1a" transform="translate(362.936344 127.952297)">RAG + LLM</text>
+   </g>
+   <g id="text_5">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #1b1b1a" transform="translate(488.436328 49.071187)">LLM provider</text>
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #1b1b1a" transform="translate(477.860344 58.267875)">12 lời gọi đồng thời</text>
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #1b1b1a" transform="translate(476.825484 67.142297)">(Little: 0,4/s × 30 s)</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #1b1b1a" transform="translate(486.506344 194.646187)">Redis pub/sub</text>
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #1b1b1a" transform="translate(487.434984 203.704172)">draft:{ticket}</text>
+   </g>
+   <g id="text_7">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #1b1b1a" transform="translate(617.494641 110.132297)">SSE → 60 CS</text>
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #1b1b1a" transform="translate(622.106391 118.461187)">id · retry ·</text>
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #1b1b1a" transform="translate(616.056562 127.908984)">Last-Event-ID</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 6.9px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #52514e" transform="translate(207.36 209.062189)">validate output bằng Pydantic</text>
+    <text style="font-size: 6.9px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #52514e" transform="translate(207.36 217.344076)">sai schema → retry (budget, backoff)</text>
+    <text style="font-size: 6.9px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #52514e" transform="translate(207.36 226.2254)">partial JSON → publish từng phần</text>
+   </g>
+   <g id="text_9">
+    <text style="font-weight: 700; font-size: 9px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #1b1b1a" x="15.84" y="25.92" transform="rotate(-0 15.84 25.92)">ai-gateway: tách NHẬN việc (webhook &lt; 10 s) khỏi LÀM việc (LLM 5–30 s)</text>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #e34948" transform="translate(15.84 203.57959)">output LLM là dữ liệu chưa tin cậy:</text>
+    <text style="font-size: 7px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #e34948" transform="translate(15.84 212.332598)">người duyệt trước khi gửi khách</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p1c9fe984e6">
+   <rect x="5.76" y="5.76" width="705.6" height="262.08"/>
+  </clipPath>
+ </defs>
+</svg>

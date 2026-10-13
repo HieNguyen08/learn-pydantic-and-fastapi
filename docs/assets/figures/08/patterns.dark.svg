@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="659.52pt" height="244.395pt" viewBox="0 0 659.52 244.395" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 244.395 
+L 659.52 244.395 
+L 659.52 0 
+L 0 0 
+L 0 244.395 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 21.96 208.26 
+L 159.15375 208.26 
+Q 165.22875 208.26 165.22875 202.185 
+L 165.22875 42.21 
+Q 165.22875 36.135 159.15375 36.135 
+L 21.96 36.135 
+Q 15.885 36.135 15.885 42.21 
+L 15.885 202.185 
+Q 15.885 208.26 21.96 208.26 
+z
+" clip-path="url(#paecb68d406)" style="fill: #20262c; stroke: #3987e5; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 181.42875 208.26 
+L 318.6225 208.26 
+Q 324.6975 208.26 324.6975 202.185 
+L 324.6975 42.21 
+Q 324.6975 36.135 318.6225 36.135 
+L 181.42875 36.135 
+Q 175.35375 36.135 175.35375 42.21 
+L 175.35375 202.185 
+Q 175.35375 208.26 181.42875 208.26 
+z
+" clip-path="url(#paecb68d406)" style="fill: #2d231d; stroke: #d95926; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 340.8975 208.26 
+L 478.09125 208.26 
+Q 484.16625 208.26 484.16625 202.185 
+L 484.16625 42.21 
+Q 484.16625 36.135 478.09125 36.135 
+L 340.8975 36.135 
+Q 334.8225 36.135 334.8225 42.21 
+L 334.8225 202.185 
+Q 334.8225 208.26 340.8975 208.26 
+z
+" clip-path="url(#paecb68d406)" style="fill: #1c261a; stroke: #008300; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 500.36625 208.26 
+L 637.56 208.26 
+Q 643.635 208.26 643.635 202.185 
+L 643.635 42.21 
+Q 643.635 36.135 637.56 36.135 
+L 500.36625 36.135 
+Q 494.29125 36.135 494.29125 42.21 
+L 494.29125 202.185 
+Q 494.29125 208.26 500.36625 208.26 
+z
+" clip-path="url(#paecb68d406)" style="fill: #27262c; stroke: #9085e9; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 8.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #3987e5" x="26.01" y="56.385" transform="rotate(-0 26.01 56.385)">Alias Annotated</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 6.9px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; fill: #f2f1ec" transform="translate(26.01 92.693596)">CurrentTenant = Annotated[Tenant,</text>
+    <text style="font-size: 6.9px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; fill: #f2f1ec" transform="translate(26.01 100.975482)">  Depends(current_tenant)]</text>
+   </g>
+   <g id="text_3">
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #c3c2b7" transform="translate(26.01 164.830805)">khai báo một lần,</text>
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #c3c2b7" transform="translate(26.01 174.256883)">mọi handler dùng lại</text>
+   </g>
+   <g id="text_4">
+    <text style="font-weight: 700; font-size: 8.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #d95926" x="185.47875" y="56.385" transform="rotate(-0 185.47875 56.385)">Class có tham số</text>
+   </g>
+   <g id="text_5">
+    <text style="font-size: 6.9px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; fill: #f2f1ec" transform="translate(185.47875 92.693596)">RequireScope('invoice:write')</text>
+    <text style="font-size: 6.9px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; fill: #f2f1ec" transform="translate(185.47875 101.012139)">→ __call__(principal)</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #c3c2b7" transform="translate(185.47875 165.045742)">mỗi instance là một</text>
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #c3c2b7" transform="translate(185.47875 174.47182)">dependency (khóa cache riêng)</text>
+   </g>
+   <g id="text_7">
+    <text style="font-weight: 700; font-size: 8.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #008300" x="344.9475" y="56.385" transform="rotate(-0 344.9475 56.385)">Cấp router / app</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 6.9px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; fill: #f2f1ec" transform="translate(344.9475 92.693596)">APIRouter(dependencies=[…])</text>
+    <text style="font-size: 6.9px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; fill: #f2f1ec" transform="translate(344.9475 100.975482)">FastAPI(dependencies=[…])</text>
+   </g>
+   <g id="text_9">
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #c3c2b7" transform="translate(344.9475 164.170555)">chạy cho mọi route,</text>
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #c3c2b7" transform="translate(344.9475 173.952883)">không truyền giá trị</text>
+   </g>
+   <g id="text_10">
+    <text style="font-weight: 700; font-size: 8.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #9085e9" x="504.41625" y="56.385" transform="rotate(-0 504.41625 56.385)">Dependency trả model</text>
+   </g>
+   <g id="text_11">
+    <text style="font-size: 6.9px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; fill: #f2f1ec" transform="translate(504.41625 92.723783)">def page(cursor: str|None = None,</text>
+    <text style="font-size: 6.9px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; fill: #f2f1ec" transform="translate(504.41625 101.042326)">  limit: int = 50) -&gt; PageParams</text>
+   </g>
+   <g id="text_12">
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #c3c2b7" x="504.41625" y="164.0665" transform="rotate(-0 504.41625 164.0665)">gom tham số dùng chung</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="paecb68d406">
+   <rect x="5.76" y="5.76" width="648" height="232.875"/>
+  </clipPath>
+ </defs>
+</svg>

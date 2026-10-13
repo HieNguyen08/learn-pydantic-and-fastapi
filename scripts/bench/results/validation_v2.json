@@ -1,0 +1,589 @@
+{
+ "python": "3.13.16",
+ "machine": "x86_64",
+ "payload_bytes": {
+  "1": 572,
+  "12": 2299,
+  "50": 8302,
+  "200": 32175
+ },
+ "rows": [
+  {
+   "impl": "json.loads (chỉ parse)",
+   "level": "schema",
+   "lines": 1,
+   "us": 7.9171875399970295,
+   "lo": 6.448528780001652,
+   "hi": 9.60236530000202
+  },
+  {
+   "impl": "json.loads (chỉ parse)",
+   "level": "schema",
+   "lines": 12,
+   "us": 29.322046399965984,
+   "lo": 23.214237399997728,
+   "hi": 42.2619644000406
+  },
+  {
+   "impl": "json.loads (chỉ parse)",
+   "level": "schema",
+   "lines": 50,
+   "us": 96.37130699998124,
+   "lo": 82.06830939998326,
+   "hi": 119.21682279999004
+  },
+  {
+   "impl": "json.loads (chỉ parse)",
+   "level": "schema",
+   "lines": 200,
+   "us": 424.8176920000333,
+   "lo": 308.41141399969274,
+   "hi": 611.4945180001996
+  },
+  {
+   "impl": "orjson.loads (chỉ parse)",
+   "level": "schema",
+   "lines": 1,
+   "us": 2.5781023600006847,
+   "lo": 2.1027586700006395,
+   "hi": 3.778732390001096
+  },
+  {
+   "impl": "orjson.loads (chỉ parse)",
+   "level": "schema",
+   "lines": 12,
+   "us": 12.28207784999995,
+   "lo": 8.67302499999596,
+   "hi": 16.312499800005753
+  },
+  {
+   "impl": "orjson.loads (chỉ parse)",
+   "level": "schema",
+   "lines": 50,
+   "us": 44.067424599984406,
+   "lo": 32.174573299994336,
+   "hi": 59.073967800009086
+  },
+  {
+   "impl": "orjson.loads (chỉ parse)",
+   "level": "schema",
+   "lines": 200,
+   "us": 135.94783000007737,
+   "lo": 126.91495199999281,
+   "hi": 236.06928750007228
+  },
+  {
+   "impl": "pydantic v2 · model_validate_json",
+   "level": "schema",
+   "lines": 1,
+   "us": 9.24627849999979,
+   "lo": 6.598896999998942,
+   "hi": 10.094140360001802
+  },
+  {
+   "impl": "pydantic v2 · model_validate_json",
+   "level": "schema",
+   "lines": 12,
+   "us": 25.094386900013887,
+   "lo": 22.699910699998327,
+   "hi": 40.338011299991194
+  },
+  {
+   "impl": "pydantic v2 · model_validate_json",
+   "level": "schema",
+   "lines": 50,
+   "us": 88.63930420002362,
+   "lo": 78.57112080000661,
+   "hi": 141.08482639999238
+  },
+  {
+   "impl": "pydantic v2 · model_validate_json",
+   "level": "schema",
+   "lines": 200,
+   "us": 336.36353399970176,
+   "lo": 311.6699420002078,
+   "hi": 388.38392599973304
+  },
+  {
+   "impl": "pydantic v2 · model_validate_json",
+   "level": "full",
+   "lines": 1,
+   "us": 10.642303820000052,
+   "lo": 9.125294079999549,
+   "hi": 11.88102400000389
+  },
+  {
+   "impl": "pydantic v2 · model_validate_json",
+   "level": "full",
+   "lines": 12,
+   "us": 29.799552199983737,
+   "lo": 28.20762559999821,
+   "hi": 51.622636000001876
+  },
+  {
+   "impl": "pydantic v2 · model_validate_json",
+   "level": "full",
+   "lines": 50,
+   "us": 113.58547250006268,
+   "lo": 102.18211400001564,
+   "hi": 162.16122649996123
+  },
+  {
+   "impl": "pydantic v2 · model_validate_json",
+   "level": "full",
+   "lines": 200,
+   "us": 488.5018320001109,
+   "lo": 378.2787680002002,
+   "hi": 650.838548000138
+  },
+  {
+   "impl": "pydantic v2 · json.loads + model_validate",
+   "level": "schema",
+   "lines": 1,
+   "us": 13.509512450002603,
+   "lo": 12.131033449998085,
+   "hi": 17.98292455000592
+  },
+  {
+   "impl": "pydantic v2 · json.loads + model_validate",
+   "level": "schema",
+   "lines": 12,
+   "us": 52.7428387999862,
+   "lo": 46.55059699998674,
+   "hi": 77.05537960000584
+  },
+  {
+   "impl": "pydantic v2 · json.loads + model_validate",
+   "level": "schema",
+   "lines": 50,
+   "us": 187.25138900003913,
+   "lo": 157.49757399998998,
+   "hi": 256.76259200008644
+  },
+  {
+   "impl": "pydantic v2 · json.loads + model_validate",
+   "level": "schema",
+   "lines": 200,
+   "us": 691.8819240004268,
+   "lo": 610.0114880000547,
+   "hi": 985.4570699999385
+  },
+  {
+   "impl": "pydantic v2 · json.loads + model_validate",
+   "level": "full",
+   "lines": 1,
+   "us": 15.228180700000848,
+   "lo": 14.897985899995092,
+   "hi": 18.821227349997116
+  },
+  {
+   "impl": "pydantic v2 · json.loads + model_validate",
+   "level": "full",
+   "lines": 12,
+   "us": 58.29200819998732,
+   "lo": 55.92430099995909,
+   "hi": 73.50891020000745
+  },
+  {
+   "impl": "pydantic v2 · json.loads + model_validate",
+   "level": "full",
+   "lines": 50,
+   "us": 204.37823099996422,
+   "lo": 176.19227800014414,
+   "hi": 268.43073700001696
+  },
+  {
+   "impl": "pydantic v2 · json.loads + model_validate",
+   "level": "full",
+   "lines": 200,
+   "us": 748.5334339999099,
+   "lo": 686.1449259999972,
+   "hi": 908.3528579999438
+  },
+  {
+   "impl": "pydantic v2 · strict",
+   "level": "schema",
+   "lines": 1,
+   "us": 7.012166940003226,
+   "lo": 5.733218420000412,
+   "hi": 9.594631479999407
+  },
+  {
+   "impl": "pydantic v2 · strict",
+   "level": "schema",
+   "lines": 12,
+   "us": 23.442420699984723,
+   "lo": 21.326760699980696,
+   "hi": 32.740458200009925
+  },
+  {
+   "impl": "pydantic v2 · strict",
+   "level": "schema",
+   "lines": 50,
+   "us": 83.56428059996688,
+   "lo": 75.86349980001614,
+   "hi": 123.78823719996036
+  },
+  {
+   "impl": "pydantic v2 · strict",
+   "level": "schema",
+   "lines": 200,
+   "us": 358.1111299999975,
+   "lo": 310.04699100003563,
+   "hi": 661.6721790001066
+  },
+  {
+   "impl": "pydantic v2 · strict",
+   "level": "full",
+   "lines": 1,
+   "us": 9.264175250007156,
+   "lo": 8.690914950000206,
+   "hi": 11.59770844999457
+  },
+  {
+   "impl": "pydantic v2 · strict",
+   "level": "full",
+   "lines": 12,
+   "us": 32.31794500002252,
+   "lo": 29.449623000027714,
+   "hi": 35.403971000005185
+  },
+  {
+   "impl": "pydantic v2 · strict",
+   "level": "full",
+   "lines": 50,
+   "us": 116.12904499997967,
+   "lo": 100.54674799994245,
+   "hi": 175.20975049990284
+  },
+  {
+   "impl": "pydantic v2 · strict",
+   "level": "full",
+   "lines": 200,
+   "us": 403.5668589999659,
+   "lo": 392.78489100001934,
+   "hi": 669.6113970001534
+  },
+  {
+   "impl": "pydantic v2 · TypeAdapter mỗi request",
+   "level": "schema",
+   "lines": 1,
+   "us": 77.96049239996137,
+   "lo": 74.88444599998729,
+   "hi": 86.43667559999813
+  },
+  {
+   "impl": "pydantic v2 · TypeAdapter mỗi request",
+   "level": "schema",
+   "lines": 12,
+   "us": 90.77636450001592,
+   "lo": 88.46743850006078,
+   "hi": 99.52389800002948
+  },
+  {
+   "impl": "pydantic v2 · TypeAdapter mỗi request",
+   "level": "schema",
+   "lines": 50,
+   "us": 158.75442200001544,
+   "lo": 153.80860750008196,
+   "hi": 176.76420449993202
+  },
+  {
+   "impl": "pydantic v2 · TypeAdapter mỗi request",
+   "level": "schema",
+   "lines": 200,
+   "us": 470.3227060003883,
+   "lo": 397.79881399999795,
+   "hi": 574.6652440002435
+  },
+  {
+   "impl": "pydantic v2 · TypeAdapter mỗi request",
+   "level": "full",
+   "lines": 1,
+   "us": 111.39557449996573,
+   "lo": 107.36006349998206,
+   "hi": 139.0255439999919
+  },
+  {
+   "impl": "pydantic v2 · TypeAdapter mỗi request",
+   "level": "full",
+   "lines": 12,
+   "us": 153.9991845000941,
+   "lo": 134.84832200003893,
+   "hi": 176.0855930000389
+  },
+  {
+   "impl": "pydantic v2 · TypeAdapter mỗi request",
+   "level": "full",
+   "lines": 50,
+   "us": 244.17171599998255,
+   "lo": 215.56568699998024,
+   "hi": 399.5485129998997
+  },
+  {
+   "impl": "pydantic v2 · TypeAdapter mỗi request",
+   "level": "full",
+   "lines": 200,
+   "us": 674.6129819998714,
+   "lo": 547.8960259997621,
+   "hi": 763.616085999729
+  },
+  {
+   "impl": "msgspec · Struct",
+   "level": "schema",
+   "lines": 1,
+   "us": 4.071985719999702,
+   "lo": 3.4996575900004245,
+   "hi": 4.605566580000868
+  },
+  {
+   "impl": "msgspec · Struct",
+   "level": "schema",
+   "lines": 12,
+   "us": 9.717695450001429,
+   "lo": 9.628270049995535,
+   "hi": 13.001310749996264
+  },
+  {
+   "impl": "msgspec · Struct",
+   "level": "schema",
+   "lines": 50,
+   "us": 35.09964630000013,
+   "lo": 33.31247539999822,
+   "hi": 47.69656870000745
+  },
+  {
+   "impl": "msgspec · Struct",
+   "level": "schema",
+   "lines": 200,
+   "us": 142.605842499961,
+   "lo": 133.47854450000796,
+   "hi": 197.99892749995252
+  },
+  {
+   "impl": "msgspec · Struct",
+   "level": "full",
+   "lines": 1,
+   "us": 6.4149894999991375,
+   "lo": 5.665018160002546,
+   "hi": 7.611297160001413
+  },
+  {
+   "impl": "msgspec · Struct",
+   "level": "full",
+   "lines": 12,
+   "us": 20.7654682999987,
+   "lo": 16.522824099990885,
+   "hi": 27.945339400002922
+  },
+  {
+   "impl": "msgspec · Struct",
+   "level": "full",
+   "lines": 50,
+   "us": 63.906876400005785,
+   "lo": 54.124650400035534,
+   "hi": 81.00120200001584
+  },
+  {
+   "impl": "msgspec · Struct",
+   "level": "full",
+   "lines": 200,
+   "us": 233.04178800003683,
+   "lo": 212.68033299998024,
+   "hi": 312.94650899985754
+  },
+  {
+   "impl": "dataclasses + code tay",
+   "level": "schema",
+   "lines": 1,
+   "us": 12.223243949995322,
+   "lo": 11.173954599996705,
+   "hi": 21.955012749992875
+  },
+  {
+   "impl": "dataclasses + code tay",
+   "level": "schema",
+   "lines": 12,
+   "us": 50.83027360001324,
+   "lo": 47.20493280001392,
+   "hi": 62.413215000015036
+  },
+  {
+   "impl": "dataclasses + code tay",
+   "level": "schema",
+   "lines": 50,
+   "us": 179.29649300003803,
+   "lo": 156.82286800006295,
+   "hi": 270.91658600011215
+  },
+  {
+   "impl": "dataclasses + code tay",
+   "level": "schema",
+   "lines": 200,
+   "us": 649.0935980000359,
+   "lo": 614.0490500001761,
+   "hi": 824.4836059998306
+  },
+  {
+   "impl": "dataclasses + code tay",
+   "level": "full",
+   "lines": 1,
+   "us": 17.472418449995075,
+   "lo": 14.631297750008798,
+   "hi": 20.23962370000163
+  },
+  {
+   "impl": "dataclasses + code tay",
+   "level": "full",
+   "lines": 12,
+   "us": 61.9178197999645,
+   "lo": 55.67027259999122,
+   "hi": 68.40525980001075
+  },
+  {
+   "impl": "dataclasses + code tay",
+   "level": "full",
+   "lines": 50,
+   "us": 192.19321900004616,
+   "lo": 181.9262419999177,
+   "hi": 267.5065139999333
+  },
+  {
+   "impl": "dataclasses + code tay",
+   "level": "full",
+   "lines": 200,
+   "us": 778.3417020000343,
+   "lo": 720.9351439996681,
+   "hi": 856.2342640002498
+  },
+  {
+   "impl": "marshmallow 4",
+   "level": "schema",
+   "lines": 1,
+   "us": 98.75602249996973,
+   "lo": 93.43731249998655,
+   "hi": 122.13486849998391
+  },
+  {
+   "impl": "marshmallow 4",
+   "level": "schema",
+   "lines": 12,
+   "us": 432.44021400005295,
+   "lo": 416.41666800023813,
+   "hi": 587.394889999814
+  },
+  {
+   "impl": "marshmallow 4",
+   "level": "schema",
+   "lines": 50,
+   "us": 1832.5189749998572,
+   "lo": 1483.5600999992948,
+   "hi": 2141.007625000384
+  },
+  {
+   "impl": "marshmallow 4",
+   "level": "schema",
+   "lines": 200,
+   "us": 6971.828639998421,
+   "lo": 6076.56612000028,
+   "hi": 9982.016599997223
+  },
+  {
+   "impl": "marshmallow 4",
+   "level": "full",
+   "lines": 1,
+   "us": 112.14658749997852,
+   "lo": 106.6595680000546,
+   "hi": 147.10423450003418
+  },
+  {
+   "impl": "marshmallow 4",
+   "level": "full",
+   "lines": 12,
+   "us": 590.3718499998831,
+   "lo": 452.82568800030276,
+   "hi": 816.6977299997598
+  },
+  {
+   "impl": "marshmallow 4",
+   "level": "full",
+   "lines": 50,
+   "us": 1818.8262599994687,
+   "lo": 1657.8215700008059,
+   "hi": 2371.701240000448
+  },
+  {
+   "impl": "marshmallow 4",
+   "level": "full",
+   "lines": 200,
+   "us": 6954.768440000407,
+   "lo": 6097.276340001372,
+   "hi": 9106.019240002752
+  },
+  {
+   "impl": "attrs + cattrs",
+   "level": "schema",
+   "lines": 1,
+   "us": 19.87277240000367,
+   "lo": 18.414064500007044,
+   "hi": 28.5506881999936
+  },
+  {
+   "impl": "attrs + cattrs",
+   "level": "schema",
+   "lines": 12,
+   "us": 72.50727480000023,
+   "lo": 63.47060739999506,
+   "hi": 102.4775161999969
+  },
+  {
+   "impl": "attrs + cattrs",
+   "level": "schema",
+   "lines": 50,
+   "us": 264.609547000191,
+   "lo": 229.41478500001722,
+   "hi": 376.5597210001488
+  },
+  {
+   "impl": "attrs + cattrs",
+   "level": "schema",
+   "lines": 200,
+   "us": 1124.1562600002908,
+   "lo": 863.2336179998674,
+   "hi": 1378.9630359997318
+  },
+  {
+   "impl": "attrs + cattrs",
+   "level": "full",
+   "lines": 1,
+   "us": 24.903342800007522,
+   "lo": 20.7574354000144,
+   "hi": 37.87150020000354
+  },
+  {
+   "impl": "attrs + cattrs",
+   "level": "full",
+   "lines": 12,
+   "us": 92.09249000000455,
+   "lo": 74.91357720000451,
+   "hi": 148.51506459999655
+  },
+  {
+   "impl": "attrs + cattrs",
+   "level": "full",
+   "lines": 50,
+   "us": 265.2627330000996,
+   "lo": 249.230893999993,
+   "hi": 354.0070219999052
+  },
+  {
+   "impl": "attrs + cattrs",
+   "level": "full",
+   "lines": 200,
+   "us": 1082.526928000334,
+   "lo": 944.6942680001484,
+   "hi": 1207.29034399983
+  }
+ ],
+ "pydantic": "2.14.1"
+}

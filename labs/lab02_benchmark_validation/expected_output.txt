@@ -1,0 +1,12 @@
+Hóa đơn 12 dòng, 1362 byte
+cách                                             min µs  median µs
+json.loads (chỉ parse)                             11.5       12.2
+model_validate_json(bytes)                         44.6       59.2
+json.loads + model_validate                        60.9       65.1
+model_validate(dict có sẵn)                        53.4       65.1
+TypeAdapter(list[Invoice]) dùng lại                46.8       58.9
+TypeAdapter(list[Invoice]) tạo mới mỗi lần        127.6      146.5
+model_dump_json                                     8.6        9.0
+
+json.loads + model_validate chậm hơn model_validate_json 1.37×
+TypeAdapter tạo mới mỗi lần chậm hơn dùng lại 2.7×
