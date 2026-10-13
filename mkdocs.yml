@@ -119,3 +119,11 @@ nav:
       - "14 · Capstone: thiết kế hệ thống": 14-capstone-thiet-ke-he-thong.md
   - "Phần V · Chuyên đề":
       - "15 · Pydantic cho LLM": 15-pydantic-cho-llm.md
+  - "Thực hành":
+      - labs/index.md
+      - "Lab 01 · Mô hình hóa hóa đơn": labs/lab01_invoice_models.md
+      - "Lab 02 · Benchmark validation": labs/lab02_benchmark_validation.md
+      - "Lab 03 · invoice-api hoàn chỉnh": labs/lab03_invoice_api.md
+      - "Lab 04 · Đo đồng thời": labs/lab04_concurrency.md
+      - "Lab 05 · Property-based & fuzz": labs/lab05_property_fuzz.md
+      - "Lab 06 · Structured output & SSE": labs/lab06_llm_structured_sse.md

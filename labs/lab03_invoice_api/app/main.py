@@ -12,6 +12,7 @@ from typing import Annotated
 from uuid import UUID
 
 from fastapi import Depends, FastAPI, Header, HTTPException, Request, Security
+from fastapi import Path as PathParam
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, ConfigDict
 from sqlalchemy import select, text
@@ -67,7 +68,7 @@ class InvoiceOut(BaseModel):
 
 
 @app.post("/v1/invoices", status_code=201, response_model=InvoiceOut,
-          responses={401: {}, 403: {}, 409: {}, 422: {}})
+          responses={400: {}, 401: {}, 403: {}, 409: {}, 422: {}})
 async def create_invoice(body: Invoice, db: DB, p: Writer, idempotency_key: Annotated[UUID, Header()]):
     req_hash = hashlib.sha256(body.model_dump_json().encode()).hexdigest()
     claimed = await db.scalar(text(
@@ -98,8 +99,8 @@ async def create_invoice(body: Invoice, db: DB, p: Writer, idempotency_key: Anno
     return out
 
 
-@app.get("/v1/invoices/{invoice_id}", response_model=InvoiceOut, responses={404: {}})
-async def get_invoice(invoice_id: int, db: DB, p: Reader):
+@app.get("/v1/invoices/{invoice_id}", response_model=InvoiceOut, responses={401: {}, 403: {}, 404: {}})
+async def get_invoice(invoice_id: Annotated[int, PathParam(ge=1, le=2**63 - 1)], db: DB, p: Reader):  # BIGINT
     inv = await db.scalar(select(InvoiceRow).options(selectinload(InvoiceRow.lines))
                           .where(InvoiceRow.id == invoice_id, InvoiceRow.tenant_id == p.tenant_id))  # chống BOLA
     if inv is None:

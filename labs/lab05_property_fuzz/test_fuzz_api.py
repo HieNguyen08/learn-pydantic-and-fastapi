@@ -7,6 +7,7 @@ from pathlib import Path
 
 import schemathesis
 from hypothesis import settings
+from schemathesis.specs.openapi.checks import positive_data_acceptance
 
 sys.path.insert(0, str(Path(__file__).parents[1] / "lab03_invoice_api"))
 from app.main import app  # noqa: E402
@@ -17,4 +18,7 @@ schema = schemathesis.openapi.from_asgi("/openapi.json", app)
 @schema.parametrize()
 @settings(max_examples=50, deadline=None)
 def test_api_khong_5xx_va_dung_schema(case, auth_headers):
-    case.call_and_validate(headers=auth_headers)
+    # positive_data_acceptance đòi mọi body hợp lệ theo JSON Schema phải được nhận (2xx). API này cố ý chặt hơn
+    # schema: checksum MST và "tổng khớp các dòng" là validator Python, không biểu diễn được trong JSON Schema
+    # (xem phần "Kết quả" trong docs/labs/lab05_property_fuzz.md). Mọi check còn lại vẫn chạy.
+    case.call_and_validate(headers=auth_headers, excluded_checks=[positive_data_acceptance])
