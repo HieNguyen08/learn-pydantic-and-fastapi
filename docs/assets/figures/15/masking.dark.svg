@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="700.586667pt" height="285.12pt" viewBox="0 0 700.586667 285.12" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 285.12 
+L 700.586667 285.12 
+L 700.586667 0 
+L 0 0 
+L 0 285.12 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 21.973333 127.36 
+L 141.546667 127.36 
+Q 147.626667 127.36 147.626667 121.28 
+L 147.626667 72.64 
+Q 147.626667 66.56 141.546667 66.56 
+L 21.973333 66.56 
+Q 15.893333 66.56 15.893333 72.64 
+L 15.893333 121.28 
+Q 15.893333 127.36 21.973333 127.36 
+z
+" clip-path="url(#p0779176cce)" style="fill: #212b34; stroke: #3987e5; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 194.24 127.36 
+L 334.08 127.36 
+Q 340.16 127.36 340.16 121.28 
+L 340.16 72.64 
+Q 340.16 66.56 334.08 66.56 
+L 194.24 66.56 
+Q 188.16 66.56 188.16 72.64 
+L 188.16 121.28 
+Q 188.16 127.36 194.24 127.36 
+z
+" clip-path="url(#p0779176cce)" style="fill: #2c2a35; stroke: #9085e9; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 149.146667 96.96 
+Q 167.893333 96.96 184.962949 96.96 
+" clip-path="url(#p0779176cce)" style="fill: none; stroke: #c3c2b7; stroke-width: 1.5; stroke-linecap: round"/>
+    <path d="M 180.162949 94.56 
+L 184.962949 96.96 
+L 180.162949 99.36 
+z
+" clip-path="url(#p0779176cce)" style="fill: #c3c2b7; stroke: #c3c2b7; stroke-width: 1.5; stroke-linecap: round"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 431.36 55.413333 
+L 516.48 55.413333 
+L 516.48 37.173333 
+L 431.36 37.173333 
+z
+" clip-path="url(#p0779176cce)" style="fill: #0f500e"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 431.36 82.773333 
+L 500.266667 82.773333 
+L 500.266667 64.533333 
+L 431.36 64.533333 
+z
+" clip-path="url(#p0779176cce)" style="fill: #0f500e"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 431.36 110.133333 
+L 480 110.133333 
+L 480 91.893333 
+L 431.36 91.893333 
+z
+" clip-path="url(#p0779176cce)" style="fill: #0f500e"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 431.36 137.493333 
+L 447.573333 137.493333 
+L 447.573333 119.253333 
+L 431.36 119.253333 
+z
+" clip-path="url(#p0779176cce)" style="fill: #0f500e"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 431.36 164.853333 
+L 536.746667 164.853333 
+L 536.746667 146.613333 
+L 431.36 146.613333 
+z
+" clip-path="url(#p0779176cce)" style="fill: #824242"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 431.36 192.213333 
+L 508.373333 192.213333 
+L 508.373333 173.973333 
+L 431.36 173.973333 
+z
+" clip-path="url(#p0779176cce)" style="fill: #824242"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 431.36 219.573333 
+L 475.946667 219.573333 
+L 475.946667 201.333333 
+L 431.36 201.333333 
+z
+" clip-path="url(#p0779176cce)" style="fill: #824242"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 431.36 246.933333 
+L 463.786667 246.933333 
+L 463.786667 228.693333 
+L 431.36 228.693333 
+z
+" clip-path="url(#p0779176cce)" style="fill: #824242"/>
+   </g>
+   <g id="patch_13">
+    <path d="M 341.68 96.96 
+Q 358.653333 96.96 373.949616 96.96 
+" clip-path="url(#p0779176cce)" style="fill: none; stroke: #c3c2b7; stroke-width: 1.5; stroke-linecap: round"/>
+    <path d="M 369.149616 94.56 
+L 373.949616 96.96 
+L 369.149616 99.36 
+z
+" clip-path="url(#p0779176cce)" style="fill: #c3c2b7; stroke: #c3c2b7; stroke-width: 1.5; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    <text style="font-size: 8.4px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: start; fill: #f2f1ec" x="15.893333" y="26.026667" transform="rotate(-0 15.893333 26.026667)">Đã sinh: {"buyer_tax_code": "0312", "vat_rate": "</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 7.4px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(59.082469 89.728813)">LLM forward</text>
+    <text style="font-size: 7.4px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(58.749469 99.149938)">→ logits trên</text>
+    <text style="font-size: 7.4px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(57.932 109.708813)">~150k token</text>
+   </g>
+   <g id="text_3">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(233.998187 90.104813)">PDA của schema</text>
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(222.22 99.361312)">(trạng thái: trong chuỗi</text>
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(236.465875 108.562688)">enum vat_rate)</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: start; fill: #f2f1ec" x="380.693333" y="48.267552" transform="rotate(-0 380.693333 48.267552)">'5'   </text>
+   </g>
+   <g id="text_5">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #008300" x="521.546667" y="48.111693" transform="rotate(-0 521.546667 48.111693)">2.1</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: start; fill: #f2f1ec" x="380.693333" y="75.627552" transform="rotate(-0 380.693333 75.627552)">'8'   </text>
+   </g>
+   <g id="text_7">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #008300" x="505.333333" y="75.471693" transform="rotate(-0 505.333333 75.471693)">1.7</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: start; fill: #f2f1ec" x="380.693333" y="102.987552" transform="rotate(-0 380.693333 102.987552)">'10'  </text>
+   </g>
+   <g id="text_9">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #008300" x="485.066667" y="102.831693" transform="rotate(-0 485.066667 102.831693)">1.2</text>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: start; fill: #f2f1ec" x="380.693333" y="130.347552" transform="rotate(-0 380.693333 130.347552)">'0'   </text>
+   </g>
+   <g id="text_11">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #008300" x="452.64" y="130.191693" transform="rotate(-0 452.64 130.191693)">0.4</text>
+   </g>
+   <g id="text_12">
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: start; fill: #f2f1ec" x="380.693333" y="157.707552" transform="rotate(-0 380.693333 157.707552)">'5%'  </text>
+   </g>
+   <g id="text_13">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #e66767" x="541.813333" y="157.551693" transform="rotate(-0 541.813333 157.551693)">2.6 → −∞</text>
+   </g>
+   <g id="text_14">
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: start; fill: #f2f1ec" x="380.693333" y="185.164036" transform="rotate(-0 380.693333 185.164036)">'năm' </text>
+   </g>
+   <g id="text_15">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #e66767" x="513.44" y="184.911693" transform="rotate(-0 513.44 184.911693)">1.9 → −∞</text>
+   </g>
+   <g id="text_16">
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: start; fill: #f2f1ec" x="380.693333" y="212.427552" transform="rotate(-0 380.693333 212.427552)">'"'   </text>
+   </g>
+   <g id="text_17">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #e66767" x="481.013333" y="212.271693" transform="rotate(-0 481.013333 212.271693)">1.1 → −∞</text>
+   </g>
+   <g id="text_18">
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: start; fill: #f2f1ec" x="380.693333" y="239.787552" transform="rotate(-0 380.693333 239.787552)">'VAT' </text>
+   </g>
+   <g id="text_19">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #e66767" x="468.853333" y="239.631693" transform="rotate(-0 468.853333 239.631693)">0.8 → −∞</text>
+   </g>
+   <g id="text_20">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #c3c2b7" x="380.693333" y="23.493333" transform="rotate(-0 380.693333 23.493333)">token   logit (ví dụ minh họa)</text>
+   </g>
+   <g id="text_21">
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #c3c2b7" transform="translate(15.893333 175.304076)">Token làm chuỗi thoát khỏi ngôn ngữ của grammar bị che (−∞).</text>
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #c3c2b7" transform="translate(15.893333 185.203966)">Model 'muốn' viết "5%" nhất, nhưng chỉ có thể chọn trong {"5", "8", "10", "0"}.</text>
+   </g>
+   <g id="text_22">
+    <text style="font-size: 7.4px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #9085e9" x="15.893333" y="238.826667" transform="rotate(-0 15.893333 238.826667)">FSM (regex, Outlines) · pushdown automaton (JSON đệ quy, XGrammar): mask tính trước + cache</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p0779176cce">
+   <rect x="5.76" y="5.76" width="689.066667" height="273.6"/>
+  </clipPath>
+ </defs>
+</svg>

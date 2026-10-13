@@ -26,3 +26,5 @@ $ROOT/.venv/bin/python bench_testing.py
 $ROOT/.venv/bin/python bench_production.py
 # Module 14: invoice-api đầy đủ (cần PG_DSN và REDIS_URL như trên)
 $ROOT/.venv/bin/python bench_capstone.py
+# Module 15: structured output với LLM nhỏ trên CPU (≈ 1 giờ)
+$ROOT/.venv/bin/python bench_llm.py

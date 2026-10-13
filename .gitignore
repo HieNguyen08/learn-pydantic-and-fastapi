@@ -9,3 +9,5 @@ scripts/bench/results/*.sqlite
 .hypothesis/
 .schemathesis/
 scripts/bench/results/_capstone_keys/
+.pytest_cache/
+*.db

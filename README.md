@@ -29,6 +29,9 @@ mkdocs serve            # mở http://127.0.0.1:8000
 pip install pydantic fastapi "uvicorn[standard]" msgspec marshmallow attrs cattrs orjson \
             "sqlalchemy[asyncio]" aiosqlite asyncpg alembic argon2-cffi bcrypt "pyjwt[crypto]" redis \
             hypothesis schemathesis opentelemetry-sdk prometheus-client httpx matplotlib numpy
+# Module 15 (LLM, chạy trên CPU, tải Qwen2.5-0.5B-Instruct ≈ 1 GB lần đầu)
+pip install torch --index-url https://download.pytorch.org/whl/cpu
+pip install transformers xgrammar
 # Module 10–13 cần thêm PostgreSQL (PG_DSN) và Redis (REDIS_URL), xem đầu bench_db.py / bench_security.py
 python -m venv .venv-v1 && .venv-v1/bin/pip install "pydantic<2"   # để so sánh với v1
 scripts/bench/run_all.sh                     # ≈ 20 phút, ghi scripts/bench/results/*.json

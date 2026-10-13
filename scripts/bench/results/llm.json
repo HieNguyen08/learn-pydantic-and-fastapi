@@ -1,0 +1,246 @@
+{
+ "l1_modes": {
+  "model": "Qwen/Qwen2.5-0.5B-Instruct",
+  "summary": {
+   "prompt": {
+    "n": 2,
+    "parse": 1.0,
+    "valid": 0.0,
+    "all_fields_correct": 0.0,
+    "mst_correct": 0.0,
+    "total_correct": 0.0,
+    "tokens": 141.5,
+    "seconds": 13.092877722499907,
+    "errors": [
+     "buyer_tax_code: String should match pattern '^[0-9]{10}$'; vat_rate: Input should be '0', '5', '8' or '10'",
+     "buyer_tax_code: String should match pattern '^[0-9]{10}$'; vat_rate: Input should be '0', '5', '8' or '10'; lines.2.quantity: Input should be less than or equal to 1000"
+    ]
+   },
+   "json": {
+    "n": 2,
+    "parse": 1.0,
+    "valid": 0.0,
+    "all_fields_correct": 0.0,
+    "mst_correct": 0.0,
+    "total_correct": 0.0,
+    "tokens": 139.5,
+    "seconds": 12.708417244999964,
+    "errors": [
+     "buyer_tax_code: String should match pattern '^[0-9]{10}$'; vat_rate: Input should be '0', '5', '8' or '10'",
+     "buyer_tax_code: String should match pattern '^[0-9]{10}$'; vat_rate: Input should be '0', '5', '8' or '10'; lines.2.quantity: Input should be less than or equal to 1000"
+    ]
+   },
+   "schema": {
+    "n": 2,
+    "parse": 1.0,
+    "valid": 1.0,
+    "all_fields_correct": 0.5,
+    "mst_correct": 1.0,
+    "total_correct": 0.5,
+    "tokens": 140.0,
+    "seconds": 13.144560234999972,
+    "errors": []
+   }
+  },
+  "compile_schema_ms": 1167.2529890001897,
+  "compile_json_ms": 16.207972000302107,
+  "cases": 2
+ },
+ "l2_retry": {
+  "valid_by_attempts": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "rows": [
+   {
+    "first_valid": false,
+    "final_valid": false,
+    "attempts": 3
+   },
+   {
+    "first_valid": false,
+    "final_valid": false,
+    "attempts": 3
+   }
+  ]
+ },
+ "l4_partial": {
+  "InvoiceDraft (trường bắt buộc)": {
+   "length": 399,
+   "validate_every_char_total_ms": 4.05540400515747,
+   "full_validate_us": 10.085999747388996,
+   "first_valid_prefix": 160,
+   "ok_fraction": 0.08020050125313283,
+   "samples": [
+    {
+     "chars": 40,
+     "prefix": "{\"buyer_name\": \"Công ty CP Thiết Bị Ánh ",
+     "result": "missing"
+    },
+    {
+     "chars": 80,
+     "prefix": "ết Bị Ánh Dương\", \"buyer_tax_code\": \"6869458279\", ",
+     "result": "missing"
+    },
+    {
+     "chars": 140,
+     "prefix": ": \"0\", \"lines\": [{\"name\": \"mặt hàng 0\", \"quantity\"",
+     "result": "missing"
+    },
+    {
+     "chars": 220,
+     "prefix": ": \"mặt hàng 1\", \"quantity\": 2, \"unit_price\": 1000}",
+     "result": {
+      "buyer_name": "Công ty CP Thiết Bị Ánh Dương",
+      "buyer_tax_code": "6869458279",
+      "vat_rate": "0",
+      "lines": [
+       {
+        "name": "mặt hàng 0",
+        "quantity": 1,
+        "unit_price": 0
+       },
+       {
+        "name": "mặt hàng 1",
+        "quantity": 2,
+        "unit_price": 1000
+       }
+      ]
+     }
+    },
+    {
+     "chars": 399,
+     "prefix": "\"mặt hàng 4\", \"quantity\": 5, \"unit_price\": 4000}]}",
+     "result": {
+      "buyer_name": "Công ty CP Thiết Bị Ánh Dương",
+      "buyer_tax_code": "6869458279",
+      "vat_rate": "0",
+      "lines": [
+       {
+        "name": "mặt hàng 0",
+        "quantity": 1,
+        "unit_price": 0
+       },
+       {
+        "name": "mặt hàng 1",
+        "quantity": 2,
+        "unit_price": 1000
+       },
+       {
+        "name": "mặt hàng 2",
+        "quantity": 3,
+        "unit_price": 2000
+       },
+       {
+        "name": "mặt hàng 3",
+        "quantity": 4,
+        "unit_price": 3000
+       },
+       {
+        "name": "mặt hàng 4",
+        "quantity": 5,
+        "unit_price": 4000
+       }
+      ]
+     }
+    }
+   ]
+  },
+  "DraftPreview (mọi trường tùy chọn)": {
+   "length": 399,
+   "validate_every_char_total_ms": 3.4354240024185856,
+   "full_validate_us": 10.322999514755793,
+   "first_valid_prefix": 1,
+   "ok_fraction": 1.0,
+   "samples": [
+    {
+     "chars": 40,
+     "prefix": "{\"buyer_name\": \"Công ty CP Thiết Bị Ánh ",
+     "result": {
+      "buyer_name": "Công ty CP Thiết Bị Ánh "
+     }
+    },
+    {
+     "chars": 80,
+     "prefix": "ết Bị Ánh Dương\", \"buyer_tax_code\": \"6869458279\", ",
+     "result": {
+      "buyer_name": "Công ty CP Thiết Bị Ánh Dương",
+      "buyer_tax_code": "6869458279"
+     }
+    },
+    {
+     "chars": 140,
+     "prefix": ": \"0\", \"lines\": [{\"name\": \"mặt hàng 0\", \"quantity\"",
+     "result": {
+      "buyer_name": "Công ty CP Thiết Bị Ánh Dương",
+      "buyer_tax_code": "6869458279",
+      "vat_rate": "0",
+      "lines": [
+       {
+        "name": "mặt hàng 0"
+       }
+      ]
+     }
+    },
+    {
+     "chars": 220,
+     "prefix": ": \"mặt hàng 1\", \"quantity\": 2, \"unit_price\": 1000}",
+     "result": {
+      "buyer_name": "Công ty CP Thiết Bị Ánh Dương",
+      "buyer_tax_code": "6869458279",
+      "vat_rate": "0",
+      "lines": [
+       {
+        "name": "mặt hàng 0",
+        "quantity": 1,
+        "unit_price": 0
+       },
+       {
+        "name": "mặt hàng 1",
+        "quantity": 2,
+        "unit_price": 1000
+       }
+      ]
+     }
+    },
+    {
+     "chars": 399,
+     "prefix": "\"mặt hàng 4\", \"quantity\": 5, \"unit_price\": 4000}]}",
+     "result": {
+      "buyer_name": "Công ty CP Thiết Bị Ánh Dương",
+      "buyer_tax_code": "6869458279",
+      "vat_rate": "0",
+      "lines": [
+       {
+        "name": "mặt hàng 0",
+        "quantity": 1,
+        "unit_price": 0
+       },
+       {
+        "name": "mặt hàng 1",
+        "quantity": 2,
+        "unit_price": 1000
+       },
+       {
+        "name": "mặt hàng 2",
+        "quantity": 3,
+        "unit_price": 2000
+       },
+       {
+        "name": "mặt hàng 3",
+        "quantity": 4,
+        "unit_price": 3000
+       },
+       {
+        "name": "mặt hàng 4",
+        "quantity": 5,
+        "unit_price": 4000
+       }
+      ]
+     }
+    }
+   ]
+  }
+ }
+}
