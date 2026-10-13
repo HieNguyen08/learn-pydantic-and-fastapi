@@ -114,3 +114,5 @@ nav:
       - "07 · Vòng đời request": 07-fastapi-vong-doi-request.md
       - "08 · Dependency injection": 08-dependency-injection.md
       - "09 · Async, đồng thời & hiệu năng": 09-async-dong-thoi-hieu-nang.md
+      - "10 · Database & persistence": 10-database-va-persistence.md
+      - "11 · Bảo mật API": 11-bao-mat-api.md

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="717.12pt" height="283.68pt" viewBox="0 0 717.12 283.68" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 283.68 
+L 717.12 283.68 
+L 717.12 0 
+L 0 0 
+L 0 283.68 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 21.888 177.12 
+L 135.792 177.12 
+Q 141.84 177.12 141.84 171.072 
+L 141.84 82.368 
+Q 141.84 76.32 135.792 76.32 
+L 21.888 76.32 
+Q 15.84 76.32 15.84 82.368 
+L 15.84 171.072 
+Q 15.84 177.12 21.888 177.12 
+z
+" clip-path="url(#p216967a292)" style="fill: #31241d; stroke: #d95926; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 143.352 126.72 
+Q 148.392 126.72 152.313966 126.72 
+" clip-path="url(#p216967a292)" style="fill: none; stroke: #c3c2b7; stroke-linecap: round"/>
+    <path d="M 147.513966 124.32 
+L 152.313966 126.72 
+L 147.513966 129.12 
+z
+" clip-path="url(#p216967a292)" style="fill: #c3c2b7; stroke: #c3c2b7; stroke-linecap: round"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 160.992 177.12 
+L 274.896 177.12 
+Q 280.944 177.12 280.944 171.072 
+L 280.944 82.368 
+Q 280.944 76.32 274.896 76.32 
+L 160.992 76.32 
+Q 154.944 76.32 154.944 82.368 
+L 154.944 171.072 
+Q 154.944 177.12 160.992 177.12 
+z
+" clip-path="url(#p216967a292)" style="fill: #212830; stroke: #3987e5; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 282.456 126.72 
+Q 287.496 126.72 291.417966 126.72 
+" clip-path="url(#p216967a292)" style="fill: none; stroke: #c3c2b7; stroke-linecap: round"/>
+    <path d="M 286.617966 124.32 
+L 291.417966 126.72 
+L 286.617966 129.12 
+z
+" clip-path="url(#p216967a292)" style="fill: #c3c2b7; stroke: #c3c2b7; stroke-linecap: round"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 300.096 177.12 
+L 414 177.12 
+Q 420.048 177.12 420.048 171.072 
+L 420.048 82.368 
+Q 420.048 76.32 414 76.32 
+L 300.096 76.32 
+Q 294.048 76.32 294.048 82.368 
+L 294.048 171.072 
+Q 294.048 177.12 300.096 177.12 
+z
+" clip-path="url(#p216967a292)" style="fill: #292830; stroke: #9085e9; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 421.56 126.72 
+Q 426.6 126.72 430.521966 126.72 
+" clip-path="url(#p216967a292)" style="fill: none; stroke: #c3c2b7; stroke-linecap: round"/>
+    <path d="M 425.721966 124.32 
+L 430.521966 126.72 
+L 425.721966 129.12 
+z
+" clip-path="url(#p216967a292)" style="fill: #c3c2b7; stroke: #c3c2b7; stroke-linecap: round"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 439.2 177.12 
+L 553.104 177.12 
+Q 559.152 177.12 559.152 171.072 
+L 559.152 82.368 
+Q 559.152 76.32 553.104 76.32 
+L 439.2 76.32 
+Q 433.152 76.32 433.152 82.368 
+L 433.152 171.072 
+Q 433.152 177.12 439.2 177.12 
+z
+" clip-path="url(#p216967a292)" style="fill: #1b2819; stroke: #008300; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 560.664 126.72 
+Q 565.704 126.72 569.625966 126.72 
+" clip-path="url(#p216967a292)" style="fill: none; stroke: #c3c2b7; stroke-linecap: round"/>
+    <path d="M 564.825966 124.32 
+L 569.625966 126.72 
+L 564.825966 129.12 
+z
+" clip-path="url(#p216967a292)" style="fill: #c3c2b7; stroke: #c3c2b7; stroke-linecap: round"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 578.304 177.12 
+L 692.208 177.12 
+Q 698.256 177.12 698.256 171.072 
+L 698.256 82.368 
+Q 698.256 76.32 692.208 76.32 
+L 578.304 76.32 
+Q 572.256 76.32 572.256 82.368 
+L 572.256 171.072 
+Q 572.256 177.12 578.304 177.12 
+z
+" clip-path="url(#p216967a292)" style="fill: #1b2819; stroke: #008300; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #d95926" x="78.84" y="91.44" transform="rotate(-0 78.84 91.44)">URL tenant nhập</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 6.7px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(47.235891 124.921607)">http://0x7f000001/</text>
+    <text style="font-size: 6.7px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(31.18468 132.963439)">http://127.0.0.1#@evil.com/</text>
+   </g>
+   <g id="text_3">
+    <text style="font-weight: 700; font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #3987e5" x="217.944" y="91.44" transform="rotate(-0 217.944 91.44)">Pydantic HttpUrl</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 6.7px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(183.50757 125.607311)">chuẩn hóa WHATWG</text>
+    <text style="font-size: 6.7px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(189.793531 133.649143)">host = 127.0.0.1</text>
+    <text style="font-size: 6.7px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(177.910453 141.690975)">scheme ∈ {http, https}</text>
+   </g>
+   <g id="text_5">
+    <text style="font-weight: 700; font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #9085e9" x="357.048" y="91.44" transform="rotate(-0 357.048 91.44)">phân giải DNS</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 6.7px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(327.734977 124.921607)">getaddrinfo(host)</text>
+    <text style="font-size: 6.7px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(334.525008 133.302627)">→ MỌI địa chỉ</text>
+   </g>
+   <g id="text_7">
+    <text style="font-weight: 700; font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #008300" x="496.152" y="91.44" transform="rotate(-0 496.152 91.44)">is_global?</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 6.7px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(458.965953 124.921607)">loại loopback, private,</text>
+    <text style="font-size: 6.7px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(459.266406 132.963439)">link-local (169.254…),</text>
+    <text style="font-size: 6.7px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(465.876375 141.005271)">IPv4-mapped IPv6</text>
+   </g>
+   <g id="text_9">
+    <text style="font-weight: 700; font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #008300" x="635.256" y="91.44" transform="rotate(-0 635.256 91.44)">kết nối</text>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 6.7px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(601.17132 126.043857)">tới ĐÚNG IP đã kiểm</text>
+    <text style="font-size: 6.7px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(597.18325 134.664611)">(chống DNS rebinding)</text>
+    <text style="font-size: 6.7px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(597.306258 142.742037)">hoặc qua egress proxy</text>
+   </g>
+   <g id="text_11">
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #c3c2b7" x="15.84" y="212.4" transform="rotate(-0 15.84 212.4)">Số đo thật (s5): 14 URL thử, 13 bị chặn — mọi cách viết trỏ về 127.0.0.1 (hex, thập phân, bát phân, rút gọn, userinfo, fragment) đều được HttpUrl chuẩn hóa</text>
+   </g>
+   <g id="text_12">
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #e66767" x="15.84" y="242.64" transform="rotate(-0 15.84 242.64)">Sai: lọc bằng regex/chuỗi trên URL thô → parser differential (bộ lọc thấy evil.com, HTTP client kết nối 127.0.0.1)</text>
+   </g>
+   <g id="text_13">
+    <text style="font-weight: 700; font-size: 9.2px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #f2f1ec" x="15.84" y="25.92" transform="rotate(-0 15.84 25.92)">Chặn SSRF cho URL webhook (API7)</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p216967a292">
+   <rect x="5.76" y="5.76" width="705.6" height="272.16"/>
+  </clipPath>
+ </defs>
+</svg>

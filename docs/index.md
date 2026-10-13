@@ -60,8 +60,8 @@ Hai dịch vụ cố ý trái ngược nhau — **CPU-bound, nhiều request ng�
 | **III · FastAPI** | [07 · Vòng đời request](07-fastapi-vong-doi-request.md) | Từ chữ ký hàm đến response, response_model, middleware, OpenAPI, SSE | 50' |
 | | [08 · Dependency injection](08-dependency-injection.md) | IoC, đồ thị dependency, yield, cache, override | 40' |
 | | [09 · Async, đồng thời & hiệu năng](09-async-dong-thoi-hieu-nang.md) | Event loop vs threadpool, Little, M/M/c, worker, tail latency | 55' |
-| | 10 · Database & persistence | SQLAlchemy async, transaction, pool, N+1, migration, idempotency, RLS | 50' |
-| | 11 · Bảo mật API | OAuth2/JWT, Argon2id, OWASP API Top 10, BOLA, rate limit, DoS | 50' |
+| | [10 · Database & persistence](10-database-va-persistence.md) | SQLAlchemy async, transaction, pool, N+1, migration, idempotency, RLS | 50' |
+| | [11 · Bảo mật API](11-bao-mat-api.md) | OAuth2/JWT, Argon2id, OWASP API Top 10, BOLA, rate limit, DoS | 50' |
 | **IV · Vận hành** | 12 · Testing & chất lượng | Override, property-based, fuzz theo schema, breaking change | 45' |
 | | 13 · Production & observability | Process model, probe, OTel, SLO, retry/jitter, metastable failure | 50' |
 | | 14 · Capstone | Thiết kế end-to-end hai dịch vụ, câu hỏi system design | 55' |

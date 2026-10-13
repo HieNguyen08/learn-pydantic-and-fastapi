@@ -1,0 +1,519 @@
+{
+ "s1_jwt_cost": [
+  {
+   "alg": "HS256",
+   "sign_us": 22.373087999994823,
+   "verify_us": 38.62395750002179,
+   "token_bytes": 235
+  },
+  {
+   "alg": "RS256",
+   "sign_us": 372.91912000000593,
+   "verify_us": 82.02013400000396,
+   "token_bytes": 534
+  },
+  {
+   "alg": "ES256",
+   "sign_us": 41.48437699996066,
+   "verify_us": 111.03941100009251,
+   "token_bytes": 278
+  },
+  {
+   "alg": "EdDSA",
+   "sign_us": 43.23406750017966,
+   "verify_us": 137.16096999996807,
+   "token_bytes": 278
+  }
+ ],
+ "s2_jwt_attacks": [
+  {
+   "attack": "alg=none",
+   "naive": "CHẤP NHẬN: {\"sub\": \"attacker\", \"tid\": 1, \"scope\": \"admin\", \"exp\": 17919",
+   "pyjwt": "từ chối: InvalidAlgorithmError: The specified alg value is not allowed"
+  },
+  {
+   "attack": "nhầm thuật toán RS256→HS256",
+   "naive": "CHẤP NHẬN: {\"sub\": \"attacker\", \"tid\": 1, \"scope\": \"admin\", \"exp\": 17919",
+   "pyjwt": "từ chối: InvalidAlgorithmError: The specified alg value is not allowed"
+  },
+  {
+   "attack": "nhầm thuật toán, cho phép cả HS256",
+   "naive": "CHẤP NHẬN: {\"sub\": \"attacker\", \"tid\": 1, \"scope\": \"admin\", \"exp\": 17919",
+   "pyjwt": "từ chối: InvalidKeyError: The specified key is an asymmetric key or x509 certificate and should not be used as an HM"
+  },
+  {
+   "attack": "token của dịch vụ khác (aud)",
+   "naive": "CHẤP NHẬN: {\"sub\": \"u\", \"aud\": \"ai-gateway\", \"exp\": 1791902234}",
+   "pyjwt": "từ chối: InvalidAudienceError: Audience doesn't match"
+  },
+  {
+   "attack": "token hết hạn",
+   "naive": "CHẤP NHẬN: {\"sub\": \"u\", \"aud\": \"invoice-api\", \"exp\": 1791898034}",
+   "pyjwt": "từ chối: ExpiredSignatureError: Signature has expired"
+  }
+ ],
+ "s3_rate_limit": {
+  "sim": [
+   {
+    "t": 0.95,
+    "fixed": true,
+    "gcra": true
+   },
+   {
+    "t": 0.954,
+    "fixed": true,
+    "gcra": true
+   },
+   {
+    "t": 0.958,
+    "fixed": true,
+    "gcra": true
+   },
+   {
+    "t": 0.962,
+    "fixed": true,
+    "gcra": true
+   },
+   {
+    "t": 0.966,
+    "fixed": true,
+    "gcra": true
+   },
+   {
+    "t": 0.97,
+    "fixed": true,
+    "gcra": true
+   },
+   {
+    "t": 0.974,
+    "fixed": true,
+    "gcra": true
+   },
+   {
+    "t": 0.978,
+    "fixed": true,
+    "gcra": true
+   },
+   {
+    "t": 0.982,
+    "fixed": true,
+    "gcra": true
+   },
+   {
+    "t": 0.986,
+    "fixed": true,
+    "gcra": true
+   },
+   {
+    "t": 1.0,
+    "fixed": true,
+    "gcra": false
+   },
+   {
+    "t": 1.004,
+    "fixed": true,
+    "gcra": false
+   },
+   {
+    "t": 1.008,
+    "fixed": true,
+    "gcra": false
+   },
+   {
+    "t": 1.012,
+    "fixed": true,
+    "gcra": false
+   },
+   {
+    "t": 1.016,
+    "fixed": true,
+    "gcra": false
+   },
+   {
+    "t": 1.02,
+    "fixed": true,
+    "gcra": false
+   },
+   {
+    "t": 1.024,
+    "fixed": true,
+    "gcra": false
+   },
+   {
+    "t": 1.028,
+    "fixed": true,
+    "gcra": false
+   },
+   {
+    "t": 1.032,
+    "fixed": true,
+    "gcra": false
+   },
+   {
+    "t": 1.036,
+    "fixed": true,
+    "gcra": false
+   },
+   {
+    "t": 2.0,
+    "fixed": true,
+    "gcra": true
+   },
+   {
+    "t": 2.1,
+    "fixed": true,
+    "gcra": true
+   },
+   {
+    "t": 2.2,
+    "fixed": true,
+    "gcra": true
+   },
+   {
+    "t": 2.3,
+    "fixed": true,
+    "gcra": true
+   },
+   {
+    "t": 2.4,
+    "fixed": true,
+    "gcra": true
+   },
+   {
+    "t": 2.5,
+    "fixed": true,
+    "gcra": true
+   },
+   {
+    "t": 2.6,
+    "fixed": true,
+    "gcra": true
+   },
+   {
+    "t": 2.7,
+    "fixed": true,
+    "gcra": true
+   },
+   {
+    "t": 2.8,
+    "fixed": true,
+    "gcra": true
+   },
+   {
+    "t": 2.9,
+    "fixed": true,
+    "gcra": true
+   },
+   {
+    "t": 3.0,
+    "fixed": true,
+    "gcra": true
+   },
+   {
+    "t": 3.1,
+    "fixed": true,
+    "gcra": true
+   },
+   {
+    "t": 3.2,
+    "fixed": true,
+    "gcra": true
+   },
+   {
+    "t": 3.3,
+    "fixed": true,
+    "gcra": true
+   },
+   {
+    "t": 3.4000000000000004,
+    "fixed": true,
+    "gcra": true
+   },
+   {
+    "t": 3.5,
+    "fixed": true,
+    "gcra": true
+   },
+   {
+    "t": 3.6,
+    "fixed": true,
+    "gcra": true
+   },
+   {
+    "t": 3.7,
+    "fixed": true,
+    "gcra": true
+   },
+   {
+    "t": 3.8,
+    "fixed": true,
+    "gcra": true
+   },
+   {
+    "t": 3.9000000000000004,
+    "fixed": true,
+    "gcra": true
+   }
+  ],
+  "redis": {
+   "rate": 100,
+   "burst": 20,
+   "seconds": 3.000836700000036,
+   "attempts": 28441,
+   "allowed": 314,
+   "allowed_per_s": 104.63748327258068,
+   "expected_max": 320.0836700000036,
+   "checks_per_s": 9477.690005590659,
+   "p50_us": 132.75099991005845,
+   "p99_us": 282.8149999913876
+  }
+ },
+ "s4_payload": {
+  "depth": [
+   {
+    "depth": 100,
+    "pydantic": "ok",
+    "json_loads": "ok"
+   },
+   {
+    "depth": 199,
+    "pydantic": "ok",
+    "json_loads": "ok"
+   },
+   {
+    "depth": 200,
+    "pydantic": "ok",
+    "json_loads": "ok"
+   },
+   {
+    "depth": 201,
+    "pydantic": "ok",
+    "json_loads": "ok"
+   },
+   {
+    "depth": 1000,
+    "pydantic": "Invalid JSON: recursion limit exceeded at line 1 column 202",
+    "json_loads": "ok"
+   },
+   {
+    "depth": 100000,
+    "pydantic": "Invalid JSON: recursion limit exceeded at line 1 column 202",
+    "json_loads": "RecursionError"
+   }
+  ],
+  "big_list": [
+   {
+    "lines": 500,
+    "mb": 0.023511,
+    "ms": 0.33198499977515894
+   },
+   {
+    "lines": 5000,
+    "mb": 0.235011,
+    "ms": 5.098368999824743
+   },
+   {
+    "lines": 50000,
+    "mb": 2.350011,
+    "ms": 68.18185199972504
+   },
+   {
+    "lines": 200000,
+    "mb": 9.400011,
+    "ms": 325.3454339997006
+   }
+  ],
+  "fastapi_body": [
+   {
+    "status": 422,
+    "ms": 2614.5289160003813,
+    "peak_mib": 296.4390106201172,
+    "chunks_read": 359,
+    "case": "không giới hạn",
+    "body_mb": 23.500011
+   },
+   {
+    "status": 413,
+    "ms": 0.6450220002989226,
+    "peak_mib": 0.01691722869873047,
+    "chunks_read": 0,
+    "case": "RequestBodyLimitMiddleware 1 MiB",
+    "body_mb": 23.500011
+   }
+  ]
+ },
+ "s5_ssrf": [
+  {
+   "url": "https://1.1.1.1/hook",
+   "host": "1.1.1.1",
+   "allowed": true,
+   "reason": "công khai"
+  },
+  {
+   "url": "http://127.0.0.1/admin",
+   "host": "127.0.0.1",
+   "allowed": false,
+   "reason": "127.0.0.1 không phải địa chỉ công khai"
+  },
+  {
+   "url": "http://0x7f000001/",
+   "host": "127.0.0.1",
+   "allowed": false,
+   "reason": "127.0.0.1 không phải địa chỉ công khai"
+  },
+  {
+   "url": "http://2130706433/",
+   "host": "127.0.0.1",
+   "allowed": false,
+   "reason": "127.0.0.1 không phải địa chỉ công khai"
+  },
+  {
+   "url": "http://0177.0.0.1/",
+   "host": "127.0.0.1",
+   "allowed": false,
+   "reason": "127.0.0.1 không phải địa chỉ công khai"
+  },
+  {
+   "url": "http://127.1/",
+   "host": "127.0.0.1",
+   "allowed": false,
+   "reason": "127.0.0.1 không phải địa chỉ công khai"
+  },
+  {
+   "url": "http://[::ffff:127.0.0.1]/",
+   "host": "[::ffff:7f00:1]",
+   "allowed": false,
+   "reason": "127.0.0.1 không phải địa chỉ công khai"
+  },
+  {
+   "url": "http://169.254.169.254/latest/meta-data/",
+   "host": "169.254.169.254",
+   "allowed": false,
+   "reason": "169.254.169.254 không phải địa chỉ công khai"
+  },
+  {
+   "url": "http://10.0.0.5:6379/",
+   "host": "10.0.0.5",
+   "allowed": false,
+   "reason": "10.0.0.5 không phải địa chỉ công khai"
+  },
+  {
+   "url": "http://localhost./",
+   "host": "localhost.",
+   "allowed": false,
+   "reason": "không phân giải được"
+  },
+  {
+   "url": "http://evil.com@127.0.0.1/",
+   "host": "127.0.0.1",
+   "allowed": false,
+   "reason": "127.0.0.1 không phải địa chỉ công khai"
+  },
+  {
+   "url": "http://127.0.0.1#@evil.com/",
+   "host": "127.0.0.1",
+   "allowed": false,
+   "reason": "127.0.0.1 không phải địa chỉ công khai"
+  },
+  {
+   "url": "file:///etc/passwd",
+   "host": null,
+   "allowed": false,
+   "reason": "HttpUrl từ chối: url_scheme"
+  },
+  {
+   "url": "gopher://127.0.0.1:6379/_FLUSHALL",
+   "host": null,
+   "allowed": false,
+   "reason": "HttpUrl từ chối: url_scheme"
+  }
+ ],
+ "s6_cors": [
+  {
+   "config": "allow_origins=['*']",
+   "origin": "https://evil.example",
+   "acao": "*",
+   "acac": null
+  },
+  {
+   "config": "allow_origins=['*'], allow_credentials=True",
+   "origin": "https://evil.example",
+   "acao": "https://evil.example",
+   "acac": "true"
+  },
+  {
+   "config": "allow_origins=['https://app.mekong.vn'], allow_credentials=True",
+   "origin": "https://evil.example",
+   "acao": null,
+   "acac": "true"
+  }
+ ],
+ "s7_mass_assignment": {
+  "attack": {
+   "buyer_name": "Cty A (sửa)",
+   "status": "signed",
+   "tenant_id": 1,
+   "total": 0
+  },
+  "naive_result": {
+   "id": 101,
+   "tenant_id": 1,
+   "buyer_name": "Cty A (sửa)",
+   "status": "signed",
+   "total": 0
+  },
+  "forbid_errors": [
+   [
+    "status",
+    "extra_forbidden"
+   ],
+   [
+    "tenant_id",
+    "extra_forbidden"
+   ],
+   [
+    "total",
+    "extra_forbidden"
+   ]
+  ],
+  "ignore_result": {
+   "id": 101,
+   "tenant_id": 7,
+   "buyer_name": "Cty A (sửa)",
+   "status": "draft",
+   "total": 55000
+  }
+ },
+ "s8_hash_threads": [
+  {
+   "alg": "Argon2id m=19MiB t=2",
+   "threads": 1,
+   "per_s": 36.38300259492188
+  },
+  {
+   "alg": "Argon2id m=19MiB t=2",
+   "threads": 2,
+   "per_s": 73.44802217508399
+  },
+  {
+   "alg": "Argon2id m=19MiB t=2",
+   "threads": 4,
+   "per_s": 119.35932153453719
+  },
+  {
+   "alg": "bcrypt cost=10",
+   "threads": 1,
+   "per_s": 13.156492899542053
+  },
+  {
+   "alg": "bcrypt cost=10",
+   "threads": 2,
+   "per_s": 27.647745088678423
+  },
+  {
+   "alg": "bcrypt cost=10",
+   "threads": 4,
+   "per_s": 52.06101465887096
+  }
+ ]
+}

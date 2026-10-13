@@ -17,3 +17,7 @@ $ROOT/.venv/bin/python bench_schema_diff.py
 $ROOT/.venv/bin/python bench_breakdown.py
 taskset -c 1 $ROOT/.venv/bin/python bench_inside_fastapi.py
 taskset -c 1 $ROOT/.venv/bin/python bench_deps.py
+# Module 10: cần PostgreSQL đang chạy, chuỗi kết nối qua PG_DSN (xem đầu bench_db.py)
+if [ -n "${PG_DSN:-}" ]; then $ROOT/.venv/bin/python bench_db.py; else echo "bỏ qua bench_db.py (chưa đặt PG_DSN)"; fi
+# Module 11: s3 cần redis-server (REDIS_URL, mặc định redis://localhost:6390)
+$ROOT/.venv/bin/python bench_security.py
