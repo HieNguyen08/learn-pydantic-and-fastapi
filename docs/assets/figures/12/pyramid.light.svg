@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="700.664703pt" height="313.92pt" viewBox="0 0 700.664703 313.92" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 313.92 
+L 700.664703 313.92 
+L 700.664703 0 
+L 0 0 
+L 0 313.92 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 137.808 76.32 
+L 256.752 76.32 
+Q 262.8 76.32 262.8 70.272 
+L 262.8 42.048 
+Q 262.8 36 256.752 36 
+L 137.808 36 
+Q 131.76 36 131.76 42.048 
+L 131.76 70.272 
+Q 131.76 76.32 137.808 76.32 
+z
+" clip-path="url(#paf8cfec373)" style="fill: #fadede; stroke: #e34948; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 112.608 121.68 
+L 281.952 121.68 
+Q 288 121.68 288 115.632 
+L 288 87.408 
+Q 288 81.36 281.952 81.36 
+L 112.608 81.36 
+Q 106.56 81.36 106.56 87.408 
+L 106.56 115.632 
+Q 106.56 121.68 112.608 121.68 
+z
+" clip-path="url(#paf8cfec373)" style="fill: #fbe7ef; stroke: #e87ba4; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 87.408 167.04 
+L 307.152 167.04 
+Q 313.2 167.04 313.2 160.992 
+L 313.2 132.768 
+Q 313.2 126.72 307.152 126.72 
+L 87.408 126.72 
+Q 81.36 126.72 81.36 132.768 
+L 81.36 160.992 
+Q 81.36 167.04 87.408 167.04 
+z
+" clip-path="url(#paf8cfec373)" style="fill: #fbe4da; stroke: #eb6834; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 62.208 212.4 
+L 332.352 212.4 
+Q 338.4 212.4 338.4 206.352 
+L 338.4 178.128 
+Q 338.4 172.08 332.352 172.08 
+L 62.208 172.08 
+Q 56.16 172.08 56.16 178.128 
+L 56.16 206.352 
+Q 56.16 212.4 62.208 212.4 
+z
+" clip-path="url(#paf8cfec373)" style="fill: #d9e7f8; stroke: #2a78d6; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 37.008 257.76 
+L 357.552 257.76 
+Q 363.6 257.76 363.6 251.712 
+L 363.6 223.488 
+Q 363.6 217.44 357.552 217.44 
+L 37.008 217.44 
+Q 30.96 217.44 30.96 223.488 
+L 30.96 251.712 
+Q 30.96 257.76 37.008 257.76 
+z
+" clip-path="url(#paf8cfec373)" style="fill: #d1e9d1; stroke: #008300; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 7.8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #1b1b1a" x="197.28" y="58.281844" transform="rotate(-0 197.28 58.281844)">end-to-end (staging)</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 7.4px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #52514e" x="272.88" y="58.230555" transform="rotate(-0 272.88 58.230555)">vài smoke test · giây–phút</text>
+   </g>
+   <g id="text_3">
+    <text style="font-weight: 700; font-size: 7.8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #1b1b1a" x="197.28" y="104.085469" transform="rotate(-0 197.28 104.085469)">hợp đồng / fuzz</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 7.4px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #52514e" x="298.08" y="103.628133" transform="rotate(-0 298.08 103.628133)">Schemathesis · giây cho cả API</text>
+   </g>
+   <g id="text_5">
+    <text style="font-weight: 700; font-size: 7.8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #1b1b1a" x="197.28" y="149.17125" transform="rotate(-0 197.28 149.17125)">tích hợp + DB</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 7.4px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #52514e" x="323.28" y="148.950555" transform="rotate(-0 323.28 148.950555)">Postgres thật, savepoint · ~4 ms/test</text>
+   </g>
+   <g id="text_7">
+    <text style="font-weight: 700; font-size: 7.8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #1b1b1a" x="197.28" y="194.801203" transform="rotate(-0 197.28 194.801203)">tích hợp trong tiến trình</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 7.4px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #52514e" transform="translate(348.48 189.721832)">AsyncClient + ASGITransport</text>
+    <text style="font-size: 7.4px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #52514e" transform="translate(348.48 198.603277)">~0,3–0,5 ms/request</text>
+   </g>
+   <g id="text_9">
+    <text style="font-weight: 700; font-size: 7.8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #1b1b1a" x="197.28" y="239.89125" transform="rotate(-0 197.28 239.89125)">unit + thuộc tính</text>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 7.4px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #52514e" x="373.68" y="239.843992" transform="rotate(-0 373.68 239.843992)">hàm thuần, Hypothesis · µs</text>
+   </g>
+   <g id="text_11">
+    <text style="font-weight: 700; font-size: 9px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #1b1b1a" x="15.84" y="20.88" transform="rotate(-0 15.84 20.88)">Tầng test cho một API FastAPI — kiểm mỗi quy tắc ở tầng thấp nhất còn có nghĩa</text>
+   </g>
+   <g id="text_12">
+    <text style="font-weight: 700; font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #1b1b1a" x="509.76" y="56.16" transform="rotate(-0 509.76 56.16)">ví dụ quy tắc → tầng</text>
+   </g>
+   <g id="text_13">
+    <text style="font-size: 7.1px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #1b1b1a" x="509.76" y="81.36" transform="rotate(-0 509.76 81.36)">MST, làm tròn thuế, tổng tiền</text>
+   </g>
+   <g id="text_14">
+    <text style="font-size: 7.1px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #52514e" x="509.76" y="98.496" transform="rotate(-0 509.76 98.496)">→ unit + thuộc tính</text>
+   </g>
+   <g id="text_15">
+    <text style="font-size: 7.1px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #1b1b1a" x="509.76" y="121.68" transform="rotate(-0 509.76 121.68)">422 khi body sai, response_model lọc trường</text>
+   </g>
+   <g id="text_16">
+    <text style="font-size: 7.1px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #52514e" x="509.76" y="138.816" transform="rotate(-0 509.76 138.816)">→ trong tiến trình</text>
+   </g>
+   <g id="text_17">
+    <text style="font-size: 7.1px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #1b1b1a" x="509.76" y="162" transform="rotate(-0 509.76 162)">404 cho tenant khác (BOLA), RLS, ràng buộc unique</text>
+   </g>
+   <g id="text_18">
+    <text style="font-size: 7.1px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #52514e" x="509.76" y="179.136" transform="rotate(-0 509.76 179.136)">→ tích hợp + DB</text>
+   </g>
+   <g id="text_19">
+    <text style="font-size: 7.1px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #1b1b1a" x="509.76" y="202.32" transform="rotate(-0 509.76 202.32)">mọi endpoint khớp OpenAPI, không 5xx</text>
+   </g>
+   <g id="text_20">
+    <text style="font-size: 7.1px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #52514e" x="509.76" y="219.456" transform="rotate(-0 509.76 219.456)">→ hợp đồng / fuzz</text>
+   </g>
+   <g id="text_21">
+    <text style="font-size: 7.1px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #1b1b1a" x="509.76" y="242.64" transform="rotate(-0 509.76 242.64)">proxy chặn body 4 MiB, TLS, migration</text>
+   </g>
+   <g id="text_22">
+    <text style="font-size: 7.1px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #52514e" x="509.76" y="259.776" transform="rotate(-0 509.76 259.776)">→ end-to-end</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="paf8cfec373">
+   <rect x="5.76" y="5.76" width="685.44" height="302.4"/>
+  </clipPath>
+ </defs>
+</svg>

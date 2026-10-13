@@ -21,3 +21,6 @@ taskset -c 1 $ROOT/.venv/bin/python bench_deps.py
 if [ -n "${PG_DSN:-}" ]; then $ROOT/.venv/bin/python bench_db.py; else echo "bỏ qua bench_db.py (chưa đặt PG_DSN)"; fi
 # Module 11: s3 cần redis-server (REDIS_URL, mặc định redis://localhost:6390)
 $ROOT/.venv/bin/python bench_security.py
+# Module 12 (t2 cần PG_DSN) và Module 13
+$ROOT/.venv/bin/python bench_testing.py
+$ROOT/.venv/bin/python bench_production.py

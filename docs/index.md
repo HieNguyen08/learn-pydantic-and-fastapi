@@ -62,8 +62,8 @@ Hai dịch vụ cố ý trái ngược nhau — **CPU-bound, nhiều request ng�
 | | [09 · Async, đồng thời & hiệu năng](09-async-dong-thoi-hieu-nang.md) | Event loop vs threadpool, Little, M/M/c, worker, tail latency | 55' |
 | | [10 · Database & persistence](10-database-va-persistence.md) | SQLAlchemy async, transaction, pool, N+1, migration, idempotency, RLS | 50' |
 | | [11 · Bảo mật API](11-bao-mat-api.md) | OAuth2/JWT, Argon2id, OWASP API Top 10, BOLA, rate limit, DoS | 50' |
-| **IV · Vận hành** | 12 · Testing & chất lượng | Override, property-based, fuzz theo schema, breaking change | 45' |
-| | 13 · Production & observability | Process model, probe, OTel, SLO, retry/jitter, metastable failure | 50' |
+| **IV · Vận hành** | [12 · Testing & chất lượng](12-testing-va-chat-luong.md) | Override, property-based, fuzz theo schema, breaking change | 45' |
+| | [13 · Production & observability](13-production-va-observability.md) | Process model, probe, OTel, SLO, retry/jitter, metastable failure | 50' |
 | | 14 · Capstone | Thiết kế end-to-end hai dịch vụ, câu hỏi system design | 55' |
 | **V · Chuyên đề** | 15 · Pydantic cho LLM | Structured output, constrained decoding, tool calling, validate–retry | 50' |
 | **Thực hành** | Labs 01–06 | Code chạy trên CPU, tái tạo mọi số liệu trong bài | ~2 giờ |

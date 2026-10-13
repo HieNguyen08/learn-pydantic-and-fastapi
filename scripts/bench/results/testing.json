@@ -1,0 +1,444 @@
+{
+ "t3_property": [
+  {
+   "found": true,
+   "examples_to_first_failure": 24,
+   "total_calls": 72,
+   "minimal_example": "1050360970",
+   "ms": 181.57127800031958,
+   "bug": "MST: so ký tự cuối của chữ số kiểm tra",
+   "example_tests_pass_on_buggy": true,
+   "example_tests_pass_on_correct": true
+  },
+  {
+   "found": true,
+   "examples_to_first_failure": 70,
+   "total_calls": 83,
+   "minimal_example": [
+    525,
+    10
+   ],
+   "ms": 61.15533900037917,
+   "bug": "Thuế: round() làm tròn kiểu ngân hàng",
+   "example_tests_pass_on_buggy": true,
+   "example_tests_pass_on_correct": true
+  },
+  {
+   "found": true,
+   "examples_to_first_failure": 3,
+   "total_calls": 155,
+   "minimal_example": [
+    1,
+    "datetime.datetime(999, 1, 1, 0, 0)"
+   ],
+   "ms": 371.24228599986964,
+   "bug": "Round-trip: serializer tự định dạng datetime",
+   "example_tests_pass_on_buggy": true,
+   "example_tests_pass_on_correct": true
+  }
+ ],
+ "t4_mutation": {
+  "rows": [
+   {
+    "function": "mst_is_valid",
+    "mutant": "hằng 10→11",
+    "killed_by_typical": true,
+    "killed_by_examples": true,
+    "killed_by_properties": true,
+    "likely_equivalent": false
+   },
+   {
+    "function": "mst_is_valid",
+    "mutant": "hằng 13→14",
+    "killed_by_typical": false,
+    "killed_by_examples": true,
+    "killed_by_properties": true,
+    "likely_equivalent": false
+   },
+   {
+    "function": "mst_is_valid",
+    "mutant": "NotIn→In",
+    "killed_by_typical": true,
+    "killed_by_examples": true,
+    "killed_by_properties": true,
+    "likely_equivalent": false
+   },
+   {
+    "function": "mst_is_valid",
+    "mutant": "bỏ not",
+    "killed_by_typical": true,
+    "killed_by_examples": true,
+    "killed_by_properties": true,
+    "likely_equivalent": false
+   },
+   {
+    "function": "mst_is_valid",
+    "mutant": "Or→And",
+    "killed_by_typical": true,
+    "killed_by_examples": true,
+    "killed_by_properties": true,
+    "likely_equivalent": false
+   },
+   {
+    "function": "mst_is_valid",
+    "mutant": "hằng 2→3",
+    "killed_by_typical": false,
+    "killed_by_examples": false,
+    "killed_by_properties": false,
+    "likely_equivalent": true
+   },
+   {
+    "function": "mst_is_valid",
+    "mutant": "hằng 9→10",
+    "killed_by_typical": false,
+    "killed_by_examples": false,
+    "killed_by_properties": false,
+    "likely_equivalent": true
+   },
+   {
+    "function": "mst_is_valid",
+    "mutant": "Eq→NotEq",
+    "killed_by_typical": true,
+    "killed_by_examples": true,
+    "killed_by_properties": true,
+    "likely_equivalent": false
+   },
+   {
+    "function": "mst_is_valid",
+    "mutant": "hằng 13→14",
+    "killed_by_typical": false,
+    "killed_by_examples": true,
+    "killed_by_properties": true,
+    "likely_equivalent": false
+   },
+   {
+    "function": "mst_is_valid",
+    "mutant": "Eq→NotEq",
+    "killed_by_typical": false,
+    "killed_by_examples": true,
+    "killed_by_properties": true,
+    "likely_equivalent": false
+   },
+   {
+    "function": "mst_is_valid",
+    "mutant": "hằng 10→11",
+    "killed_by_typical": false,
+    "killed_by_examples": true,
+    "killed_by_properties": true,
+    "likely_equivalent": false
+   },
+   {
+    "function": "mst_is_valid",
+    "mutant": "Eq→NotEq",
+    "killed_by_typical": false,
+    "killed_by_examples": true,
+    "killed_by_properties": true,
+    "likely_equivalent": false
+   },
+   {
+    "function": "mst_is_valid",
+    "mutant": "And→Or",
+    "killed_by_typical": false,
+    "killed_by_examples": true,
+    "killed_by_properties": true,
+    "likely_equivalent": false
+   },
+   {
+    "function": "mst_is_valid",
+    "mutant": "Or→And",
+    "killed_by_typical": false,
+    "killed_by_examples": true,
+    "killed_by_properties": true,
+    "likely_equivalent": false
+   },
+   {
+    "function": "mst_is_valid",
+    "mutant": "hằng 10→11",
+    "killed_by_typical": true,
+    "killed_by_examples": true,
+    "killed_by_properties": true,
+    "likely_equivalent": false
+   },
+   {
+    "function": "mst_is_valid",
+    "mutant": "Mult→FloorDiv",
+    "killed_by_typical": true,
+    "killed_by_examples": true,
+    "killed_by_properties": true,
+    "likely_equivalent": false
+   },
+   {
+    "function": "mst_is_valid",
+    "mutant": "hằng 9→10",
+    "killed_by_typical": false,
+    "killed_by_examples": false,
+    "killed_by_properties": false,
+    "likely_equivalent": true
+   },
+   {
+    "function": "mst_is_valid",
+    "mutant": "hằng 11→12",
+    "killed_by_typical": true,
+    "killed_by_examples": true,
+    "killed_by_properties": true,
+    "likely_equivalent": false
+   },
+   {
+    "function": "mst_is_valid",
+    "mutant": "Mod→FloorDiv",
+    "killed_by_typical": true,
+    "killed_by_examples": true,
+    "killed_by_properties": true,
+    "likely_equivalent": false
+   },
+   {
+    "function": "mst_is_valid",
+    "mutant": "Sub→Add",
+    "killed_by_typical": true,
+    "killed_by_examples": true,
+    "killed_by_properties": true,
+    "likely_equivalent": false
+   },
+   {
+    "function": "mst_is_valid",
+    "mutant": "hằng 10→11",
+    "killed_by_typical": false,
+    "killed_by_examples": false,
+    "killed_by_properties": false,
+    "likely_equivalent": true
+   },
+   {
+    "function": "mst_is_valid",
+    "mutant": "Lt→LtE",
+    "killed_by_typical": false,
+    "killed_by_examples": false,
+    "killed_by_properties": false,
+    "likely_equivalent": true
+   },
+   {
+    "function": "mst_is_valid",
+    "mutant": "hằng 9→10",
+    "killed_by_typical": true,
+    "killed_by_examples": true,
+    "killed_by_properties": true,
+    "likely_equivalent": false
+   },
+   {
+    "function": "mst_is_valid",
+    "mutant": "Eq→NotEq",
+    "killed_by_typical": true,
+    "killed_by_examples": true,
+    "killed_by_properties": true,
+    "likely_equivalent": false
+   },
+   {
+    "function": "mst_is_valid",
+    "mutant": "And→Or",
+    "killed_by_typical": false,
+    "killed_by_examples": true,
+    "killed_by_properties": true,
+    "likely_equivalent": false
+   },
+   {
+    "function": "line_tax",
+    "mutant": "Mult→FloorDiv",
+    "killed_by_typical": true,
+    "killed_by_examples": true,
+    "killed_by_properties": true,
+    "likely_equivalent": false
+   },
+   {
+    "function": "line_tax",
+    "mutant": "hằng 100→101",
+    "killed_by_typical": true,
+    "killed_by_examples": true,
+    "killed_by_properties": true,
+    "likely_equivalent": false
+   },
+   {
+    "function": "line_tax",
+    "mutant": "Div→Mult",
+    "killed_by_typical": true,
+    "killed_by_examples": true,
+    "killed_by_properties": true,
+    "likely_equivalent": false
+   },
+   {
+    "function": "line_tax",
+    "mutant": "hằng 1→2",
+    "killed_by_typical": false,
+    "killed_by_examples": false,
+    "killed_by_properties": false,
+    "likely_equivalent": true
+   },
+   {
+    "function": "line_tax",
+    "mutant": "HALF_UP→HALF_EVEN",
+    "killed_by_typical": false,
+    "killed_by_examples": false,
+    "killed_by_properties": true,
+    "likely_equivalent": false
+   },
+   {
+    "function": "invoice_totals",
+    "mutant": "Add→Sub",
+    "killed_by_typical": true,
+    "killed_by_examples": true,
+    "killed_by_properties": true,
+    "likely_equivalent": false
+   }
+  ],
+  "summary": {
+   "mutants": 25,
+   "killed_typical": 16,
+   "score_typical": 0.64,
+   "killed_examples": 24,
+   "killed_properties": 25,
+   "score_examples": 0.96,
+   "score_properties": 1.0,
+   "equivalent": 6
+  }
+ },
+ "t1_clients": [
+  {
+   "client": "TestClient",
+   "endpoint": "GET /health",
+   "us": 799.8756200001935
+  },
+  {
+   "client": "TestClient",
+   "endpoint": "POST /v1/invoices",
+   "us": 1107.642326999894
+  },
+  {
+   "client": "AsyncClient + ASGITransport",
+   "endpoint": "GET /health",
+   "us": 308.76520950005215
+  },
+  {
+   "client": "AsyncClient + ASGITransport",
+   "endpoint": "POST /v1/invoices",
+   "us": 543.8086799999837
+  },
+  {
+   "client": "uvicorn thật + httpx.Client (TCP)",
+   "endpoint": "GET /health",
+   "us": 1026.994287999969
+  },
+  {
+   "client": "uvicorn thật + httpx.Client (TCP)",
+   "endpoint": "POST /v1/invoices",
+   "us": 1233.2759350001652
+  }
+ ],
+ "t2_db_isolation": [
+  {
+   "strategy": "tạo lại bảng (drop_all + create_all)",
+   "ms_per_test": 61.474469666662415,
+   "rows_left": 1
+  },
+  {
+   "strategy": "TRUNCATE mọi bảng",
+   "ms_per_test": 22.025685850000322,
+   "rows_left": 0
+  },
+  {
+   "strategy": "transaction + savepoint, rollback",
+   "ms_per_test": 4.351761883329649,
+   "rows_left": 0
+  }
+ ],
+ "t5_schemathesis": {
+  "buggy": {
+   "seconds": 11.637442962000023,
+   "exit_code": 1,
+   "failures": [
+    {
+     "operation": "GET /v1/invoices",
+     "check": "Server error",
+     "reproduce": "curl -X GET 'http://127.0.0.1:8000/v1/invoices?limit=199'"
+    },
+    {
+     "operation": "OPTIONS /v1/invoices",
+     "check": "Invalid Allow header",
+     "reproduce": "curl -X OPTIONS -H 'Content-Type: application/json' -d '{\"buyer_name\": \"0\", \"lines\": [{\"name\": \"0\", \"quantity\": 1, \"unit_price\": 0}]}' http://127.0.0.1:8000/v1/invoices"
+    },
+    {
+     "operation": "POST /v1/invoices",
+     "check": "API accepted schema-violating request",
+     "reproduce": "curl -X POST -H 'Content-Type: application/json' -d '{\"buyer_name\": \"0\", \"lines\": [{\"name\": \"0\", \"quantity\": 1, \"unit_price\": false}]}' http://127.0.0.1:8000/v1/invoices"
+    },
+    {
+     "operation": "POST /v1/invoices",
+     "check": "Server error",
+     "reproduce": "curl -X POST -H 'Content-Type: application/json' -d '{\"\": [{}, false], \"buyer_name\": \"\\u00de\\u00ae=\\u00e0\\u0010\\ud872\\ude87\\u00e4\\f\\udbdd\\udd5b\\u00898Ei\\u00acv\\uda60\\udf7b\\u00c2\\ud93d\\udfc3\", \"lines\": [{\"(\": {\"\\u00a0\\ud978\\udf81\\u00861A\\u0098\\u00f7p\\u6f87\\u0005\\u00e5\\u00d1\\u000f\\u00cd\\u00f3$\": [false, -67947770296, null]}, \"\\uda08\\udcb2\": 17179869184, \"b\\u00a3\\u0091l\\u007f\\ue23d\\udbc4\\udd4a\\u00ef\\\\$\": {}, \"name\": \"\\uda76\\udfde\\u00d0\\u000e\\u0015\\u0097E\\u008f\", \"unit_price\": 78.0, \"quantity\": 11929.0}]}' http://127.0.0.1:8000/v1/invoices"
+    },
+    {
+     "operation": "POST /v1/invoices",
+     "check": "Undocumented HTTP status code",
+     "reproduce": "curl -X POST -H 'Content-Type: application/json' -d '85�����' http://127.0.0.1:8000/v1/invoices"
+    }
+   ],
+   "generated": 485,
+   "unique_failures": 7
+  },
+  "fix3": {
+   "seconds": 10.230221394000182,
+   "exit_code": 1,
+   "failures": [
+    {
+     "operation": "GET /v1/invoices",
+     "check": "Server error",
+     "reproduce": "curl -X GET 'http://127.0.0.1:8000/v1/invoices?limit=0'"
+    },
+    {
+     "operation": "OPTIONS /v1/invoices",
+     "check": "Invalid Allow header",
+     "reproduce": "curl -X OPTIONS -H 'Content-Type: application/json' -d '{\"buyer_name\": \"0\", \"lines\": [{\"name\": \"0\", \"quantity\": 1, \"unit_price\": 0}]}' http://127.0.0.1:8000/v1/invoices"
+    },
+    {
+     "operation": "POST /v1/invoices",
+     "check": "API accepted schema-violating request",
+     "reproduce": "curl -X POST -H 'Content-Type: application/json' -d '{\"buyer_name\": \"0\", \"lines\": [{\"name\": \"0\", \"quantity\": 1, \"unit_price\": false}]}' http://127.0.0.1:8000/v1/invoices"
+    },
+    {
+     "operation": "POST /v1/invoices",
+     "check": "Server error",
+     "reproduce": "curl -X POST -H 'Content-Type: application/json' -d '{\"buyer_name\": \"\\u008f\\ud97e\\udf04\\ud9df\\udd18\\udbc2\\ude1e\\r\\b\\u0081FP\\udbc7\\uddf9\\u001e\\ud98e\\udeba[\\u00d9\\u00d6\\u001a\", \"lines\": [{\"&\\uda53\\ude05\\u0088\\u00bb\\ud879\\ude4e=h\\u00ef\\uda3f\\udef9;\": {}, \"unit_price\": 1145611, \"quantity\": 5348, \"name\": \"\\u008e\\u008a\\u00f9\\u009b\"}, {\"[\\udb1e\\udc35\\u00f6\\u00cf\": false, \"\": [], \"name\": \"\\ud9c5\\ude4f\\u007f\\u0094\\u0090\", \"unit_price\": 353, \"quantity\": 41380}]}' http://127.0.0.1:8000/v1/invoices"
+    }
+   ],
+   "generated": 484,
+   "unique_failures": 6
+  }
+ },
+ "t6_breaking": [
+  {
+   "kind": "BREAKING",
+   "change": "POST /v1/invoices body.buyer_tax_code: request thêm trường BẮT BUỘC"
+  },
+  {
+   "kind": "ok",
+   "change": "POST /v1/invoices body.note: thêm trường tùy chọn (request)"
+  },
+  {
+   "kind": "BREAKING",
+   "change": "POST /v1/invoices body.lines[].vat_rate: request bỏ giá trị enum ['KCT']"
+  },
+  {
+   "kind": "BREAKING",
+   "change": "POST /v1/invoices body.lines[].name: request maxLength giảm 200 → 100"
+  },
+  {
+   "kind": "BREAKING",
+   "change": "POST /v1/invoices 201.issued_at: response bỏ trường"
+  },
+  {
+   "kind": "ok",
+   "change": "POST /v1/invoices 201.currency: thêm trường tùy chọn (response)"
+  },
+  {
+   "kind": "BREAKING",
+   "change": "GET /v1/invoices/{invoice_id}/pdf: endpoint bị xóa"
+  }
+ ]
+}

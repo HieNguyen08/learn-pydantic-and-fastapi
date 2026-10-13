@@ -116,3 +116,6 @@ nav:
       - "09 · Async, đồng thời & hiệu năng": 09-async-dong-thoi-hieu-nang.md
       - "10 · Database & persistence": 10-database-va-persistence.md
       - "11 · Bảo mật API": 11-bao-mat-api.md
+  - "Phần IV · Chất lượng & vận hành":
+      - "12 · Testing & chất lượng": 12-testing-va-chat-luong.md
+      - "13 · Production & observability": 13-production-va-observability.md
