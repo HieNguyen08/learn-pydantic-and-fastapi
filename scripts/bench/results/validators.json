@@ -1,0 +1,110 @@
+{
+ "constraints": [
+  {
+   "variant": "không ràng buộc: float",
+   "ns_per_item": 42.28944120000051
+  },
+  {
+   "variant": "Field(gt=0) — trong Rust",
+   "ns_per_item": 42.6014688000123
+  },
+  {
+   "variant": "AfterValidator (Python)",
+   "ns_per_item": 75.19691640000019
+  },
+  {
+   "variant": "BeforeValidator (Python)",
+   "ns_per_item": 85.61565340000926
+  },
+  {
+   "variant": "WrapValidator (Python)",
+   "ns_per_item": 214.33153699990726
+  },
+  {
+   "variant": "PlainValidator (Python)",
+   "ns_per_item": 127.64453900001628
+  },
+  {
+   "variant": "model + Field(gt=0)",
+   "ns_per_item": 366.63881599997694
+  },
+  {
+   "variant": "model + @field_validator",
+   "ns_per_item": 445.96192400013024
+  }
+ ],
+ "unions": [
+  {
+   "variant": "smart union (mặc định)",
+   "ns_per_item": 3558.3932400004414,
+   "errors_for_one_bad_item": 9
+  },
+  {
+   "variant": "left_to_right",
+   "ns_per_item": 2124.455809999972,
+   "errors_for_one_bad_item": 9
+  },
+  {
+   "variant": "discriminator='method'",
+   "ns_per_item": 714.0658480000184,
+   "errors_for_one_bad_item": 1
+  },
+  {
+   "variant": "Discriminator(callable)",
+   "ns_per_item": 989.9739249999585,
+   "errors_for_one_bad_item": 1
+  }
+ ],
+ "union_scaling": [
+  {
+   "members": 1,
+   "variant": "smart",
+   "ns_per_item": 566.4296400000239
+  },
+  {
+   "members": 1,
+   "variant": "discriminated",
+   "ns_per_item": 565.9623779999948
+  },
+  {
+   "members": 2,
+   "variant": "smart",
+   "ns_per_item": 1359.3459300000177
+  },
+  {
+   "members": 2,
+   "variant": "discriminated",
+   "ns_per_item": 751.568270000007
+  },
+  {
+   "members": 3,
+   "variant": "smart",
+   "ns_per_item": 1879.42755999984
+  },
+  {
+   "members": 3,
+   "variant": "discriminated",
+   "ns_per_item": 560.391682000045
+  },
+  {
+   "members": 4,
+   "variant": "smart",
+   "ns_per_item": 2497.2621100005204
+  },
+  {
+   "members": 4,
+   "variant": "discriminated",
+   "ns_per_item": 688.7098520001018
+  },
+  {
+   "members": 5,
+   "variant": "smart",
+   "ns_per_item": 3532.608020000225
+  },
+  {
+   "members": 5,
+   "variant": "discriminated",
+   "ns_per_item": 567.9687239999113
+  }
+ ]
+}

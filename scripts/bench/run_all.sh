@@ -12,3 +12,5 @@ $ROOT/.venv/bin/python bench_concurrency.py
 taskset -c 1 $ROOT/.venv/bin/python bench_threads_coroutines.py
 $ROOT/.venv/bin/python bench_gil.py
 taskset -c 1 $ROOT/.venv/bin/python bench_pagination.py
+taskset -c 1 $ROOT/.venv/bin/python bench_validators.py
+$ROOT/.venv/bin/python bench_schema_diff.py

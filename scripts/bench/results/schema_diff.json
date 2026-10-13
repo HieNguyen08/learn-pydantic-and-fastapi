@@ -1,0 +1,119 @@
+[
+ {
+  "mutation": "số → chuỗi số",
+  "lax": {
+   "schema từ chối / pydantic nhận": 40
+  },
+  "strict": {
+   "schema từ chối / pydantic từ chối": 40
+  }
+ },
+ {
+  "mutation": "int → float .0",
+  "lax": {
+   "schema nhận / pydantic nhận": 40
+  },
+  "strict": {
+   "schema nhận / pydantic từ chối": 40
+  }
+ },
+ {
+  "mutation": "thiếu trường",
+  "lax": {
+   "schema từ chối / pydantic từ chối": 40
+  },
+  "strict": {
+   "schema từ chối / pydantic từ chối": 40
+  }
+ },
+ {
+  "mutation": "trường lạ",
+  "lax": {
+   "schema từ chối / pydantic từ chối": 40
+  },
+  "strict": {
+   "schema từ chối / pydantic từ chối": 40
+  }
+ },
+ {
+  "mutation": "MST sai checksum",
+  "lax": {
+   "schema nhận / pydantic từ chối": 40
+  },
+  "strict": {
+   "schema nhận / pydantic từ chối": 40
+  }
+ },
+ {
+  "mutation": "MST có dấu gạch",
+  "lax": {
+   "schema nhận / pydantic nhận": 40
+  },
+  "strict": {
+   "schema nhận / pydantic nhận": 40
+  }
+ },
+ {
+  "mutation": "lệch tổng 1 đồng",
+  "lax": {
+   "schema nhận / pydantic từ chối": 40
+  },
+  "strict": {
+   "schema nhận / pydantic từ chối": 40
+  }
+ },
+ {
+  "mutation": "amount dòng sai",
+  "lax": {
+   "schema nhận / pydantic từ chối": 40
+  },
+  "strict": {
+   "schema nhận / pydantic từ chối": 40
+  }
+ },
+ {
+  "mutation": "thuế suất lạ",
+  "lax": {
+   "schema từ chối / pydantic từ chối": 40
+  },
+  "strict": {
+   "schema từ chối / pydantic từ chối": 40
+  }
+ },
+ {
+  "mutation": "ngày không múi giờ",
+  "lax": {
+   "schema nhận / pydantic từ chối": 40
+  },
+  "strict": {
+   "schema nhận / pydantic từ chối": 40
+  }
+ },
+ {
+  "mutation": "số lượng âm",
+  "lax": {
+   "schema từ chối / pydantic từ chối": 40
+  },
+  "strict": {
+   "schema từ chối / pydantic từ chối": 40
+  }
+ },
+ {
+  "mutation": "line_no trùng",
+  "lax": {
+   "schema nhận / pydantic từ chối": 40
+  },
+  "strict": {
+   "schema nhận / pydantic từ chối": 40
+  }
+ },
+ {
+  "mutation": "không đột biến",
+  "lax": {
+   "schema nhận / pydantic nhận": 40
+  },
+  "strict": {
+   "schema nhận / pydantic nhận": 40
+  }
+ }
+]
