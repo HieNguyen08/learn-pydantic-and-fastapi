@@ -65,7 +65,7 @@ Hai dịch vụ cố ý trái ngược nhau — **CPU-bound, nhiều request ng�
 | **IV · Vận hành** | [12 · Testing & chất lượng](12-testing-va-chat-luong.md) | Override, property-based, fuzz theo schema, breaking change | 45' |
 | | [13 · Production & observability](13-production-va-observability.md) | Process model, probe, OTel, SLO, retry/jitter, metastable failure | 50' |
 | | [14 · Capstone](14-capstone-thiet-ke-he-thong.md) | Thiết kế end-to-end hai dịch vụ, câu hỏi system design | 55' |
-| **V · Chuyên đề** | 15 · Pydantic cho LLM | Structured output, constrained decoding, tool calling, validate–retry | 50' |
+| **V · Chuyên đề** | [15 · Pydantic cho LLM](15-pydantic-cho-llm.md) | Structured output, constrained decoding, tool calling, validate–retry | 50' |
 | **Thực hành** | Labs 01–06 | Code chạy trên CPU, tái tạo mọi số liệu trong bài | ~2 giờ |
 
 ```mermaid

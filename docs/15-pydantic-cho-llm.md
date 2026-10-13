@@ -30,6 +30,14 @@ Sau module này, bạn có thể:
 
 <!-- placeholder-four-ways -->
 
+<!-- fig:four-ways -->
+<figure markdown="span">
+  ![Bốn cách lấy dữ liệu có cấu trúc từ LLM, từ yếu tới mạnh về mức bảo đảm](assets/figures/15/four-ways.light.svg#only-light){ loading=lazy }
+  ![Bốn cách lấy dữ liệu có cấu trúc từ LLM, từ yếu tới mạnh về mức bảo đảm](assets/figures/15/four-ways.dark.svg#only-dark){ loading=lazy }
+  <figcaption>Hình 15.1 — Bốn cách lấy dữ liệu có cấu trúc từ LLM, từ yếu tới mạnh về mức bảo đảm.</figcaption>
+</figure>
+<!-- /fig -->
+
 Cột cuối cùng là quan trọng nhất. **Không cách nào đảm bảo đúng nghiệp vụ.** Không grammar nào biết MST "0312345678" có sai chữ số kiểm tra, hay tổng tiền có khớp các dòng. Những quy tắc đó nằm trong validator Pydantic (Module 04), và vẫn phải chạy **sau** khi LLM sinh xong. Constrained decoding biến "lỗi hình dạng" thành không thể xảy ra, chỉ để lại "lỗi nội dung" cho Pydantic.
 
 ---
@@ -49,6 +57,14 @@ p'(t \mid x_{<i}) \propto
 $$
 
 <!-- placeholder-masking -->
+
+<!-- fig:masking -->
+<figure markdown="span">
+  ![Constrained decoding: ở mỗi bước, token nào làm hỏng ngữ pháp bị gán xác suất 0 trước khi lấy mẫu](assets/figures/15/masking.light.svg#only-light){ loading=lazy }
+  ![Constrained decoding: ở mỗi bước, token nào làm hỏng ngữ pháp bị gán xác suất 0 trước khi lấy mẫu](assets/figures/15/masking.dark.svg#only-dark){ loading=lazy }
+  <figcaption>Hình 15.2 — Constrained decoding: ở mỗi bước, token nào làm hỏng ngữ pháp bị gán xác suất 0 trước khi lấy mẫu.</figcaption>
+</figure>
+<!-- /fig -->
 
 ### 2.2. Từ FSM đến pushdown automaton
 
@@ -107,21 +123,66 @@ Một hệ quả thực tế: hãy **đẩy được bao nhiêu ràng buộc và
 
 ### 3.1. Thiết lập
 
-{{L1_SETUP}}
+- **Dữ liệu**: 30 tin nhắn tiếng Việt sinh có kiểm soát (seed cố định), mỗi tin có đáp án đúng. Ba mẫu câu ("Xuất hóa đơn cho…", "Chào shop, bên mình là…", "… – MST: …"), 8 người mua, MST hợp lệ theo chữ số kiểm tra, thuế suất 0/5/8/10%, 1–3 dòng hàng.
+- **Model**: `Qwen/Qwen2.5-0.5B-Instruct`, giải mã tham lam (`do_sample=False`), CPU 4 luồng, tối đa 220 token mới.
+- **Prompt**: giống hệt nhau ở cả ba chế độ. System prompt dặn "chỉ trả về MỘT đối tượng JSON" và chứa nguyên JSON Schema của `InvoiceDraft`.
+- **Ba chế độ**: *prompt thuần* (không ràng buộc); *JSON mode* (xgrammar với ngữ pháp JSON tổng quát, giống JSON mode của các API); *ràng buộc theo schema* (xgrammar biên dịch JSON Schema của `InvoiceDraft`).
+- **Chấm điểm**: (1) parse được JSON (script bóc code fence nếu có); (2) hợp lệ theo `InvoiceDraft.model_validate_json`, kể cả validator checksum MST; (3) đúng nghĩa: tên người mua, MST, thuế suất và tổng tiền khớp đáp án. Mẫu không hợp lệ tính là sai ở mọi cột phía sau.
 
 ### 3.2. Kết quả
 
-{{L1_TABLE}}
+| Chế độ | Parse được JSON | Hợp lệ Pydantic | MST đúng | Tổng tiền đúng | Đúng mọi trường | Token TB | Giây / mẫu |
+|---|---|---|---|---|---|---|---|
+| Prompt thuần | 100% | 13% | 13% | 10% | 7% | 120 | 12,8 |
+| JSON mode | 100% | 13% | 13% | 10% | 7% | 119 | 11,6 |
+| **Ràng buộc theo schema** | 100% | **100%** | 100% | 80% | **47%** | 121 | 12,1 |
+
+*Số đo thật, 30 tin nhắn, `scripts/bench/bench_llm.py` (l1). Mọi tỉ lệ tính trên toàn bộ 30 mẫu.*
 
 <!-- placeholder-modes -->
 
-{{L1_DISCUSSION}}
+<!-- fig:modes -->
+<figure markdown="span">
+  ![Số đo thật: tỷ lệ output hợp lệ theo schema Pydantic ở ba chế độ sinh, cùng model và cùng prompt](assets/figures/15/modes.light.svg#only-light){ loading=lazy }
+  ![Số đo thật: tỷ lệ output hợp lệ theo schema Pydantic ở ba chế độ sinh, cùng model và cùng prompt](assets/figures/15/modes.dark.svg#only-dark){ loading=lazy }
+  <figcaption>Hình 15.3 — Số đo thật: tỷ lệ output hợp lệ theo schema Pydantic ở ba chế độ sinh, cùng model và cùng prompt.</figcaption>
+</figure>
+<!-- /fig -->
+
+Bốn điều rút ra:
+
+1. **JSON mode không thêm được gì ở đây.** Với schema nằm sẵn trong prompt, model 0,5B đã sinh JSON parse được 100% ngay ở chế độ prompt thuần. Lỗi không nằm ở cú pháp mà ở **schema**: thông điệp lỗi lặp đi lặp lại là `vat_rate: Input should be '0', '5', '8' or '10'` và `buyer_tax_code: String should match pattern '^[0-9]{10}$'`. Nhìn vào output thô: model viết `"vat_rate": "5%"` (chép nguyên từ tin nhắn) và `"buyer_tax_code": "MST 1651728626"`, có khi chỉ còn `"MST"`. Cả hai đều là JSON hoàn hảo. JSON mode chỉ đảm bảo cú pháp, nên kết quả trùng với prompt thuần: 13% hợp lệ.
+2. **Ràng buộc theo schema: 100% hợp lệ**, từ 13%. Grammar chỉ cho phép đúng bốn chuỗi của `vat_rate` và đúng 10 chữ số cho MST, nên hai lớp lỗi trên biến mất. Validator checksum MST vẫn **không** nằm trong grammar. Nó qua được vì model chép đúng 10 chữ số từ tin nhắn, không phải vì grammar biết checksum.
+3. **Hợp lệ ≠ đúng.** Ngay cả khi 100% output hợp lệ, chỉ **47% đúng mọi trường**: tổng tiền đúng 80%, phần sai còn lại nằm ở tên người mua hoặc thuế suất. Một ví dụ thật, tin nhắn #2: *"Tiệm bánh Hoa Sữa – MST: 3224729919. Đơn hàng: … VAT 10%."* Ở chế độ ràng buộc, model trả `"buyer_name": "Hoàn vũ"`, một cái tên không có trong tin nhắn. MST và thuế suất thì đúng, nên output qua mọi validator. Grammar chỉ biết `buyer_name` là chuỗi dài 1–120 ký tự; nó không biết chuỗi đó phải lấy từ input. Constrained decoding biến lỗi hình dạng thành không thể, còn lỗi nội dung thì không. Vì vậy cần đo song song **tỉ lệ hợp lệ** và **độ chính xác trên tập có đáp án**.
+4. **Không tốn thêm thời gian đáng kể**: số token gần như bằng nhau (~121), thời gian mỗi mẫu 11,6–12,8 giây ở cả ba chế độ. Chênh lệch này nằm trong nhiễu đo; mục 3.3 tách riêng chi phí của mask.
 
 ### 3.3. Chi phí của ràng buộc
 
-{{L3_TEXT}}
+Thí nghiệm `l3` tách riêng các khoản chi phí của xgrammar trên cùng model:
+
+| Khoản | Số đo |
+|---|---|
+| Biên dịch grammar từ JSON Schema của `InvoiceDraft` (một lần, cache được) | 1.127 ms |
+| Biên dịch ngữ pháp JSON tổng quát | 25 ms |
+| Sinh mỗi token, không ràng buộc | 94,3 ms |
+| Sinh mỗi token, ràng buộc theo schema | 96,3 ms |
+| Tính mask cho một bước (`fill_next_token_bitmask`, vocab 151.936 token), p50 / p99 | 8 µs / 958 µs |
+
+*Số đo thật, CPU 4 luồng, `bench_llm.py` (l3).*
+
+Ràng buộc làm mỗi token chậm thêm 2,1 ms, tức **2%**. Tính mask tốn **8 µs** ở trung vị, so với 94,3 ms cho một lượt forward của model. Đuôi p99 khoảng 1,0 ms ứng với các bước có token **phụ thuộc ngữ cảnh**, phải kiểm cả ngăn xếp lúc chạy. Đây chính là thiết kế của XGrammar: phần lớn token có mask tính trước, chỉ số ít phải kiểm khi sinh.
+
+Khoản đáng kể là **biên dịch grammar**: 1,1 giây cho schema `InvoiceDraft`, gấp khoảng 46 lần ngữ pháp JSON tổng quát. Nó chỉ chạy một lần cho mỗi schema, nên hãy biên dịch lúc khởi động (lifespan, Module 07) hoặc cache theo hash của schema. **Đừng** biên dịch trong mỗi request.
 
 <!-- placeholder-overhead -->
+
+<!-- fig:overhead -->
+<figure markdown="span">
+  ![Số đo thật: chi phí của constrained decoding — compile grammar, thời gian mỗi token, thời gian tính mask](assets/figures/15/overhead.light.svg#only-light){ loading=lazy }
+  ![Số đo thật: chi phí của constrained decoding — compile grammar, thời gian mỗi token, thời gian tính mask](assets/figures/15/overhead.dark.svg#only-dark){ loading=lazy }
+  <figcaption>Hình 15.4 — Số đo thật: chi phí của constrained decoding — compile grammar, thời gian mỗi token, thời gian tính mask.</figcaption>
+</figure>
+<!-- /fig -->
 
 ### 3.4. Nghiên cứu: ràng buộc có làm model "kém thông minh" hơn?
 
@@ -158,6 +219,14 @@ tool_schema = TypeAdapter(tra_cuu_hoa_don).json_schema()       # → đưa vào 
 
 <!-- placeholder-tools -->
 
+<!-- fig:tools -->
+<figure markdown="span">
+  ![Tool calling: chữ ký hàm Python → model Pydantic → JSON Schema gửi cho LLM → arguments được validate trước khi gọi](assets/figures/15/tools.light.svg#only-light){ loading=lazy }
+  ![Tool calling: chữ ký hàm Python → model Pydantic → JSON Schema gửi cho LLM → arguments được validate trước khi gọi](assets/figures/15/tools.dark.svg#only-dark){ loading=lazy }
+  <figcaption>Hình 15.5 — Tool calling: chữ ký hàm Python → model Pydantic → JSON Schema gửi cho LLM → arguments được validate trước khi gọi.</figcaption>
+</figure>
+<!-- /fig -->
+
 Khi LLM trả về lời gọi, **`validate_call` kiểm đối số trước khi hàm chạy**. Đối số sai kiểu hoặc sai pattern thì ném `ValidationError`, và bạn trả lỗi đó lại cho LLM như một tool result để nó sửa. Đây cũng là cách **MCP** (Model Context Protocol) định nghĩa tool: tên, mô tả, `inputSchema` là JSON Schema. Các SDK Python của MCP dùng Pydantic để sinh `inputSchema` từ type hint.
 
 Đánh giá năng lực gọi hàm: **BFCL** (Berkeley Function Calling Leaderboard, Patil và cộng sự, **ICML 2025**) chấm điểm lời gọi bằng so khớp **cây cú pháp (AST)** của đối số. Kết luận chính của bài: model tốt đã làm rất tốt lời gọi **một lượt**, nhưng nhiều lượt, trí nhớ và quyết định dài hạn vẫn là bài toán mở. Với `ai-gateway`, điều đó có nghĩa là nên giữ tool **ít, hẹp, chỉ đọc**, và kiểm từng lời gọi.
@@ -182,9 +251,26 @@ Nhưng giả định "độc lập" thường **sai**: model sai vì một lý d
 
 ### 5.2. Số đo
 
-{{L2_TEXT}}
+Thí nghiệm `l2` lấy chế độ prompt thuần ở mục 3. Mỗi khi output không hợp lệ, script gửi lại cho model chính output đó kèm thông điệp lỗi của Pydantic, tối đa 3 lần gọi.
+
+| | Sau 1 lần gọi | Sau 2 lần | Sau 3 lần |
+|---|---|---|---|
+| Lý thuyết nếu độc lập, $p = 0,13$ | 13% | 25% | 35% |
+| **Đo được** | 13% | 13% | **13%** |
+
+Retry **không sửa được case nào**: 26 case lỗi ở lần đầu vẫn lỗi ở cả hai lần sau, dù model nhận đủ thông điệp lỗi. Tổng cộng 82 lời gọi LLM thay vì 30, gấp 2,7 lần chi phí mà không thêm được một output hợp lệ nào. Đây là lỗi **tương quan hoàn toàn**: model nhỏ không biết sửa `"5%"` thành `"5"` dù được chỉ ra. Trong khi đó, ràng buộc theo schema đạt 100% chỉ với **một** lần gọi.
+
+Model lớn hơn sửa lỗi theo phản hồi tốt hơn nhiều, nên con số cụ thể này không tổng quát hóa. Điều tổng quát hóa được là phương pháp: **đo $p$ ở lần đầu và tỉ lệ sửa được của từng lần retry**, đừng giả định độc lập. Nếu engine hỗ trợ, ràng buộc ngay từ lúc sinh rẻ hơn sửa sau.
 
 <!-- placeholder-retry -->
+
+<!-- fig:retry -->
+<figure markdown="span">
+  ![Số đo thật: validate–retry đưa lỗi Pydantic trở lại prompt; số case hợp lệ sau mỗi lượt](assets/figures/15/retry.light.svg#only-light){ loading=lazy }
+  ![Số đo thật: validate–retry đưa lỗi Pydantic trở lại prompt; số case hợp lệ sau mỗi lượt](assets/figures/15/retry.dark.svg#only-dark){ loading=lazy }
+  <figcaption>Hình 15.6 — Số đo thật: validate–retry đưa lỗi Pydantic trở lại prompt; số case hợp lệ sau mỗi lượt.</figcaption>
+</figure>
+<!-- /fig -->
 
 ### 5.3. Cài đặt
 
@@ -224,9 +310,22 @@ Nhân viên CS không muốn nhìn màn hình trống 20 giây. Ta muốn hiện
 
 Pydantic có **partial validation**: `TypeAdapter.validate_json(prefix, experimental_allow_partial="trailing-strings")` parse một **tiền tố** JSON và validate phần đã có. Thí nghiệm `l4` cho một JSON hóa đơn nháp dài 399 ký tự, validate lại ở **mọi** tiền tố:
 
-{{L4_TABLE}}
+| Model dùng để validate tiền tố | Tiền tố validate được | Tiền tố hợp lệ đầu tiên | Validate lại ở mọi ký tự (tổng) | Validate một lần bản đầy đủ |
+|---|---|---|---|---|
+| `InvoiceDraft` (trường bắt buộc) | 8% | ký tự 160 | 4,1 ms | 10 µs |
+| `DraftPreview` (mọi trường tùy chọn) | 100% | ký tự 1 | 3,4 ms | 10 µs |
+
+*Số đo thật, JSON 399 ký tự, `bench_llm.py` (l4).*
 
 <!-- placeholder-partial -->
+
+<!-- fig:partial -->
+<figure markdown="span">
+  ![Số đo thật: validate từng tiền tố của output đang stream; model 'preview' với trường tùy chọn hợp lệ ở mọi bước](assets/figures/15/partial.light.svg#only-light){ loading=lazy }
+  ![Số đo thật: validate từng tiền tố của output đang stream; model 'preview' với trường tùy chọn hợp lệ ở mọi bước](assets/figures/15/partial.dark.svg#only-dark){ loading=lazy }
+  <figcaption>Hình 15.7 — Số đo thật: validate từng tiền tố của output đang stream; model 'preview' với trường tùy chọn hợp lệ ở mọi bước.</figcaption>
+</figure>
+<!-- /fig -->
 
 Hai bài học:
 
@@ -263,6 +362,14 @@ Với `ai-gateway`, email của khách hàng **chính là** dữ liệu đó. M�
 
 <!-- placeholder-security -->
 
+<!-- fig:security -->
+<figure markdown="span">
+  ![Output hợp lệ về cú pháp vẫn có thể độc: các lớp kiểm soát sau validate](assets/figures/15/security.light.svg#only-light){ loading=lazy }
+  ![Output hợp lệ về cú pháp vẫn có thể độc: các lớp kiểm soát sau validate](assets/figures/15/security.dark.svg#only-dark){ loading=lazy }
+  <figcaption>Hình 15.8 — Output hợp lệ về cú pháp vẫn có thể độc: các lớp kiểm soát sau validate.</figcaption>
+</figure>
+<!-- /fig -->
+
 | Lớp | Biện pháp | Module |
 |---|---|---|
 | Hình dạng output | constrained decoding / schema strict + `model_validate_json` | 15 |
@@ -280,6 +387,14 @@ Nguyên tắc tổng quát giống hệt Module 01: **ranh giới tin cậy**. M
 ## 8. Case Mekong Cloud: pipeline draft của `ai-gateway`
 
 <!-- placeholder-pipeline -->
+
+<!-- fig:pipeline -->
+<figure markdown="span">
+  ![Pipeline ai-gateway đầy đủ: grammar → stream → validate từng phần → validate cuối → nghiệp vụ](assets/figures/15/pipeline.light.svg#only-light){ loading=lazy }
+  ![Pipeline ai-gateway đầy đủ: grammar → stream → validate từng phần → validate cuối → nghiệp vụ](assets/figures/15/pipeline.dark.svg#only-dark){ loading=lazy }
+  <figcaption>Hình 15.9 — Pipeline ai-gateway đầy đủ: grammar → stream → validate từng phần → validate cuối → nghiệp vụ.</figcaption>
+</figure>
+<!-- /fig -->
 
 | Bước | Lựa chọn | Lý do |
 |---|---|---|
@@ -324,7 +439,7 @@ Nguyên tắc tổng quát giống hệt Module 01: **ranh giới tin cậy**. M
 <details markdown="1">
 <summary>Đáp án</summary>
 
-JSON mode chỉ đảm bảo **cú pháp**. `{"vat_rate": "5%"}` là JSON hợp lệ nhưng sai schema (`Literal["0","5","8","10"]`). Thí nghiệm cho thấy JSON mode có tỉ lệ parse như prompt thuần ở model nhỏ, nhưng tỉ lệ hợp lệ schema không cải thiện. Ràng buộc theo schema loại bỏ cả lớp lỗi về kiểu, enum, pattern, độ dài.
+JSON mode chỉ đảm bảo **cú pháp**. `{"vat_rate": "5%"}` là JSON hợp lệ nhưng sai schema (`Literal["0","5","8","10"]`). Trong thí nghiệm `l1`, prompt thuần và JSON mode đều parse được 100% nhưng chỉ 13% hợp lệ theo schema; ràng buộc theo schema đạt 100%. Ràng buộc theo schema loại bỏ cả lớp lỗi về kiểu, enum, pattern, độ dài.
 
 </details>
 
@@ -351,7 +466,7 @@ Regex mô tả ngôn ngữ chính quy, mà ngôn ngữ chính quy được nhậ
 <details markdown="1">
 <summary>Đáp án</summary>
 
-Thành công $= 1 - 0{,}4^3 = 93{,}6\%$. Số lần gọi kỳ vọng $= (1 - 0{,}4^3)/0{,}6 = 1{,}56$. Giả định độc lập thường sai: lỗi có hệ thống (thiếu thông tin trong input, schema mơ hồ) lặp lại ở các lần sau, nên tỉ lệ thực tế thấp hơn. Thí nghiệm `l2` đo trực tiếp điều này. Gửi kèm lỗi Pydantic giúp phần nào.
+Thành công $= 1 - 0{,}4^3 = 93{,}6\%$. Số lần gọi kỳ vọng $= (1 - 0{,}4^3)/0{,}6 = 1{,}56$. Giả định độc lập thường sai: lỗi có hệ thống (thiếu thông tin trong input, schema mơ hồ) lặp lại ở các lần sau, nên tỉ lệ thực tế thấp hơn. Thí nghiệm `l2` đo trực tiếp điều này: với model 0,5B, tỉ lệ hợp lệ đứng yên ở 13% qua cả ba lần gọi, so với 35% theo lý thuyết. Gửi kèm lỗi Pydantic giúp được với model đủ mạnh, nhưng phải đo, không giả định.
 
 </details>
 

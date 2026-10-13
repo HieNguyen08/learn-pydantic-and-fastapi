@@ -3,54 +3,66 @@
   "model": "Qwen/Qwen2.5-0.5B-Instruct",
   "summary": {
    "prompt": {
-    "n": 2,
+    "n": 30,
     "parse": 1.0,
-    "valid": 0.0,
-    "all_fields_correct": 0.0,
-    "mst_correct": 0.0,
-    "total_correct": 0.0,
-    "tokens": 141.5,
-    "seconds": 13.092877722499907,
+    "valid": 0.13333333333333333,
+    "all_fields_correct": 0.06666666666666667,
+    "mst_correct": 0.13333333333333333,
+    "total_correct": 0.1,
+    "tokens": 119.83333333333333,
+    "seconds": 12.778121977066743,
     "errors": [
      "buyer_tax_code: String should match pattern '^[0-9]{10}$'; vat_rate: Input should be '0', '5', '8' or '10'",
-     "buyer_tax_code: String should match pattern '^[0-9]{10}$'; vat_rate: Input should be '0', '5', '8' or '10'; lines.2.quantity: Input should be less than or equal to 1000"
+     "buyer_tax_code: String should match pattern '^[0-9]{10}$'; vat_rate: Input should be '0', '5', '8' or '10'; lines.2.quantity: Input should be less than or equal to 1000",
+     "buyer_tax_code: String should match pattern '^[0-9]{10}$'; vat_rate: Input should be '0', '5', '8' or '10'",
+     "vat_rate: Input should be '0', '5', '8' or '10'",
+     "buyer_tax_code: String should match pattern '^[0-9]{10}$'; vat_rate: Input should be '0', '5', '8' or '10'",
+     "buyer_tax_code: String should match pattern '^[0-9]{10}$'; vat_rate: Input should be '0', '5', '8' or '10'",
+     "buyer_tax_code: String should match pattern '^[0-9]{10}$'; vat_rate: Input should be '0', '5', '8' or '10'",
+     "vat_rate: Input should be '0', '5', '8' or '10'"
     ]
    },
    "json": {
-    "n": 2,
+    "n": 30,
     "parse": 1.0,
-    "valid": 0.0,
-    "all_fields_correct": 0.0,
-    "mst_correct": 0.0,
-    "total_correct": 0.0,
-    "tokens": 139.5,
-    "seconds": 12.708417244999964,
+    "valid": 0.13333333333333333,
+    "all_fields_correct": 0.06666666666666667,
+    "mst_correct": 0.13333333333333333,
+    "total_correct": 0.1,
+    "tokens": 118.83333333333333,
+    "seconds": 11.637479412333384,
     "errors": [
      "buyer_tax_code: String should match pattern '^[0-9]{10}$'; vat_rate: Input should be '0', '5', '8' or '10'",
-     "buyer_tax_code: String should match pattern '^[0-9]{10}$'; vat_rate: Input should be '0', '5', '8' or '10'; lines.2.quantity: Input should be less than or equal to 1000"
+     "buyer_tax_code: String should match pattern '^[0-9]{10}$'; vat_rate: Input should be '0', '5', '8' or '10'; lines.2.quantity: Input should be less than or equal to 1000",
+     "buyer_tax_code: String should match pattern '^[0-9]{10}$'; vat_rate: Input should be '0', '5', '8' or '10'",
+     "vat_rate: Input should be '0', '5', '8' or '10'",
+     "buyer_tax_code: String should match pattern '^[0-9]{10}$'; vat_rate: Input should be '0', '5', '8' or '10'",
+     "buyer_tax_code: String should match pattern '^[0-9]{10}$'; vat_rate: Input should be '0', '5', '8' or '10'",
+     "buyer_tax_code: String should match pattern '^[0-9]{10}$'; vat_rate: Input should be '0', '5', '8' or '10'",
+     "vat_rate: Input should be '0', '5', '8' or '10'"
     ]
    },
    "schema": {
-    "n": 2,
+    "n": 30,
     "parse": 1.0,
     "valid": 1.0,
-    "all_fields_correct": 0.5,
+    "all_fields_correct": 0.4666666666666667,
     "mst_correct": 1.0,
-    "total_correct": 0.5,
-    "tokens": 140.0,
-    "seconds": 13.144560234999972,
+    "total_correct": 0.8,
+    "tokens": 121.3,
+    "seconds": 12.060875992333392,
     "errors": []
    }
   },
-  "compile_schema_ms": 1167.2529890001897,
-  "compile_json_ms": 16.207972000302107,
-  "cases": 2
+  "compile_schema_ms": 1127.4387819994445,
+  "compile_json_ms": 24.59920000001148,
+  "cases": 30
  },
  "l2_retry": {
   "valid_by_attempts": [
-   0.0,
-   0.0,
-   0.0
+   0.13333333333333333,
+   0.13333333333333333,
+   0.13333333333333333
   ],
   "rows": [
    {
@@ -62,6 +74,146 @@
     "first_valid": false,
     "final_valid": false,
     "attempts": 3
+   },
+   {
+    "first_valid": false,
+    "final_valid": false,
+    "attempts": 3
+   },
+   {
+    "first_valid": true,
+    "final_valid": true,
+    "attempts": 1
+   },
+   {
+    "first_valid": false,
+    "final_valid": false,
+    "attempts": 3
+   },
+   {
+    "first_valid": true,
+    "final_valid": true,
+    "attempts": 1
+   },
+   {
+    "first_valid": false,
+    "final_valid": false,
+    "attempts": 3
+   },
+   {
+    "first_valid": false,
+    "final_valid": false,
+    "attempts": 3
+   },
+   {
+    "first_valid": false,
+    "final_valid": false,
+    "attempts": 3
+   },
+   {
+    "first_valid": false,
+    "final_valid": false,
+    "attempts": 3
+   },
+   {
+    "first_valid": false,
+    "final_valid": false,
+    "attempts": 3
+   },
+   {
+    "first_valid": false,
+    "final_valid": false,
+    "attempts": 3
+   },
+   {
+    "first_valid": false,
+    "final_valid": false,
+    "attempts": 3
+   },
+   {
+    "first_valid": false,
+    "final_valid": false,
+    "attempts": 3
+   },
+   {
+    "first_valid": false,
+    "final_valid": false,
+    "attempts": 3
+   },
+   {
+    "first_valid": false,
+    "final_valid": false,
+    "attempts": 3
+   },
+   {
+    "first_valid": false,
+    "final_valid": false,
+    "attempts": 3
+   },
+   {
+    "first_valid": true,
+    "final_valid": true,
+    "attempts": 1
+   },
+   {
+    "first_valid": false,
+    "final_valid": false,
+    "attempts": 3
+   },
+   {
+    "first_valid": false,
+    "final_valid": false,
+    "attempts": 3
+   },
+   {
+    "first_valid": false,
+    "final_valid": false,
+    "attempts": 3
+   },
+   {
+    "first_valid": false,
+    "final_valid": false,
+    "attempts": 3
+   },
+   {
+    "first_valid": false,
+    "final_valid": false,
+    "attempts": 3
+   },
+   {
+    "first_valid": false,
+    "final_valid": false,
+    "attempts": 3
+   },
+   {
+    "first_valid": false,
+    "final_valid": false,
+    "attempts": 3
+   },
+   {
+    "first_valid": false,
+    "final_valid": false,
+    "attempts": 3
+   },
+   {
+    "first_valid": false,
+    "final_valid": false,
+    "attempts": 3
+   },
+   {
+    "first_valid": false,
+    "final_valid": false,
+    "attempts": 3
+   },
+   {
+    "first_valid": false,
+    "final_valid": false,
+    "attempts": 3
+   },
+   {
+    "first_valid": true,
+    "final_valid": true,
+    "attempts": 1
    }
   ]
  },
@@ -242,5 +394,15 @@
     }
    ]
   }
+ },
+ "l3_overhead": {
+  "compile_schema_ms": 1127.4387819994445,
+  "compile_json_ms": 24.59920000001148,
+  "ms_per_token_prompt": 94.28087770833524,
+  "ms_per_token_schema": 96.33313825833436,
+  "mask_us_p50": 7.569999979750719,
+  "mask_us_p99": 957.6440006640041,
+  "mask_tokens": 118,
+  "vocab": 151936
  }
 }

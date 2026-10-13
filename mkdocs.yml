@@ -117,3 +117,5 @@ nav:
       - "12 · Testing & chất lượng": 12-testing-va-chat-luong.md
       - "13 · Production & observability": 13-production-va-observability.md
       - "14 · Capstone: thiết kế hệ thống": 14-capstone-thiet-ke-he-thong.md
+  - "Phần V · Chuyên đề":
+      - "15 · Pydantic cho LLM": 15-pydantic-cho-llm.md
