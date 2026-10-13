@@ -112,3 +112,5 @@ nav:
       - "06 · Hiệu năng Pydantic": 06-hieu-nang-pydantic.md
   - "Phần III · FastAPI":
       - "07 · Vòng đời request": 07-fastapi-vong-doi-request.md
+      - "08 · Dependency injection": 08-dependency-injection.md
+      - "09 · Async, đồng thời & hiệu năng": 09-async-dong-thoi-hieu-nang.md

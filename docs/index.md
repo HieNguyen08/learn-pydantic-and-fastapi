@@ -58,8 +58,8 @@ Hai dịch vụ cố ý trái ngược nhau — **CPU-bound, nhiều request ng�
 | | [05 · Serialization, JSON Schema & settings](05-serialization-json-schema-settings.md) | model_dump, alias, computed field, JSON Schema 2020-12, pydantic-settings | 45' |
 | | [06 · Hiệu năng Pydantic](06-hieu-nang-pydantic.md) | Benchmark thật 9 cách validate, mô hình chi phí, khi nào cần tối ưu | 45' |
 | **III · FastAPI** | [07 · Vòng đời request](07-fastapi-vong-doi-request.md) | Từ chữ ký hàm đến response, response_model, middleware, OpenAPI, SSE | 50' |
-| | 08 · Dependency injection | IoC, đồ thị dependency, yield, cache, override | 40' |
-| | 09 · Async, đồng thời & hiệu năng | Event loop vs threadpool, Little, M/M/c, worker, tail latency | 55' |
+| | [08 · Dependency injection](08-dependency-injection.md) | IoC, đồ thị dependency, yield, cache, override | 40' |
+| | [09 · Async, đồng thời & hiệu năng](09-async-dong-thoi-hieu-nang.md) | Event loop vs threadpool, Little, M/M/c, worker, tail latency | 55' |
 | | 10 · Database & persistence | SQLAlchemy async, transaction, pool, N+1, migration, idempotency, RLS | 50' |
 | | 11 · Bảo mật API | OAuth2/JWT, Argon2id, OWASP API Top 10, BOLA, rate limit, DoS | 50' |
 | **IV · Vận hành** | 12 · Testing & chất lượng | Override, property-based, fuzz theo schema, breaking change | 45' |

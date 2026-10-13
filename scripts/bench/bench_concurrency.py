@@ -211,7 +211,23 @@ def e8_middleware(res):
     res["e8_middleware"] = out
 
 
-EXPS = dict(e1=e1_io_modes, e2=e2_head_of_line, e3=e3_workers, e4=e4_open_loop, e5=e5_deps, e6=e6_threads, e7=e7_uvicorn_variants, e8=e8_middleware)
+def e9_nagle(res):
+    """Độ trễ một request (1 kết nối) theo vòng lặp sự kiện × số worker: tìm độ trễ ~40 ms do Nagle."""
+    out = []
+    for loop in ("asyncio", "uvloop"):
+        for w in (1, 2):
+            p = start_server(workers=w, http="httptools", loop=loop)
+            try:
+                r = load("closed", "/health", c=1, d=3)
+                r.update(loop=loop, workers=w)
+                out.append(r)
+                log(f"e9 {loop} workers={w}", r)
+            finally:
+                stop(p)
+    res["e9_nagle"] = out
+
+
+EXPS = dict(e1=e1_io_modes, e2=e2_head_of_line, e3=e3_workers, e4=e4_open_loop, e5=e5_deps, e6=e6_threads, e7=e7_uvicorn_variants, e8=e8_middleware, e9=e9_nagle)
 
 
 def main():
