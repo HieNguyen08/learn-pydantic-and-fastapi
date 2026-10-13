@@ -96,9 +96,6 @@ extra:
     - icon: fontawesome/brands/github
       link: https://github.com/HieNguyen08/learn-pydantic-and-fastapi
 
-not_in_nav: |
-  /slides/
-
 nav:
   - Trang chủ: index.md
   - "Phần I · Nền tảng":
@@ -119,3 +116,4 @@ nav:
   - "Phần IV · Chất lượng & vận hành":
       - "12 · Testing & chất lượng": 12-testing-va-chat-luong.md
       - "13 · Production & observability": 13-production-va-observability.md
+      - "14 · Capstone: thiết kế hệ thống": 14-capstone-thiet-ke-he-thong.md

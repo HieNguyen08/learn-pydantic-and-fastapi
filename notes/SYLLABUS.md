@@ -21,12 +21,11 @@ Mỗi module chỉ đi sâu phần của mình; chủ đề thuộc module khác
 | 14 | 14-capstone-thiet-ke-he-thong.md | Capstone: thiết kế invoice-api + ai-gateway, câu hỏi system design | 55' |
 | 15 | 15-pydantic-cho-llm.md | Chuyên đề: structured output, tool calling, constrained decoding, SSE | 50' |
 | L | labs/ | 6 lab chạy trên CPU | ~2 giờ |
-| S | slides/ | Slide seminar (reveal.js + PDF) | 60–90' |
 
 ## Chi tiết
 
 ### 00 — Tổng quan
-Vì sao dữ liệu ở ranh giới hệ thống là nguồn lỗi số 1. Lịch sử Pydantic (2017 → v2 Rust 2023 → 2.14) và FastAPI (2018 → 0.143), Starlette 1.0 (03/2026). Số liệu hệ sinh thái (lượt tải, khảo sát JetBrains/PSF). Hai dịch vụ của Mekong Cloud và vì sao chọn hai workload trái ngược. Bản đồ kiến thức, lịch học, cách dùng slide.
+Vì sao dữ liệu ở ranh giới hệ thống là nguồn lỗi số 1. Lịch sử Pydantic (2017 → v2 Rust 2023 → 2.14) và FastAPI (2018 → 0.143), Starlette 1.0 (03/2026). Số liệu hệ sinh thái (lượt tải, khảo sát JetBrains/PSF). Hai dịch vụ của Mekong Cloud và vì sao chọn hai workload trái ngược. Bản đồ kiến thức, lịch học.
 
 ### 01 — Kiểu dữ liệu & validation (lý thuyết)
 Kiểu là gì (tập giá trị + phép toán), static vs dynamic, strong vs weak, nominal vs structural (Protocol), soundness. Gradual typing (Siek & Taha 2006), type `Any`, "Is sound gradual typing dead?" (Takikawa 2016) → vì sao Python chọn *unsound, erased* hints. Lịch sử PEP 484/526/544/585/593/604/646/695/747/649. Bằng chứng thực nghiệm: Gao 2017 (15%), Khan 2021 (15% mypy), Di Grazia & Pradel 2022. Static check không thay được runtime validation ở ranh giới: tin cậy, nguồn dữ liệu. "Parse, don't validate" (King 2019) – smart constructor, kiểu bất biến. LangSec (Sassaman, Patterson, Bratus 2011/2013): shotgun parser, máy nhận dạng đủ mạnh, parser differential. Postel và RFC 9413. Lý thuyết tập/lattice của coercion (lax vs strict là hai hàm parse khác nhau). Ứng dụng: biên dịch quy tắc hóa đơn thành kiểu.

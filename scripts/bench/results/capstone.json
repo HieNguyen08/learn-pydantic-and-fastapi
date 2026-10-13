@@ -1,0 +1,299 @@
+{
+ "c1_budget": [
+  {
+   "part": "kiểm JWT EdDSA + Principal",
+   "us": 148.12687550011105
+  },
+  {
+   "part": "validate InvoiceIn (12 dòng, model_validate_json)",
+   "us": 57.586697500028095
+  },
+  {
+   "part": "băm model cho idempotency (model_dump_json + sha256)",
+   "us": 16.315362000113964
+  },
+  {
+   "part": "GCRA trên Redis (1 round trip)",
+   "us": 135.74399963545147
+  },
+  {
+   "part": "transaction Postgres (8 câu lệnh, RLS, commit)",
+   "us": 6788.629500078969
+  },
+  {
+   "part": "TOÀN BỘ POST /v1/invoices (trong tiến trình)",
+   "us": 8419.084000252042
+  },
+  {
+   "part": "TOÀN BỘ — p99",
+   "us": 14828.880000095523
+  }
+ ],
+ "c2_load": [
+  {
+   "codes": {
+    "201": 784
+   },
+   "timeout": 0,
+   "error": 0,
+   "rate": 100,
+   "ok_per_s": 98.0,
+   "p50": 13.93167797505157,
+   "p90": 32.35434111866198,
+   "p99": 100.35887609137717,
+   "server_cpu_ms_per_req": 6.377551020408164,
+   "workers": 1,
+   "layer": "sqlalchemy"
+  },
+  {
+   "codes": {
+    "503": 18,
+    "201": 1559
+   },
+   "timeout": 0,
+   "error": 0,
+   "rate": 200,
+   "ok_per_s": 194.875,
+   "p50": 55.09910197361023,
+   "p90": 302.53901672949723,
+   "p99": 686.2047159938811,
+   "server_cpu_ms_per_req": 5.523145212428661,
+   "workers": 1,
+   "layer": "sqlalchemy"
+  },
+  {
+   "codes": {
+    "503": 736,
+    "201": 1657
+   },
+   "timeout": 2,
+   "error": 0,
+   "rate": 300,
+   "ok_per_s": 207.125,
+   "p50": 265.6746024349559,
+   "p90": 661.5312502117376,
+   "p99": 1292.5663867199546,
+   "server_cpu_ms_per_req": 3.786042624320936,
+   "workers": 1,
+   "layer": "sqlalchemy"
+  },
+  {
+   "codes": {
+    "503": 1477,
+    "201": 1690
+   },
+   "timeout": 1,
+   "error": 0,
+   "rate": 400,
+   "ok_per_s": 211.25,
+   "p50": 281.275512227694,
+   "p90": 600.543815268793,
+   "p99": 1220.8016801341728,
+   "server_cpu_ms_per_req": 2.8765393116514058,
+   "workers": 1,
+   "layer": "sqlalchemy"
+  },
+  {
+   "codes": {
+    "201": 784
+   },
+   "timeout": 0,
+   "error": 0,
+   "rate": 100,
+   "ok_per_s": 98.0,
+   "p50": 7.905687025413499,
+   "p90": 13.104510351695353,
+   "p99": 27.08358949439571,
+   "server_cpu_ms_per_req": 3.533163265306122,
+   "workers": 1,
+   "layer": "asyncpg"
+  },
+  {
+   "codes": {
+    "201": 1577
+   },
+   "timeout": 0,
+   "error": 0,
+   "rate": 200,
+   "ok_per_s": 197.125,
+   "p50": 8.716900804756733,
+   "p90": 17.061438430573617,
+   "p99": 38.33663835575862,
+   "server_cpu_ms_per_req": 3.0691185795814837,
+   "workers": 1,
+   "layer": "asyncpg"
+  },
+  {
+   "codes": {
+    "201": 2395
+   },
+   "timeout": 0,
+   "error": 0,
+   "rate": 300,
+   "ok_per_s": 299.375,
+   "p50": 20.908175706608745,
+   "p90": 112.31814106486127,
+   "p99": 167.96936383343564,
+   "server_cpu_ms_per_req": 3.131524008350731,
+   "workers": 1,
+   "layer": "asyncpg"
+  },
+  {
+   "codes": {
+    "201": 2576,
+    "503": 592
+   },
+   "timeout": 0,
+   "error": 0,
+   "rate": 400,
+   "ok_per_s": 322.0,
+   "p50": 158.1773795214758,
+   "p90": 279.8544974984907,
+   "p99": 525.0206253085707,
+   "server_cpu_ms_per_req": 2.749368686868687,
+   "workers": 1,
+   "layer": "asyncpg"
+  },
+  {
+   "codes": {
+    "503": 496,
+    "201": 3474
+   },
+   "timeout": 0,
+   "error": 0,
+   "rate": 500,
+   "ok_per_s": 434.25,
+   "p50": 135.80198686031508,
+   "p90": 169.5465246330059,
+   "p99": 300.03852687696053,
+   "server_cpu_ms_per_req": 2.206549118387909,
+   "workers": 1,
+   "layer": "asyncpg"
+  },
+  {
+   "codes": {
+    "201": 2395
+   },
+   "timeout": 0,
+   "error": 0,
+   "rate": 300,
+   "ok_per_s": 299.375,
+   "p50": 24.1746784586212,
+   "p90": 54.100646513688844,
+   "p99": 107.12946958028624,
+   "server_cpu_ms_per_req": 5.678496868475992,
+   "workers": 2,
+   "layer": "sqlalchemy"
+  },
+  {
+   "codes": {
+    "503": 607,
+    "201": 3362
+   },
+   "timeout": 1,
+   "error": 0,
+   "rate": 500,
+   "ok_per_s": 420.25,
+   "p50": 207.88150685712026,
+   "p90": 534.2722309851524,
+   "p99": 1013.4050335382199,
+   "server_cpu_ms_per_req": 4.499874023683548,
+   "workers": 2,
+   "layer": "sqlalchemy"
+  },
+  {
+   "codes": {
+    "503": 2370,
+    "201": 3206
+   },
+   "timeout": 1,
+   "error": 0,
+   "rate": 700,
+   "ok_per_s": 400.75,
+   "p50": 276.25842738234496,
+   "p90": 669.8307486039994,
+   "p99": 1274.8189813792123,
+   "server_cpu_ms_per_req": 3.2209469153515062,
+   "workers": 2,
+   "layer": "sqlalchemy"
+  },
+  {
+   "codes": {
+    "201": 3168
+   },
+   "timeout": 0,
+   "error": 0,
+   "rate": 400,
+   "ok_per_s": 396.0,
+   "p50": 9.417967271474481,
+   "p90": 18.64529407248483,
+   "p99": 32.37902762793965,
+   "server_cpu_ms_per_req": 3.1755050505050506,
+   "workers": 2,
+   "layer": "asyncpg"
+  },
+  {
+   "codes": {
+    "201": 4765
+   },
+   "timeout": 0,
+   "error": 0,
+   "rate": 600,
+   "ok_per_s": 595.625,
+   "p50": 23.653011912756483,
+   "p90": 53.16705330187688,
+   "p99": 96.29603097528161,
+   "server_cpu_ms_per_req": 2.814270724029381,
+   "workers": 2,
+   "layer": "asyncpg"
+  },
+  {
+   "codes": {
+    "503": 802,
+    "201": 5552
+   },
+   "timeout": 0,
+   "error": 0,
+   "rate": 800,
+   "ok_per_s": 694.0,
+   "p50": 133.90386831997603,
+   "p90": 237.53097971075476,
+   "p99": 429.0538976692915,
+   "server_cpu_ms_per_req": 2.365439093484419,
+   "workers": 2,
+   "layer": "asyncpg"
+  }
+ ],
+ "c3_db_layer_cpu": [
+  {
+   "case": "SQLAlchemy text(): transaction POST đầy đủ",
+   "cpu_ms": 3.3986619075000046,
+   "wall_ms": 5.910741999998663
+  },
+  {
+   "case": "asyncpg thuần: transaction POST đầy đủ",
+   "cpu_ms": 0.8022841400000047,
+   "wall_ms": 2.193969897500665
+  },
+  {
+   "case": "SQLAlchemy: chỉ executemany 12 dòng",
+   "cpu_ms": 1.5205196600000017,
+   "wall_ms": 3.08599672750006
+  },
+  {
+   "case": "SQLAlchemy: transaction rỗng (begin + set_config + commit)",
+   "cpu_ms": 0.953819100000004,
+   "wall_ms": 1.146134919999895
+  },
+  {
+   "case": "SQLAlchemy: 8 × select 1",
+   "cpu_ms": 2.138658420000006,
+   "wall_ms": 2.66537316250151
+  },
+  {
+   "case": "asyncpg thuần: 8 × select 1",
+   "cpu_ms": 0.4540795399999986,
+   "wall_ms": 0.7273411174992361
+  }
+ ]
+}

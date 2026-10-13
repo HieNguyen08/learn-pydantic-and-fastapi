@@ -4,7 +4,7 @@
 
 Website: https://hienguyen08.github.io/learn-pydantic-and-fastapi/
 
-Giáo trình tiếng Việt ~12 giờ phần lõi và ~1,5 giờ chuyên đề: 16 module lý thuyết (lý thuyết + sơ đồ cơ chế + số liệu đo thật + case thực tế), 6 lab chạy trên CPU và bộ slide seminar.
+Giáo trình tiếng Việt ~12 giờ phần lõi và ~1,5 giờ chuyên đề: 16 module lý thuyết (lý thuyết + sơ đồ cơ chế + số liệu đo thật + case thực tế) và 6 lab chạy trên CPU.
 
 | Phần | Module |
 |---|---|
@@ -13,7 +13,7 @@ Giáo trình tiếng Việt ~12 giờ phần lõi và ~1,5 giờ chuyên đề: 
 | III · FastAPI | 07 Vòng đời request · 08 Dependency injection · 09 Async & đồng thời · 10 Database · 11 Bảo mật API |
 | IV · Vận hành | 12 Testing · 13 Production & observability · 14 Capstone thiết kế hệ thống |
 | V · Chuyên đề | 15 Pydantic cho LLM |
-| Thực hành | Lab 01–06 (`docs/labs/`) · Slide seminar (`docs/slides/`) |
+| Thực hành | Lab 01–06 (`docs/labs/`) |
 
 ## Chạy website trên máy
 
@@ -44,7 +44,6 @@ docs/                 nội dung website (Markdown)
   00-…md … 15-…md     các module lý thuyết
   assets/figures/     hình SVG (bản sáng + tối), sinh bằng scripts/figures
   labs/               lab thực hành
-  slides/             slide seminar
 scripts/bench/        benchmark và kết quả JSON
 scripts/figures/      code vẽ hình (chNN.py) và spec chèn hình (specs/mNN.py)
 notes/                style guide và syllabus

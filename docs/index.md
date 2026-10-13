@@ -7,7 +7,7 @@ hide:
 
 **Từ lý thuyết kiểu dữ liệu đến hệ thống API production — xoay quanh hai dịch vụ của một công ty SaaS: API hóa đơn điện tử và AI gateway.**
 
-Giáo trình tiếng Việt khoảng **12 giờ học phần lõi** (Module 00–14, Lab 01–05) cộng **~1,5 giờ chuyên đề** (Module 15, Lab 06), kèm **bộ slide seminar**. Mọi khái niệm đi theo cùng một nhịp: *vấn đề → trực giác → lý thuyết (có ví dụ số) → code chạy được → cách vận hành bên trong → trade-off → case thực tế*. Khác với tài liệu hướng dẫn thông thường, mỗi module có **8–15 hình**: sơ đồ quy trình, sơ đồ cơ chế bên trong và **đồ thị số liệu đo thật** bằng script trong repo.
+Giáo trình tiếng Việt khoảng **12 giờ học phần lõi** (Module 00–14, Lab 01–05) cộng **~1,5 giờ chuyên đề** (Module 15, Lab 06). Mọi khái niệm đi theo cùng một nhịp: *vấn đề → trực giác → lý thuyết (có ví dụ số) → code chạy được → cách vận hành bên trong → trade-off → case thực tế*. Khác với tài liệu hướng dẫn thông thường, mỗi module có **8–15 hình**: sơ đồ quy trình, sơ đồ cơ chế bên trong và **đồ thị số liệu đo thật** bằng script trong repo.
 
 <div class="grid cards" markdown>
 
@@ -64,10 +64,9 @@ Hai dịch vụ cố ý trái ngược nhau — **CPU-bound, nhiều request ng�
 | | [11 · Bảo mật API](11-bao-mat-api.md) | OAuth2/JWT, Argon2id, OWASP API Top 10, BOLA, rate limit, DoS | 50' |
 | **IV · Vận hành** | [12 · Testing & chất lượng](12-testing-va-chat-luong.md) | Override, property-based, fuzz theo schema, breaking change | 45' |
 | | [13 · Production & observability](13-production-va-observability.md) | Process model, probe, OTel, SLO, retry/jitter, metastable failure | 50' |
-| | 14 · Capstone | Thiết kế end-to-end hai dịch vụ, câu hỏi system design | 55' |
+| | [14 · Capstone](14-capstone-thiet-ke-he-thong.md) | Thiết kế end-to-end hai dịch vụ, câu hỏi system design | 55' |
 | **V · Chuyên đề** | 15 · Pydantic cho LLM | Structured output, constrained decoding, tool calling, validate–retry | 50' |
 | **Thực hành** | Labs 01–06 | Code chạy trên CPU, tái tạo mọi số liệu trong bài | ~2 giờ |
-| **Seminar** | Slide thuyết trình | Bộ slide 60–90 phút, bản web và PDF | — |
 
 ```mermaid
 flowchart LR
@@ -90,7 +89,7 @@ flowchart LR
     - API chậm, cần tối ưu → 06, 09, 10, 13, Lab 02, Lab 04.
     - Làm backend cho LLM/agent → 05, 07 (SSE), 09, 15, Lab 06.
     - Chuẩn bị phỏng vấn backend → *Câu hỏi tự kiểm tra* cuối mỗi module và Module 14.
-- **Giảng seminar** → slide đi theo mạch 00 → 01 → 03 → 06 → 07 → 09 → 14, mỗi slide ghi rõ module nguồn để người nghe đọc tiếp.
+- **Chuẩn bị seminar** → đi theo mạch 00 → 01 → 03 → 06 → 07 → 09 → 14; phần tóm tắt và hình của mỗi module dùng lại được.
 
 !!! tip "Đọc số liệu benchmark"
     Mọi con số đo trong khóa được chạy trên một container **4 vCPU, Python 3.13**. Chạy lại trên máy bạn sẽ ra số khác — hãy so **tỷ lệ** và **hình dạng đường cong**, đó mới là thứ mang theo được sang máy khác.

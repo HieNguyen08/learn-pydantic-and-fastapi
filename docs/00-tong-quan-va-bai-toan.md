@@ -12,7 +12,7 @@ Sau module này, bạn có thể:
 2. Mô tả vai trò của Pydantic và FastAPI trong một service Python, và vị trí của chúng trong hệ sinh thái (số liệu sử dụng, dự án tiêu biểu).
 3. Trình bày hai dịch vụ của case study Mekong Cloud và ước lượng tải của chúng bằng chuỗi nhân Fermi.
 4. Chỉ ra vì sao hai dịch vụ đòi hỏi **quyết định thiết kế khác nhau** (async/sync, số worker, timeout).
-5. Chọn lộ trình học phù hợp với mục tiêu của mình trong 16 module, 6 lab và bộ slide.
+5. Chọn lộ trình học phù hợp với mục tiêu của mình trong 16 module và 6 lab.
 
 ---
 
@@ -240,7 +240,7 @@ Khóa học chia năm phần:
 4. **Chất lượng & vận hành (12–14)** — testing, production, observability, capstone thiết kế hệ thống.
 5. **Chuyên đề (15)** — Pydantic cho LLM: structured output, constrained decoding, tool calling.
 
-Song song có **6 lab** chạy trên CPU (mỗi lab tái tạo số liệu của một module) và **bộ slide seminar** tóm lược khóa học trong 60–90 phút.
+Song song có **6 lab** chạy trên CPU, mỗi lab tái tạo số liệu của một module.
 
 | Mục tiêu | Lộ trình đề xuất |
 |---|---|
@@ -249,7 +249,7 @@ Song song có **6 lab** chạy trên CPU (mỗi lab tái tạo số liệu của
 | Làm backend cho LLM/agent | 05 → 07 (SSE) → 09 → 15 → Lab 06 |
 | Hiểu nền tảng lý thuyết | 01 → 02 → 03 → 09 → 12 |
 | Chuẩn bị phỏng vấn | câu hỏi cuối mỗi module → 14 |
-| Chuẩn bị giảng seminar | slide → 00, 01, 03, 06, 07, 09, 14 |
+| Chuẩn bị giảng seminar | 00, 01, 03, 06, 07, 09, 14 |
 
 ---
 

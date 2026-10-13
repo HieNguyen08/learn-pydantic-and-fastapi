@@ -1,7 +1,7 @@
 # STYLE GUIDE — Pydantic & FastAPI Masterclass (dành cho người viết module)
 
 Khóa học: **"Pydantic & FastAPI từ nền tảng đến hệ thống production — xoay quanh hai dịch vụ thật của Mekong Cloud: API hóa đơn điện tử và AI gateway"**.
-Tổng thời lượng: ~12 giờ phần lõi (Module 00–14, Lab 01–05) và ~1,5 giờ phần mở rộng (Module 15, Lab 06). Mỗi module là một "buổi giảng" 40–55 phút. Có kèm bộ slide seminar (`docs/slides/`).
+Tổng thời lượng: ~12 giờ phần lõi (Module 00–14, Lab 01–05) và ~1,5 giờ phần mở rộng (Module 15, Lab 06). Mỗi module là một "buổi giảng" 40–55 phút.
 
 ## 1. Người học
 

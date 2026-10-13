@@ -24,3 +24,5 @@ $ROOT/.venv/bin/python bench_security.py
 # Module 12 (t2 cần PG_DSN) và Module 13
 $ROOT/.venv/bin/python bench_testing.py
 $ROOT/.venv/bin/python bench_production.py
+# Module 14: invoice-api đầy đủ (cần PG_DSN và REDIS_URL như trên)
+$ROOT/.venv/bin/python bench_capstone.py

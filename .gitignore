@@ -8,3 +8,4 @@ __pycache__/
 scripts/bench/results/*.sqlite
 .hypothesis/
 .schemathesis/
+scripts/bench/results/_capstone_keys/
