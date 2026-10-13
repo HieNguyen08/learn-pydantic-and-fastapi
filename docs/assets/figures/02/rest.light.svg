@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="645.12pt" height="246.565161pt" viewBox="0 0 645.12 246.565161" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 246.565161 
+L 645.12 246.565161 
+L 645.12 0 
+L 0 0 
+L 0 246.565161 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 22.110968 107.953548 
+L 209.125161 107.953548 
+Q 215.256774 107.953548 215.256774 101.821935 
+L 215.256774 37.44 
+Q 215.256774 31.308387 209.125161 31.308387 
+L 22.110968 31.308387 
+Q 15.979355 31.308387 15.979355 37.44 
+L 15.979355 101.821935 
+Q 15.979355 107.953548 22.110968 107.953548 
+z
+" clip-path="url(#p2e8904cd86)" style="fill: #e0f0e0; stroke: #008300; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 231.607742 107.953548 
+L 418.621935 107.953548 
+Q 424.753548 107.953548 424.753548 101.821935 
+L 424.753548 37.44 
+Q 424.753548 31.308387 418.621935 31.308387 
+L 231.607742 31.308387 
+Q 225.476129 31.308387 225.476129 37.44 
+L 225.476129 101.821935 
+Q 225.476129 107.953548 231.607742 107.953548 
+z
+" clip-path="url(#p2e8904cd86)" style="fill: #e0f0e0; stroke: #008300; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 441.104516 107.953548 
+L 628.11871 107.953548 
+Q 634.250323 107.953548 634.250323 101.821935 
+L 634.250323 37.44 
+Q 634.250323 31.308387 628.11871 31.308387 
+L 441.104516 31.308387 
+Q 434.972903 31.308387 434.972903 37.44 
+L 434.972903 101.821935 
+Q 434.972903 107.953548 441.104516 107.953548 
+z
+" clip-path="url(#p2e8904cd86)" style="fill: #e0f0e0; stroke: #008300; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 22.110968 210.147097 
+L 209.125161 210.147097 
+Q 215.256774 210.147097 215.256774 204.015484 
+L 215.256774 139.633548 
+Q 215.256774 133.501935 209.125161 133.501935 
+L 22.110968 133.501935 
+Q 15.979355 133.501935 15.979355 139.633548 
+L 15.979355 204.015484 
+Q 15.979355 210.147097 22.110968 210.147097 
+z
+" clip-path="url(#p2e8904cd86)" style="fill: #e0f0e0; stroke: #008300; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 231.607742 210.147097 
+L 418.621935 210.147097 
+Q 424.753548 210.147097 424.753548 204.015484 
+L 424.753548 139.633548 
+Q 424.753548 133.501935 418.621935 133.501935 
+L 231.607742 133.501935 
+Q 225.476129 133.501935 225.476129 139.633548 
+L 225.476129 204.015484 
+Q 225.476129 210.147097 231.607742 210.147097 
+z
+" clip-path="url(#p2e8904cd86)" style="fill: #f9f9f9; stroke-dasharray: 5.18,2.24; stroke-dashoffset: 0; stroke: #8a8984; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 441.104516 210.147097 
+L 628.11871 210.147097 
+Q 634.250323 210.147097 634.250323 204.015484 
+L 634.250323 139.633548 
+Q 634.250323 133.501935 628.11871 133.501935 
+L 441.104516 133.501935 
+Q 434.972903 133.501935 434.972903 139.633548 
+L 434.972903 204.015484 
+Q 434.972903 210.147097 441.104516 210.147097 
+z
+" clip-path="url(#p2e8904cd86)" style="fill: #e0f0e0; stroke: #008300; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 8.8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #1b1b1a" x="26.19871" y="51.747097" transform="rotate(-0 26.19871 51.747097)">Client–server</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 7.8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #52514e" x="26.19871" y="80.979426" transform="rotate(-0 26.19871 80.979426)">tách UI và lưu trữ</text>
+   </g>
+   <g id="text_3">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: end; fill: #008300" x="205.037419" y="51.747097" transform="rotate(-0 205.037419 51.747097)">invoice-api: có</text>
+   </g>
+   <g id="text_4">
+    <text style="font-weight: 700; font-size: 8.8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #1b1b1a" x="235.695484" y="51.747097" transform="rotate(-0 235.695484 51.747097)">Stateless</text>
+   </g>
+   <g id="text_5">
+    <text style="font-size: 7.8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #52514e" transform="translate(235.695484 82.346407)">mỗi request đủ thông tin</text>
+    <text style="font-size: 7.8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #52514e" transform="translate(235.695484 92.099758)">→ worker nào cũng xử lý được</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: end; fill: #008300" x="414.534194" y="51.747097" transform="rotate(-0 414.534194 51.747097)">invoice-api: có</text>
+   </g>
+   <g id="text_7">
+    <text style="font-weight: 700; font-size: 8.8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #1b1b1a" x="445.192258" y="51.747097" transform="rotate(-0 445.192258 51.747097)">Cache</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 7.8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #52514e" x="445.192258" y="81.341395" transform="rotate(-0 445.192258 81.341395)">response tự đánh dấu</text>
+   </g>
+   <g id="text_9">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: end; fill: #008300" x="624.030968" y="51.747097" transform="rotate(-0 624.030968 51.747097)">invoice-api: có</text>
+   </g>
+   <g id="text_10">
+    <text style="font-weight: 700; font-size: 8.8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #1b1b1a" x="26.19871" y="153.940645" transform="rotate(-0 26.19871 153.940645)">Uniform interface</text>
+   </g>
+   <g id="text_11">
+    <text style="font-size: 7.8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #52514e" transform="translate(26.19871 183.641737)">URI, representation,</text>
+    <text style="font-size: 7.8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #52514e" transform="translate(26.19871 193.395088)">thông điệp tự mô tả</text>
+   </g>
+   <g id="text_12">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: end; fill: #008300" x="205.037419" y="153.940645" transform="rotate(-0 205.037419 153.940645)">invoice-api: có</text>
+   </g>
+   <g id="text_13">
+    <text style="font-weight: 700; font-size: 8.8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #1b1b1a" x="235.695484" y="153.940645" transform="rotate(-0 235.695484 153.940645)">HATEOAS</text>
+   </g>
+   <g id="text_14">
+    <text style="font-size: 7.8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #52514e" x="235.695484" y="183.759194" transform="rotate(-0 235.695484 183.759194)">hypermedia dẫn đường</text>
+   </g>
+   <g id="text_15">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: end; fill: #8a8984" x="414.534194" y="153.940645" transform="rotate(-0 414.534194 153.940645)">bỏ qua (client POS lập trình sẵn)</text>
+   </g>
+   <g id="text_16">
+    <text style="font-weight: 700; font-size: 8.8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #1b1b1a" x="445.192258" y="153.940645" transform="rotate(-0 445.192258 153.940645)">Layered system</text>
+   </g>
+   <g id="text_17">
+    <text style="font-size: 7.8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #52514e" x="445.192258" y="183.534944" transform="rotate(-0 445.192258 183.534944)">LB, proxy trong suốt</text>
+   </g>
+   <g id="text_18">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: end; fill: #008300" x="624.030968" y="153.940645" transform="rotate(-0 624.030968 153.940645)">invoice-api: có</text>
+   </g>
+   <g id="text_19">
+    <text style="font-weight: 700; font-size: 9.4px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #1b1b1a" x="15.979355" y="18.534194" transform="rotate(-0 15.979355 18.534194)">Ràng buộc REST (Fielding 2000) và lựa chọn của invoice-api</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p2e8904cd86">
+   <rect x="5.76" y="5.76" width="633.6" height="235.045161"/>
+  </clipPath>
+ </defs>
+</svg>

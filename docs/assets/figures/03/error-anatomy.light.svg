@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="673.92pt" height="280.62pt" viewBox="0 0 673.92 280.62" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 280.62 
+L 673.92 280.62 
+L 673.92 0 
+L 0 0 
+L 0 280.62 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 22.32 243.81 
+L 289.35 243.81 
+Q 295.56 243.81 295.56 237.6 
+L 295.56 53.37 
+Q 295.56 47.16 289.35 47.16 
+L 22.32 47.16 
+Q 16.11 47.16 16.11 53.37 
+L 16.11 237.6 
+Q 16.11 243.81 22.32 243.81 
+z
+" clip-path="url(#p9d68c42a44)" style="fill: #eef4fc; stroke: #2a78d6; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 384.57 202.41 
+L 651.6 202.41 
+Q 657.81 202.41 657.81 196.2 
+L 657.81 63.72 
+Q 657.81 57.51 651.6 57.51 
+L 384.57 57.51 
+Q 378.36 57.51 378.36 63.72 
+L 378.36 196.2 
+Q 378.36 202.41 384.57 202.41 
+z
+" clip-path="url(#p9d68c42a44)" style="fill: #ebf5eb; stroke: #008300; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 298.1475 93.735 
+Q 336.96 102.015 374.569728 110.038409 
+" clip-path="url(#p9d68c42a44)" style="fill: none; stroke: #52514e; stroke-width: 1.1; stroke-linecap: round"/>
+    <path d="M 370.376095 106.689761 
+L 374.569728 110.038409 
+L 369.37463 111.384127 
+z
+" clip-path="url(#p9d68c42a44)" style="fill: #52514e; stroke: #52514e; stroke-width: 1.1; stroke-linecap: round"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 298.1475 119.61 
+Q 336.96 129.18375 374.578452 138.462968 
+" clip-path="url(#p9d68c42a44)" style="fill: none; stroke: #52514e; stroke-width: 1.1; stroke-linecap: round"/>
+    <path d="M 370.492908 134.983265 
+L 374.578452 138.462968 
+L 369.343363 139.643582 
+z
+" clip-path="url(#p9d68c42a44)" style="fill: #52514e; stroke: #52514e; stroke-width: 1.1; stroke-linecap: round"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 298.1475 197.235 
+Q 336.96 181.71 374.630625 166.64175 
+" clip-path="url(#p9d68c42a44)" style="fill: none; stroke: #52514e; stroke-width: 1.1; stroke-linecap: round"/>
+    <path d="M 369.282599 166.196081 
+L 374.630625 166.64175 
+L 371.065274 170.652769 
+z
+" clip-path="url(#p9d68c42a44)" style="fill: #52514e; stroke: #52514e; stroke-width: 1.1; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 8.8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #2a78d6" x="26.46" y="67.86" transform="rotate(-0 26.46 67.86)">Một phần tử của e.errors()</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: start; fill: #1b1b1a" x="26.46" y="98.91" transform="rotate(-0 26.46 98.91)">type:  'greater_than'</text>
+   </g>
+   <g id="text_3">
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: start; fill: #1b1b1a" x="26.46" y="124.785" transform="rotate(-0 26.46 124.785)">loc:   ('lines', 0, 'quantity')</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: start; fill: #1b1b1a" x="26.46" y="150.66" transform="rotate(-0 26.46 150.66)">msg:   'Input should be greater than 0'</text>
+   </g>
+   <g id="text_5">
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: start; fill: #1b1b1a" x="26.46" y="176.535" transform="rotate(-0 26.46 176.535)">input: -2</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: start; fill: #1b1b1a" x="26.46" y="202.41" transform="rotate(-0 26.46 202.41)">ctx:   {'gt': 0.0}</text>
+   </g>
+   <g id="text_7">
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: start; fill: #1b1b1a" x="26.46" y="228.285" transform="rotate(-0 26.46 228.285)">url:   https://errors.pydantic.dev/…</text>
+   </g>
+   <g id="text_8">
+    <text style="font-weight: 700; font-size: 8.8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #008300" x="388.71" y="78.21" transform="rotate(-0 388.71 78.21)">Problem Details (RFC 9457) · errors[i]</text>
+   </g>
+   <g id="text_9">
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: start; fill: #1b1b1a" x="388.71" y="114.435" transform="rotate(-0 388.71 114.435)">"field": "lines.0.quantity"</text>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: start; fill: #1b1b1a" x="388.71" y="142.8975" transform="rotate(-0 388.71 142.8975)">"code": "greater_than"</text>
+   </g>
+   <g id="text_11">
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: start; fill: #1b1b1a" x="388.71" y="171.36" transform="rotate(-0 388.71 171.36)">"message": "Phải lớn hơn 0"</text>
+   </g>
+   <g id="text_12">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #e34948" transform="translate(305.91 215.276562)">input: KHÔNG trả lại, KHÔNG log</text>
+    <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #e34948" transform="translate(305.91 225.6975)">(có thể là mật khẩu, số thẻ)</text>
+   </g>
+   <g id="text_13">
+    <text style="font-weight: 700; font-size: 9.2px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #1b1b1a" x="16.11" y="23.8725" transform="rotate(-0 16.11 23.8725)">Dùng type + ctx + loc để dựng thông báo; msg chỉ để người đọc</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p9d68c42a44">
+   <rect x="5.76" y="5.76" width="662.4" height="269.1"/>
+  </clipPath>
+ </defs>
+</svg>
