@@ -109,3 +109,6 @@ nav:
       - "03 · Pydantic v2: kiến trúc": 03-pydantic-v2-kien-truc.md
       - "04 · Validator, kiểu tùy biến & union": 04-validators-kieu-tuy-bien-union.md
       - "05 · Serialization, JSON Schema & settings": 05-serialization-json-schema-settings.md
+      - "06 · Hiệu năng Pydantic": 06-hieu-nang-pydantic.md
+  - "Phần III · FastAPI":
+      - "07 · Vòng đời request": 07-fastapi-vong-doi-request.md

@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="688.32pt" height="298.647273pt" viewBox="0 0 688.32 298.647273" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 298.647273 
+L 688.32 298.647273 
+L 688.32 0 
+L 0 0 
+L 0 298.647273 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 22.167273 149.323636 
+L 163.68 149.323636 
+Q 169.832727 149.323636 169.832727 143.170909 
+L 169.832727 73.44 
+Q 169.832727 67.287273 163.68 67.287273 
+L 22.167273 67.287273 
+Q 16.014545 67.287273 16.014545 73.44 
+L 16.014545 143.170909 
+Q 16.014545 149.323636 22.167273 149.323636 
+z
+" clip-path="url(#pe9da7766e2)" style="fill: #1d3028; stroke: #199e70; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 188.803636 149.323636 
+L 330.316364 149.323636 
+Q 336.469091 149.323636 336.469091 143.170909 
+L 336.469091 73.44 
+Q 336.469091 67.287273 330.316364 67.287273 
+L 188.803636 67.287273 
+Q 182.650909 67.287273 182.650909 73.44 
+L 182.650909 143.170909 
+Q 182.650909 149.323636 188.803636 149.323636 
+z
+" clip-path="url(#pe9da7766e2)" style="fill: #222d38; stroke: #3987e5; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 355.44 149.323636 
+L 496.952727 149.323636 
+Q 503.105455 149.323636 503.105455 143.170909 
+L 503.105455 73.44 
+Q 503.105455 67.287273 496.952727 67.287273 
+L 355.44 67.287273 
+Q 349.287273 67.287273 349.287273 73.44 
+L 349.287273 143.170909 
+Q 349.287273 149.323636 355.44 149.323636 
+z
+" clip-path="url(#pe9da7766e2)" style="fill: #38261d; stroke: #d95926; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 522.076364 149.323636 
+L 663.589091 149.323636 
+Q 669.741818 149.323636 669.741818 143.170909 
+L 669.741818 73.44 
+Q 669.741818 67.287273 663.589091 67.287273 
+L 522.076364 67.287273 
+Q 515.923636 67.287273 515.923636 73.44 
+L 515.923636 143.170909 
+Q 515.923636 149.323636 522.076364 149.323636 
+z
+" clip-path="url(#pe9da7766e2)" style="fill: #3a2826; stroke: #e66767; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 22.167273 262.123636 
+L 163.68 262.123636 
+Q 169.832727 262.123636 169.832727 255.970909 
+L 169.832727 186.24 
+Q 169.832727 180.087273 163.68 180.087273 
+L 22.167273 180.087273 
+Q 16.014545 180.087273 16.014545 186.24 
+L 16.014545 255.970909 
+Q 16.014545 262.123636 22.167273 262.123636 
+z
+" clip-path="url(#pe9da7766e2)" style="fill: #2e2c39; stroke: #9085e9; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 188.803636 262.123636 
+L 330.316364 262.123636 
+Q 336.469091 262.123636 336.469091 255.970909 
+L 336.469091 186.24 
+Q 336.469091 180.087273 330.316364 180.087273 
+L 188.803636 180.087273 
+Q 182.650909 180.087273 182.650909 186.24 
+L 182.650909 255.970909 
+Q 182.650909 262.123636 188.803636 262.123636 
+z
+" clip-path="url(#pe9da7766e2)" style="fill: #38252a; stroke: #d55181; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 355.44 262.123636 
+L 496.952727 262.123636 
+Q 503.105455 262.123636 503.105455 255.970909 
+L 503.105455 186.24 
+Q 503.105455 180.087273 496.952727 180.087273 
+L 355.44 180.087273 
+Q 349.287273 180.087273 349.287273 186.24 
+L 349.287273 255.970909 
+Q 349.287273 262.123636 355.44 262.123636 
+z
+" clip-path="url(#pe9da7766e2)" style="fill: #1a2c18; stroke: #008300; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 522.076364 262.123636 
+L 663.589091 262.123636 
+Q 669.741818 262.123636 669.741818 255.970909 
+L 669.741818 186.24 
+Q 669.741818 180.087273 663.589091 180.087273 
+L 522.076364 180.087273 
+Q 515.923636 180.087273 515.923636 186.24 
+L 515.923636 255.970909 
+Q 515.923636 262.123636 522.076364 262.123636 
+z
+" clip-path="url(#pe9da7766e2)" style="fill: #362c18; stroke: #c98500; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 9.2px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #f2f1ec" x="16.014545" y="26.269091" transform="rotate(-0 16.014545 26.269091)">POST /v1/invoices — mỗi phần do module nào phụ trách</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(45.377386 105.112955)">RequestBodyLimit 2 MB</text>
+    <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(57.881136 115.912955)">RequestId · CORS</text>
+   </g>
+   <g id="text_3">
+    <text style="font-weight: 700; font-size: 7.4px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: end; fill: #199e70" x="162.141818" y="80.105455" transform="rotate(-0 162.141818 80.105455)">M07</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(233.129375 105.887955)">inv: InvoiceIn</text>
+    <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(242.105 116.260455)">tầng 1–3</text>
+   </g>
+   <g id="text_5">
+    <text style="font-weight: 700; font-size: 7.4px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: end; fill: #3987e5" x="328.778182" y="80.105455" transform="rotate(-0 328.778182 80.105455)">M03–05</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #f2f1ec" x="426.196364" y="110.512955" transform="rotate(-0 426.196364 110.512955)">Idempotency-Key</text>
+   </g>
+   <g id="text_7">
+    <text style="font-weight: 700; font-size: 7.4px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: end; fill: #d95926" x="495.414545" y="80.105455" transform="rotate(-0 495.414545 80.105455)">M02, 10</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(563.284602 104.77108)">current_tenant</text>
+    <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(557.132102 116.260455)">(xác thực, tầng 4)</text>
+   </g>
+   <g id="text_9">
+    <text style="font-weight: 700; font-size: 7.4px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: end; fill: #e66767" x="662.050909" y="80.105455" transform="rotate(-0 662.050909 80.105455)">M08, 11</text>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(67.686136 217.801705)">invoice_repo</text>
+    <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(68.583011 228.37108)">create_once</text>
+   </g>
+   <g id="text_11">
+    <text style="font-weight: 700; font-size: 7.4px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: end; fill: #9085e9" x="162.141818" y="192.905455" transform="rotate(-0 162.141818 192.905455)">M08, 10</text>
+   </g>
+   <g id="text_12">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(238.12 217.912955)">async def?</text>
+    <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(235.78 228.712955)">threadpool?</text>
+   </g>
+   <g id="text_13">
+    <text style="font-weight: 700; font-size: 7.4px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: end; fill: #d55181" x="328.778182" y="192.905455" transform="rotate(-0 328.778182 192.905455)">M09</text>
+   </g>
+   <g id="text_14">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(398.576364 218.687955)">-&gt; InvoiceOut</text>
+    <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(395.748239 229.487955)">201 + Location</text>
+   </g>
+   <g id="text_15">
+    <text style="font-weight: 700; font-size: 7.4px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: end; fill: #008300" x="495.414545" y="192.905455" transform="rotate(-0 495.414545 192.905455)">M05, 07</text>
+   </g>
+   <g id="text_16">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(561.340852 218.687955)">Problem Details</text>
+    <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(576.215227 229.102955)">422/409</text>
+   </g>
+   <g id="text_17">
+    <text style="font-weight: 700; font-size: 7.4px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: end; fill: #c98500" x="662.050909" y="192.905455" transform="rotate(-0 662.050909 192.905455)">M07</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pe9da7766e2">
+   <rect x="5.76" y="5.76" width="676.8" height="287.127273"/>
+  </clipPath>
+ </defs>
+</svg>

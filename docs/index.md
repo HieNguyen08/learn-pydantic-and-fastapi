@@ -56,8 +56,8 @@ Hai dịch vụ cố ý trái ngược nhau — **CPU-bound, nhiều request ng�
 | **II · Pydantic** | [03 · Pydantic v2: kiến trúc](03-pydantic-v2-kien-truc.md) | Core schema, pydantic-core (Rust), lax/strict, cấu trúc lỗi, TypeAdapter | 50' |
 | | [04 · Validator, kiểu tùy biến & union](04-validators-kieu-tuy-bien-union.md) | before/after/wrap/plain, Annotated pipeline, discriminated union, generic | 50' |
 | | [05 · Serialization, JSON Schema & settings](05-serialization-json-schema-settings.md) | model_dump, alias, computed field, JSON Schema 2020-12, pydantic-settings | 45' |
-| | 06 · Hiệu năng Pydantic | Benchmark thật 9 cách validate, mô hình chi phí, khi nào cần tối ưu | 45' |
-| **III · FastAPI** | 07 · Vòng đời request | Từ chữ ký hàm đến response, response_model, middleware, OpenAPI, SSE | 50' |
+| | [06 · Hiệu năng Pydantic](06-hieu-nang-pydantic.md) | Benchmark thật 9 cách validate, mô hình chi phí, khi nào cần tối ưu | 45' |
+| **III · FastAPI** | [07 · Vòng đời request](07-fastapi-vong-doi-request.md) | Từ chữ ký hàm đến response, response_model, middleware, OpenAPI, SSE | 50' |
 | | 08 · Dependency injection | IoC, đồ thị dependency, yield, cache, override | 40' |
 | | 09 · Async, đồng thời & hiệu năng | Event loop vs threadpool, Little, M/M/c, worker, tail latency | 55' |
 | | 10 · Database & persistence | SQLAlchemy async, transaction, pool, N+1, migration, idempotency, RLS | 50' |
