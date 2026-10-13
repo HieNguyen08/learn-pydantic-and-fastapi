@@ -44,14 +44,14 @@ Mekong Cloud (công ty SaaS hư cấu, cũng là công ty trong [RAG Masterclass
 1. **`invoice-api`** — API công khai để máy POS/ERP của khách hàng tạo và tra cứu **hóa đơn điện tử**. Nhiều request ngắn, payload lồng nhau, quy tắc nghiệp vụ chặt (mã số thuế, thuế suất, tổng tiền), không được phép sai hay lộ dữ liệu giữa các doanh nghiệp.
 2. **`ai-gateway`** — backend của hệ thống AI tư vấn khách hàng qua Zendesk: nhận webhook, gọi LLM mất 5–30 giây, ép output theo schema, stream bản nháp tới giao diện của agent CS.
 
-Hai dịch vụ cố ý trái ngược nhau — **CPU-bound, nhiều request ngắn** và **I/O-bound, ít request dài** — để mọi quyết định (async hay sync, bao nhiêu worker, pool bao nhiêu kết nối, timeout bao lâu) đều phải lập luận bằng số. Xem chi tiết ở Module 00.
+Hai dịch vụ cố ý trái ngược nhau — **CPU-bound, nhiều request ngắn** và **I/O-bound, ít request dài** — để mọi quyết định (async hay sync, bao nhiêu worker, pool bao nhiêu kết nối, timeout bao lâu) đều phải lập luận bằng số. Xem chi tiết ở [Module 00](00-tong-quan-va-bai-toan.md).
 
 ## Mục lục
 
 | Phần | Module | Nội dung chính | Thời lượng |
 |---|---|---|---|
-| **I · Nền tảng** | 00 · Tổng quan & bài toán | Case Mekong Cloud, hệ sinh thái, bản đồ kiến thức | 20' |
-| | 01 · Kiểu dữ liệu & validation | Gradual typing, *parse, don't validate*, LangSec, bằng chứng thực nghiệm | 45' |
+| **I · Nền tảng** | [00 · Tổng quan & bài toán](00-tong-quan-va-bai-toan.md) | Case Mekong Cloud, hệ sinh thái, bản đồ kiến thức | 20' |
+| | [01 · Kiểu dữ liệu & validation](01-kieu-du-lieu-va-validation.md) | Gradual typing, *parse, don't validate*, LangSec, bằng chứng thực nghiệm | 45' |
 | | 02 · HTTP, REST & ASGI | Ngữ nghĩa HTTP, REST, WSGI/ASGI, event loop, GIL & free-threading | 50' |
 | **II · Pydantic** | 03 · Pydantic v2: kiến trúc | Core schema, pydantic-core (Rust), lax/strict, cấu trúc lỗi, TypeAdapter | 50' |
 | | 04 · Validator, kiểu tùy biến & union | before/after/wrap/plain, Annotated pipeline, discriminated union, generic | 50' |

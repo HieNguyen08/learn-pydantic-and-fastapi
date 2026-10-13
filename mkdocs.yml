@@ -101,3 +101,6 @@ not_in_nav: |
 
 nav:
   - Trang chủ: index.md
+  - "Phần I · Nền tảng":
+      - "00 · Tổng quan & bài toán": 00-tong-quan-va-bai-toan.md
+      - "01 · Kiểu dữ liệu & validation": 01-kieu-du-lieu-va-validation.md
