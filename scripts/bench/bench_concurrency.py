@@ -196,7 +196,22 @@ def e7_uvicorn_variants(res):
     res["e7_uvicorn_variants"] = out
 
 
-EXPS = dict(e1=e1_io_modes, e2=e2_head_of_line, e3=e3_workers, e4=e4_open_loop, e5=e5_deps, e6=e6_threads, e7=e7_uvicorn_variants)
+def e8_middleware(res):
+    """BaseHTTPMiddleware (cũng là @app.middleware("http")) so với ASGI middleware thuần, server thật."""
+    out = []
+    for kind, k in (("none", 0), ("base", 1), ("base", 2), ("base", 5), ("asgi", 1), ("asgi", 5)):
+        p = start_server(env_extra={"MW_KIND": kind, "MW_K": str(k)}, http="httptools", loop="uvloop")
+        try:
+            r = load("closed", "/health", c=32, d=5)
+            r.update(kind=kind, layers=k)
+            out.append(r)
+            log(f"e8 {kind} x{k}", r)
+        finally:
+            stop(p)
+    res["e8_middleware"] = out
+
+
+EXPS = dict(e1=e1_io_modes, e2=e2_head_of_line, e3=e3_workers, e4=e4_open_loop, e5=e5_deps, e6=e6_threads, e7=e7_uvicorn_variants, e8=e8_middleware)
 
 
 def main():

@@ -14,3 +14,5 @@ $ROOT/.venv/bin/python bench_gil.py
 taskset -c 1 $ROOT/.venv/bin/python bench_pagination.py
 taskset -c 1 $ROOT/.venv/bin/python bench_validators.py
 $ROOT/.venv/bin/python bench_schema_diff.py
+$ROOT/.venv/bin/python bench_breakdown.py
+taskset -c 1 $ROOT/.venv/bin/python bench_inside_fastapi.py

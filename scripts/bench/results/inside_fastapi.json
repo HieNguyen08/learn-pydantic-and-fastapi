@@ -1,0 +1,64 @@
+{
+ "variants": [
+  {
+   "name": "GET /health (dict)",
+   "us": 53.603545333317015
+  },
+  {
+   "name": "POST /invoices → dict",
+   "us": 152.925997333341
+  },
+  {
+   "name": "POST /invoices → response_model nhỏ",
+   "us": 135.2804320000208
+  },
+  {
+   "name": "POST /invoices → trả lại cả hóa đơn",
+   "us": 148.99172433335178
+  },
+  {
+   "name": "POST /invoices, tự model_validate_json",
+   "us": 85.60176666674124
+  }
+ ],
+ "middleware": [
+  {
+   "kind": "BaseHTTPMiddleware",
+   "layers": 0,
+   "us": 53.319581499977176
+  },
+  {
+   "kind": "BaseHTTPMiddleware",
+   "layers": 1,
+   "us": 177.56292449996636
+  },
+  {
+   "kind": "BaseHTTPMiddleware",
+   "layers": 5,
+   "us": 667.8183840000429
+  },
+  {
+   "kind": "ASGI thuần",
+   "layers": 0,
+   "us": 52.92386049995912
+  },
+  {
+   "kind": "ASGI thuần",
+   "layers": 1,
+   "us": 56.05995799999164
+  },
+  {
+   "kind": "ASGI thuần",
+   "layers": 5,
+   "us": 54.18357100006688
+  }
+ ],
+ "profile": {
+  "khác (stdlib, json, typing…)": 0.3496356525622286,
+  "FastAPI": 0.28285031627700336,
+  "Starlette": 0.21149122568428083,
+  "Pydantic (Python + Rust)": 0.09364581798930569,
+  "code của bạn (handler, validator)": 0.06059676257069074,
+  "asyncio": 0.0017802249164908192
+ }
+}

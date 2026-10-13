@@ -116,3 +116,29 @@ for n in (0, 1, 5, 10, 20):
         return {"depth": x}
 
     app.add_api_route(f"/deps/{n}", handler, methods=["GET"])
+
+
+# ---- middleware (Module 07): MW_KIND=base|asgi, MW_K=số lớp -----------------------
+def _add_middlewares():
+    from starlette.middleware.base import BaseHTTPMiddleware
+
+    kind, k = os.environ.get("MW_KIND"), int(os.environ.get("MW_K", "0"))
+
+    async def passthrough(request, call_next):
+        return await call_next(request)
+
+    class PureASGI:
+        def __init__(self, app):
+            self.app = app
+
+        async def __call__(self, scope, receive, send):
+            await self.app(scope, receive, send)
+
+    for _ in range(k):
+        if kind == "base":
+            app.add_middleware(BaseHTTPMiddleware, dispatch=passthrough)
+        elif kind == "asgi":
+            app.add_middleware(PureASGI)
+
+
+_add_middlewares()
