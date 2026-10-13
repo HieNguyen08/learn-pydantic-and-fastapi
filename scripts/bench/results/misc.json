@@ -1,0 +1,256 @@
+{
+ "schema": {
+  "rows": [
+   {
+    "fields": 5,
+    "build_us": 586.9975059999888,
+    "build_defer_us": 277.42121100004624,
+    "validate_us": 1.6598285750001196
+   },
+   {
+    "fields": 10,
+    "build_us": 1259.024954999859,
+    "build_defer_us": 504.30302199993093,
+    "validate_us": 2.5355435450001096
+   },
+   {
+    "fields": 25,
+    "build_us": 2134.4857400004003,
+    "build_defer_us": 891.9833699997071,
+    "validate_us": 4.330609620001269
+   },
+   {
+    "fields": 50,
+    "build_us": 4724.676280002313,
+    "build_defer_us": 1783.5089649997826,
+    "validate_us": 6.911943479999536
+   },
+   {
+    "fields": 100,
+    "build_us": 8796.779320000496,
+    "build_defer_us": 3010.5594699989524,
+    "validate_us": 11.635589849993266
+   },
+   {
+    "fields": 200,
+    "build_us": 13651.181550005731,
+    "build_defer_us": 5905.328999997437,
+    "validate_us": 24.00246160000279
+   }
+  ],
+  "invoice_build_us": 5589.84885999962,
+  "typeadapter_list_build_us": 77.72837880002044
+ },
+ "ser": [
+  {
+   "case": "model_dump_json()",
+   "lines": 1,
+   "us": 5.227338720001171
+  },
+  {
+   "case": "model_dump() + json.dumps",
+   "lines": 1,
+   "us": 12.862707650003813
+  },
+  {
+   "case": "model_dump(mode='json') + orjson",
+   "lines": 1,
+   "us": 4.753162299998621
+  },
+  {
+   "case": "model_dump() (python)",
+   "lines": 1,
+   "us": 3.42227677999972
+  },
+  {
+   "case": "msgspec.json.encode",
+   "lines": 1,
+   "us": 0.9411291349999829
+  },
+  {
+   "case": "model_dump_json()",
+   "lines": 12,
+   "us": 14.918451049993564
+  },
+  {
+   "case": "model_dump() + json.dumps",
+   "lines": 12,
+   "us": 41.6272053000057
+  },
+  {
+   "case": "model_dump(mode='json') + orjson",
+   "lines": 12,
+   "us": 21.766608999996606
+  },
+  {
+   "case": "model_dump() (python)",
+   "lines": 12,
+   "us": 13.746312449995912
+  },
+  {
+   "case": "msgspec.json.encode",
+   "lines": 12,
+   "us": 3.3048452900015945
+  },
+  {
+   "case": "model_dump_json()",
+   "lines": 50,
+   "us": 53.72204780001084
+  },
+  {
+   "case": "model_dump() + json.dumps",
+   "lines": 50,
+   "us": 131.55864250006744
+  },
+  {
+   "case": "model_dump(mode='json') + orjson",
+   "lines": 50,
+   "us": 57.77120060001835
+  },
+  {
+   "case": "model_dump() (python)",
+   "lines": 50,
+   "us": 44.49850399996649
+  },
+  {
+   "case": "msgspec.json.encode",
+   "lines": 50,
+   "us": 12.104206449998856
+  },
+  {
+   "case": "model_dump_json()",
+   "lines": 200,
+   "us": 184.1858149998643
+  },
+  {
+   "case": "model_dump() + json.dumps",
+   "lines": 200,
+   "us": 446.09754199973395
+  },
+  {
+   "case": "model_dump(mode='json') + orjson",
+   "lines": 200,
+   "us": 199.78310649992181
+  },
+  {
+   "case": "model_dump() (python)",
+   "lines": 200,
+   "us": 170.25599999999486
+  },
+  {
+   "case": "msgspec.json.encode",
+   "lines": 200,
+   "us": 42.45522119999805
+  }
+ ],
+ "err": [
+  {
+   "case": "hợp lệ",
+   "validate_us": 24.457355599997754,
+   "with_json_errors_us": 27.818290799996248
+  },
+  {
+   "case": "1 lỗi (lines[5].quantity)",
+   "validate_us": 24.908786399987548,
+   "with_json_errors_us": 31.83965069999886
+  },
+  {
+   "case": "24 lỗi (mọi dòng sai 2 trường)",
+   "validate_us": 30.51032620001024,
+   "with_json_errors_us": 52.876422600002115
+  }
+ ],
+ "hash": [
+  {
+   "alg": "SHA-256 (KHÔNG dùng cho mật khẩu)",
+   "ms": 0.0007335000873354147,
+   "mem_mib": 0
+  },
+  {
+   "alg": "PBKDF2-SHA256 600k vòng",
+   "ms": 369.454850000011,
+   "mem_mib": 0
+  },
+  {
+   "alg": "bcrypt cost=10",
+   "ms": 68.12235400002464,
+   "mem_mib": 0.004
+  },
+  {
+   "alg": "bcrypt cost=12",
+   "ms": 276.4695160001338,
+   "mem_mib": 0.004
+  },
+  {
+   "alg": "Argon2id m=19MiB t=2 p=1 (OWASP)",
+   "ms": 36.01301899993814,
+   "mem_mib": 19.0
+  },
+  {
+   "alg": "Argon2id m=46MiB t=1 p=1 (OWASP)",
+   "ms": 70.23472300011235,
+   "mem_mib": 46.0
+  },
+  {
+   "alg": "Argon2id m=64MiB t=3 p=4 (RFC 9106 low-mem)",
+   "ms": 230.72801700004675,
+   "mem_mib": 64.0
+  }
+ ],
+ "nplus1": [
+  {
+   "strategy": "N+1 (mỗi hóa đơn 1 query)",
+   "invoices": 10,
+   "ms": 8.95369800014123,
+   "queries": 11
+  },
+  {
+   "strategy": "N+1 (mỗi hóa đơn 1 query)",
+   "invoices": 50,
+   "ms": 31.170219999921756,
+   "queries": 51
+  },
+  {
+   "strategy": "N+1 (mỗi hóa đơn 1 query)",
+   "invoices": 200,
+   "ms": 144.87509900004625,
+   "queries": 201
+  },
+  {
+   "strategy": "selectinload (2 query)",
+   "invoices": 10,
+   "ms": 3.3910840002135956,
+   "queries": 2
+  },
+  {
+   "strategy": "selectinload (2 query)",
+   "invoices": 50,
+   "ms": 10.862335999945572,
+   "queries": 2
+  },
+  {
+   "strategy": "selectinload (2 query)",
+   "invoices": 200,
+   "ms": 19.74748499992529,
+   "queries": 2
+  },
+  {
+   "strategy": "joinedload (1 query JOIN)",
+   "invoices": 10,
+   "ms": 1.7093000001295877,
+   "queries": 1
+  },
+  {
+   "strategy": "joinedload (1 query JOIN)",
+   "invoices": 50,
+   "ms": 6.138179000117816,
+   "queries": 1
+  },
+  {
+   "strategy": "joinedload (1 query JOIN)",
+   "invoices": 200,
+   "ms": 23.39025100013714,
+   "queries": 1
+  }
+ ]
+}

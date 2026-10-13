@@ -1,0 +1,8 @@
+site/
+__pycache__/
+*.pyc
+.venv/
+.cache/
+.DS_Store
+.venv-v1/
+scripts/bench/results/*.sqlite

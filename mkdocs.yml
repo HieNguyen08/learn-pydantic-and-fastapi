@@ -1,0 +1,103 @@
+site_name: "Pydantic & FastAPI Masterclass"
+site_description: "Pydantic & FastAPI từ nền tảng đến hệ thống production — xoay quanh API hóa đơn điện tử và AI gateway của Mekong Cloud"
+site_author: "HieNguyen08"
+site_url: "https://hienguyen08.github.io/learn-pydantic-and-fastapi/"
+repo_url: "https://github.com/HieNguyen08/learn-pydantic-and-fastapi"
+repo_name: "HieNguyen08/learn-pydantic-and-fastapi"
+edit_uri: "edit/main/docs/"
+copyright: "Tài liệu học tập — Pydantic & FastAPI Masterclass · 2026"
+
+theme:
+  name: material
+  language: vi
+  font:
+    text: Be Vietnam Pro
+    code: JetBrains Mono
+  icon:
+    logo: material/api
+    repo: fontawesome/brands/github
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: teal
+      accent: deep orange
+      toggle:
+        icon: material/weather-night
+        name: Chuyển sang nền tối
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: teal
+      accent: deep orange
+      toggle:
+        icon: material/weather-sunny
+        name: Chuyển sang nền sáng
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - navigation.indexes
+    - navigation.tracking
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+    - content.action.edit
+
+plugins:
+  - search:
+      lang: en
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      toc_depth: 3
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+extra_css:
+  - stylesheets/extra.css
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/HieNguyen08/learn-pydantic-and-fastapi
+
+not_in_nav: |
+  /slides/
+
+nav:
+  - Trang chủ: index.md
