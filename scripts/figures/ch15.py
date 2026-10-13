@@ -68,10 +68,11 @@ def _(fig, t):
         for i, v in enumerate(vals):
             ax.text(i + (j - 1) * w, v + 1.5, f"{v:.0f}%", ha="center", fontsize=7.4, color=t["fg"])
     ax.set_xticks(x, [lab for _, lab in modes])
-    ax.set_ylim(0, 115)
+    ax.set_ylim(0, 138)
+    ax.set_yticks(range(0, 101, 20))
     ax.set_ylabel("% trên " + str(d["cases"]) + " tin nhắn")
     ax.set_title(f"Số đo thật (l1): {d['model']} trên CPU, trích hóa đơn nháp từ tin nhắn tiếng Việt")
-    ax.legend(fontsize=7.4, loc="upper left", ncols=3)
+    ax.legend(fontsize=7.4, loc="upper center", ncols=3, frameon=False)
     ygrid(ax, t)
 
 
@@ -82,7 +83,7 @@ def _(fig, t):
     ax1.bar(["không ràng buộc", "ràng buộc schema"], [o["ms_per_token_prompt"], o["ms_per_token_schema"]],
             color=[t["c"][BLUE], t["c"][GREEN]])
     for i, v in enumerate([o["ms_per_token_prompt"], o["ms_per_token_schema"]]):
-        ax1.text(i, v + 1, f"{v:.0f} ms".replace(".", ","), ha="center", fontsize=8, color=t["fg"])
+        ax1.text(i, v + 1, f"{v:.1f} ms".replace(".", ","), ha="center", fontsize=8, color=t["fg"])
     ax1.set_ylabel("ms / token (CPU)")
     ax1.set_title("Thời gian sinh mỗi token")
     ygrid(ax1, t)
@@ -90,8 +91,11 @@ def _(fig, t):
             [o["compile_schema_ms"], o["compile_json_ms"], o["mask_us_p50"] / 1000, o["mask_us_p99"] / 1000],
             color=[t["c"][VIOLET], t["c"][VIOLET], t["c"][ORANGE], t["c"][ORANGE]])
     ax2.set_yscale("log")
-    for i, v in enumerate([o["compile_schema_ms"], o["compile_json_ms"], o["mask_us_p50"] / 1000, o["mask_us_p99"] / 1000]):
-        ax2.text(i, v * 1.3, f"{v:.3g} ms".replace(".", ","), ha="center", fontsize=7.4, color=t["fg"])
+    labels = [f"{o['compile_schema_ms']:,.0f} ms".replace(",", "."), f"{o['compile_json_ms']:.0f} ms",
+              f"{o['mask_us_p50']:.0f} µs", f"{o['mask_us_p99']:.0f} µs"]
+    for i, (v, lab) in enumerate(zip([o["compile_schema_ms"], o["compile_json_ms"], o["mask_us_p50"] / 1000,
+                                      o["mask_us_p99"] / 1000], labels)):
+        ax2.text(i, v * 1.3, lab, ha="center", fontsize=7.4, color=t["fg"])
     ax2.set_ylabel("ms (log)")
     ax2.set_title(f"Chi phí của xgrammar (vocab {o['vocab']:,})".replace(",", "."))
     ax2.tick_params(axis="x", labelsize=7.4)
@@ -119,7 +123,7 @@ def _(fig, t):
     ax.set_xlabel("số lần gọi tối đa k")
     ax.set_ylabel("% hợp lệ")
     ax.set_ylim(0, 110)
-    ax.set_title("Số đo thật (l2): validate–retry — lỗi có tương quan, retry kém hơn lý thuyết")
+    ax.set_title("Số đo thật (l2): validate–retry — lỗi có tương quan, retry không sửa được lỗi nào")
     ax.legend(fontsize=7.4, loc="center right")
     ygrid(ax, t)
 
