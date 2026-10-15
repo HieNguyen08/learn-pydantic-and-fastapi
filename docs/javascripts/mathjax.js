@@ -3,6 +3,11 @@ window.MathJax = {
   loader: { load: ["[tex]/boldsymbol"] },
   tex: {
     packages: { "[+]": ["boldsymbol"] },
+    // \llbracket, \rrbracket thuộc gói stmaryrd, MathJax 3 không có sẵn (hiện chữ đỏ)
+    macros: {
+      llbracket: "\\mathopen{[\\![}",
+      rrbracket: "\\mathclose{]\\!]}"
+    },
     inlineMath: [["\\(", "\\)"]],
     displayMath: [["\\[", "\\]"]],
     processEscapes: true,
