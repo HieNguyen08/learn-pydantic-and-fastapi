@@ -11,3 +11,4 @@ scripts/bench/results/*.sqlite
 scripts/bench/results/_capstone_keys/
 .pytest_cache/
 *.db
+CLAUDE.md
