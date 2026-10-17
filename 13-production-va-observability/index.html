@@ -1,0 +1,3251 @@
+
+<!doctype html>
+<html lang="vi" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Pydantic & FastAPI từ nền tảng đến hệ thống production — xoay quanh API hóa đơn điện tử và AI gateway của Mekong Cloud">
+      
+      
+        <meta name="author" content="HieNguyen08">
+      
+      
+        <link rel="canonical" href="https://hienguyen08.github.io/learn-pydantic-and-fastapi/13-production-va-observability/">
+      
+      
+        <link rel="prev" href="../12-testing-va-chat-luong/">
+      
+      
+        <link rel="next" href="../14-capstone-thiet-ke-he-thong/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>13 · Production & observability - Pydantic & FastAPI Masterclass</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Be+Vietnam+Pro:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Be Vietnam Pro";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="deep-orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#module-13-production-observability" class="md-skip">
+          Bỏ qua
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Đầu trang">
+    <a href=".." title="Pydantic &amp; FastAPI Masterclass" class="md-header__button md-logo" aria-label="Pydantic & FastAPI Masterclass" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 7H5a2 2 0 0 0-2 2v8h2v-4h2v4h2V9a2 2 0 0 0-2-2m0 4H5V9h2m7-2h-4v10h2v-4h2a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2m0 4h-2V9h2m6 0v6h1v2h-4v-2h1V9h-1V7h4v2Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Pydantic & FastAPI Masterclass
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              13 · Production & observability
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="deep-orange"  aria-label="Chuyển sang nền tối"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Chuyển sang nền tối" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="deep-orange"  aria-label="Chuyển sang nền sáng"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Chuyển sang nền sáng" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Tìm kiếm" placeholder="Tìm kiếm" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Tìm kiếm">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Xoá" aria-label="Xoá" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/HieNguyen08/learn-pydantic-and-fastapi" title="Xem mã nguồn" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    HieNguyen08/learn-pydantic-and-fastapi
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Trang chủ
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../00-tong-quan-va-bai-toan/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Phần I · Nền tảng
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../03-pydantic-v2-kien-truc/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Phần II · Pydantic
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../07-fastapi-vong-doi-request/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Phần III · FastAPI
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../12-testing-va-chat-luong/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Phần IV · Chất lượng & vận hành
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../15-pydantic-cho-llm/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Phần V · Chuyên đề
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../labs/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Thực hành
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Thanh điều hướng" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Pydantic &amp; FastAPI Masterclass" class="md-nav__button md-logo" aria-label="Pydantic & FastAPI Masterclass" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 7H5a2 2 0 0 0-2 2v8h2v-4h2v4h2V9a2 2 0 0 0-2-2m0 4H5V9h2m7-2h-4v10h2v-4h2a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2m0 4h-2V9h2m6 0v6h1v2h-4v-2h1V9h-1V7h4v2Z"/></svg>
+
+    </a>
+    Pydantic & FastAPI Masterclass
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/HieNguyen08/learn-pydantic-and-fastapi" title="Xem mã nguồn" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    HieNguyen08/learn-pydantic-and-fastapi
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trang chủ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phần I · Nền tảng
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phần I · Nền tảng
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-tong-quan-va-bai-toan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    00 · Tổng quan & bài toán
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-kieu-du-lieu-va-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01 · Kiểu dữ liệu & validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-http-rest-asgi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02 · HTTP, REST & ASGI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phần II · Pydantic
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phần II · Pydantic
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-pydantic-v2-kien-truc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03 · Pydantic v2: kiến trúc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-validators-kieu-tuy-bien-union/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04 · Validator, kiểu tùy biến & union
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-serialization-json-schema-settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05 · Serialization, JSON Schema & settings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-hieu-nang-pydantic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06 · Hiệu năng Pydantic
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phần III · FastAPI
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phần III · FastAPI
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-fastapi-vong-doi-request/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07 · Vòng đời request
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-dependency-injection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08 · Dependency injection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09-async-dong-thoi-hieu-nang/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09 · Async, đồng thời & hiệu năng
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10-database-va-persistence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10 · Database & persistence
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11-bao-mat-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11 · Bảo mật API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phần IV · Chất lượng & vận hành
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phần IV · Chất lượng & vận hành
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12-testing-va-chat-luong/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12 · Testing & chất lượng
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13 · Production & observability
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13 · Production & observability
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Mục lục">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Mục lục
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#muc-tieu-hoc-tap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mục tiêu học tập
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-chay-service-process-model-probe-tat-may" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Chạy service: process model, probe, tắt máy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Chạy service: process model, probe, tắt máy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-ong-goi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1. Đóng gói
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-mot-tien-trinh-moi-pod-hay-nhieu-worker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2. Một tiến trình mỗi pod, hay nhiều worker?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-ba-loai-probe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3. Ba loại probe
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-graceful-shutdown-thi-nghiem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4. Graceful shutdown: thí nghiệm
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-quan-sat-log-metric-trace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Quan sát: log, metric, trace
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Quan sát: log, metric, trace">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-ba-tru-va-soi-chi-noi-chung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1. Ba trụ và sợi chỉ nối chúng
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-telemetry-tich-hop-cua-fastapi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. Telemetry tích hợp của FastAPI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-quan-sat-ton-bao-nhieu-so-o" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3. Quan sát tốn bao nhiêu? Số đo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-metric-red-use-va-histogram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4. Metric: RED, USE và histogram
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-percentile-hai-cai-bay-so-o" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5. Percentile: hai cái bẫy, số đo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-slo-va-error-budget" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. SLO và error budget
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. SLO và error budget">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-inh-nghia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1. Định nghĩa
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-canh-bao-theo-burn-rate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2. Cảnh báo theo burn rate
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-khi-phu-thuoc-that-bai-timeout-retry-backoff" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Khi phụ thuộc thất bại: timeout, retry, backoff
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Khi phụ thuộc thất bại: timeout, retry, backoff">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-timeout-o-moi-loi-goi-ra-ngoai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1. Timeout ở mọi lời gọi ra ngoài
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-retry-khi-nao-va-bao-nhieu-lan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2. Retry: khi nào và bao nhiêu lần
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-backoff-va-jitter-mo-phong" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3. Backoff và jitter: mô phỏng
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-metastable-failure-khi-retry-giu-he-thong-o-trang-thai-hong" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4. Metastable failure: khi retry giữ hệ thống ở trạng thái hỏng
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-load-shedding-thi-nghiem-that" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5. Load shedding: thí nghiệm thật
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-case-mekong-cloud-cau-hinh-van-hanh-cua-hai-dich-vu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Case Mekong Cloud: cấu hình vận hành của hai dịch vụ
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#loi-thuong-gap-cach-xu-ly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lỗi thường gặp &amp; cách xử lý
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tom-tat-cheat-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tóm tắt (cheat-sheet)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cau-hoi-tu-kiem-tra-phong-van" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Câu hỏi tự kiểm tra / phỏng vấn
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bai-tap-thuc-hanh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bài tập thực hành
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tai-lieu-tham-khao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tài liệu tham khảo
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../14-capstone-thiet-ke-he-thong/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14 · Capstone: thiết kế hệ thống
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phần V · Chuyên đề
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phần V · Chuyên đề
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../15-pydantic-cho-llm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15 · Pydantic cho LLM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../labs/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Thực hành
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Thực hành
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab01_invoice_models/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 01 · Mô hình hóa hóa đơn
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab02_benchmark_validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 02 · Benchmark validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab03_invoice_api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 03 · invoice-api hoàn chỉnh
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab04_concurrency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 04 · Đo đồng thời
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab05_property_fuzz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 05 · Property-based & fuzz
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab06_llm_structured_sse/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 06 · Structured output & SSE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Mục lục">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Mục lục
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#muc-tieu-hoc-tap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mục tiêu học tập
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-chay-service-process-model-probe-tat-may" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Chạy service: process model, probe, tắt máy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Chạy service: process model, probe, tắt máy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-ong-goi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1. Đóng gói
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-mot-tien-trinh-moi-pod-hay-nhieu-worker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2. Một tiến trình mỗi pod, hay nhiều worker?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-ba-loai-probe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3. Ba loại probe
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-graceful-shutdown-thi-nghiem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4. Graceful shutdown: thí nghiệm
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-quan-sat-log-metric-trace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Quan sát: log, metric, trace
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Quan sát: log, metric, trace">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-ba-tru-va-soi-chi-noi-chung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1. Ba trụ và sợi chỉ nối chúng
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-telemetry-tich-hop-cua-fastapi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. Telemetry tích hợp của FastAPI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-quan-sat-ton-bao-nhieu-so-o" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3. Quan sát tốn bao nhiêu? Số đo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-metric-red-use-va-histogram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4. Metric: RED, USE và histogram
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-percentile-hai-cai-bay-so-o" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5. Percentile: hai cái bẫy, số đo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-slo-va-error-budget" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. SLO và error budget
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. SLO và error budget">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-inh-nghia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1. Định nghĩa
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-canh-bao-theo-burn-rate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2. Cảnh báo theo burn rate
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-khi-phu-thuoc-that-bai-timeout-retry-backoff" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Khi phụ thuộc thất bại: timeout, retry, backoff
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Khi phụ thuộc thất bại: timeout, retry, backoff">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-timeout-o-moi-loi-goi-ra-ngoai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1. Timeout ở mọi lời gọi ra ngoài
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-retry-khi-nao-va-bao-nhieu-lan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2. Retry: khi nào và bao nhiêu lần
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-backoff-va-jitter-mo-phong" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3. Backoff và jitter: mô phỏng
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-metastable-failure-khi-retry-giu-he-thong-o-trang-thai-hong" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4. Metastable failure: khi retry giữ hệ thống ở trạng thái hỏng
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-load-shedding-thi-nghiem-that" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5. Load shedding: thí nghiệm thật
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-case-mekong-cloud-cau-hinh-van-hanh-cua-hai-dich-vu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Case Mekong Cloud: cấu hình vận hành của hai dịch vụ
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#loi-thuong-gap-cach-xu-ly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lỗi thường gặp &amp; cách xử lý
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tom-tat-cheat-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tóm tắt (cheat-sheet)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cau-hoi-tu-kiem-tra-phong-van" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Câu hỏi tự kiểm tra / phỏng vấn
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bai-tap-thuc-hanh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bài tập thực hành
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tai-lieu-tham-khao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tài liệu tham khảo
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/HieNguyen08/learn-pydantic-and-fastapi/edit/main/docs/13-production-va-observability.md" title="Chỉnh sửa" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="module-13-production-observability">Module 13 — Production &amp; observability<a class="headerlink" href="#module-13-production-observability" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>Thời lượng: ~50 phút · Mức độ: Trung bình → Nâng cao · Tiên quyết: Module 09, 10, 12</p>
+</blockquote>
+<p>Code đúng và nhanh trên máy dev mới là một nửa công việc. Nửa còn lại xảy ra lúc 19:00 ngày cuối tháng, khi <code>invoice-api</code> nhận 420 req/s, một node Kubernetes bị thay, database chậm 10 giây vì autovacuum, và 12.000 máy POS đồng loạt retry. Module này nói về <strong>vận hành</strong>:</p>
+<ul>
+<li>chạy service thế nào (process model, probe, tắt máy êm);</li>
+<li><strong>nhìn thấy</strong> nó ra sao (log, metric, trace, và cái giá của chúng);</li>
+<li>đặt mục tiêu bằng số (SLO, error budget);</li>
+<li>và đối xử với lỗi thế nào để một sự cố nhỏ không biến thành sập hẳn (retry, backoff, metastable failure, load shedding).</li>
+</ul>
+<p>Số đo trong <code>scripts/bench/bench_production.py</code>: uvicorn 0.54, FastAPI 0.143 (có <strong>OpenTelemetry tích hợp sẵn</strong>), opentelemetry-sdk 1.45. Hai thí nghiệm (p2, p3) là <strong>mô phỏng</strong> và được ghi rõ như vậy.</p>
+<h2 id="muc-tieu-hoc-tap">Mục tiêu học tập<a class="headerlink" href="#muc-tieu-hoc-tap" title="Permanent link">&para;</a></h2>
+<p>Sau module này, bạn có thể:</p>
+<ol>
+<li>Chọn <strong>process model</strong> (một tiến trình mỗi pod hay nhiều worker) và cấu hình <strong>liveness / readiness / startup probe</strong> cùng <strong>graceful shutdown</strong> để rolling deploy không làm rơi request.</li>
+<li>Thiết kế <strong>ba trụ quan sát</strong>: log có cấu trúc với correlation ID, metric RED/USE dạng histogram, trace OpenTelemetry. Định lượng được chi phí mỗi thứ và biết bật telemetry tích hợp của FastAPI.</li>
+<li>Tính toán đúng với <strong>percentile</strong>: không lấy trung bình các p99, và chọn bucket histogram theo SLO.</li>
+<li>Đặt <strong>SLO</strong>, tính <strong>error budget</strong> và cảnh báo theo <strong>burn rate</strong> nhiều cửa sổ.</li>
+<li>Dùng <strong>timeout, retry với exponential backoff + jitter, retry budget, circuit breaker</strong>. Giải thích <strong>metastable failure</strong> và chặn nó bằng <strong>load shedding</strong>.</li>
+</ol>
+<hr />
+<h2 id="1-chay-service-process-model-probe-tat-may">1. Chạy service: process model, probe, tắt máy<a class="headerlink" href="#1-chay-service-process-model-probe-tat-may" title="Permanent link">&para;</a></h2>
+<h3 id="11-ong-goi">1.1. Đóng gói<a class="headerlink" href="#11-ong-goi" title="Permanent link">&para;</a></h3>
+<p>Một Dockerfile multi-stage cho <code>invoice-api</code>. Stage build cài dependency vào virtualenv, stage chạy chỉ chép virtualenv và code:</p>
+<div class="language-dockerfile highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">FROM</span><span class="w"> </span><span class="s">python:3.13-slim</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="s">build</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="k">RUN</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--no-cache-dir<span class="w"> </span>uv
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="k">COPY</span><span class="w"> </span>pyproject.toml<span class="w"> </span>uv.lock<span class="w"> </span>./
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="k">RUN</span><span class="w"> </span>uv<span class="w"> </span>sync<span class="w"> </span>--frozen<span class="w"> </span>--no-dev<span class="w"> </span>--no-install-project<span class="w">      </span>#<span class="w"> </span>lớp<span class="w"> </span>dependency:<span class="w"> </span>cache<span class="w"> </span>được<span class="w"> </span>khi<span class="w"> </span>chỉ<span class="w"> </span>đổi<span class="w"> </span>code
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="k">COPY</span><span class="w"> </span>app/<span class="w"> </span>app/
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="k">RUN</span><span class="w"> </span>uv<span class="w"> </span>sync<span class="w"> </span>--frozen<span class="w"> </span>--no-dev
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="k">FROM</span><span class="w"> </span><span class="s">python:3.13-slim</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="k">RUN</span><span class="w"> </span>useradd<span class="w"> </span>--uid<span class="w"> </span><span class="m">10001</span><span class="w"> </span>--no-create-home<span class="w"> </span>app
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="k">COPY</span><span class="w"> </span>--from<span class="o">=</span>build<span class="w"> </span>/app<span class="w"> </span>/app
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="k">ENV</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">"/app/.venv/bin:</span><span class="nv">$PATH</span><span class="s2">"</span><span class="w"> </span><span class="nv">PYTHONUNBUFFERED</span><span class="o">=</span><span class="m">1</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="k">USER</span><span class="w"> </span><span class="s">app</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="k">EXPOSE</span><span class="w"> </span><span class="s">8000</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="k">CMD</span><span class="w"> </span><span class="o">[</span><span class="s2">"uvicorn"</span>,<span class="w"> </span><span class="s2">"app.main:app"</span>,<span class="w"> </span><span class="s2">"--host"</span>,<span class="w"> </span><span class="s2">"0.0.0.0"</span>,<span class="w"> </span><span class="s2">"--port"</span>,<span class="w"> </span><span class="s2">"8000"</span>,<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">     </span><span class="s2">"--loop"</span>,<span class="w"> </span><span class="s2">"uvloop"</span>,<span class="w"> </span><span class="s2">"--http"</span>,<span class="w"> </span><span class="s2">"httptools"</span>,<span class="w"> </span><span class="s2">"--timeout-graceful-shutdown"</span>,<span class="w"> </span><span class="s2">"20"</span><span class="o">]</span>
+</span></code></pre></div>
+<p>Ba điểm đáng chú ý:</p>
+<ul>
+<li>Chạy bằng <strong>user không phải root</strong>.</li>
+<li><code>CMD</code> dạng <strong>exec</strong> (mảng JSON) để uvicorn là PID 1 và nhận được <code>SIGTERM</code>. Với dạng shell, tín hiệu dừng ở <code>/bin/sh</code>.</li>
+<li>Chọn uvloop + httptools một cách tường minh. Module 09 đã đo: bỏ uvloop mà chạy <code>--workers</code> có thể cộng thêm 40 ms vì Nagle.</li>
+</ul>
+<h3 id="12-mot-tien-trinh-moi-pod-hay-nhieu-worker">1.2. Một tiến trình mỗi pod, hay nhiều worker?<a class="headerlink" href="#12-mot-tien-trinh-moi-pod-hay-nhieu-worker" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>1 tiến trình / pod, scale bằng số pod</th>
+<th>N worker / pod (<code>--workers N</code> hoặc gunicorn)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Scale</td>
+<td>Kubernetes HPA, đơn vị nhỏ</td>
+<td>thô, theo pod lớn</td>
+</tr>
+<tr>
+<td>Health check</td>
+<td>probe phản ánh đúng tiến trình duy nhất</td>
+<td>probe chỉ tới được một worker bất kỳ; một worker treo có thể không bị phát hiện</td>
+</tr>
+<tr>
+<td>Tài nguyên</td>
+<td><code>requests/limits</code> CPU ≈ 1 core rõ ràng</td>
+<td>phải đặt limit đủ cho N tiến trình</td>
+</tr>
+<tr>
+<td>Bộ nhớ</td>
+<td>mỗi pod một bản app</td>
+<td>chia sẻ copy-on-write (ít khi đáng kể với Python)</td>
+</tr>
+<tr>
+<td>Pool DB</td>
+<td><code>pool_size</code> mỗi pod (Module 10)</td>
+<td>mỗi worker một pool, tổng = N × pool</td>
+</tr>
+</tbody>
+</table>
+<p>Trên Kubernetes, mình khuyên <strong>một tiến trình Uvicorn mỗi container</strong>. Nền tảng đã làm việc của process manager: khởi động lại, đếm số bản, cân bằng tải. Giữ <code>--workers</code> cho máy ảo hoặc máy chủ không có orchestrator.</p>
+<!-- placeholder-process -->
+
+<!-- fig:process -->
+<figure>
+  <img alt="Hai process model: một Uvicorn mỗi pod (Kubernetes) và nhiều worker mỗi máy" loading="lazy" src="../assets/figures/13/process.light.svg#only-light" />
+  <img alt="Hai process model: một Uvicorn mỗi pod (Kubernetes) và nhiều worker mỗi máy" loading="lazy" src="../assets/figures/13/process.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 13.1 — Hai process model: một Uvicorn mỗi pod (Kubernetes) và nhiều worker mỗi máy.</figcaption>
+</figure>
+<!-- /fig -->
+
+<h3 id="13-ba-loai-probe">1.3. Ba loại probe<a class="headerlink" href="#13-ba-loai-probe" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Probe</th>
+<th>Câu hỏi</th>
+<th>Thất bại thì</th>
+<th>Endpoint cho <code>invoice-api</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>startup</strong></td>
+<td>đã khởi động xong chưa? (migration check, nạp cache)</td>
+<td>chưa chạy hai probe kia; quá ngưỡng thì khởi động lại</td>
+<td><code>/health/startup</code></td>
+</tr>
+<tr>
+<td><strong>liveness</strong></td>
+<td>tiến trình còn sống và <strong>tự hồi phục được không</strong>?</td>
+<td><strong>khởi động lại</strong> container</td>
+<td><code>/health/live</code>: chỉ kiểm event loop còn phản hồi</td>
+</tr>
+<tr>
+<td><strong>readiness</strong></td>
+<td>có nên <strong>nhận traffic</strong> lúc này không?</td>
+<td><strong>rút khỏi</strong> load balancer (không khởi động lại)</td>
+<td><code>/health/ready</code>: kiểm pool DB, Redis, cờ "đang tắt"</td>
+</tr>
+</tbody>
+</table>
+<!-- placeholder-probes -->
+
+<!-- fig:probes -->
+<figure>
+  <img alt="Ba loại probe trả lời ba câu hỏi khác nhau; phụ thuộc bên ngoài chỉ thuộc readiness" loading="lazy" src="../assets/figures/13/probes.light.svg#only-light" />
+  <img alt="Ba loại probe trả lời ba câu hỏi khác nhau; phụ thuộc bên ngoài chỉ thuộc readiness" loading="lazy" src="../assets/figures/13/probes.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 13.2 — Ba loại probe trả lời ba câu hỏi khác nhau; phụ thuộc bên ngoài chỉ thuộc readiness.</figcaption>
+</figure>
+<!-- /fig -->
+
+<p>Sai lầm phổ biến nhất là <strong>liveness kiểm database</strong>. Khi DB chậm 10 giây, mọi pod cùng fail liveness, Kubernetes khởi động lại <strong>tất cả</strong>, rồi 20 pod cùng mở pool kết nối tới DB vốn đang chậm. Sự cố nhỏ thành sự cố lớn. Phụ thuộc bên ngoài chỉ thuộc về <strong>readiness</strong>. Pod không sẵn sàng thì bị rút khỏi load balancer, chứ không bị giết.</p>
+<h3 id="14-graceful-shutdown-thi-nghiem">1.4. Graceful shutdown: thí nghiệm<a class="headerlink" href="#14-graceful-shutdown-thi-nghiem" title="Permanent link">&para;</a></h3>
+<p>Rolling deploy, autoscale xuống, node bị thay: mọi trường hợp đều bắt đầu bằng <code>SIGTERM</code>. Thí nghiệm <code>p1</code> gửi 10 request dài 2 giây, gửi <code>SIGTERM</code> ở giây 0,5, rồi gửi thêm 10 request <strong>mới</strong> ở giây 0,8:</p>
+<table>
+<thead>
+<tr>
+<th>Cấu hình uvicorn</th>
+<th>10 request đang chạy</th>
+<th>10 request đến sau SIGTERM</th>
+<th>Tiến trình thoát sau</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>mặc định</td>
+<td><strong>10/10 xong</strong></td>
+<td><strong>0/10</strong>: <code>ConnectionRefusedError</code></td>
+<td>1,62 s</td>
+</tr>
+<tr>
+<td><code>--timeout-graceful-shutdown 1</code></td>
+<td><strong>0/10</strong>: bị cắt sau 1 s</td>
+<td>0/10: <code>ConnectionRefusedError</code></td>
+<td>1,20 s</td>
+</tr>
+</tbody>
+</table>
+<p>Uvicorn làm phần của nó đúng: ngừng nhận kết nối mới và chờ request đang chạy xong. Mặc định nó <strong>chờ vô hạn</strong>, nên <code>--timeout-graceful-shutdown</code> phải nhỏ hơn <code>terminationGracePeriodSeconds</code> của Kubernetes (mặc định 30 s). Nhưng <strong>request mới đến sau SIGTERM vẫn bị từ chối</strong>. Trên Kubernetes, việc rút pod khỏi Service (cập nhật EndpointSlice, kube-proxy, ingress) diễn ra <strong>song song và bất đồng bộ</strong> với việc gửi SIGTERM. Trong vài giây đó, traffic vẫn được gửi tới một tiến trình đã đóng socket.</p>
+<!-- placeholder-shutdown -->
+
+<!-- fig:shutdown -->
+<figure>
+  <img alt="Trình tự graceful shutdown trên Kubernetes và số đo thật của uvicorn khi nhận SIGTERM" loading="lazy" src="../assets/figures/13/shutdown.light.svg#only-light" />
+  <img alt="Trình tự graceful shutdown trên Kubernetes và số đo thật của uvicorn khi nhận SIGTERM" loading="lazy" src="../assets/figures/13/shutdown.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 13.3 — Trình tự graceful shutdown trên Kubernetes và số đo thật của uvicorn khi nhận SIGTERM.</figcaption>
+</figure>
+<!-- /fig -->
+
+<p>Cách xử lý chuẩn:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">spec</span><span class="p">:</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">terminationGracePeriodSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">invoice-api</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">      </span><span class="nt">lifecycle</span><span class="p">:</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">        </span><span class="nt">preStop</span><span class="p">:</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">          </span><span class="nt">exec</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"sleep"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"8"</span><span class="p p-Indicator">]}</span><span class="w">      </span><span class="c1"># chờ LB/ingress rút pod trước khi uvicorn nhận SIGTERM</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">      </span><span class="nt">readinessProbe</span><span class="p">:</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">        </span><span class="nt">httpGet</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="nv">/health/ready</span><span class="p p-Indicator">,</span><span class="nt"> port</span><span class="p">:</span><span class="w"> </span><span class="nv">8000</span><span class="p p-Indicator">}</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">        </span><span class="nt">periodSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">        </span><span class="nt">failureThreshold</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">      </span><span class="nt">livenessProbe</span><span class="p">:</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">        </span><span class="nt">httpGet</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="nv">/health/live</span><span class="p p-Indicator">,</span><span class="nt"> port</span><span class="p">:</span><span class="w"> </span><span class="nv">8000</span><span class="p p-Indicator">}</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">        </span><span class="nt">periodSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">        </span><span class="nt">failureThreshold</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">      </span><span class="nt">startupProbe</span><span class="p">:</span>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">        </span><span class="nt">httpGet</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="nv">/health/startup</span><span class="p p-Indicator">,</span><span class="nt"> port</span><span class="p">:</span><span class="w"> </span><span class="nv">8000</span><span class="p p-Indicator">}</span>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">        </span><span class="nt">periodSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">        </span><span class="nt">failureThreshold</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30</span><span class="w">                     </span><span class="c1"># tối đa 60 s để khởi động</span>
+</span></code></pre></div>
+<p>Trình tự khi đó: <code>preStop</code> (8 s, pod được rút khỏi mọi load balancer trong lúc này) → <code>SIGTERM</code> → uvicorn chờ request dở dang tối đa 20 s → lifespan shutdown đóng pool DB và flush telemetry → thoát. Tổng 28 s, vẫn dưới 30 s.</p>
+<hr />
+<h2 id="2-quan-sat-log-metric-trace">2. Quan sát: log, metric, trace<a class="headerlink" href="#2-quan-sat-log-metric-trace" title="Permanent link">&para;</a></h2>
+<h3 id="21-ba-tru-va-soi-chi-noi-chung">2.1. Ba trụ và sợi chỉ nối chúng<a class="headerlink" href="#21-ba-tru-va-soi-chi-noi-chung" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Trả lời</th>
+<th>Dạng</th>
+<th>Chi phí lưu trữ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Metric</strong></td>
+<td>hệ thống có khỏe không? bao nhiêu, nhanh cỡ nào?</td>
+<td>số tổng hợp theo thời gian (counter, histogram)</td>
+<td>rẻ, không phụ thuộc lưu lượng</td>
+</tr>
+<tr>
+<td><strong>Trace</strong></td>
+<td>request <strong>này</strong> đi qua đâu, chậm ở đâu?</td>
+<td>cây span có thời gian</td>
+<td>theo lưu lượng, thường <strong>lấy mẫu</strong></td>
+</tr>
+<tr>
+<td><strong>Log</strong></td>
+<td>chuyện gì đã xảy ra, chi tiết?</td>
+<td>sự kiện rời rạc, có cấu trúc (JSON)</td>
+<td>theo lưu lượng, đắt nhất</td>
+</tr>
+</tbody>
+</table>
+<p>Giá trị nằm ở chỗ <strong>nối</strong> được chúng: metric báo p99 tăng → exemplar dẫn tới một trace chậm → <code>trace_id</code> trong trace dẫn tới đúng các dòng log của request đó. Muốn vậy, mọi dòng log phải mang <code>trace_id</code> (hoặc <code>request_id</code>) và <code>tenant_id</code>.</p>
+<!-- placeholder-pillars -->
+
+<!-- fig:pillars -->
+<figure>
+  <img alt="Ba trụ quan sát và cách nối chúng: exemplar dẫn tới trace, traceid dẫn tới log" loading="lazy" src="../assets/figures/13/pillars.light.svg#only-light" />
+  <img alt="Ba trụ quan sát và cách nối chúng: exemplar dẫn tới trace, traceid dẫn tới log" loading="lazy" src="../assets/figures/13/pillars.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 13.4 — Ba trụ quan sát và cách nối chúng: exemplar dẫn tới trace, trace_id dẫn tới log.</figcaption>
+</figure>
+<!-- /fig -->
+
+<p>Mô hình trace hiện đại bắt nguồn từ <strong>Dapper</strong> của Google (Sigelman và cộng sự, 2010): mỗi request mang một trace ID truyền qua mọi dịch vụ, và mỗi đơn vị công việc là một span có cha. <strong>OpenTelemetry</strong> (hợp nhất OpenTracing và OpenCensus, thuộc CNCF) chuẩn hóa API, SDK, giao thức OTLP và <strong>ngữ nghĩa thuộc tính</strong> (<code>http.request.method</code>, <code>http.route</code>, <code>http.response.status_code</code>…), để mọi backend (Jaeger, Tempo, Honeycomb, Datadog…) hiểu như nhau. Trace ID truyền giữa các dịch vụ qua header <strong><code>traceparent</code></strong> theo chuẩn W3C Trace Context.</p>
+<h3 id="22-telemetry-tich-hop-cua-fastapi">2.2. Telemetry tích hợp của FastAPI<a class="headerlink" href="#22-telemetry-tich-hop-cua-fastapi" title="Permanent link">&para;</a></h3>
+<p>FastAPI 0.143 có <strong>OpenTelemetry tích hợp</strong> (<code>fastapi.telemetry</code>). Nó tự bật khi có tracer/meter/logger provider được cấu hình (toàn cục, hoặc truyền vào <code>FastAPI(telemetry={...})</code>). Nó tạo:</p>
+<ul>
+<li>span server cho mỗi request, với <code>http.route</code> là <strong>template</strong> (<code>/v1/invoices/{invoice_id}</code>, không phải URL cụ thể, để metric không bùng nổ số chuỗi);</li>
+<li><strong>operation span</strong> cho giải dependency, endpoint, serialization, background task;</li>
+<li>metric thời gian request;</li>
+<li>log cho lỗi validation và exception chưa xử lý.</li>
+</ul>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPI</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">opentelemetry.sdk.trace</span><span class="w"> </span><span class="kn">import</span> <span class="n">TracerProvider</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">opentelemetry.sdk.trace.export</span><span class="w"> </span><span class="kn">import</span> <span class="n">BatchSpanProcessor</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">opentelemetry.sdk.trace.sampling</span><span class="w"> </span><span class="kn">import</span> <span class="n">ParentBased</span><span class="p">,</span> <span class="n">TraceIdRatioBased</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="kn">from</span><span class="w"> </span><span class="nn">opentelemetry.exporter.otlp.proto.grpc.trace_exporter</span><span class="w"> </span><span class="kn">import</span> <span class="n">OTLPSpanExporter</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="n">tp</span> <span class="o">=</span> <span class="n">TracerProvider</span><span class="p">(</span><span class="n">sampler</span><span class="o">=</span><span class="n">ParentBased</span><span class="p">(</span><span class="n">TraceIdRatioBased</span><span class="p">(</span><span class="mf">0.05</span><span class="p">)))</span>   <span class="c1"># 5% trace gốc; theo quyết định của cha</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="n">tp</span><span class="o">.</span><span class="n">add_span_processor</span><span class="p">(</span><span class="n">BatchSpanProcessor</span><span class="p">(</span><span class="n">OTLPSpanExporter</span><span class="p">()))</span>       <span class="c1"># gửi theo lô, không chặn request</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">(</span><span class="n">telemetry</span><span class="o">=</span><span class="p">{</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>    <span class="s2">"tracer_provider"</span><span class="p">:</span> <span class="n">tp</span><span class="p">,</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>    <span class="s2">"operation_spans"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>                                        <span class="c1"># tắt span con cho đường nóng (xem 2.3)</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>    <span class="s2">"exclude"</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">scope</span><span class="p">:</span> <span class="n">scope</span><span class="p">[</span><span class="s2">"path"</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"/health"</span><span class="p">),</span>   <span class="c1"># không trace probe</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="p">})</span>
+</span></code></pre></div>
+<p>Starlette 1.x cũng có <code>starlette.middleware.opentelemetry.OpenTelemetryMiddleware</code> (đang ở mức thử nghiệm) cho app Starlette thuần.</p>
+<h3 id="23-quan-sat-ton-bao-nhieu-so-o">2.3. Quan sát tốn bao nhiêu? Số đo<a class="headerlink" href="#23-quan-sat-ton-bao-nhieu-so-o" title="Permanent link">&para;</a></h3>
+<p>Thí nghiệm <code>p5</code>: cùng một <code>POST</code> hóa đơn 12 dòng, đo trong tiến trình (một core, lấy giá trị nhỏ nhất của 3 lần chạy; nhiễu giữa các lần chạy cỡ ±10%):</p>
+<table>
+<thead>
+<tr>
+<th>Cấu hình</th>
+<th>µs/request</th>
+<th>Tăng thêm</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>không quan sát gì</td>
+<td>93</td>
+<td>—</td>
+</tr>
+<tr>
+<td>+ log JSON một dòng/request (ASGI middleware, stdlib <code>logging</code>)</td>
+<td>125</td>
+<td>+32</td>
+</tr>
+<tr>
+<td>+ histogram Prometheus (ASGI middleware)</td>
+<td>98</td>
+<td>+5</td>
+</tr>
+<tr>
+<td>+ OTel tích hợp của FastAPI, chỉ span server</td>
+<td>120</td>
+<td>+27</td>
+</tr>
+<tr>
+<td>+ OTel tích hợp, <strong>có operation span</strong> (mặc định; 4 span/request)</td>
+<td>258</td>
+<td><strong>+165</strong></td>
+</tr>
+<tr>
+<td>+ như trên, <strong>lấy mẫu 10%</strong></td>
+<td>195</td>
+<td>+102</td>
+</tr>
+</tbody>
+</table>
+<!-- placeholder-obs-cost -->
+
+<!-- fig:obs-cost -->
+<figure>
+  <img alt="Số đo thật: chi phí mỗi request của log, metric và telemetry tích hợp của FastAPI" loading="lazy" src="../assets/figures/13/obs-cost.light.svg#only-light" />
+  <img alt="Số đo thật: chi phí mỗi request của log, metric và telemetry tích hợp của FastAPI" loading="lazy" src="../assets/figures/13/obs-cost.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 13.5 — Số đo thật: chi phí mỗi request của log, metric và telemetry tích hợp của FastAPI.</figcaption>
+</figure>
+<!-- /fig -->
+
+<p>Bốn điều rút ra:</p>
+<ol>
+<li><strong>Metric gần như miễn phí</strong> (~5 µs): một lần cộng vào bucket. Hãy đo mọi thứ bằng metric trước.</li>
+<li><strong>Một dòng log JSON tốn ~32 µs</strong>, phần lớn là <code>json.dumps</code> và hệ thống <code>logging</code> của Python (lock, handler). Ở 500 req/s, đó là 1,6% một core, chấp nhận được. Nhưng 10 dòng log/request là 16%. Log có chủ đích, không log "cho chắc".</li>
+<li><strong>Operation span đắt gấp ~6 lần span server</strong>: mỗi request tạo 4 span thay vì 1, mỗi span có thuộc tính, thời điểm, context. Với đường nóng của <code>invoice-api</code> (ngân sách CPU ~0,5 ms/request, Module 09), +165 µs là +33%. Bật operation span khi cần chẩn đoán, hoặc cho các route chậm.</li>
+<li><strong>Lấy mẫu không làm chi phí về 0</strong>: lấy mẫu 10% vẫn tốn +102 µs. Span không được ghi vẫn phải được tạo (non-recording span), context vẫn phải truyền, và FastAPI vẫn chạy phần bọc của nó. Lấy mẫu giảm chi phí <strong>xuất và lưu trữ</strong> nhiều hơn chi phí <strong>tạo span</strong>.</li>
+</ol>
+<h3 id="24-metric-red-use-va-histogram">2.4. Metric: RED, USE và histogram<a class="headerlink" href="#24-metric-red-use-va-histogram" title="Permanent link">&para;</a></h3>
+<p>Hai phương pháp chọn metric đáng nhớ:</p>
+<ul>
+<li><strong>RED</strong> (Tom Wilkie, cho dịch vụ request/response): <strong>R</strong>ate (req/s), <strong>E</strong>rrors (tỉ lệ lỗi), <strong>D</strong>uration (phân phối latency) cho mỗi route.</li>
+<li><strong>USE</strong> (Brendan Gregg, cho tài nguyên): <strong>U</strong>tilization, <strong>S</strong>aturation (độ dài hàng đợi), <strong>E</strong>rrors cho CPU, pool DB, threadpool, event loop.</li>
+</ul>
+<p>Với <code>invoice-api</code>, những metric bão hòa đáng giá nhất là:</p>
+<ul>
+<li>số kết nối đang mượn và <strong>thời gian chờ pool</strong> (Module 10);</li>
+<li>số luồng threadpool đang bận (Module 09);</li>
+<li><strong>độ trễ của event loop</strong>: đo bằng một task <code>sleep(0.1)</code> định kỳ, phần chênh với 0,1 s.</li>
+</ul>
+<p>Đây là các tín hiệu báo trước, xuất hiện <strong>trước khi</strong> latency tăng.</p>
+<h3 id="25-percentile-hai-cai-bay-so-o">2.5. Percentile: hai cái bẫy, số đo<a class="headerlink" href="#25-percentile-hai-cai-bay-so-o" title="Permanent link">&para;</a></h3>
+<p>Latency phải được đo bằng <strong>phân phối</strong>, không phải trung bình (Module 09: tail at scale). Nhưng percentile có hai bẫy khi tổng hợp (thí nghiệm <code>p4</code>, 4 pod, pod-d "nóng" vì noisy neighbor):</p>
+<table>
+<thead>
+<tr>
+<th>Đại lượng</th>
+<th>Giá trị</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>p99 từng pod</td>
+<td>a: 92, b: 95, c: 92, <strong>d: 366</strong> ms</td>
+</tr>
+<tr>
+<td><strong>trung bình các p99</strong> (dashboard hay làm)</td>
+<td><strong>161 ms</strong></td>
+</tr>
+<tr>
+<td><strong>p99 thật</strong> (gộp mọi mẫu)</td>
+<td><strong>198 ms</strong></td>
+</tr>
+<tr>
+<td><code>histogram_quantile(0.99)</code> với bucket mặc định của client Prometheus</td>
+<td>232 ms</td>
+</tr>
+<tr>
+<td><code>histogram_quantile(0.99)</code> với bucket chỉnh quanh SLO (…150, 175, 200, 250, 300…)</td>
+<td>198 ms</td>
+</tr>
+</tbody>
+</table>
+<!-- placeholder-percentiles -->
+
+<!-- fig:percentiles -->
+<figure>
+  <img alt="Trung bình các p99 không phải p99; độ chính xác của histogramquantile phụ thuộc bucket" loading="lazy" src="../assets/figures/13/percentiles.light.svg#only-light" />
+  <img alt="Trung bình các p99 không phải p99; độ chính xác của histogramquantile phụ thuộc bucket" loading="lazy" src="../assets/figures/13/percentiles.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 13.6 — Trung bình các p99 không phải p99; độ chính xác của histogram_quantile phụ thuộc bucket.</figcaption>
+</figure>
+<!-- /fig -->
+
+<ol>
+<li><strong>Không lấy trung bình percentile.</strong> Trung bình các p99 không phải p99 của tổng thể, và ở đây nó thấp hơn 19%, đúng lúc có một pod gặp vấn đề. Percentile phải được tính từ <strong>phân phối gộp</strong>: gộp <strong>histogram</strong> (cộng các bucket qua mọi pod rồi mới tính quantile), không gộp con số đã tính.</li>
+<li><strong>Độ chính xác do bucket quyết định.</strong> <code>histogram_quantile</code> nội suy tuyến tính trong bucket chứa quantile. Bucket mặc định (…100, 250, 500…) quá thưa quanh 200 ms nên ước lượng lệch +17%. Đặt bucket <strong>dày quanh ngưỡng SLO</strong> (300 ms với <code>invoice-api</code>) để câu hỏi "bao nhiêu % request dưới 300 ms" có câu trả lời <strong>chính xác</strong>, không phải nội suy. Đó mới là câu hỏi SLO cần.</li>
+</ol>
+<hr />
+<h2 id="3-slo-va-error-budget">3. SLO và error budget<a class="headerlink" href="#3-slo-va-error-budget" title="Permanent link">&para;</a></h2>
+<h3 id="31-inh-nghia">3.1. Định nghĩa<a class="headerlink" href="#31-inh-nghia" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>SLI</strong> (indicator): một tỉ lệ đo được. Ví dụ: "tỉ lệ <code>POST /v1/invoices</code> trả 2xx/4xx (không phải 5xx) <strong>và</strong> trong 300 ms".</li>
+<li><strong>SLO</strong> (objective): mục tiêu cho SLI trong một cửa sổ. Ví dụ: <strong>99,9% trong 30 ngày</strong>.</li>
+<li><strong>Error budget</strong> <span class="arithmatex">\(= 1 - \text{SLO}\)</span>: phần được phép hỏng. Hết budget thì ưu tiên độ tin cậy hơn tính năng mới.</li>
+</ul>
+<p>Cho <code>invoice-api</code> (1,8 triệu request/ngày):</p>
+<div class="arithmatex">\[
+\text{budget} = (1 - 0{,}999) \times 1{,}8 \times 10^6 \times 30 = 54.000 \text{ request hỏng / 30 ngày} \;\approx\; 43{,}2 \text{ phút sập hoàn toàn}
+\]</div>
+<h3 id="32-canh-bao-theo-burn-rate">3.2. Cảnh báo theo burn rate<a class="headerlink" href="#32-canh-bao-theo-burn-rate" title="Permanent link">&para;</a></h3>
+<p><strong>Burn rate</strong> là tốc độ tiêu budget so với tốc độ "vừa hết đúng cuối cửa sổ". Burn rate <span class="arithmatex">\(B\)</span> duy trì trong thời gian <span class="arithmatex">\(t\)</span> tiêu một tỉ lệ <span class="arithmatex">\(B \cdot t / T\)</span> budget, với <span class="arithmatex">\(T = 30\)</span> ngày:</p>
+<table>
+<thead>
+<tr>
+<th>Burn rate</th>
+<th>Tiêu trong cửa sổ cảnh báo</th>
+<th>Hết budget sau</th>
+<th>Hành động (theo SRE Workbook)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>14,4</td>
+<td>2% trong 1 giờ</td>
+<td>50 giờ</td>
+<td><strong>gọi người trực</strong></td>
+</tr>
+<tr>
+<td>6</td>
+<td>5% trong 6 giờ</td>
+<td>5 ngày</td>
+<td>gọi người trực</td>
+</tr>
+<tr>
+<td>1</td>
+<td>10% trong 3 ngày</td>
+<td>30 ngày</td>
+<td>tạo ticket</td>
+</tr>
+</tbody>
+</table>
+<!-- placeholder-slo -->
+
+<!-- fig:slo -->
+<figure>
+  <img alt="Error budget còn lại theo thời gian với các burn rate dùng để cảnh báo" loading="lazy" src="../assets/figures/13/slo.light.svg#only-light" />
+  <img alt="Error budget còn lại theo thời gian với các burn rate dùng để cảnh báo" loading="lazy" src="../assets/figures/13/slo.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 13.7 — Error budget còn lại theo thời gian với các burn rate dùng để cảnh báo.</figcaption>
+</figure>
+<!-- /fig -->
+
+<p>Chương <em>Alerting on SLOs</em> của <strong>The Site Reliability Workbook</strong> (Google, 2018) khuyên dùng <strong>nhiều cửa sổ</strong>: cảnh báo khi burn rate vượt ngưỡng ở <strong>cả</strong> cửa sổ dài (1 h, để chắc là thật) <strong>và</strong> cửa sổ ngắn (5 phút, để cảnh báo tự tắt nhanh khi đã hết). Cách này tốt hơn hẳn "p99 &gt; 300 ms trong 5 phút", vốn ồn khi ít traffic và chậm khi có sự cố thật.</p>
+<div class="language-promql highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># tỉ lệ lỗi trong 1 h và 5 phút; cảnh báo khi cả hai &gt; 14,4 × 0,001</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="o">(</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="k">sum</span><span class="o">(</span><span class="kr">rate</span><span class="o">(</span><span class="nv">http_requests_total</span><span class="p">{</span><span class="nl">route</span><span class="o">=</span><span class="p">"</span><span class="s">/v1/invoices</span><span class="p">",</span><span class="nl">status</span><span class="o">=~</span><span class="p">"</span><span class="s">5..</span><span class="p">"}[</span><span class="s">1h</span><span class="p">]</span><span class="o">))</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="o">/</span><span class="w"> </span><span class="k">sum</span><span class="o">(</span><span class="kr">rate</span><span class="o">(</span><span class="nv">http_requests_total</span><span class="p">{</span><span class="nl">route</span><span class="o">=</span><span class="p">"</span><span class="s">/v1/invoices</span><span class="p">"}[</span><span class="s">1h</span><span class="p">]</span><span class="o">))</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="o">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">(</span><span class="mf">14.4</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">0.001</span><span class="o">)</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="ow">and</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="o">(</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">  </span><span class="k">sum</span><span class="o">(</span><span class="kr">rate</span><span class="o">(</span><span class="nv">http_requests_total</span><span class="p">{</span><span class="nl">route</span><span class="o">=</span><span class="p">"</span><span class="s">/v1/invoices</span><span class="p">",</span><span class="nl">status</span><span class="o">=~</span><span class="p">"</span><span class="s">5..</span><span class="p">"}[</span><span class="s">5m</span><span class="p">]</span><span class="o">))</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">  </span><span class="o">/</span><span class="w"> </span><span class="k">sum</span><span class="o">(</span><span class="kr">rate</span><span class="o">(</span><span class="nv">http_requests_total</span><span class="p">{</span><span class="nl">route</span><span class="o">=</span><span class="p">"</span><span class="s">/v1/invoices</span><span class="p">"}[</span><span class="s">5m</span><span class="p">]</span><span class="o">))</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="o">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">(</span><span class="mf">14.4</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">0.001</span><span class="o">)</span>
+</span></code></pre></div>
+<hr />
+<h2 id="4-khi-phu-thuoc-that-bai-timeout-retry-backoff">4. Khi phụ thuộc thất bại: timeout, retry, backoff<a class="headerlink" href="#4-khi-phu-thuoc-that-bai-timeout-retry-backoff" title="Permanent link">&para;</a></h2>
+<h3 id="41-timeout-o-moi-loi-goi-ra-ngoai">4.1. Timeout ở mọi lời gọi ra ngoài<a class="headerlink" href="#41-timeout-o-moi-loi-goi-ra-ngoai" title="Permanent link">&para;</a></h3>
+<p>Mọi lời gọi qua mạng phải có timeout, và timeout của tầng trong phải <strong>ngắn hơn</strong> tầng ngoài. Ngân sách của <code>POST /v1/invoices</code>: p99 300 ms. Phân bổ: DB 100 ms/truy vấn (<code>statement_timeout</code> ở Postgres), pool 50 ms (<code>pool_timeout</code>), Redis 20 ms, tổng request 1 s ở proxy. Với <code>ai-gateway</code>, lời gọi LLM có timeout 45 s (p99 của LLM ~30 s), và <strong>giới hạn tổng thời gian</strong> cho cả chuỗi retry.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="k">async</span> <span class="k">with</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">timeout</span><span class="p">(</span><span class="mf">0.1</span><span class="p">):</span>                    <span class="c1"># Python 3.11+: hủy cả khối nếu quá 100 ms</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    <span class="n">rate_ok</span> <span class="o">=</span> <span class="k">await</span> <span class="n">limiter</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="n">tenant_id</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="42-retry-khi-nao-va-bao-nhieu-lan">4.2. Retry: khi nào và bao nhiêu lần<a class="headerlink" href="#42-retry-khi-nao-va-bao-nhieu-lan" title="Permanent link">&para;</a></h3>
+<p>Chỉ retry khi lỗi <strong>tạm thời</strong> (timeout, 503, 429, kết nối bị reset) <strong>và</strong> thao tác <strong>idempotent</strong>: GET, hoặc POST có <code>Idempotency-Key</code> (Module 10). Retry một POST không có idempotency key là cách tạo hóa đơn trùng.</p>
+<h3 id="43-backoff-va-jitter-mo-phong">4.3. Backoff và jitter: mô phỏng<a class="headerlink" href="#43-backoff-va-jitter-mo-phong" title="Permanent link">&para;</a></h3>
+<p>Mô phỏng <code>p2</code> theo mô hình của Marc Brooker (<em>Exponential Backoff And Jitter</em>, AWS Architecture Blog, 2015). 100 client cùng gọi vào một tài nguyên chỉ phục vụ được 2 lần gọi mỗi khe 10 ms. Lần gọi thất bại thì retry theo chiến lược (base 10 ms, trần 2 s):</p>
+<table>
+<thead>
+<tr>
+<th>Chiến lược</th>
+<th>Tổng số lần gọi</th>
+<th>Lần gọi/client</th>
+<th>Một nửa xong sau</th>
+<th>Tất cả xong sau</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>retry ngay (chờ 1 ms)</td>
+<td>24.600</td>
+<td>246</td>
+<td>0,25 s</td>
+<td>0,49 s</td>
+</tr>
+<tr>
+<td>exponential, <strong>không jitter</strong></td>
+<td>2.550</td>
+<td>25,5</td>
+<td>36,6 s</td>
+<td><strong>84,6 s</strong></td>
+</tr>
+<tr>
+<td>full jitter: <code>uniform(0, min(cap, base·2ⁿ))</code></td>
+<td>646</td>
+<td>6,5</td>
+<td>0,26 s</td>
+<td>1,75 s</td>
+</tr>
+<tr>
+<td>equal jitter</td>
+<td>628</td>
+<td>6,3</td>
+<td>0,38 s</td>
+<td>1,14 s</td>
+</tr>
+<tr>
+<td>decorrelated jitter: <code>min(cap, uniform(base, prev·3))</code></td>
+<td><strong>594</strong></td>
+<td><strong>5,9</strong></td>
+<td>0,25 s</td>
+<td><strong>0,96 s</strong></td>
+</tr>
+</tbody>
+</table>
+<!-- placeholder-backoff -->
+
+<!-- fig:backoff -->
+<figure>
+  <img alt="Mô phỏng: tải tạo ra và thời gian hoàn thành của các chiến lược retry khi 100 client tranh một tài nguyên" loading="lazy" src="../assets/figures/13/backoff.light.svg#only-light" />
+  <img alt="Mô phỏng: tải tạo ra và thời gian hoàn thành của các chiến lược retry khi 100 client tranh một tài nguyên" loading="lazy" src="../assets/figures/13/backoff.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 13.8 — Mô phỏng: tải tạo ra và thời gian hoàn thành của các chiến lược retry khi 100 client tranh một tài nguyên.</figcaption>
+</figure>
+<!-- /fig -->
+
+<ul>
+<li><strong>Retry ngay</strong> xong nhanh trong mô hình lý tưởng này, nhưng bằng cách bắn <strong>246 lần gọi mỗi client</strong>, tức tải gấp 40 lần. Ngoài đời, chính lượng tải đó làm tài nguyên chậm thêm (mục 4.4).</li>
+<li><strong>Exponential không jitter là tệ nhất</strong>: 100 client thất bại cùng lúc thì chờ <strong>cùng một khoảng</strong> và retry <strong>cùng lúc</strong>, lần nào cũng va nhau. Backoff chỉ dời cuộc va chạm ra xa hơn: 84 giây để xong.</li>
+<li><strong>Jitter phá sự đồng bộ</strong>: số lần gọi giảm 4 lần so với không jitter, thời gian giảm ~80 lần.</li>
+</ul>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="k">def</span><span class="w"> </span><span class="nf">backoff</span><span class="p">(</span><span class="n">attempt</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">prev</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">base</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">,</span> <span class="n">cap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">5.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">cap</span><span class="p">,</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">prev</span> <span class="o">*</span> <span class="mi">3</span><span class="p">))</span>      <span class="c1"># decorrelated jitter</span>
+</span></code></pre></div>
+<h3 id="44-metastable-failure-khi-retry-giu-he-thong-o-trang-thai-hong">4.4. Metastable failure: khi retry giữ hệ thống ở trạng thái hỏng<a class="headerlink" href="#44-metastable-failure-khi-retry-giu-he-thong-o-trang-thai-hong" title="Permanent link">&para;</a></h3>
+<p>Bronson và cộng sự (<strong>HotOS 2021</strong>, <em>Metastable Failures in Distributed Systems</em>) gọi tên một loại sự cố quen thuộc. Một <strong>tác nhân kích hoạt</strong> tạm thời (DB chậm, mất một node, đợt tải đột biến) đẩy hệ thống vào trạng thái quá tải. Sau đó một <strong>cơ chế tự duy trì</strong>, thường là retry, giữ nó ở trạng thái đó <strong>kể cả khi tác nhân đã biến mất</strong>. Huang và cộng sự (<strong>OSDI 2022</strong>, <em>Metastable Failures in the Wild</em>) phân tích các sự cố thật kiểu này ở nhiều tổ chức, trong đó có các nhà cung cấp cloud lớn. Họ thấy <strong>retry</strong> là một trong những cơ chế duy trì phổ biến nhất.</p>
+<p>Mô phỏng <code>p3</code> dùng một server FIFO năng lực 100 req/s và khách đến 80 req/s. Client hết kiên nhẫn sau 1 s; server <strong>không biết</strong> điều đó và vẫn xử lý request đã bị bỏ. Từ giây 30 đến giây 40, năng lực tụt còn 40 req/s (tác nhân kích hoạt), rồi trở lại 100:</p>
+<table>
+<thead>
+<tr>
+<th>Chính sách của client / server</th>
+<th>Goodput trước</th>
+<th>Trong sự cố</th>
+<th>Hồi phục sau khi sự cố hết</th>
+<th>Goodput giây 80–120</th>
+<th>Tải gửi tới sau sự cố</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>không retry</td>
+<td>80/s</td>
+<td>10/s</td>
+<td>17 s</td>
+<td>77/s</td>
+<td>77/s</td>
+</tr>
+<tr>
+<td><strong>retry tối đa 3 lần, không chờ</strong></td>
+<td>80/s</td>
+<td>10/s</td>
+<td><strong>không bao giờ</strong> (trong 80 s quan sát)</td>
+<td><strong>0/s</strong></td>
+<td><strong>308/s</strong></td>
+</tr>
+<tr>
+<td>retry có backoff + jitter + <strong>retry budget 10%</strong></td>
+<td>80/s</td>
+<td>10/s</td>
+<td>40 s</td>
+<td>79/s</td>
+<td>77/s</td>
+</tr>
+<tr>
+<td>không retry + <strong>load shedding</strong> (từ chối khi chờ dự kiến &gt; timeout)</td>
+<td>80/s</td>
+<td><strong>21/s</strong></td>
+<td><strong>~1 s</strong></td>
+<td>77/s</td>
+<td>77/s</td>
+</tr>
+</tbody>
+</table>
+<!-- placeholder-metastable -->
+
+<!-- fig:metastable -->
+<figure>
+  <img alt="Mô phỏng metastable failure: sau khi sự cố hết, retry không chờ giữ goodput bằng 0; backoff có budget và load shedding thì hồi phục" loading="lazy" src="../assets/figures/13/metastable.light.svg#only-light" />
+  <img alt="Mô phỏng metastable failure: sau khi sự cố hết, retry không chờ giữ goodput bằng 0; backoff có budget và load shedding thì hồi phục" loading="lazy" src="../assets/figures/13/metastable.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 13.9 — Mô phỏng metastable failure: sau khi sự cố hết, retry không chờ giữ goodput bằng 0; backoff có budget và load shedding thì hồi phục.</figcaption>
+</figure>
+<!-- /fig -->
+
+<p>Cơ chế của dòng thứ hai: khi hàng đợi dài hơn 1 giây, mọi request đều timeout phía client. Mỗi request được gửi lại tối đa 4 lần, nên tải gửi tới gấp gần 4 lần (308/s), vượt xa năng lực 100/s. Server vẫn làm việc, nhưng làm cho những request <strong>đã bị bỏ</strong>. Hàng đợi không bao giờ ngắn lại, và goodput bằng 0 vĩnh viễn, dù "nguyên nhân" đã hết từ lâu. Khởi động lại server cũng không cứu được, vì hàng đợi sẽ đầy lại ngay. Phải cắt vòng khuếch đại.</p>
+<p>Ngay cả khi <strong>không retry</strong>, hệ thống vẫn mất 17 giây để hồi phục. Lý do là server phải xử lý hết lượng request tồn đọng mà client đã bỏ: công vô ích. Có retry budget, hệ thống vẫn hồi phục, nhưng chậm hơn (40 s), vì retry vẫn cộng thêm tải trong lúc hàng đợi rút. Chỉ load shedding hồi phục gần như tức thì, vì hàng đợi không bao giờ được phép dài hơn mức client còn chờ.</p>
+<p>Các biện pháp, theo thứ tự hiệu quả:</p>
+<ol>
+<li><strong>Retry budget</strong>: tổng số retry không vượt quá ~10% số request gốc (token bucket phía client; gRPC và Envoy đều có). Đây là cách chặn khuếch đại trực tiếp nhất.</li>
+<li><strong>Backoff có jitter</strong> (mục 4.3), và <strong>chỉ retry ở một tầng</strong>. Ba tầng, mỗi tầng retry 3 lần, là <span class="arithmatex">\(4^3 = 64\)</span> lần gọi ở tầng dưới cùng.</li>
+<li><strong>Load shedding</strong> ở server: từ chối sớm (503 + <code>Retry-After</code>) những request <strong>chắc chắn không kịp</strong>, để năng lực dành cho request còn cứu được.</li>
+<li><strong>Circuit breaker</strong> (Nygard, <em>Release It!</em>): sau N lỗi liên tiếp tới một phụ thuộc thì "ngắt mạch", trả lỗi ngay trong một khoảng thời gian, rồi thử lại từng chút (half-open). Nó bảo vệ cả phụ thuộc (cho nó thời gian hồi phục) lẫn chính mình (không giữ luồng và kết nối để chờ thứ chắc chắn hỏng).</li>
+</ol>
+<h3 id="45-load-shedding-thi-nghiem-that">4.5. Load shedding: thí nghiệm thật<a class="headerlink" href="#45-load-shedding-thi-nghiem-that" title="Permanent link">&para;</a></h3>
+<p>Thí nghiệm <code>p6</code>: uvicorn thật, một tiến trình, endpoint tốn ~4 ms CPU (năng lực ~200 req/s). Tải open-loop Poisson trong 20 giây, client timeout 1 s:</p>
+<table>
+<thead>
+<tr>
+<th>Cấu hình</th>
+<th>Tải</th>
+<th>Goodput</th>
+<th>503 (từ chối nhanh)</th>
+<th><strong>Timeout</strong> (chờ 1 s rồi hỏng)</th>
+<th>p50 / p99 của request thành công</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>không giới hạn</td>
+<td>150/s</td>
+<td>149/s</td>
+<td>0</td>
+<td>0</td>
+<td>11 / 63 ms</td>
+</tr>
+<tr>
+<td>không giới hạn</td>
+<td><strong>300/s</strong></td>
+<td>201/s</td>
+<td>0</td>
+<td><strong>1.956</strong></td>
+<td>274 / 346 ms</td>
+</tr>
+<tr>
+<td><code>uvicorn --limit-concurrency 20</code></td>
+<td>300/s</td>
+<td><strong>31/s</strong></td>
+<td>5.360</td>
+<td>0</td>
+<td>25 / 218 ms</td>
+</tr>
+<tr>
+<td><strong>ASGI middleware: tối đa 20 request in-flight</strong></td>
+<td>300/s</td>
+<td><strong>220/s</strong></td>
+<td>1.583</td>
+<td><strong>0</strong></td>
+<td><strong>133 / 182 ms</strong></td>
+</tr>
+</tbody>
+</table>
+<!-- placeholder-shedding -->
+
+<!-- fig:shedding -->
+<figure>
+  <img alt="Số đo thật: load shedding dưới tải 1,5 lần năng lực — không giới hạn, --limit-concurrency của uvicorn, và giới hạn in-flight ở tầng ứng dụng" loading="lazy" src="../assets/figures/13/shedding.light.svg#only-light" />
+  <img alt="Số đo thật: load shedding dưới tải 1,5 lần năng lực — không giới hạn, --limit-concurrency của uvicorn, và giới hạn in-flight ở tầng ứng dụng" loading="lazy" src="../assets/figures/13/shedding.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 13.10 — Số đo thật: load shedding dưới tải 1,5 lần năng lực — không giới hạn, --limit-concurrency của uvicorn, và giới hạn in-flight ở tầng ứng dụng.</figcaption>
+</figure>
+<!-- /fig -->
+
+<ul>
+<li><strong>Không giới hạn</strong>: một phần ba request chờ đúng 1 giây rồi thất bại. Đó là trải nghiệm tệ nhất có thể, và client sẽ retry. Server còn tốn CPU cho những request mà client đã bỏ.</li>
+<li><strong><code>--limit-concurrency</code> của uvicorn là cái bẫy</strong>: nó đếm <strong>kết nối và task</strong>, không chỉ request đang xử lý. Client (hoặc load balancer) giữ nhiều kết nối keep-alive rảnh, các kết nối đó chiếm hết hạn mức, nên server từ chối gần như mọi request: goodput còn 31/s. Nó hợp để bảo vệ khỏi cạn file descriptor, không hợp làm load shedding.</li>
+<li><strong>Giới hạn số request in-flight ở tầng ứng dụng</strong> cho goodput cao nhất (220/s), không timeout nào, latency của request thành công thấp nhất. Request bị từ chối nhận 503 ngay lập tức, kèm <code>Retry-After</code>. Đó là tín hiệu tốt hơn nhiều so với im lặng 1 giây.</li>
+</ul>
+<p>Middleware này chỉ ~20 dòng (thuần ASGI, Module 07). Đặt ngưỡng theo định luật Little: năng lực × latency mục tiêu, ví dụ 200 req/s × 0,1 s = 20.</p>
+<hr />
+<h2 id="5-case-mekong-cloud-cau-hinh-van-hanh-cua-hai-dich-vu">5. Case Mekong Cloud: cấu hình vận hành của hai dịch vụ<a class="headerlink" href="#5-case-mekong-cloud-cau-hinh-van-hanh-cua-hai-dich-vu" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Hạng mục</th>
+<th><code>invoice-api</code></th>
+<th><code>ai-gateway</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Process model</td>
+<td>1 Uvicorn/pod, 1 vCPU; 4 pod (min), HPA tới 20 theo CPU 60%</td>
+<td>1 Uvicorn/pod; 2 pod; scale theo số SSE đang mở</td>
+</tr>
+<tr>
+<td>Probe</td>
+<td>readiness: pool DB + Redis + cờ tắt; liveness: event loop</td>
+<td>readiness: thêm hạn mức LLM còn lại</td>
+</tr>
+<tr>
+<td>Shutdown</td>
+<td>preStop 8 s, <code>--timeout-graceful-shutdown 20</code></td>
+<td>preStop 8 s, gửi sự kiện SSE <code>retry</code> cho client rồi đóng; grace 60 s</td>
+</tr>
+<tr>
+<td>Telemetry</td>
+<td>span server + metric, operation span tắt; lấy mẫu 5%, giữ 100% trace lỗi/chậm ở collector (tail sampling)</td>
+<td>operation span bật (ít request, mỗi request dài); span cho từng lần gọi LLM, kèm token in/out</td>
+</tr>
+<tr>
+<td>SLI/SLO</td>
+<td>99,9% <code>POST</code> không 5xx <strong>và</strong> &lt; 300 ms, 30 ngày</td>
+<td>99% draft sẵn sàng &lt; 60 s sau webhook</td>
+</tr>
+<tr>
+<td>Cảnh báo</td>
+<td>burn rate 14,4 (1 h &amp; 5 m), 6 (6 h &amp; 30 m)</td>
+<td>burn rate + chi phí LLM theo giờ</td>
+</tr>
+<tr>
+<td>Retry</td>
+<td>không retry phía server; client POS retry có jitter + <code>Idempotency-Key</code></td>
+<td>retry LLM tối đa 2 lần, decorrelated jitter, retry budget 10%, circuit breaker theo provider</td>
+</tr>
+<tr>
+<td>Load shedding</td>
+<td>in-flight ≤ 20/pod → 503 + <code>Retry-After: 1</code></td>
+<td>giới hạn lượt chạy đồng thời theo tenant</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="loi-thuong-gap-cach-xu-ly">Lỗi thường gặp &amp; cách xử lý<a class="headerlink" href="#loi-thuong-gap-cach-xu-ly" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Triệu chứng</th>
+<th>Nguyên nhân gốc</th>
+<th>Cách xử lý</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mỗi lần deploy có vài chục lỗi 502/connection refused</td>
+<td>pod nhận SIGTERM trước khi được rút khỏi LB</td>
+<td><code>preStop: sleep</code>; readiness fail khi bắt đầu tắt</td>
+</tr>
+<tr>
+<td>Deploy treo tới 30 s rồi pod bị SIGKILL</td>
+<td><code>--timeout-graceful-shutdown</code> không đặt; request dài/SSE</td>
+<td>đặt timeout &lt; grace period; báo client SSE kết nối lại</td>
+</tr>
+<tr>
+<td>DB chậm → mọi pod restart cùng lúc</td>
+<td>liveness kiểm DB</td>
+<td>phụ thuộc ngoài chỉ ở readiness</td>
+</tr>
+<tr>
+<td>Tín hiệu không tới uvicorn</td>
+<td><code>CMD</code> dạng shell, PID 1 là <code>sh</code></td>
+<td><code>CMD</code> dạng exec</td>
+</tr>
+<tr>
+<td>Dashboard p99 "ổn" khi có pod tệ</td>
+<td>trung bình các percentile</td>
+<td>gộp histogram rồi mới tính quantile</td>
+</tr>
+<tr>
+<td>p99 nhảy bậc, không mượt</td>
+<td>bucket histogram thưa quanh vùng quan tâm</td>
+<td>bucket dày quanh ngưỡng SLO</td>
+</tr>
+<tr>
+<td>CPU tăng ~30% sau khi bật tracing</td>
+<td>operation span trên đường nóng</td>
+<td>tắt <code>operation_spans</code> cho route nóng; lấy mẫu; exclude probe</td>
+</tr>
+<tr>
+<td>Cảnh báo réo cả đêm khi ít traffic</td>
+<td>ngưỡng tĩnh trên latency/lỗi</td>
+<td>cảnh báo theo burn rate nhiều cửa sổ</td>
+</tr>
+<tr>
+<td>Sự cố nhỏ thành sập kéo dài, khởi động lại không đỡ</td>
+<td>retry khuếch đại (metastable)</td>
+<td>retry budget, backoff + jitter, retry một tầng, load shedding</td>
+</tr>
+<tr>
+<td>Retry tạo dữ liệu trùng</td>
+<td>retry thao tác không idempotent</td>
+<td>chỉ retry GET hoặc POST có <code>Idempotency-Key</code></td>
+</tr>
+<tr>
+<td><code>--limit-concurrency</code> từ chối gần hết request</td>
+<td>đếm cả kết nối keep-alive rảnh</td>
+<td>giới hạn request in-flight ở tầng ứng dụng</td>
+</tr>
+<tr>
+<td>Log chiếm nhiều CPU hơn xử lý request</td>
+<td>log nhiều dòng/request, định dạng tốn kém</td>
+<td>một dòng access log có cấu trúc; log mức DEBUG tắt ở production</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tom-tat-cheat-sheet">Tóm tắt (cheat-sheet)<a class="headerlink" href="#tom-tat-cheat-sheet" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Container</strong>: multi-stage, user không phải root, <code>CMD</code> dạng exec, uvloop + httptools; <strong>1 Uvicorn/pod</strong> trên Kubernetes.</li>
+<li><strong>Probe</strong>: startup (khởi động), liveness (chỉ bản thân tiến trình), readiness (phụ thuộc ngoài + đang tắt). Không đưa DB vào liveness.</li>
+<li><strong>Shutdown</strong>: preStop sleep → SIGTERM → chờ request dở dang (<code>--timeout-graceful-shutdown</code> &lt; grace period) → lifespan dọn dẹp.</li>
+<li><strong>Quan sát</strong>: metric ~5 µs, log JSON ~32 µs/dòng, span server ~27 µs, operation span +165 µs. Gắn <code>trace_id</code> + <code>tenant_id</code> vào log. RED cho route, USE cho pool/threadpool/event loop.</li>
+<li><strong>Percentile</strong>: gộp histogram, không lấy trung bình p99; bucket dày quanh ngưỡng SLO.</li>
+<li><strong>SLO</strong>: 99,9%/30 ngày ⇒ 54.000 request hỏng. Cảnh báo burn rate 14,4 (1 h + 5 m) và 6 (6 h + 30 m).</li>
+<li><strong>Lỗi</strong>: timeout mọi lời gọi; retry chỉ khi tạm thời + idempotent; decorrelated jitter; retry budget 10%; retry một tầng; circuit breaker; load shedding = in-flight ≤ năng lực × latency mục tiêu.</li>
+</ul>
+<h2 id="cau-hoi-tu-kiem-tra-phong-van">Câu hỏi tự kiểm tra / phỏng vấn<a class="headerlink" href="#cau-hoi-tu-kiem-tra-phong-van" title="Permanent link">&para;</a></h2>
+<p><strong>1.</strong> Vì sao không nên kiểm kết nối database trong liveness probe?</p>
+<details>
+<summary>Đáp án</summary>
+<p>Liveness thất bại thì Kubernetes <strong>khởi động lại</strong> container. Khi DB chậm hoặc tạm sập, mọi pod cùng fail liveness và bị khởi động lại đồng loạt. Khởi động lại không chữa được DB, lại mất cache, mất request đang chạy, và tạo một đợt mở kết nối dồn dập vào DB đang yếu. Phụ thuộc bên ngoài thuộc về readiness: pod tạm rút khỏi load balancer và tự quay lại khi DB khỏe.</p>
+</details>
+<p><strong>2.</strong> Uvicorn đã chờ request đang chạy xong khi nhận SIGTERM. Vì sao rolling deploy vẫn có lỗi connection refused, và <code>preStop: sleep 8</code> giải quyết thế nào?</p>
+<details>
+<summary>Đáp án</summary>
+<p>Khi xóa pod, Kubernetes <strong>đồng thời</strong> gửi SIGTERM và cập nhật EndpointSlice. kube-proxy, ingress và load balancer cần vài giây để thấy thay đổi. Trong vài giây đó, traffic vẫn tới pod, nhưng uvicorn đã đóng socket lắng nghe ngay khi nhận SIGTERM, nên có connection refused (thí nghiệm <code>p1</code>: 10/10 request mới bị từ chối). <code>preStop</code> chạy <strong>trước</strong> SIGTERM. Trong 8 giây sleep, pod vẫn phục vụ bình thường trong khi các load balancer rút nó ra. Khi SIGTERM tới, đã không còn traffic mới.</p>
+</details>
+<p><strong>3.</strong> Bật OTel tích hợp của FastAPI làm request chậm thêm 165 µs. Liệt kê ba cách giảm chi phí và nói rõ cách nào <strong>không</strong> hiệu quả như mong đợi.</p>
+<details>
+<summary>Đáp án</summary>
+<p>(1) Tắt <code>operation_spans</code> cho service nóng: chỉ còn span server, ~+27 µs. (2) <code>exclude</code> cho <code>/health</code> và các route không cần trace. (3) Dùng <code>BatchSpanProcessor</code> (không dùng Simple) để xuất span không chặn request. <strong>Lấy mẫu</strong> ít hiệu quả hơn mong đợi: lấy mẫu 10% vẫn tốn +102 µs, vì span vẫn được tạo (non-recording) và context vẫn được truyền. Lấy mẫu chủ yếu giảm chi phí xuất và lưu trữ.</p>
+</details>
+<p><strong>4.</strong> Bốn pod có p99 lần lượt 92, 95, 92, 366 ms. Dashboard hiển thị "p99 = 161 ms". Sai ở đâu, và p99 thật là bao nhiêu?</p>
+<details>
+<summary>Đáp án</summary>
+<p>161 là trung bình các p99. Percentile không cộng hoặc trung bình được. p99 của tổng thể phụ thuộc vào cả phân phối và <strong>lượng traffic</strong> của từng pod. Gộp mọi mẫu (hoặc cộng histogram của các pod) thì p99 thật là ~198 ms, cao hơn 23%. Dashboard đúng: <code>histogram_quantile(0.99, sum by (le) (rate(..._bucket[5m])))</code>.</p>
+</details>
+<p><strong>5.</strong> SLO 99,9% trong 30 ngày. Một sự cố làm tỉ lệ lỗi 1,44% trong 1 giờ. Đã tiêu bao nhiêu budget? Có nên gọi người trực không?</p>
+<details>
+<summary>Đáp án</summary>
+<p>Burn rate <span class="arithmatex">\(= 0{,}0144 / 0{,}001 = 14{,}4\)</span>. Trong 1 giờ nó tiêu <span class="arithmatex">\(14{,}4 \times 1 / 720 = 2\%\)</span> budget. Nếu kéo dài, budget hết sau 50 giờ. Theo SRE Workbook, burn rate ≥ 14,4 ở cửa sổ 1 h (và vẫn cao ở cửa sổ 5 phút) là mức <strong>gọi người trực</strong>.</p>
+</details>
+<p><strong>6.</strong> Vì sao exponential backoff <strong>không jitter</strong> cho kết quả tệ hơn cả retry ngay lập tức, xét theo thời gian hoàn thành?</p>
+<details>
+<summary>Đáp án</summary>
+<p>Các client thất bại cùng lúc sẽ tính ra <strong>cùng một</strong> thời gian chờ <span class="arithmatex">\(\text{base} \cdot 2^n\)</span> và retry cùng lúc, nên lại va nhau. Mỗi vòng, chỉ vài client thành công, số còn lại chờ lâu gấp đôi rồi lại va nhau. Thời gian hoàn thành tăng theo cấp số nhân (84 s trong mô phỏng). Retry ngay thì liên tục thử nên tận dụng mọi khe trống, nhưng trả giá bằng tải gấp nhiều lần. Jitter giải quyết cả hai: phân tán các lần retry để không va nhau, và vẫn giảm tải.</p>
+</details>
+<p><strong>7.</strong> Giải thích metastable failure bằng mô phỏng <code>p3</code>. Vì sao khởi động lại server không giải quyết được?</p>
+<details>
+<summary>Đáp án</summary>
+<p>Tác nhân (năng lực tụt 40 req/s trong 10 s) làm hàng đợi dài quá 1 s. Mọi request timeout phía client, client retry, nên tải gửi tới tăng gần 4 lần (308/s) và vượt năng lực 100/s <strong>ngay cả khi năng lực đã phục hồi</strong>. Server tốn sức xử lý request đã bị bỏ, hàng đợi không ngắn lại, goodput = 0. Khởi động lại làm rỗng hàng đợi, nhưng 308 req/s vẫn đang đổ tới nên hàng đợi đầy lại trong vài giây. Phải giảm tải khuếch đại: retry budget, backoff, hoặc load shedding.</p>
+</details>
+<p><strong>8.</strong> Vì sao <code>uvicorn --limit-concurrency 20</code> cho goodput 31/s trong khi middleware giới hạn 20 request in-flight cho 220/s?</p>
+<details>
+<summary>Đáp án</summary>
+<p><code>--limit-concurrency</code> đếm <strong>kết nối và task</strong> đang mở. Client và load balancer giữ nhiều kết nối keep-alive <strong>rảnh</strong>, và chúng chiếm hạn mức, nên server trả 503 cho phần lớn request dù CPU còn rảnh. Middleware đếm đúng thứ cần giới hạn: request <strong>đang được xử lý</strong>.</p>
+</details>
+<p><strong>9.</strong> Ba tầng gọi nhau (gateway → <code>ai-gateway</code> → LLM provider), mỗi tầng retry 3 lần. Trong trường hợp xấu nhất, một request của người dùng tạo bao nhiêu lời gọi tới LLM? Sửa thế nào?</p>
+<details>
+<summary>Đáp án</summary>
+<p>Mỗi tầng gọi tối đa 4 lần (1 + 3 retry), nên tầng dưới cùng nhận <span class="arithmatex">\(4^3 = 64\)</span> lời gọi. Sửa: chỉ retry ở <strong>một</strong> tầng, thường là tầng gần phụ thuộc nhất (<code>ai-gateway</code> → LLM). Các tầng trên truyền lỗi lên, hoặc retry với retry budget rất nhỏ. Đặt <strong>deadline</strong> tổng cho request và truyền nó xuống (header <code>grpc-timeout</code> hoặc tự định nghĩa), để tầng dưới không retry khi tầng trên đã hết kiên nhẫn.</p>
+</details>
+<p><strong>10.</strong> Đặt ngưỡng load shedding (số request in-flight) cho một pod có năng lực 200 req/s và mục tiêu latency 100 ms. Giải thích.</p>
+<details>
+<summary>Đáp án</summary>
+<p>Theo định luật Little, <span class="arithmatex">\(L = \lambda W = 200 \times 0{,}1 = 20\)</span> request in-flight là mức tương ứng với việc chạy hết năng lực mà latency trung bình vẫn ở 100 ms. Cho phép nhiều hơn thì latency tăng mà thông lượng không tăng (server đã bão hòa). Request thứ 21 trở đi nên nhận 503 ngay để client retry ở pod khác hoặc sau <code>Retry-After</code>.</p>
+</details>
+<h2 id="bai-tap-thuc-hanh">Bài tập thực hành<a class="headerlink" href="#bai-tap-thuc-hanh" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Graceful shutdown trên kind.</strong> Deploy <code>invoice-api</code> lên một cluster kind, chạy tải liên tục 100 req/s, rồi <code>kubectl rollout restart</code>. Đếm số lỗi khi không có <code>preStop</code> và khi có <code>preStop: sleep 8</code>.</li>
+<li><strong>Dashboard RED.</strong> Viết một ASGI middleware xuất <code>http_server_request_duration_seconds</code> với bucket chỉnh quanh 300 ms (nhãn <code>route</code> là template), và một truy vấn PromQL tính tỉ lệ request &lt; 300 ms trong 30 ngày.</li>
+<li><strong>Retry budget.</strong> Cài token bucket phía client cho <code>httpx</code>: mỗi request gốc +0,1 token, mỗi retry −1 token. Chạy lại mô phỏng <code>p3</code> với client này và so goodput sau sự cố.</li>
+<li><strong>Circuit breaker.</strong> Cài circuit breaker ba trạng thái (closed / open / half-open) cho lời gọi LLM của <code>ai-gateway</code>. Viết test bằng <code>dependency_overrides</code> với một provider giả thất bại theo kịch bản.</li>
+</ol>
+<h2 id="tai-lieu-tham-khao">Tài liệu tham khảo<a class="headerlink" href="#tai-lieu-tham-khao" title="Permanent link">&para;</a></h2>
+<ul>
+<li>B. H. Sigelman, L. A. Barroso, M. Burrows, P. Stephenson, M. Plakal, D. Beaver, S. Jaspan, C. Shanbhag. <em>Dapper, a Large-Scale Distributed Systems Tracing Infrastructure</em>. Google Technical Report dapper-2010-1, 2010.</li>
+<li>N. Bronson, A. Aghayev, A. Charapko, T. Zhu. <em>Metastable Failures in Distributed Systems</em>. <strong>HotOS 2021</strong>.</li>
+<li>L. Huang, M. Magnusson, A. B. Muralikrishna, S. Estyak, R. Isaacs, A. Aghayev, T. Zhu, A. Charapko. <em>Metastable Failures in the Wild</em>. <strong>OSDI 2022</strong>.</li>
+<li>J. Dean, L. A. Barroso. <em>The Tail at Scale</em>. <strong>Communications of the ACM</strong> 56(2), 2013.</li>
+<li>M. Brooker. <em>Exponential Backoff And Jitter</em>. AWS Architecture Blog, 2015. <a href="https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/">aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/</a></li>
+<li>B. Beyer, C. Jones, J. Petoff, N. R. Murphy (eds.). <em>Site Reliability Engineering</em>. O'Reilly, 2016. <a href="https://sre.google/sre-book/table-of-contents/">sre.google/sre-book</a></li>
+<li>B. Beyer, N. R. Murphy, D. K. Rensin, K. Kawahara, S. Thorne (eds.). <em>The Site Reliability Workbook</em> — chương <em>Alerting on SLOs</em>. O'Reilly, 2018. <a href="https://sre.google/workbook/alerting-on-slos/">sre.google/workbook/alerting-on-slos</a></li>
+<li>M. T. Nygard. <em>Release It! Design and Deploy Production-Ready Software</em>, 2nd ed. Pragmatic Bookshelf, 2018 (circuit breaker, bulkhead).</li>
+<li>B. Gregg. <em>The USE Method</em>. <a href="https://www.brendangregg.com/usemethod.html">brendangregg.com/usemethod.html</a></li>
+<li>T. Wilkie. <em>The RED Method: How to Instrument Your Services</em>. Grafana Labs, 2018.</li>
+<li>W3C. <em>Trace Context</em> (Recommendation). <a href="https://www.w3.org/TR/trace-context/">w3.org/TR/trace-context</a></li>
+<li>OpenTelemetry: <a href="https://opentelemetry.io/docs/specs/otel/">Specification</a>, <a href="https://opentelemetry.io/docs/specs/semconv/http/">HTTP semantic conventions</a>.</li>
+<li>Prometheus: <a href="https://prometheus.io/docs/practices/histograms/">Histograms and summaries</a>.</li>
+<li>Kubernetes: <a href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/">Configure Liveness, Readiness and Startup Probes</a>, <a href="https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-termination">Pod Lifecycle — Termination of Pods</a>.</li>
+<li>Uvicorn: <a href="https://www.uvicorn.org/settings/">Settings</a> (<code>--timeout-graceful-shutdown</code>, <code>--limit-concurrency</code>).</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Trở lại mục lục
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Chân trang" >
+        
+          
+          <a href="../12-testing-va-chat-luong/" class="md-footer__link md-footer__link--prev" aria-label="Trước: 12 · Testing &amp; chất lượng">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Trước
+              </span>
+              <div class="md-ellipsis">
+                12 · Testing & chất lượng
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../14-capstone-thiet-ke-he-thong/" class="md-footer__link md-footer__link--next" aria-label="Sau: 14 · Capstone: thiết kế hệ thống">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Sau
+              </span>
+              <div class="md-ellipsis">
+                14 · Capstone: thiết kế hệ thống
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Tài liệu học tập — Pydantic & FastAPI Masterclass · 2026
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/HieNguyen08/learn-pydantic-and-fastapi" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.top", "navigation.footer", "navigation.indexes", "navigation.tracking", "toc.follow", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "content.action.edit"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u0110\u00e3 sao ch\u00e9p", "clipboard.copy": "Sao ch\u00e9p v\u00e0o b\u1ed9 nh\u1edb t\u1ea1m", "search.result.more.one": "1 t\u1eeb kh\u00e1c trong trang", "search.result.more.other": "# t\u1eeb kh\u00e1c trong trang", "search.result.none": "Kh\u00f4ng t\u00ecm th\u1ea5y t\u00e0i li\u1ec7u li\u00ean quan", "search.result.one": "1 t\u00e0i li\u1ec7u li\u00ean quan", "search.result.other": "# t\u00e0i li\u1ec7u li\u00ean quan", "search.result.placeholder": "Nh\u1eadp \u0111\u1ec3 b\u1eaft \u0111\u1ea7u t\u00ecm ki\u1ebfm", "search.result.term.missing": "Kh\u00f4ng", "select.version": "Ch\u1ecdn phi\u00ean b\u1ea3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

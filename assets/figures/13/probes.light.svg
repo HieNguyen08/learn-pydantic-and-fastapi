@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="702.72pt" height="265.637647pt" viewBox="0 0 702.72 265.637647" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 265.637647 
+L 702.72 265.637647 
+L 702.72 0 
+L 0 0 
+L 0 265.637647 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 22.023529 229.383529 
+L 223.284706 229.383529 
+Q 229.383529 229.383529 229.383529 223.284706 
+L 229.383529 52.517647 
+Q 229.383529 46.418824 223.284706 46.418824 
+L 22.023529 46.418824 
+Q 15.924706 46.418824 15.924706 52.517647 
+L 15.924706 223.284706 
+Q 15.924706 229.383529 22.023529 229.383529 
+z
+" clip-path="url(#pad963a9bb3)" style="fill: #f1eff8; stroke: #4a3aa7; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 250.729412 229.383529 
+L 451.990588 229.383529 
+Q 458.089412 229.383529 458.089412 223.284706 
+L 458.089412 52.517647 
+Q 458.089412 46.418824 451.990588 46.418824 
+L 250.729412 46.418824 
+Q 244.630588 46.418824 244.630588 52.517647 
+L 244.630588 223.284706 
+Q 244.630588 229.383529 250.729412 229.383529 
+z
+" clip-path="url(#pad963a9bb3)" style="fill: #fdf0f0; stroke: #e34948; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 479.435294 229.383529 
+L 680.696471 229.383529 
+Q 686.795294 229.383529 686.795294 223.284706 
+L 686.795294 52.517647 
+Q 686.795294 46.418824 680.696471 46.418824 
+L 479.435294 46.418824 
+Q 473.336471 46.418824 473.336471 52.517647 
+L 473.336471 223.284706 
+Q 473.336471 229.383529 479.435294 229.383529 
+z
+" clip-path="url(#pad963a9bb3)" style="fill: #ebf5eb; stroke: #008300; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 9px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #4a3aa7" x="122.654118" y="66.748235" transform="rotate(-0 122.654118 66.748235)">startup</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 7.4px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #1b1b1a" transform="translate(86.426493 104.695508)">đã khởi động xong?</text>
+    <text style="font-size: 7.4px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #1b1b1a" transform="translate(73.638368 114.334875)">(nạp cache, kiểm schema)</text>
+   </g>
+   <g id="text_3">
+    <text style="font-size: 7.4px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #4a3aa7" transform="translate(65.962024 170.773612)">chưa → chưa chạy 2 probe kia;</text>
+    <text style="font-size: 7.4px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #4a3aa7" transform="translate(78.346618 180.026792)">quá hạn → khởi động lại</text>
+   </g>
+   <g id="text_4">
+    <text style="font-weight: 700; font-size: 9px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #e34948" x="351.36" y="66.748235" transform="rotate(-0 351.36 66.748235)">liveness</text>
+   </g>
+   <g id="text_5">
+    <text style="font-size: 7.4px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #1b1b1a" transform="translate(304.542859 105.062039)">tiến trình còn tự hồi phục</text>
+    <text style="font-size: 7.4px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #1b1b1a" transform="translate(304.100594 114.240063)">được không? (event loop)</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 7.4px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #e34948" transform="translate(302.444844 171.818862)">thất bại → KHỞI ĐỘNG LẠI</text>
+    <text style="font-size: 7.4px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #e34948" transform="translate(333.828359 180.700885)">container</text>
+   </g>
+   <g id="text_7">
+    <text style="font-weight: 700; font-size: 9px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #008300" x="580.065882" y="66.748235" transform="rotate(-0 580.065882 66.748235)">readiness</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 7.4px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #1b1b1a" transform="translate(543.156648 104.603008)">có nên nhận traffic?</text>
+    <text style="font-size: 7.4px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #1b1b1a" transform="translate(530.402632 114.352219)">(pool DB, Redis, đang tắt?)</text>
+   </g>
+   <g id="text_9">
+    <text style="font-size: 7.4px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #008300" transform="translate(538.010179 171.393362)">thất bại → RÚT khỏi LB</text>
+    <text style="font-size: 7.4px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #008300" transform="translate(540.796742 180.646542)">(không khởi động lại)</text>
+   </g>
+   <g id="text_10">
+    <text style="font-weight: 700; font-size: 9px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #1b1b1a" x="15.924706" y="26.089412" transform="rotate(-0 15.924706 26.089412)">Ba probe, ba câu hỏi khác nhau — phụ thuộc ngoài (DB) chỉ thuộc readiness</text>
+   </g>
+   <g id="text_11">
+    <text style="font-size: 6.8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #e34948" x="351.36" y="209.054118" transform="rotate(-0 351.36 209.054118)">✗ đừng kiểm DB ở đây: DB chậm → mọi pod restart</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pad963a9bb3">
+   <rect x="5.76" y="5.76" width="691.2" height="254.117647"/>
+  </clipPath>
+ </defs>
+</svg>

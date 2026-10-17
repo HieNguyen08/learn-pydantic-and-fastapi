@@ -1,0 +1,3242 @@
+
+<!doctype html>
+<html lang="vi" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Pydantic & FastAPI từ nền tảng đến hệ thống production — xoay quanh API hóa đơn điện tử và AI gateway của Mekong Cloud">
+      
+      
+        <meta name="author" content="HieNguyen08">
+      
+      
+        <link rel="canonical" href="https://hienguyen08.github.io/learn-pydantic-and-fastapi/12-testing-va-chat-luong/">
+      
+      
+        <link rel="prev" href="../11-bao-mat-api/">
+      
+      
+        <link rel="next" href="../13-production-va-observability/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>12 · Testing & chất lượng - Pydantic & FastAPI Masterclass</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Be+Vietnam+Pro:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Be Vietnam Pro";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="deep-orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#module-12-testing-chat-luong" class="md-skip">
+          Bỏ qua
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Đầu trang">
+    <a href=".." title="Pydantic &amp; FastAPI Masterclass" class="md-header__button md-logo" aria-label="Pydantic & FastAPI Masterclass" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 7H5a2 2 0 0 0-2 2v8h2v-4h2v4h2V9a2 2 0 0 0-2-2m0 4H5V9h2m7-2h-4v10h2v-4h2a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2m0 4h-2V9h2m6 0v6h1v2h-4v-2h1V9h-1V7h4v2Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Pydantic & FastAPI Masterclass
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              12 · Testing & chất lượng
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="deep-orange"  aria-label="Chuyển sang nền tối"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Chuyển sang nền tối" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="deep-orange"  aria-label="Chuyển sang nền sáng"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Chuyển sang nền sáng" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Tìm kiếm" placeholder="Tìm kiếm" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Tìm kiếm">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Xoá" aria-label="Xoá" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/HieNguyen08/learn-pydantic-and-fastapi" title="Xem mã nguồn" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    HieNguyen08/learn-pydantic-and-fastapi
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Trang chủ
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../00-tong-quan-va-bai-toan/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Phần I · Nền tảng
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../03-pydantic-v2-kien-truc/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Phần II · Pydantic
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../07-fastapi-vong-doi-request/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Phần III · FastAPI
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Phần IV · Chất lượng & vận hành
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../15-pydantic-cho-llm/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Phần V · Chuyên đề
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../labs/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Thực hành
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Thanh điều hướng" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Pydantic &amp; FastAPI Masterclass" class="md-nav__button md-logo" aria-label="Pydantic & FastAPI Masterclass" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 7H5a2 2 0 0 0-2 2v8h2v-4h2v4h2V9a2 2 0 0 0-2-2m0 4H5V9h2m7-2h-4v10h2v-4h2a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2m0 4h-2V9h2m6 0v6h1v2h-4v-2h1V9h-1V7h4v2Z"/></svg>
+
+    </a>
+    Pydantic & FastAPI Masterclass
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/HieNguyen08/learn-pydantic-and-fastapi" title="Xem mã nguồn" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    HieNguyen08/learn-pydantic-and-fastapi
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trang chủ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phần I · Nền tảng
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phần I · Nền tảng
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-tong-quan-va-bai-toan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    00 · Tổng quan & bài toán
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-kieu-du-lieu-va-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01 · Kiểu dữ liệu & validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-http-rest-asgi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02 · HTTP, REST & ASGI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phần II · Pydantic
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phần II · Pydantic
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-pydantic-v2-kien-truc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03 · Pydantic v2: kiến trúc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-validators-kieu-tuy-bien-union/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04 · Validator, kiểu tùy biến & union
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-serialization-json-schema-settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05 · Serialization, JSON Schema & settings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-hieu-nang-pydantic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06 · Hiệu năng Pydantic
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phần III · FastAPI
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phần III · FastAPI
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-fastapi-vong-doi-request/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07 · Vòng đời request
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-dependency-injection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08 · Dependency injection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09-async-dong-thoi-hieu-nang/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09 · Async, đồng thời & hiệu năng
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10-database-va-persistence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10 · Database & persistence
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11-bao-mat-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11 · Bảo mật API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phần IV · Chất lượng & vận hành
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phần IV · Chất lượng & vận hành
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12 · Testing & chất lượng
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12 · Testing & chất lượng
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Mục lục">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Mục lục
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#muc-tieu-hoc-tap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mục tiêu học tập
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-test-cai-gi-o-tang-nao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Test cái gì, ở tầng nào
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Test cái gì, ở tầng nào">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-kim-tu-thap-cup-va-chi-phi-that" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1. Kim tự tháp, cúp, và chi phí thật
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-ba-cach-goi-app-trong-test-so-o" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2. Ba cách gọi app trong test: số đo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-thay-phu-thuoc-dependency_overrides" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3. Thay phụ thuộc: dependency_overrides
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-test-voi-database-that" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Test với database thật
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Test với database thật">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-vi-sao-khong-mock-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1. Vì sao không mock database
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-co-lap-giua-cac-test-ba-chien-luoc-so-o" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. Cô lập giữa các test: ba chiến lược, số đo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-property-based-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Property-based testing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Property-based testing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-tu-vi-du-en-thuoc-tinh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1. Từ ví dụ đến thuộc tính
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-thi-nghiem-ba-loi-that-test-vi-du-bo-sot-ca-ba" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2. Thí nghiệm: ba lỗi thật, test ví dụ bỏ sót cả ba
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-strategy-tu-model-pydantic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3. Strategy từ model Pydantic
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-van-hanh-trong-ci" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4. Vận hành trong CI
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-fuzz-theo-schema-schemathesis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Fuzz theo schema: Schemathesis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Fuzz theo schema: Schemathesis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-y-tuong" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1. Ý tưởng
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-thi-nghiem-mot-app-co-ba-loi-cai-san" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2. Thí nghiệm: một app có ba lỗi cài sẵn
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-ua-vao-ci" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3. Đưa vào CI
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-mutation-testing-test-cua-ban-co-that-su-kiem-tra-gi-khong" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Mutation testing: test của bạn có thật sự kiểm tra gì không?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Mutation testing: test của bạn có thật sự kiểm tra gì không?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-y-tuong" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1. Ý tưởng
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-thi-nghiem-ba-bo-test-mot-ham-nghiep-vu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2. Thí nghiệm: ba bộ test, một hàm nghiệp vụ
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-hop-ong-api-va-tien-hoa-breaking-change" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Hợp đồng API và tiến hóa: breaking change
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Hợp đồng API và tiến hóa: breaking change">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-the-nao-la-breaking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1. Thế nào là breaking
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-thi-nghiem-tu-ong-phat-hien-trong-ci" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2. Thí nghiệm: tự động phát hiện trong CI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-nghien-cuu-api-ngoai-thuc-te-tien-hoa-ra-sao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3. Nghiên cứu: API ngoài thực tế tiến hóa ra sao
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-case-mekong-cloud-pipeline-kiem-thu-cua-invoice-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Case Mekong Cloud: pipeline kiểm thử của invoice-api
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#loi-thuong-gap-cach-xu-ly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lỗi thường gặp &amp; cách xử lý
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tom-tat-cheat-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tóm tắt (cheat-sheet)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cau-hoi-tu-kiem-tra-phong-van" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Câu hỏi tự kiểm tra / phỏng vấn
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bai-tap-thuc-hanh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bài tập thực hành
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tai-lieu-tham-khao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tài liệu tham khảo
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../13-production-va-observability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13 · Production & observability
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../14-capstone-thiet-ke-he-thong/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14 · Capstone: thiết kế hệ thống
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phần V · Chuyên đề
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phần V · Chuyên đề
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../15-pydantic-cho-llm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15 · Pydantic cho LLM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../labs/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Thực hành
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Thực hành
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab01_invoice_models/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 01 · Mô hình hóa hóa đơn
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab02_benchmark_validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 02 · Benchmark validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab03_invoice_api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 03 · invoice-api hoàn chỉnh
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab04_concurrency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 04 · Đo đồng thời
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab05_property_fuzz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 05 · Property-based & fuzz
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab06_llm_structured_sse/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 06 · Structured output & SSE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Mục lục">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Mục lục
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#muc-tieu-hoc-tap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mục tiêu học tập
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-test-cai-gi-o-tang-nao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Test cái gì, ở tầng nào
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Test cái gì, ở tầng nào">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-kim-tu-thap-cup-va-chi-phi-that" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1. Kim tự tháp, cúp, và chi phí thật
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-ba-cach-goi-app-trong-test-so-o" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2. Ba cách gọi app trong test: số đo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-thay-phu-thuoc-dependency_overrides" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3. Thay phụ thuộc: dependency_overrides
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-test-voi-database-that" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Test với database thật
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Test với database thật">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-vi-sao-khong-mock-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1. Vì sao không mock database
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-co-lap-giua-cac-test-ba-chien-luoc-so-o" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. Cô lập giữa các test: ba chiến lược, số đo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-property-based-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Property-based testing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Property-based testing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-tu-vi-du-en-thuoc-tinh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1. Từ ví dụ đến thuộc tính
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-thi-nghiem-ba-loi-that-test-vi-du-bo-sot-ca-ba" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2. Thí nghiệm: ba lỗi thật, test ví dụ bỏ sót cả ba
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-strategy-tu-model-pydantic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3. Strategy từ model Pydantic
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-van-hanh-trong-ci" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4. Vận hành trong CI
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-fuzz-theo-schema-schemathesis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Fuzz theo schema: Schemathesis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Fuzz theo schema: Schemathesis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-y-tuong" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1. Ý tưởng
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-thi-nghiem-mot-app-co-ba-loi-cai-san" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2. Thí nghiệm: một app có ba lỗi cài sẵn
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-ua-vao-ci" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3. Đưa vào CI
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-mutation-testing-test-cua-ban-co-that-su-kiem-tra-gi-khong" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Mutation testing: test của bạn có thật sự kiểm tra gì không?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Mutation testing: test của bạn có thật sự kiểm tra gì không?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-y-tuong" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1. Ý tưởng
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-thi-nghiem-ba-bo-test-mot-ham-nghiep-vu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2. Thí nghiệm: ba bộ test, một hàm nghiệp vụ
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-hop-ong-api-va-tien-hoa-breaking-change" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Hợp đồng API và tiến hóa: breaking change
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Hợp đồng API và tiến hóa: breaking change">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-the-nao-la-breaking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1. Thế nào là breaking
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-thi-nghiem-tu-ong-phat-hien-trong-ci" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2. Thí nghiệm: tự động phát hiện trong CI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-nghien-cuu-api-ngoai-thuc-te-tien-hoa-ra-sao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3. Nghiên cứu: API ngoài thực tế tiến hóa ra sao
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-case-mekong-cloud-pipeline-kiem-thu-cua-invoice-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Case Mekong Cloud: pipeline kiểm thử của invoice-api
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#loi-thuong-gap-cach-xu-ly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lỗi thường gặp &amp; cách xử lý
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tom-tat-cheat-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tóm tắt (cheat-sheet)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cau-hoi-tu-kiem-tra-phong-van" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Câu hỏi tự kiểm tra / phỏng vấn
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bai-tap-thuc-hanh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bài tập thực hành
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tai-lieu-tham-khao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tài liệu tham khảo
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/HieNguyen08/learn-pydantic-and-fastapi/edit/main/docs/12-testing-va-chat-luong.md" title="Chỉnh sửa" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="module-12-testing-chat-luong">Module 12 — Testing &amp; chất lượng<a class="headerlink" href="#module-12-testing-chat-luong" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>Thời lượng: ~45 phút · Mức độ: Trung bình → Nâng cao · Tiên quyết: Module 08, 10, 11</p>
+</blockquote>
+<p>Mười một module trước đã đưa vào <code>invoice-api</code> hàng chục quy tắc: chữ số kiểm tra MST, làm tròn thuế half-up, idempotency, RLS, 404 cho tenant khác, <code>extra="forbid"</code>… Mỗi quy tắc là một chỗ có thể bị phá vỡ ở lần sửa code tiếp theo. Module này trả lời: <strong>viết test gì, ở tầng nào, bằng kỹ thuật nào</strong> để bắt được lỗi trước khi lỗi tới tay 3.000 doanh nghiệp. Trọng tâm là ba kỹ thuật mà test viết tay theo ví dụ không làm được: <strong>property-based testing</strong>, <strong>fuzz theo schema</strong> và <strong>mutation testing</strong>.</p>
+<p>Mọi số đo và mọi "lỗi được tìm thấy" trong bài đều đến từ <code>scripts/bench/bench_testing.py</code>, chạy trên Hypothesis 6.169, Schemathesis 4.31, FastAPI 0.143 và PostgreSQL 16. Các lỗi được <strong>cài sẵn</strong> vào code mẫu <code>testing_subject.py</code>. Đó là những lỗi mình đã thấy ngoài thực tế.</p>
+<h2 id="muc-tieu-hoc-tap">Mục tiêu học tập<a class="headerlink" href="#muc-tieu-hoc-tap" title="Permanent link">&para;</a></h2>
+<p>Sau module này, bạn có thể:</p>
+<ol>
+<li>Chọn <strong>tầng test</strong> (unit, tích hợp trong tiến trình, tích hợp với DB, end-to-end) cho từng loại rủi ro, dựa trên chi phí đo được của mỗi tầng.</li>
+<li>Viết test API với <code>TestClient</code> hoặc <code>httpx.AsyncClient</code> + <code>ASGITransport</code>, xử lý đúng <strong>lifespan</strong>, thay thế phụ thuộc bằng <code>dependency_overrides</code>.</li>
+<li>Cô lập dữ liệu giữa các test bằng <strong>transaction + savepoint rollback</strong>, nhanh hơn TRUNCATE ~5 lần.</li>
+<li>Viết <strong>property-based test</strong> với Hypothesis: thuộc tính round-trip, oracle, bất biến; hiểu <strong>shrinking</strong>.</li>
+<li>Chạy <strong>fuzz theo schema</strong> bằng Schemathesis và đọc kết quả, kể cả những lỗi "không phải bug nhưng vẫn là bug" như lệch giữa OpenAPI và hành vi thật.</li>
+<li>Đo chất lượng bộ test bằng <strong>mutation testing</strong>, và phát hiện <strong>breaking change</strong> trong OpenAPI trước khi merge.</li>
+</ol>
+<hr />
+<h2 id="1-test-cai-gi-o-tang-nao">1. Test cái gì, ở tầng nào<a class="headerlink" href="#1-test-cai-gi-o-tang-nao" title="Permanent link">&para;</a></h2>
+<h3 id="11-kim-tu-thap-cup-va-chi-phi-that">1.1. Kim tự tháp, cúp, và chi phí thật<a class="headerlink" href="#11-kim-tu-thap-cup-va-chi-phi-that" title="Permanent link">&para;</a></h3>
+<p>Kim tự tháp test (Mike Cohn, 2009) khuyên viết nhiều unit test và ít test end-to-end. Lý do: test ở tầng thấp nhanh, ổn định và chỉ rõ chỗ hỏng. "Cúp test" (testing trophy, Kent C. Dodds) đặt trọng tâm vào <strong>test tích hợp</strong>, vì phần lớn lỗi của ứng dụng web nằm ở <strong>chỗ ghép</strong>: route ↔ dependency ↔ model ↔ database.</p>
+<p>Với một API FastAPI, mình thấy cách chia sau hợp lý nhất:</p>
+<table>
+<thead>
+<tr>
+<th>Tầng</th>
+<th>Kiểm cái gì</th>
+<th>Công cụ</th>
+<th>Chi phí mỗi test (đo được)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Unit (thuần)</td>
+<td>quy tắc nghiệp vụ: MST, làm tròn thuế, tổng hóa đơn; validator của model</td>
+<td>pytest + <strong>Hypothesis</strong></td>
+<td>µs</td>
+</tr>
+<tr>
+<td>Tích hợp trong tiến trình</td>
+<td>route, validation, status code, response model, DI, exception handler</td>
+<td><code>AsyncClient</code> + <code>ASGITransport</code>, <code>dependency_overrides</code></td>
+<td>~0,3–0,5 ms/request</td>
+</tr>
+<tr>
+<td>Tích hợp với DB</td>
+<td>truy vấn, ràng buộc, RLS, idempotency, transaction</td>
+<td>PostgreSQL thật (container), savepoint rollback</td>
+<td>~4 ms/test</td>
+</tr>
+<tr>
+<td>Hợp đồng / fuzz</td>
+<td>mọi endpoint so với OpenAPI</td>
+<td><strong>Schemathesis</strong></td>
+<td>giây (cho cả API)</td>
+</tr>
+<tr>
+<td>End-to-end</td>
+<td>cấu hình, mạng, proxy, migration</td>
+<td>vài smoke test trên môi trường staging</td>
+<td>giây–phút</td>
+</tr>
+</tbody>
+</table>
+<!-- placeholder-pyramid -->
+
+<!-- fig:pyramid -->
+<figure>
+  <img alt="Các tầng test cho một API FastAPI, chi phí đo được và ví dụ quy tắc ở từng tầng" loading="lazy" src="../assets/figures/12/pyramid.light.svg#only-light" />
+  <img alt="Các tầng test cho một API FastAPI, chi phí đo được và ví dụ quy tắc ở từng tầng" loading="lazy" src="../assets/figures/12/pyramid.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 12.1 — Các tầng test cho một API FastAPI, chi phí đo được và ví dụ quy tắc ở từng tầng.</figcaption>
+</figure>
+<!-- /fig -->
+
+<p>Nguyên tắc chọn tầng: <strong>kiểm mỗi quy tắc ở tầng thấp nhất mà quy tắc đó còn có nghĩa</strong>. Chữ số kiểm tra MST là hàm thuần, nên test unit với hàng nghìn input. "Tenant 7 nhận 404 khi đọc hóa đơn của tenant 9" cần route + DI + DB, nên đó là test tích hợp với DB. Còn "proxy chặn body 4 MiB" chỉ có nghĩa ở end-to-end.</p>
+<h3 id="12-ba-cach-goi-app-trong-test-so-o">1.2. Ba cách gọi app trong test: số đo<a class="headerlink" href="#12-ba-cach-goi-app-trong-test-so-o" title="Permanent link">&para;</a></h3>
+<p>Thí nghiệm <code>t1</code> gọi cùng một app (một <code>GET /health</code> và một <code>POST</code> hóa đơn 12 dòng) bằng ba cách:</p>
+<table>
+<thead>
+<tr>
+<th>Cách gọi</th>
+<th><code>GET /health</code></th>
+<th><code>POST /v1/invoices</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TestClient</code> (đồng bộ)</td>
+<td>800 µs</td>
+<td>1.108 µs</td>
+</tr>
+<tr>
+<td><code>httpx.AsyncClient</code> + <code>ASGITransport</code></td>
+<td><strong>309 µs</strong></td>
+<td><strong>544 µs</strong></td>
+</tr>
+<tr>
+<td>uvicorn thật + <code>httpx.Client</code> qua TCP</td>
+<td>1.027 µs</td>
+<td>1.233 µs</td>
+</tr>
+</tbody>
+</table>
+<!-- placeholder-clients -->
+
+<!-- fig:clients -->
+<figure>
+  <img alt="Số đo thật: chi phí mỗi request khi gọi app bằng TestClient, AsyncClient + ASGITransport và uvicorn thật" loading="lazy" src="../assets/figures/12/clients.light.svg#only-light" />
+  <img alt="Số đo thật: chi phí mỗi request khi gọi app bằng TestClient, AsyncClient + ASGITransport và uvicorn thật" loading="lazy" src="../assets/figures/12/clients.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 12.2 — Số đo thật: chi phí mỗi request khi gọi app bằng TestClient, AsyncClient + ASGITransport và uvicorn thật.</figcaption>
+</figure>
+<!-- /fig -->
+
+<p><code>TestClient</code> chạy app trong một <strong>event loop riêng ở luồng khác</strong> (qua <code>anyio</code> portal), nên mỗi request tốn thêm một lần chuyển luồng. Nó tiện cho test đồng bộ, nhưng chậm hơn ~2,5 lần và <strong>không thể dùng chung</strong> event loop với các fixture async khác (ví dụ session SQLAlchemy async). Với một codebase toàn <code>async def</code> như <code>invoice-api</code>, dùng <code>AsyncClient</code>:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">httpx</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">app.main</span><span class="w"> </span><span class="kn">import</span> <span class="n">app</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">client</span><span class="p">():</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="k">async</span> <span class="k">with</span> <span class="n">app</span><span class="o">.</span><span class="n">router</span><span class="o">.</span><span class="n">lifespan_context</span><span class="p">(</span><span class="n">app</span><span class="p">):</span>              <span class="c1"># ASGITransport KHÔNG tự chạy lifespan</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>        <span class="n">transport</span> <span class="o">=</span> <span class="n">httpx</span><span class="o">.</span><span class="n">ASGITransport</span><span class="p">(</span><span class="n">app</span><span class="o">=</span><span class="n">app</span><span class="p">)</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>        <span class="k">async</span> <span class="k">with</span> <span class="n">httpx</span><span class="o">.</span><span class="n">AsyncClient</span><span class="p">(</span><span class="n">transport</span><span class="o">=</span><span class="n">transport</span><span class="p">,</span> <span class="n">base_url</span><span class="o">=</span><span class="s2">"http://test"</span><span class="p">)</span> <span class="k">as</span> <span class="n">c</span><span class="p">:</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>            <span class="k">yield</span> <span class="n">c</span>
+</span></code></pre></div>
+<p>Cái bẫy đã kiểm chứng: <code>ASGITransport</code> <strong>không gửi sự kiện lifespan</strong>. Một app khởi tạo pool trong lifespan sẽ thấy <code>app.state.pool</code> là <code>None</code> khi test (chạy thật: <code>{'pool': None}</code>). <code>TestClient</code> dùng trong <code>with</code> thì chạy lifespan. Với <code>AsyncClient</code>, bọc bằng <code>app.router.lifespan_context(app)</code> như trên.</p>
+<h3 id="13-thay-phu-thuoc-dependency_overrides">1.3. Thay phụ thuộc: <code>dependency_overrides</code><a class="headerlink" href="#13-thay-phu-thuoc-dependency_overrides" title="Permanent link">&para;</a></h3>
+<p>Module 08 đã giới thiệu cơ chế này. Trong test, ta thay <strong>đúng phần cần thay</strong> và giữ phần còn lại chạy thật:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">app.deps</span><span class="w"> </span><span class="kn">import</span> <span class="n">current_principal</span><span class="p">,</span> <span class="n">get_session</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">app.security</span><span class="w"> </span><span class="kn">import</span> <span class="n">Principal</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="k">def</span><span class="w"> </span><span class="nf">as_tenant</span><span class="p">(</span><span class="n">tenant_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="n">scopes</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">fake</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Principal</span><span class="p">:</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>        <span class="k">return</span> <span class="n">Principal</span><span class="p">(</span><span class="n">sub</span><span class="o">=</span><span class="s2">"test"</span><span class="p">,</span> <span class="n">tid</span><span class="o">=</span><span class="n">tenant_id</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">scopes</span><span class="p">))</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    <span class="k">return</span> <span class="n">fake</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">test_tenant_khac_nhan_404</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">db_session</span><span class="p">,</span> <span class="n">invoice_of_tenant_9</span><span class="p">):</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>    <span class="n">app</span><span class="o">.</span><span class="n">dependency_overrides</span><span class="p">[</span><span class="n">get_session</span><span class="p">]</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">db_session</span>                  <span class="c1"># session của test (mục 2)</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>    <span class="n">app</span><span class="o">.</span><span class="n">dependency_overrides</span><span class="p">[</span><span class="n">current_principal</span><span class="p">]</span> <span class="o">=</span> <span class="n">as_tenant</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="s2">"invoice:read"</span><span class="p">)</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>    <span class="n">r</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">"/v1/invoices/</span><span class="si">{</span><span class="n">invoice_of_tenant_9</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>    <span class="k">assert</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">404</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>    <span class="n">app</span><span class="o">.</span><span class="n">dependency_overrides</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+</span></code></pre></div>
+<p>Một lưu ý về <code>Security(current_principal, scopes=[...])</code>: khi override <code>current_principal</code>, hàm giả <strong>không nhận <code>SecurityScopes</code></strong>, nên phần kiểm scope cũng bị thay. Test BFLA (thiếu scope → 403) vì vậy phải dùng <strong>token thật</strong> ký bằng khóa test, không dùng override. Quy tắc chung: override những gì <strong>ở ngoài</strong> đối tượng cần test, đừng override chính thứ đang được test.</p>
+<hr />
+<h2 id="2-test-voi-database-that">2. Test với database thật<a class="headerlink" href="#2-test-voi-database-that" title="Permanent link">&para;</a></h2>
+<h3 id="21-vi-sao-khong-mock-database">2.1. Vì sao không mock database<a class="headerlink" href="#21-vi-sao-khong-mock-database" title="Permanent link">&para;</a></h3>
+<p>Mock repository thì test nhanh, nhưng mọi thứ Module 10 dạy đều <strong>nằm trong database</strong>: ràng buộc unique chặn hóa đơn trùng số, <code>ON CONFLICT</code> cho idempotency, RLS chặn tenant khác, <code>lazy="raise"</code>. Một repository giả không có những hành vi đó, nên test xanh trong khi production đỏ. Lời khuyên thực tế: <strong>chạy PostgreSQL thật trong container</strong> (testcontainers, hoặc service container của CI), cùng phiên bản với production. SQLite "để test cho nhanh" có ngữ nghĩa khác: không có RLS, kiểu dữ liệu lỏng hơn, <code>ON CONFLICT</code> khác cú pháp.</p>
+<h3 id="22-co-lap-giua-cac-test-ba-chien-luoc-so-o">2.2. Cô lập giữa các test: ba chiến lược, số đo<a class="headerlink" href="#22-co-lap-giua-cac-test-ba-chien-luoc-so-o" title="Permanent link">&para;</a></h3>
+<p>Mỗi test phải bắt đầu với database sạch. Thí nghiệm <code>t2</code> so ba cách trên một schema 12 bảng, mỗi test tạo một hóa đơn 12 dòng rồi đọc lại:</p>
+<table>
+<thead>
+<tr>
+<th>Chiến lược</th>
+<th>ms/test</th>
+<th>Ghi chú</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>tạo lại bảng (<code>drop_all</code> + <code>create_all</code>)</td>
+<td>61,5</td>
+<td>DDL đắt, khóa catalog</td>
+</tr>
+<tr>
+<td><code>TRUNCATE</code> mọi bảng sau test</td>
+<td>22,0</td>
+<td>phải liệt kê bảng, <code>RESTART IDENTITY CASCADE</code></td>
+</tr>
+<tr>
+<td><strong>transaction + savepoint, rollback</strong></td>
+<td><strong>4,4</strong></td>
+<td>test không bao giờ thật sự commit</td>
+</tr>
+</tbody>
+</table>
+<!-- placeholder-db-isolation -->
+
+<!-- fig:db-isolation -->
+<figure>
+  <img alt="Số đo thật: ba chiến lược cô lập database giữa các test, và cơ chế transaction + savepoint" loading="lazy" src="../assets/figures/12/db-isolation.light.svg#only-light" />
+  <img alt="Số đo thật: ba chiến lược cô lập database giữa các test, và cơ chế transaction + savepoint" loading="lazy" src="../assets/figures/12/db-isolation.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 12.3 — Số đo thật: ba chiến lược cô lập database giữa các test, và cơ chế transaction + savepoint.</figcaption>
+</figure>
+<!-- /fig -->
+
+<p>Với 800 test có chạm DB, khác biệt là <strong>50 giây so với 4 giây</strong>. Cách làm với SQLAlchemy 2.x:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy.ext.asyncio</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncSession</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">db_session</span><span class="p">(</span><span class="n">engine</span><span class="p">):</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    <span class="k">async</span> <span class="k">with</span> <span class="n">engine</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>        <span class="n">trans</span> <span class="o">=</span> <span class="k">await</span> <span class="n">conn</span><span class="o">.</span><span class="n">begin</span><span class="p">()</span>                          <span class="c1"># transaction ngoài cùng của test</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>        <span class="n">session</span> <span class="o">=</span> <span class="n">AsyncSession</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="n">conn</span><span class="p">,</span> <span class="n">join_transaction_mode</span><span class="o">=</span><span class="s2">"create_savepoint"</span><span class="p">,</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>                               <span class="n">expire_on_commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>        <span class="k">try</span><span class="p">:</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>            <span class="k">yield</span> <span class="n">session</span>                                   <span class="c1"># code app gọi commit() → chỉ RELEASE SAVEPOINT</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>        <span class="k">finally</span><span class="p">:</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>            <span class="k">await</span> <span class="n">session</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>            <span class="k">await</span> <span class="n">trans</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>                          <span class="c1"># dọn sạch mọi thứ test đã ghi</span>
+</span></code></pre></div>
+<p><code>join_transaction_mode="create_savepoint"</code> khiến mọi <code>session.begin()</code> / <code>commit()</code> của code ứng dụng trở thành <strong>savepoint</strong> bên trong transaction của test. App vẫn "commit" và vẫn đọc lại được dữ liệu của chính nó, nhưng cuối test mọi thứ biến mất.</p>
+<p>Giới hạn cần biết: cách này <strong>không</strong> test được hành vi cần <strong>nhiều kết nối</strong> thấy dữ liệu của nhau, vì dữ liệu chưa bao giờ thật sự commit. Ví dụ là cuộc đua idempotency (Module 10, <code>d3</code>) hay khóa hàng khi cấp số. Những test đồng thời đó phải commit thật và dọn bằng <code>TRUNCATE</code>. Hãy đánh dấu chúng (<code>@pytest.mark.concurrency</code>) và chạy riêng.</p>
+<hr />
+<h2 id="3-property-based-testing">3. Property-based testing<a class="headerlink" href="#3-property-based-testing" title="Permanent link">&para;</a></h2>
+<h3 id="31-tu-vi-du-en-thuoc-tinh">3.1. Từ ví dụ đến thuộc tính<a class="headerlink" href="#31-tu-vi-du-en-thuoc-tinh" title="Permanent link">&para;</a></h3>
+<p>Một test ví dụ khẳng định: "với <strong>input này</strong>, kết quả là <strong>cái này</strong>". Một <strong>property-based test</strong> khẳng định: "với <strong>mọi</strong> input thỏa điều kiện X, <strong>thuộc tính</strong> P đúng". Thư viện sinh hàng trăm input, cố tìm phản ví dụ, rồi <strong>thu nhỏ</strong> (shrink) phản ví dụ đó về dạng đơn giản nhất. Ý tưởng bắt đầu từ <strong>QuickCheck</strong> (Claessen &amp; Hughes, ICFP 2000) cho Haskell. <strong>Hypothesis</strong> (MacIver và cộng sự, JOSS 2019) mang nó sang Python, với một cải tiến quan trọng: shrink trên <strong>chuỗi lựa chọn ngẫu nhiên</strong> sinh ra input, thay vì trên chính input. Nhờ đó shrinking hoạt động với mọi strategy, kể cả strategy tự định nghĩa.</p>
+<!-- placeholder-pbt -->
+
+<!-- fig:pbt -->
+<figure>
+  <img alt="Vòng lặp property-based testing: sinh input, kiểm thuộc tính, tìm phản ví dụ và thu nhỏ" loading="lazy" src="../assets/figures/12/pbt.light.svg#only-light" />
+  <img alt="Vòng lặp property-based testing: sinh input, kiểm thuộc tính, tìm phản ví dụ và thu nhỏ" loading="lazy" src="../assets/figures/12/pbt.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 12.4 — Vòng lặp property-based testing: sinh input, kiểm thuộc tính, tìm phản ví dụ và thu nhỏ.</figcaption>
+</figure>
+<!-- /fig -->
+
+<p>Khó nhất là <strong>tìm thuộc tính</strong>. Năm mẫu thuộc tính dùng được ngay cho API:</p>
+<table>
+<thead>
+<tr>
+<th>Mẫu</th>
+<th>Ví dụ ở <code>invoice-api</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Round-trip</strong> (mã hóa rồi giải mã ra lại chính nó)</td>
+<td><code>M.model_validate_json(m.model_dump_json()) == m</code> cho mọi model trả ra</td>
+</tr>
+<tr>
+<td><strong>Oracle</strong> (so với bản cài đặt khác, chậm nhưng hiển nhiên đúng)</td>
+<td>thuế tính bằng <code>Fraction</code> so với thuế tính bằng <code>Decimal</code></td>
+</tr>
+<tr>
+<td><strong>Bất biến</strong></td>
+<td><code>total == before + tax</code>; <code>0 ≤ tax − exact ≤ 0,5</code></td>
+</tr>
+<tr>
+<td><strong>Phát hiện lỗi</strong> (thay đổi nhỏ phải bị phát hiện)</td>
+<td>đổi một chữ số của MST hợp lệ → không còn hợp lệ</td>
+</tr>
+<tr>
+<td><strong>Idempotence / không phụ thuộc thứ tự</strong></td>
+<td>gửi lại cùng request với cùng <code>Idempotency-Key</code> → cùng response</td>
+</tr>
+</tbody>
+</table>
+<h3 id="32-thi-nghiem-ba-loi-that-test-vi-du-bo-sot-ca-ba">3.2. Thí nghiệm: ba lỗi thật, test ví dụ bỏ sót cả ba<a class="headerlink" href="#32-thi-nghiem-ba-loi-that-test-vi-du-bo-sot-ca-ba" title="Permanent link">&para;</a></h3>
+<p>Thí nghiệm <code>t3</code> cài ba lỗi. Mỗi lỗi có một bộ test ví dụ "hợp lý" mà người viết code thường tự viết:</p>
+<table>
+<thead>
+<tr>
+<th>Lỗi cài sẵn</th>
+<th>Test ví dụ</th>
+<th>Hypothesis</th>
+<th>Phản ví dụ sau shrink</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MST: so <code>check[-1]</code> với chữ số cuối, nên khi <code>check = 10</code> thì chấp nhận chữ số <code>0</code></td>
+<td><strong>qua</strong> (bỏ sót)</td>
+<td>tìm thấy sau <strong>24</strong> input</td>
+<td><code>'1050360970'</code></td>
+</tr>
+<tr>
+<td>Thuế: <code>round(amount * rate / 100)</code>, tức làm tròn kiểu <strong>ngân hàng</strong> (half-even) qua float</td>
+<td><strong>qua</strong> (bỏ sót)</td>
+<td>tìm thấy sau <strong>70</strong> input</td>
+<td><code>(525, 10)</code> → 52,5 bị làm tròn thành <strong>52</strong> thay vì 53</td>
+</tr>
+<tr>
+<td>Round-trip: <code>field_serializer</code> tự định dạng <code>datetime</code> bằng <code>strftime</code></td>
+<td><strong>qua</strong> (bỏ sót)</td>
+<td>tìm thấy sau <strong>3</strong> input</td>
+<td><code>datetime(999, 1, 1)</code> → <code>"999-01-01T…"</code> không còn là ISO 8601 hợp lệ</td>
+</tr>
+</tbody>
+</table>
+<!-- placeholder-pbt-results -->
+
+<!-- fig:pbt-results -->
+<figure>
+  <img alt="Số đo thật: ba lỗi cài sẵn đều lọt qua test ví dụ và đều bị Hypothesis tìm ra" loading="lazy" src="../assets/figures/12/pbt-results.light.svg#only-light" />
+  <img alt="Số đo thật: ba lỗi cài sẵn đều lọt qua test ví dụ và đều bị Hypothesis tìm ra" loading="lazy" src="../assets/figures/12/pbt-results.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 12.5 — Số đo thật: ba lỗi cài sẵn đều lọt qua test ví dụ và đều bị Hypothesis tìm ra.</figcaption>
+</figure>
+<!-- /fig -->
+
+<p>Cả ba lỗi đều thuộc loại "vùng biên mà người viết test không nghĩ tới":</p>
+<ul>
+<li><strong>MST</strong>: 1/11 tiền tố cho ra <code>check = 10</code>. Test ví dụ dùng vài MST thật, và MST thật thì không bao giờ rơi vào trường hợp đó.</li>
+<li><strong>Thuế</strong>: chỉ sai khi tích <code>amount × rate</code> chia 100 dư <strong>đúng 50</strong>. Các số tròn như 100.000 hay 27.500 không chạm tới.</li>
+<li><strong>Round-trip</strong>: serializer tự viết còn làm mất micro giây và múi giờ. Hypothesis báo phản ví dụ "đơn giản nhất" sau shrink: năm có 3 chữ số. Đó là một trường hợp <strong>chưa ai nghĩ tới</strong> khi viết serializer.</li>
+</ul>
+<p>Code thuộc tính cho lỗi thuế, đủ ngắn để viết cho mọi hàm tiền tệ:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fractions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Fraction</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">hypothesis</span><span class="w"> </span><span class="kn">import</span> <span class="n">given</span><span class="p">,</span> <span class="n">strategies</span> <span class="k">as</span> <span class="n">st</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="nd">@given</span><span class="p">(</span><span class="n">st</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">12</span><span class="p">),</span> <span class="n">st</span><span class="o">.</span><span class="n">sampled_from</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">]))</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_thue_lam_tron_nua_len</span><span class="p">(</span><span class="n">amount</span><span class="p">,</span> <span class="n">rate</span><span class="p">):</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    <span class="n">exact</span> <span class="o">=</span> <span class="n">Fraction</span><span class="p">(</span><span class="n">amount</span> <span class="o">*</span> <span class="n">rate</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>                    <span class="c1"># oracle: số hữu tỉ chính xác</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    <span class="n">got</span> <span class="o">=</span> <span class="n">line_tax</span><span class="p">(</span><span class="n">amount</span><span class="p">,</span> <span class="n">rate</span><span class="p">)</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>    <span class="k">assert</span> <span class="o">-</span><span class="n">Fraction</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">got</span> <span class="o">-</span> <span class="n">exact</span> <span class="o">&lt;=</span> <span class="n">Fraction</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># gần nhất; đúng 0,5 thì làm tròn LÊN</span>
+</span></code></pre></div>
+<h3 id="33-strategy-tu-model-pydantic">3.3. Strategy từ model Pydantic<a class="headerlink" href="#33-strategy-tu-model-pydantic" title="Permanent link">&para;</a></h3>
+<p>Hypothesis sinh được dữ liệu cho model Pydantic bằng <code>st.from_type(Model)</code> hoặc <code>st.builds(Model, ...)</code>. Nhưng với các ràng buộc phức tạp (MST hợp lệ, tổng phải khớp các dòng), strategy tự viết hiệu quả hơn hẳn so với sinh ngẫu nhiên rồi lọc:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">hypothesis</span><span class="w"> </span><span class="kn">import</span> <span class="n">strategies</span> <span class="k">as</span> <span class="n">st</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">WEIGHTS</span> <span class="o">=</span> <span class="p">(</span><span class="mi">31</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="nd">@st</span><span class="o">.</span><span class="n">composite</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="k">def</span><span class="w"> </span><span class="nf">mst_hop_le</span><span class="p">(</span><span class="n">draw</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="n">first9</span> <span class="o">=</span> <span class="n">draw</span><span class="p">(</span><span class="n">st</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">alphabet</span><span class="o">=</span><span class="s2">"0123456789"</span><span class="p">,</span> <span class="n">min_size</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">max_size</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>                  <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">9</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">"0000000"</span><span class="p">))</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    <span class="n">check</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">-</span> <span class="nb">sum</span><span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">WEIGHTS</span><span class="p">,</span> <span class="n">first9</span><span class="p">))</span> <span class="o">%</span> <span class="mi">11</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>    <span class="k">if</span> <span class="n">check</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>                                       <span class="c1"># tiền tố không hợp lệ: cho Hypothesis sinh lại</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>        <span class="kn">from</span><span class="w"> </span><span class="nn">hypothesis</span><span class="w"> </span><span class="kn">import</span> <span class="n">reject</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>        <span class="n">reject</span><span class="p">()</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>    <span class="k">return</span> <span class="n">first9</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">check</span><span class="p">)</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="n">line</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">fixed_dictionaries</span><span class="p">({</span>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>    <span class="s2">"name"</span><span class="p">:</span> <span class="n">st</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">min_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_size</span><span class="o">=</span><span class="mi">200</span><span class="p">),</span>
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>    <span class="s2">"quantity"</span><span class="p">:</span> <span class="n">st</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10_000</span><span class="p">),</span>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>    <span class="s2">"unit_price"</span><span class="p">:</span> <span class="n">st</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">9</span><span class="p">),</span>
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>    <span class="s2">"vat_rate"</span><span class="p">:</span> <span class="n">st</span><span class="o">.</span><span class="n">sampled_from</span><span class="p">([</span><span class="s2">"0"</span><span class="p">,</span> <span class="s2">"5"</span><span class="p">,</span> <span class="s2">"8"</span><span class="p">,</span> <span class="s2">"10"</span><span class="p">,</span> <span class="s2">"KCT"</span><span class="p">,</span> <span class="s2">"KKKNT"</span><span class="p">]),</span>
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="p">})</span>
+</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="n">invoice</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">fixed_dictionaries</span><span class="p">({</span><span class="s2">"seller_tax_code"</span><span class="p">:</span> <span class="n">mst_hop_le</span><span class="p">(),</span> <span class="s2">"lines"</span><span class="p">:</span> <span class="n">st</span><span class="o">.</span><span class="n">lists</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">min_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_size</span><span class="o">=</span><span class="mi">50</span><span class="p">)})</span>
+</span></code></pre></div>
+<p>Thuộc tính tích hợp mạnh nhất cho <code>invoice-api</code>: <strong>với mọi hóa đơn hợp lệ được sinh ra, <code>POST</code> trả 201, và <code>GET</code> lại trả đúng dữ liệu đó</strong> (round-trip qua HTTP + DB). Một test đó phủ validation, serialization, mapping ORM và cấu hình DB.</p>
+<h3 id="34-van-hanh-trong-ci">3.4. Vận hành trong CI<a class="headerlink" href="#34-van-hanh-trong-ci" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Mặc định Hypothesis chạy 100 ví dụ mỗi test. Đặt <strong>profile</strong>: <code>dev</code> 50 ví dụ cho vòng lặp nhanh, <code>ci</code> 500 ví dụ, <code>nightly</code> 10.000 ví dụ.</li>
+<li>Phản ví dụ được lưu vào <strong>database ví dụ</strong> (<code>.hypothesis/</code>) và được thử lại đầu tiên ở lần chạy sau. Trong CI, cache thư mục này giữa các lần chạy.</li>
+<li>Khi Hypothesis tìm ra lỗi, thêm phản ví dụ vào <code>@example(...)</code> để nó thành test hồi quy cố định.</li>
+</ul>
+<hr />
+<h2 id="4-fuzz-theo-schema-schemathesis">4. Fuzz theo schema: Schemathesis<a class="headerlink" href="#4-fuzz-theo-schema-schemathesis" title="Permanent link">&para;</a></h2>
+<h3 id="41-y-tuong">4.1. Ý tưởng<a class="headerlink" href="#41-y-tuong" title="Permanent link">&para;</a></h3>
+<p>FastAPI sinh ra một <strong>OpenAPI</strong> mô tả chính xác mọi endpoint, tham số, body và response. Đặc tả này đủ để <strong>tự động sinh test</strong>:</p>
+<ul>
+<li>sinh request <strong>hợp lệ</strong> theo schema → kiểm server không trả 5xx và response khớp schema;</li>
+<li>sinh request <strong>không hợp lệ</strong> → kiểm server từ chối bằng 4xx.</li>
+</ul>
+<p><strong>Schemathesis</strong> (Hatfield-Dodds &amp; Dygalo, ICSE 2022 poster, arXiv:2112.10328) làm đúng việc đó, xây trên Hypothesis. Trong đánh giá của bài báo, trên 16 dịch vụ mã nguồn mở, nó tìm được <strong>từ 1,4 đến 4,5 lần</strong> nhiều lỗi khác nhau hơn công cụ đứng thứ hai. Hướng nghiên cứu này còn có <strong>RESTler</strong> (Atlidakis, Godefroid, Polishchuk, ICSE 2019; fuzz có trạng thái, suy ra phụ thuộc giữa các request) và <strong>EvoMaster</strong> (Arcuri, TOSEM 2019; tìm kiếm tiến hóa, có cả chế độ white-box). Khảo sát của Golmohammadi, Zhang và Arcuri (<em>Testing RESTful APIs: A Survey</em>, TOSEM 2023) tổng hợp toàn bộ lĩnh vực.</p>
+<!-- placeholder-fuzz -->
+
+<!-- fig:fuzz -->
+<figure>
+  <img alt="Fuzz theo schema với Schemathesis và những lỗi nó tìm ra trên app mẫu" loading="lazy" src="../assets/figures/12/fuzz.light.svg#only-light" />
+  <img alt="Fuzz theo schema với Schemathesis và những lỗi nó tìm ra trên app mẫu" loading="lazy" src="../assets/figures/12/fuzz.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 12.6 — Fuzz theo schema với Schemathesis và những lỗi nó tìm ra trên app mẫu.</figcaption>
+</figure>
+<!-- /fig -->
+
+<h3 id="42-thi-nghiem-mot-app-co-ba-loi-cai-san">4.2. Thí nghiệm: một app có ba lỗi cài sẵn<a class="headerlink" href="#42-thi-nghiem-mot-app-co-ba-loi-cai-san" title="Permanent link">&para;</a></h3>
+<p>App mẫu có hai endpoint và ba lỗi:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">"/v1/invoices"</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="mi">201</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">InvoiceOut</span><span class="p">)</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">create</span><span class="p">(</span><span class="n">inv</span><span class="p">:</span> <span class="n">InvoiceIn</span><span class="p">):</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">l</span><span class="o">.</span><span class="n">quantity</span> <span class="o">*</span> <span class="n">l</span><span class="o">.</span><span class="n">unit_price</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">inv</span><span class="o">.</span><span class="n">lines</span><span class="p">)</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="n">code</span> <span class="o">=</span> <span class="n">inv</span><span class="o">.</span><span class="n">buyer_name</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">"ascii"</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">"strict"</span><span class="p">)</span>          <span class="c1"># LỖI 1: tên có dấu → 500</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    <span class="k">return</span> <span class="p">{</span><span class="s2">"id"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"total"</span><span class="p">:</span> <span class="n">total</span><span class="p">,</span> <span class="s2">"average_line"</span><span class="p">:</span> <span class="n">total</span> <span class="o">//</span> <span class="nb">len</span><span class="p">(</span><span class="n">inv</span><span class="o">.</span><span class="n">lines</span><span class="p">)}</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"/v1/invoices"</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="nb">list</span><span class="p">[</span><span class="n">InvoiceOut</span><span class="p">])</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">search</span><span class="p">(</span><span class="n">limit</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Query</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">200</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">50</span><span class="p">):</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>    <span class="n">per_page</span> <span class="o">=</span> <span class="mi">1000</span> <span class="o">//</span> <span class="n">limit</span>                                          <span class="c1"># LỖI 2: limit=0 → ZeroDivisionError</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>    <span class="k">return</span> <span class="p">[{</span><span class="s2">"id"</span><span class="p">:</span> <span class="n">i</span><span class="p">,</span> <span class="s2">"total"</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span> <span class="s2">"average_line"</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">limit</span><span class="p">,</span> <span class="mi">3</span><span class="p">))]</span>   <span class="c1"># LỖI 3: sai schema</span>
+</span></code></pre></div>
+<p>Lệnh chạy:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>schemathesis<span class="w"> </span>run<span class="w"> </span>http://127.0.0.1:8000/openapi.json<span class="w"> </span>--checks<span class="w"> </span>all<span class="w"> </span>--max-examples<span class="w"> </span><span class="m">200</span><span class="w"> </span>--continue-on-failure
+</span></code></pre></div>
+<p>Kết quả trong <strong>11,6 giây</strong>, với 485 test case:</p>
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Schemathesis báo</th>
+<th>Nguyên nhân</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET /v1/invoices</code></td>
+<td><strong>Server error</strong> (<code>?limit=199</code>)</td>
+<td>lỗi 3: <code>average_line: None</code> vi phạm <code>response_model</code> → FastAPI trả 500</td>
+</tr>
+<tr>
+<td><code>POST /v1/invoices</code></td>
+<td><strong>Server error</strong> với <code>buyer_name</code> chứa ký tự ngoài ASCII</td>
+<td>lỗi 1</td>
+</tr>
+<tr>
+<td><code>POST /v1/invoices</code></td>
+<td><strong>API accepted schema-violating request</strong>: <code>"unit_price": false</code> → 201</td>
+<td>Pydantic chế độ <strong>lax</strong> ép <code>false</code> → <code>0</code>, trong khi OpenAPI ghi <code>type: integer</code></td>
+</tr>
+<tr>
+<td><code>POST /v1/invoices</code></td>
+<td><strong>Undocumented HTTP status code</strong> 400 với body không phải JSON</td>
+<td>FastAPI trả 400 "There was an error parsing the body", nhưng OpenAPI chỉ khai báo 201, 422</td>
+</tr>
+<tr>
+<td><code>OPTIONS /v1/invoices</code></td>
+<td><strong>Invalid Allow header</strong></td>
+<td>response 405 không liệt kê đủ phương thức</td>
+</tr>
+</tbody>
+</table>
+<p>Sau khi sửa lỗi 3 và chạy lại, Schemathesis báo <strong>Server error với <code>?limit=0</code></strong>, tức lỗi 2. Lần đầu nó chưa hiện vì Schemathesis <strong>gom các lỗi cùng chữ ký</strong> (cùng endpoint, cùng loại kiểm tra). Kết luận thực hành: sửa xong thì chạy lại, cho tới khi sạch.</p>
+<p>Hai phát hiện "ngoài kế hoạch" đáng giá hơn cả ba lỗi cài sẵn:</p>
+<ol>
+<li><strong>Lệch giữa Pydantic lax và JSON Schema</strong>. OpenAPI hứa <code>integer</code>, nhưng server nhận <code>false</code>. Client sinh từ OpenAPI không bao giờ gửi <code>false</code>, nhưng một client viết tay thì có thể, và khi đó sai sót bị nuốt mất. Cách sửa: <code>ConfigDict(strict=True)</code> cho model request, hoặc <code>StrictInt</code> cho trường tiền (Module 01, 03).</li>
+<li><strong>Mã trạng thái chưa khai báo</strong>. 400, 413, 429, 401 đều thật sự xảy ra (Module 11), nhưng OpenAPI không nói. Khai báo chúng bằng <code>responses={...}</code> để client biết phải xử lý.</li>
+</ol>
+<h3 id="43-ua-vao-ci">4.3. Đưa vào CI<a class="headerlink" href="#43-ua-vao-ci" title="Permanent link">&para;</a></h3>
+<p>Chạy Schemathesis trên app trong tiến trình với <code>schemathesis.openapi.from_asgi(...)</code> trong pytest, hoặc dùng CLI với một server tạm. Có hai chế độ đáng dùng:</p>
+<ul>
+<li><strong>Mỗi PR</strong>: <code>--max-examples 50</code>, <code>--checks all</code>, chỉ các endpoint bị đổi. Mất vài giây đến vài chục giây.</li>
+<li><strong>Hằng đêm</strong>: <code>--max-examples 1000</code>, thêm pha <strong>stateful</strong> (Schemathesis dùng <code>links</code> trong OpenAPI để nối <code>POST</code> → <code>GET /{id}</code>), chạy trên dữ liệu thật hơn.</li>
+</ul>
+<hr />
+<h2 id="5-mutation-testing-test-cua-ban-co-that-su-kiem-tra-gi-khong">5. Mutation testing: test của bạn có thật sự kiểm tra gì không?<a class="headerlink" href="#5-mutation-testing-test-cua-ban-co-that-su-kiem-tra-gi-khong" title="Permanent link">&para;</a></h2>
+<h3 id="51-y-tuong">5.1. Ý tưởng<a class="headerlink" href="#51-y-tuong" title="Permanent link">&para;</a></h3>
+<p><strong>Độ phủ dòng</strong> (line coverage) chỉ nói một dòng <strong>đã chạy</strong>, không nói kết quả của nó <strong>đã được kiểm</strong>. Mutation testing (DeMillo, Lipton &amp; Sayward, 1978) đo trực tiếp: tạo nhiều <strong>đột biến</strong> của code, mỗi đột biến là một thay đổi nhỏ như <code>+</code> → <code>-</code>, <code>&lt;</code> → <code>&lt;=</code>, <code>and</code> → <code>or</code>, <code>10</code> → <code>11</code>, rồi chạy bộ test trên từng đột biến. Đột biến bị test bắt là <strong>bị diệt</strong>, đột biến làm test vẫn xanh là <strong>sống sót</strong>:</p>
+<div class="arithmatex">\[
+\text{điểm đột biến} = \frac{\text{số đột biến bị diệt}}{\text{tổng số đột biến} - \text{số đột biến tương đương}}
+\]</div>
+<p><strong>Đột biến tương đương</strong> là đột biến không đổi hành vi, ví dụ <code>check &lt; 10</code> → <code>check &lt; 11</code> khi <code>check</code> không bao giờ vượt 10. Không test nào diệt được chúng, nên phải loại ra.</p>
+<p>Ở quy mô lớn, Google chạy mutation testing trong code review. Họ chỉ báo đột biến ở <strong>dòng vừa sửa</strong> và lọc đột biến "không đáng quan tâm" bằng heuristics, để giữ tín hiệu hữu ích (Petrović &amp; Ivanković, <em>State of Mutation Testing at Google</em>, ICSE-SEIP 2018).</p>
+<h3 id="52-thi-nghiem-ba-bo-test-mot-ham-nghiep-vu">5.2. Thí nghiệm: ba bộ test, một hàm nghiệp vụ<a class="headerlink" href="#52-thi-nghiem-ba-bo-test-mot-ham-nghiep-vu" title="Permanent link">&para;</a></h3>
+<p>Thí nghiệm <code>t4</code> dùng một mutator AST tự viết (~60 dòng; công cụ thật cho Python là <code>mutmut</code> hoặc <code>cosmic-ray</code>). Nó đột biến ba hàm <code>mst_is_valid</code> (10/13 số, quy tắc chi nhánh), <code>line_tax</code> và <code>invoice_totals</code>, rồi chạy ba bộ test:</p>
+<ul>
+<li><strong>Điển hình</strong>: 4 assert happy path, giống phần lớn codebase.</li>
+<li><strong>Ví dụ cẩn thận</strong>: 11 assert, có sai chữ số kiểm tra, sai độ dài, ký tự lạ, chi nhánh <code>001</code>/<code>000</code>, số lẻ.</li>
+<li><strong>Thuộc tính</strong>: 3 property-based test, mỗi cái 200–300 ví dụ.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Bộ test</th>
+<th>Điểm đột biến (25 đột biến, đã loại 6 tương đương)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Điển hình</td>
+<td><strong>64%</strong></td>
+</tr>
+<tr>
+<td>Ví dụ cẩn thận</td>
+<td><strong>96%</strong></td>
+</tr>
+<tr>
+<td>Thuộc tính</td>
+<td><strong>100%</strong></td>
+</tr>
+</tbody>
+</table>
+<!-- placeholder-mutation -->
+
+<!-- fig:mutation -->
+<figure>
+  <img alt="Số đo thật: điểm đột biến của ba bộ test và những đột biến sống sót" loading="lazy" src="../assets/figures/12/mutation.light.svg#only-light" />
+  <img alt="Số đo thật: điểm đột biến của ba bộ test và những đột biến sống sót" loading="lazy" src="../assets/figures/12/mutation.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 12.7 — Số đo thật: điểm đột biến của ba bộ test và những đột biến sống sót.</figcaption>
+</figure>
+<!-- /fig -->
+
+<p>Đột biến <strong>duy nhất</strong> sống sót qua bộ ví dụ cẩn thận là <code>ROUND_HALF_UP</code> → <code>ROUND_HALF_EVEN</code>, <strong>đúng loại lỗi</strong> mà mục 3.2 cài vào. Bộ ví dụ có 4 ca tính thuế nhưng không ca nào rơi vào trường hợp dư đúng 0,5. Còn bộ điển hình để sống 9 đột biến, phần lớn ở nhánh MST 13 số mà nó không bao giờ chạm tới, dù <strong>độ phủ dòng của nó là 100%</strong> với hàm <code>line_tax</code>.</p>
+<p>Cách dùng thực tế: không cần đạt 100% trên toàn codebase. Chạy mutation testing <strong>trên các mô-đun nghiệp vụ lõi</strong> (tính tiền, thuế, kiểm MST, phân quyền) và <strong>trên diff của PR</strong>. Mỗi đột biến sống sót là một câu hỏi cụ thể: "nếu ai đó vô tình viết thế này, test có báo không?"</p>
+<hr />
+<h2 id="6-hop-ong-api-va-tien-hoa-breaking-change">6. Hợp đồng API và tiến hóa: breaking change<a class="headerlink" href="#6-hop-ong-api-va-tien-hoa-breaking-change" title="Permanent link">&para;</a></h2>
+<h3 id="61-the-nao-la-breaking">6.1. Thế nào là breaking<a class="headerlink" href="#61-the-nao-la-breaking" title="Permanent link">&para;</a></h3>
+<p>Hợp đồng của <code>invoice-api</code> là OpenAPI của nó. 12.000 máy POS được tích hợp theo hợp đồng đó, và nhiều máy chạy phần mềm không được cập nhật trong nhiều năm. Một thay đổi là <strong>breaking</strong> nếu có client đang đúng hợp đồng cũ bị hỏng với server mới. Quy tắc nằm ở <strong>chiều</strong> của dữ liệu:</p>
+<table>
+<thead>
+<tr>
+<th>Thay đổi</th>
+<th>Request (client → server)</th>
+<th>Response (server → client)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Thêm trường <strong>tùy chọn</strong></td>
+<td>an toàn</td>
+<td>an toàn nếu client bỏ qua trường lạ</td>
+</tr>
+<tr>
+<td>Thêm trường <strong>bắt buộc</strong></td>
+<td><strong>BREAKING</strong></td>
+<td>an toàn</td>
+</tr>
+<tr>
+<td>Bỏ trường</td>
+<td>an toàn (server bỏ qua)</td>
+<td><strong>BREAKING</strong></td>
+</tr>
+<tr>
+<td>Thu hẹp ràng buộc (<code>maxLength</code>, <code>maximum</code>, bớt giá trị enum)</td>
+<td><strong>BREAKING</strong></td>
+<td>an toàn</td>
+</tr>
+<tr>
+<td>Nới ràng buộc / thêm giá trị enum</td>
+<td>an toàn</td>
+<td><strong>BREAKING</strong> (client cũ không biết giá trị mới)</td>
+</tr>
+<tr>
+<td>Đổi kiểu, đổi tên, xóa endpoint</td>
+<td><strong>BREAKING</strong></td>
+<td><strong>BREAKING</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Lưu ý điểm cuối: <strong>thêm giá trị enum vào response là breaking</strong>. Khi Nghị quyết thuế đưa thêm mức thuế suất mới và API bắt đầu trả <code>"vat_rate": "8"</code> cho các POS cũ, client nào <code>switch</code> không có nhánh <code>default</code> sẽ hỏng.</p>
+<h3 id="62-thi-nghiem-tu-ong-phat-hien-trong-ci">6.2. Thí nghiệm: tự động phát hiện trong CI<a class="headerlink" href="#62-thi-nghiem-tu-ong-phat-hien-trong-ci" title="Permanent link">&para;</a></h3>
+<p>Thí nghiệm <code>t6</code> sinh OpenAPI từ hai phiên bản app FastAPI rồi chạy một bộ kiểm tra tối giản (cùng ý tưởng với các công cụ như <code>oasdiff</code>):</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>BREAKING POST /v1/invoices body.buyer_tax_code: request thêm trường BẮT BUỘC
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>ok       POST /v1/invoices body.note: thêm trường tùy chọn (request)
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>BREAKING POST /v1/invoices body.lines[].vat_rate: request bỏ giá trị enum ['KCT']
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>BREAKING POST /v1/invoices body.lines[].name: request maxLength giảm 200 → 100
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>BREAKING POST /v1/invoices 201.issued_at: response bỏ trường
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>ok       POST /v1/invoices 201.currency: thêm trường tùy chọn (response)
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>BREAKING GET /v1/invoices/{invoice_id}/pdf: endpoint bị xóa
+</span></code></pre></div>
+<!-- placeholder-breaking -->
+
+<!-- fig:breaking -->
+<figure>
+  <img alt="Số đo thật: phát hiện breaking change giữa hai phiên bản OpenAPI do FastAPI sinh" loading="lazy" src="../assets/figures/12/breaking.light.svg#only-light" />
+  <img alt="Số đo thật: phát hiện breaking change giữa hai phiên bản OpenAPI do FastAPI sinh" loading="lazy" src="../assets/figures/12/breaking.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 12.8 — Số đo thật: phát hiện breaking change giữa hai phiên bản OpenAPI do FastAPI sinh.</figcaption>
+</figure>
+<!-- /fig -->
+
+<p>Quy trình: CI sinh <code>openapi.json</code> từ nhánh PR, so với <code>openapi.json</code> của nhánh chính (lưu trong repo như một <strong>artifact được review</strong>), và <strong>chặn merge</strong> khi có BREAKING mà PR không gắn nhãn <code>api-breaking</code> có người duyệt. Đặt OpenAPI trong repo còn có tác dụng phụ tốt: mọi thay đổi hợp đồng hiện ra trong diff của PR, và reviewer thấy được.</p>
+<h3 id="63-nghien-cuu-api-ngoai-thuc-te-tien-hoa-ra-sao">6.3. Nghiên cứu: API ngoài thực tế tiến hóa ra sao<a class="headerlink" href="#63-nghien-cuu-api-ngoai-thuc-te-tien-hoa-ra-sao" title="Permanent link">&para;</a></h3>
+<p>Nhóm của Cesare Pautasso (USI Lugano) khai thác hàng trăm nghìn đặc tả OpenAPI trên GitHub:</p>
+<ul>
+<li>Di Lauro, Serbout &amp; Pautasso (<strong>ECSA 2022</strong>, <em>To Deprecate or to Simply Drop Operations?</em>) thấy trong 41.627 API chỉ <strong>263 (0,6%)</strong> có dùng đánh dấu <code>deprecated</code> cho operation. Phần lớn operation bị <strong>xóa thẳng</strong>, không báo trước.</li>
+<li>Serbout &amp; Pautasso (<strong>ICWE 2024</strong>, <em>How Many Web APIs Evolve Following Semantic Versioning?</em>) phân tích 506.273 thay đổi trong 16.053 phiên bản của 3.075 API. Họ thấy <strong>927 API</strong> chưa từng có breaking change. Trong số API có breaking change, chỉ <strong>517</strong> luôn nâng phiên bản major khi làm vậy, còn <strong>1.970 API</strong> có lúc phát hành breaking change trong một bản minor hoặc patch, tức client không được báo trước.</li>
+</ul>
+<p>Bài học cho <code>invoice-api</code>: đừng dựa vào kỷ luật. Hãy để <strong>máy</strong> kiểm tra breaking change, đánh dấu <code>deprecated=True</code> trên route/trường trước khi xóa, gửi header <code>Deprecation</code> (RFC 9745) và <code>Sunset</code> (RFC 8594), và theo dõi xem ai còn gọi endpoint cũ (Module 13) trước khi tắt.</p>
+<hr />
+<h2 id="7-case-mekong-cloud-pipeline-kiem-thu-cua-invoice-api">7. Case Mekong Cloud: pipeline kiểm thử của <code>invoice-api</code><a class="headerlink" href="#7-case-mekong-cloud-pipeline-kiem-thu-cua-invoice-api" title="Permanent link">&para;</a></h2>
+<!-- placeholder-ci -->
+
+<!-- fig:ci -->
+<figure>
+  <img alt="Pipeline kiểm thử của invoice-api trên mỗi pull request" loading="lazy" src="../assets/figures/12/ci.light.svg#only-light" />
+  <img alt="Pipeline kiểm thử của invoice-api trên mỗi pull request" loading="lazy" src="../assets/figures/12/ci.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 12.9 — Pipeline kiểm thử của invoice-api trên mỗi pull request.</figcaption>
+</figure>
+<!-- /fig -->
+
+<table>
+<thead>
+<tr>
+<th>Giai đoạn</th>
+<th>Chạy khi</th>
+<th>Nội dung</th>
+<th>Thời gian</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lint + kiểm kiểu</td>
+<td>mỗi commit</td>
+<td><code>ruff</code>, <code>mypy --strict</code> (hoặc <code>pyright</code>) cho <code>app/</code></td>
+<td>~20 s</td>
+</tr>
+<tr>
+<td>Unit + thuộc tính</td>
+<td>mỗi commit</td>
+<td>quy tắc nghiệp vụ, model Pydantic, profile Hypothesis <code>ci</code> (500 ví dụ)</td>
+<td>~30 s</td>
+</tr>
+<tr>
+<td>Tích hợp + DB</td>
+<td>mỗi PR</td>
+<td>Postgres container, savepoint rollback; ma trận BOLA/BFLA (Module 11)</td>
+<td>~1 phút</td>
+</tr>
+<tr>
+<td>Đồng thời</td>
+<td>mỗi PR (đánh dấu riêng)</td>
+<td>idempotency 50 request trùng, cấp số 32 luồng (Module 10)</td>
+<td>~20 s</td>
+</tr>
+<tr>
+<td>Hợp đồng</td>
+<td>mỗi PR</td>
+<td><code>openapi.json</code> diff → chặn breaking; Schemathesis 50 ví dụ/endpoint</td>
+<td>~40 s</td>
+</tr>
+<tr>
+<td>Mutation</td>
+<td>mỗi PR, chỉ diff</td>
+<td>đột biến dòng vừa sửa trong <code>app/domain/</code></td>
+<td>~1–3 phút</td>
+</tr>
+<tr>
+<td>Hằng đêm</td>
+<td>02:00</td>
+<td>Hypothesis <code>nightly</code>, Schemathesis stateful 1.000 ví dụ, mutation toàn bộ <code>domain/</code></td>
+<td>~20 phút</td>
+</tr>
+</tbody>
+</table>
+<p>Kiểm tra kiểu tĩnh có mặt trong bảng vì nó rẻ nhất trong mọi loại "test": nó bắt sai kiểu ở ranh giới hàm trước khi chạy dòng nào. Pydantic đảm bảo <strong>dữ liệu</strong> đúng kiểu khi chạy, còn type checker đảm bảo <strong>code</strong> dùng dữ liệu đó đúng kiểu. Hai thứ bổ sung cho nhau, đúng như ý tưởng gradual typing ở Module 01.</p>
+<hr />
+<h2 id="loi-thuong-gap-cach-xu-ly">Lỗi thường gặp &amp; cách xử lý<a class="headerlink" href="#loi-thuong-gap-cach-xu-ly" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Triệu chứng</th>
+<th>Nguyên nhân gốc</th>
+<th>Cách xử lý</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>app.state.pool</code> là <code>None</code> trong test</td>
+<td><code>ASGITransport</code> không chạy lifespan</td>
+<td>bọc bằng <code>app.router.lifespan_context(app)</code></td>
+</tr>
+<tr>
+<td>Test async treo hoặc "attached to a different loop"</td>
+<td>trộn <code>TestClient</code> (loop riêng) với fixture async</td>
+<td>dùng <code>AsyncClient</code> + <code>ASGITransport</code>; một event loop cho cả phiên test</td>
+</tr>
+<tr>
+<td>Test lọt sang nhau, chạy riêng thì xanh, chạy chung thì đỏ</td>
+<td>dữ liệu không được dọn; <code>dependency_overrides</code> không được xóa</td>
+<td>savepoint rollback; fixture tự <code>clear()</code> override</td>
+</tr>
+<tr>
+<td>Bộ test DB chạy mấy phút</td>
+<td>tạo lại bảng hoặc TRUNCATE mỗi test</td>
+<td>transaction + savepoint (4 ms/test)</td>
+</tr>
+<tr>
+<td>Test idempotency luôn xanh dù code sai</td>
+<td>chạy trong savepoint, một kết nối, không có tranh chấp thật</td>
+<td>test đồng thời commit thật, nhiều kết nối, dọn bằng TRUNCATE</td>
+</tr>
+<tr>
+<td>Test BFLA xanh dù thiếu <code>Security(scopes=...)</code></td>
+<td>override chính dependency đang được test</td>
+<td>dùng token thật ký bằng khóa test</td>
+</tr>
+<tr>
+<td>Hypothesis báo <code>Unsatisfiable</code> / <code>filter_too_much</code></td>
+<td>lọc quá nhiều input</td>
+<td>viết strategy sinh trực tiếp dữ liệu hợp lệ (<code>@st.composite</code>)</td>
+</tr>
+<tr>
+<td>Lỗi Hypothesis không tái hiện được trên máy khác</td>
+<td>không lưu phản ví dụ</td>
+<td><code>@example(...)</code>; cache <code>.hypothesis/</code> trong CI</td>
+</tr>
+<tr>
+<td>Schemathesis báo "accepted schema-violating request"</td>
+<td>Pydantic lax ép kiểu (<code>false</code> → <code>0</code>)</td>
+<td><code>strict=True</code> hoặc <code>Strict*</code> cho trường quan trọng</td>
+</tr>
+<tr>
+<td>Schemathesis báo "undocumented status code"</td>
+<td>400/401/413/429 không có trong OpenAPI</td>
+<td>khai báo <code>responses=</code> cho route/router</td>
+</tr>
+<tr>
+<td>Độ phủ 100% nhưng lỗi vẫn lọt</td>
+<td>test chạy dòng code nhưng không kiểm kết quả</td>
+<td>mutation testing cho mô-đun lõi</td>
+</tr>
+<tr>
+<td>Client POS hỏng sau deploy</td>
+<td>breaking change không bị phát hiện</td>
+<td>diff OpenAPI trong CI; <code>deprecated</code> + <code>Sunset</code> trước khi xóa</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tom-tat-cheat-sheet">Tóm tắt (cheat-sheet)<a class="headerlink" href="#tom-tat-cheat-sheet" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Tầng</strong>: kiểm mỗi quy tắc ở tầng thấp nhất còn có nghĩa. Hàm thuần → unit + Hypothesis; route/DI → <code>AsyncClient</code> + <code>ASGITransport</code> (~0,3–0,5 ms/request); DB → Postgres thật + savepoint (~4 ms/test).</li>
+<li><strong>Lifespan</strong>: <code>ASGITransport</code> không chạy lifespan → <code>app.router.lifespan_context(app)</code>.</li>
+<li><strong>Override</strong> phần ở ngoài đối tượng cần test; test phân quyền bằng token thật.</li>
+<li><strong>Property-based</strong>: round-trip, oracle, bất biến, phát hiện lỗi, idempotence. Strategy tự viết cho dữ liệu có ràng buộc. Profile <code>dev</code>/<code>ci</code>/<code>nightly</code>. Phản ví dụ → <code>@example</code>.</li>
+<li><strong>Schemathesis</strong>: <code>--checks all</code>, chạy lại sau khi sửa (lỗi bị gom theo chữ ký); bắt cả lệch Pydantic lax ↔ OpenAPI và status code chưa khai báo.</li>
+<li><strong>Mutation testing</strong>: đo test có <strong>kiểm</strong> hay không; chạy trên lõi nghiệp vụ và trên diff.</li>
+<li><strong>Breaking change</strong>: request thêm bắt buộc / thu hẹp, response bỏ trường / thêm enum. Diff OpenAPI trong CI; <code>deprecated</code> + <code>Sunset</code>.</li>
+</ul>
+<h2 id="cau-hoi-tu-kiem-tra-phong-van">Câu hỏi tự kiểm tra / phỏng vấn<a class="headerlink" href="#cau-hoi-tu-kiem-tra-phong-van" title="Permanent link">&para;</a></h2>
+<p><strong>1.</strong> Vì sao <code>TestClient</code> chậm hơn <code>AsyncClient</code> + <code>ASGITransport</code> khoảng 2,5 lần, và khi nào vẫn nên dùng nó?</p>
+<details>
+<summary>Đáp án</summary>
+<p><code>TestClient</code> chạy app trong một event loop ở <strong>luồng khác</strong> (anyio portal), nên mỗi request phải chuyển luồng và đồng bộ hóa. <code>AsyncClient</code> + <code>ASGITransport</code> gọi app trực tiếp trong event loop của test. <code>TestClient</code> vẫn tiện cho test viết đồng bộ, cho WebSocket (<code>websocket_connect</code>), và khi muốn lifespan tự chạy trong khối <code>with</code>. Không trộn nó với fixture async dùng chung tài nguyên gắn với loop, ví dụ session asyncpg.</p>
+</details>
+<p><strong>2.</strong> Giải thích cơ chế của fixture "transaction + savepoint". Vì sao code ứng dụng gọi <code>commit()</code> mà dữ liệu vẫn biến mất cuối test?</p>
+<details>
+<summary>Đáp án</summary>
+<p>Fixture mở một kết nối và một transaction ngoài cùng, rồi tạo <code>AsyncSession(bind=conn, join_transaction_mode="create_savepoint")</code>. Mọi <code>begin()</code>/<code>commit()</code> của session khi đó là <code>SAVEPOINT</code>/<code>RELEASE SAVEPOINT</code> bên trong transaction ngoài. Code thấy dữ liệu của chính nó như đã commit, nhưng transaction ngoài chưa bao giờ commit, và cuối test <code>rollback()</code> xóa tất cả. Hệ quả: không test được kịch bản cần nhiều kết nối thấy dữ liệu của nhau.</p>
+</details>
+<p><strong>3.</strong> Viết một thuộc tính cho hàm <code>mst_is_valid</code> không cần oracle.</p>
+<details>
+<summary>Đáp án</summary>
+<p>"Phát hiện lỗi một chữ số": sinh 9 chữ số, tính chữ số kiểm tra (bỏ qua nếu ra 10), được MST hợp lệ <span class="arithmatex">\(m\)</span>. Thuộc tính: (a) <code>mst_is_valid(m)</code> đúng; (b) với mọi vị trí <span class="arithmatex">\(i\)</span> và chữ số <span class="arithmatex">\(d \ne m_i\)</span>, MST thay <span class="arithmatex">\(m_i\)</span> bằng <span class="arithmatex">\(d\)</span> là không hợp lệ. (b) đúng vì các trọng số đều khác 0 theo mod 11, nên đổi một chữ số luôn làm đổi tổng mod 11. Thêm: (c) chuỗi dài 9 hoặc 11 luôn không hợp lệ.</p>
+</details>
+<p><strong>4.</strong> Test ví dụ <code>line_tax(27_500, 8) == 2_200</code> đúng cho cả bản dùng <code>round()</code> lẫn bản <code>ROUND_HALF_UP</code>. Tìm một input phân biệt hai bản, và giải thích vì sao Hypothesis tìm ra nó sau ~70 lần thử.</p>
+<details>
+<summary>Đáp án</summary>
+<p>Cần <span class="arithmatex">\(\text{amount} \times \text{rate} / 100\)</span> có phần lẻ đúng 0,5, và phần nguyên <strong>chẵn</strong> (half-even làm tròn xuống số chẵn). Ví dụ <span class="arithmatex">\((525, 10)\)</span> → 52,5 → <code>round</code> = 52, half-up = 53. Với rate 10, cần amount tận cùng bằng 5 (xác suất 1/10). Với rate 5, cần amount ≡ 10 (mod 20) (xác suất 1/20). Với rate 8 thì không bao giờ xảy ra. Tính chung bốn mức thuế suất, khoảng 3,75% cặp cho phần lẻ 0,5, và một nửa trong số đó có phần nguyên chẵn, tức ~1/50. Kỳ vọng vài chục lần thử là gặp, khớp với 70 lần đo được. Sau đó Hypothesis shrink về cặp nhỏ nhất thỏa điều kiện.</p>
+</details>
+<p><strong>5.</strong> Schemathesis báo "API accepted schema-violating request" với <code>"unit_price": false</code>. Đây có phải lỗi không? Sửa thế nào?</p>
+<details>
+<summary>Đáp án</summary>
+<p>Là lỗi hợp đồng. OpenAPI (sinh từ chính model) nói <code>integer</code>, nhưng Pydantic ở chế độ lax ép <code>false</code> → <code>0</code>. Client sai sẽ không bao giờ biết mình sai, và một hóa đơn có đơn giá 0 được tạo ra. Sửa: <code>ConfigDict(strict=True)</code> cho model request, hoặc <code>StrictInt</code> cho các trường tiền. Hoặc chấp nhận lax một cách có chủ đích và ghi rõ trong tài liệu.</p>
+</details>
+<p><strong>6.</strong> Lần chạy Schemathesis đầu không báo lỗi <code>limit=0</code>, dù lỗi đó có thật. Vì sao?</p>
+<details>
+<summary>Đáp án</summary>
+<p>Schemathesis gom các lỗi có cùng chữ ký: cùng operation và cùng loại kiểm tra ("Server error" ở <code>GET /v1/invoices</code>). Lỗi sai schema (<code>limit=199</code> → 500) và lỗi chia cho 0 (<code>limit=0</code> → 500) có cùng chữ ký, nên chỉ một ví dụ được báo. Sau khi sửa lỗi kia, chạy lại thì lỗi <code>limit=0</code> hiện ra. Vì vậy: sửa và chạy lại tới khi sạch, đừng coi báo cáo đầu tiên là đầy đủ.</p>
+</details>
+<p><strong>7.</strong> Một bộ test có độ phủ dòng 100% nhưng điểm đột biến 64%. Điều đó nói gì?</p>
+<details>
+<summary>Đáp án</summary>
+<p>Test <strong>chạy</strong> qua mọi dòng nhưng không <strong>kiểm</strong> đủ kết quả. Ví dụ: chỉ kiểm MST hợp lệ được chấp nhận, không kiểm MST sai bị từ chối; nhánh 13 số chạy qua với input không đặc trưng nên đổi <code>==</code> thành <code>!=</code> cũng không ai biết. Độ phủ là điều kiện cần, mutation score gần với điều kiện đủ hơn.</p>
+</details>
+<p><strong>8.</strong> Đột biến <code>check &lt; 10</code> → <code>check &lt; 11</code> sống sót qua mọi bộ test. Có nên viết thêm test để diệt nó không?</p>
+<details>
+<summary>Đáp án</summary>
+<p>Không, vì đó là <strong>đột biến tương đương</strong>. <code>check = 10 - (x mod 11)</code> nằm trong khoảng 0..10. Với <code>check = 10</code>, điều kiện <code>int(s[9]) == check</code> không bao giờ đúng (một chữ số không thể bằng 10), nên <code>&lt; 10</code> hay <code>&lt; 11</code> cho cùng kết quả. Không test nào phân biệt được. Loại nó khỏi mẫu số, hoặc viết lại code cho tường minh hơn.</p>
+</details>
+<p><strong>9.</strong> Phân loại breaking hay không: (a) thêm <code>"vat_rate": "KCT"</code> vào enum của <strong>response</strong>; (b) thêm trường tùy chọn <code>note</code> vào request; (c) đổi <code>buyer_name</code> thành <code>buyer_legal_name</code> trong request nhưng nhận cả hai qua <code>AliasChoices</code>.</p>
+<details>
+<summary>Đáp án</summary>
+<p>(a) <strong>Breaking</strong>: client cũ có thể không xử lý giá trị enum lạ. (b) An toàn. (c) An toàn với client gửi request, vì server vẫn nhận tên cũ (Module 10, expand/contract). Nhưng nếu response cũng đổi tên thì là breaking với phía đọc. Dùng <code>serialization_alias</code> để giữ tên cũ cho tới khi hết thời hạn deprecation.</p>
+</details>
+<p><strong>10.</strong> Khi nào bạn <strong>không</strong> dùng property-based testing?</p>
+<details>
+<summary>Đáp án</summary>
+<p>Khi không tìm được thuộc tính có ý nghĩa nào ngoài "chạy lại chính code đó" (một oracle trùng với cài đặt chẳng kiểm được gì). Khi mỗi lần chạy rất đắt (gọi LLM thật, API bên thứ ba tính phí). Hoặc khi hành vi được định nghĩa bằng một bảng ví dụ cố định từ nghiệp vụ, ví dụ mẫu hóa đơn do cơ quan thuế quy định; lúc đó test bảng (parametrize) rõ ràng hơn. Property-based cũng không thay cho test hồi quy của lỗi đã biết: hãy giữ phản ví dụ bằng <code>@example</code>.</p>
+</details>
+<h2 id="bai-tap-thuc-hanh">Bài tập thực hành<a class="headerlink" href="#bai-tap-thuc-hanh" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Round-trip mọi model.</strong> Viết một test duyệt mọi model response của <code>invoice-api</code> (từ <code>app.openapi()</code> hoặc danh sách model) và kiểm <code>M.model_validate_json(m.model_dump_json()) == m</code> với dữ liệu sinh bởi <code>st.from_type(M)</code>. Có model nào hỏng không?</li>
+<li><strong>Strict hay lax.</strong> Bật <code>strict=True</code> cho <code>InvoiceIn</code>, chạy lại Schemathesis, và liệt kê những test hiện có bị hỏng. Quyết định giữ strict cho những trường nào.</li>
+<li><strong>Mutation trên code của bạn.</strong> Cài <code>mutmut</code>, chạy trên mô-đun tính tiền của Lab 03. Với mỗi đột biến sống sót: viết test diệt nó, hoặc ghi lý do nó tương đương.</li>
+<li><strong>Chặn breaking change.</strong> Thêm một job CI sinh <code>openapi.json</code> và so với bản trên nhánh chính bằng <code>oasdiff breaking</code> (hoặc mở rộng bộ kiểm trong <code>bench_testing.py</code>). Thử thêm một trường bắt buộc và xác nhận job đỏ.</li>
+</ol>
+<h2 id="tai-lieu-tham-khao">Tài liệu tham khảo<a class="headerlink" href="#tai-lieu-tham-khao" title="Permanent link">&para;</a></h2>
+<ul>
+<li>K. Claessen, J. Hughes. <em>QuickCheck: A Lightweight Tool for Random Testing of Haskell Programs</em>. <strong>ICFP 2000</strong>.</li>
+<li>D. R. MacIver, Z. Hatfield-Dodds et al. <em>Hypothesis: A new approach to property-based testing</em>. <strong>Journal of Open Source Software</strong> 4(43), 2019.</li>
+<li>Z. Hatfield-Dodds, D. Dygalo. <em>Deriving Semantics-Aware Fuzzers from Web API Schemas</em>. <strong>ICSE 2022</strong> (poster). <a href="https://arxiv.org/abs/2112.10328">arXiv:2112.10328</a></li>
+<li>V. Atlidakis, P. Godefroid, M. Polishchuk. <em>RESTler: Stateful REST API Fuzzing</em>. <strong>ICSE 2019</strong>.</li>
+<li>A. Arcuri. <em>RESTful API Automated Test Case Generation with EvoMaster</em>. <strong>ACM TOSEM</strong> 28(1), 2019.</li>
+<li>A. Golmohammadi, M. Zhang, A. Arcuri. <em>Testing RESTful APIs: A Survey</em>. <strong>ACM TOSEM</strong> 33(1), 2023.</li>
+<li>R. A. DeMillo, R. J. Lipton, F. G. Sayward. <em>Hints on Test Data Selection: Help for the Practicing Programmer</em>. IEEE Computer 11(4), 1978.</li>
+<li>Y. Jia, M. Harman. <em>An Analysis and Survey of the Development of Mutation Testing</em>. <strong>IEEE TSE</strong> 37(5), 2011.</li>
+<li>G. Petrović, M. Ivanković. <em>State of Mutation Testing at Google</em>. <strong>ICSE-SEIP 2018</strong>.</li>
+<li>F. Di Lauro, S. Serbout, C. Pautasso. <em>To Deprecate or to Simply Drop Operations? An Empirical Study on the Evolution of a Large OpenAPI Collection</em>. <strong>ECSA 2022</strong>. <a href="https://oas-search.inf.usi.ch/pdf/ecsa-2022.pdf">PDF</a></li>
+<li>S. Serbout, C. Pautasso. <em>How Many Web APIs Evolve Following Semantic Versioning?</em> <strong>ICWE 2024</strong>. <a href="https://design.inf.usi.ch/sites/default/files/biblio/apiace-icwe2024.pdf">PDF</a></li>
+<li>E. Wilde. <em>RFC 8594 — The Sunset HTTP Header Field</em>. IETF, 2019.</li>
+<li>S. Dalal, E. Wilde. <em>RFC 9745 — The Deprecation HTTP Response Header Field</em>. IETF, 2025.</li>
+<li>M. Cohn. <em>Succeeding with Agile</em>. Addison-Wesley, 2009 (test pyramid).</li>
+<li>Tài liệu: <a href="https://hypothesis.readthedocs.io/">Hypothesis</a>, <a href="https://schemathesis.readthedocs.io/">Schemathesis</a>, <a href="https://fastapi.tiangolo.com/tutorial/testing/">FastAPI — Testing</a>, <a href="https://fastapi.tiangolo.com/advanced/async-tests/">FastAPI — Async tests</a>, <a href="https://docs.sqlalchemy.org/en/21/orm/session_transaction.html#joining-a-session-into-an-external-transaction-such-as-for-test-suites">SQLAlchemy — Joining a Session into an External Transaction</a>.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Trở lại mục lục
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Chân trang" >
+        
+          
+          <a href="../11-bao-mat-api/" class="md-footer__link md-footer__link--prev" aria-label="Trước: 11 · Bảo mật API">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Trước
+              </span>
+              <div class="md-ellipsis">
+                11 · Bảo mật API
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../13-production-va-observability/" class="md-footer__link md-footer__link--next" aria-label="Sau: 13 · Production &amp; observability">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Sau
+              </span>
+              <div class="md-ellipsis">
+                13 · Production & observability
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Tài liệu học tập — Pydantic & FastAPI Masterclass · 2026
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/HieNguyen08/learn-pydantic-and-fastapi" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.top", "navigation.footer", "navigation.indexes", "navigation.tracking", "toc.follow", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "content.action.edit"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u0110\u00e3 sao ch\u00e9p", "clipboard.copy": "Sao ch\u00e9p v\u00e0o b\u1ed9 nh\u1edb t\u1ea1m", "search.result.more.one": "1 t\u1eeb kh\u00e1c trong trang", "search.result.more.other": "# t\u1eeb kh\u00e1c trong trang", "search.result.none": "Kh\u00f4ng t\u00ecm th\u1ea5y t\u00e0i li\u1ec7u li\u00ean quan", "search.result.one": "1 t\u00e0i li\u1ec7u li\u00ean quan", "search.result.other": "# t\u00e0i li\u1ec7u li\u00ean quan", "search.result.placeholder": "Nh\u1eadp \u0111\u1ec3 b\u1eaft \u0111\u1ea7u t\u00ecm ki\u1ebfm", "search.result.term.missing": "Kh\u00f4ng", "select.version": "Ch\u1ecdn phi\u00ean b\u1ea3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

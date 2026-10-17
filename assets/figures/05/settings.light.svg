@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="639.786667pt" height="285.12pt" viewBox="0 0 639.786667 285.12" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 285.12 
+L 639.786667 285.12 
+L 639.786667 0 
+L 0 0 
+L 0 285.12 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 21.973333 66.56 
+L 212.48 66.56 
+Q 218.56 66.56 218.56 60.48 
+L 218.56 37.173333 
+Q 218.56 31.093333 212.48 31.093333 
+L 21.973333 31.093333 
+Q 15.893333 31.093333 15.893333 37.173333 
+L 15.893333 60.48 
+Q 15.893333 66.56 21.973333 66.56 
+z
+" clip-path="url(#pfd44db91e2)" style="fill: #dedcef; stroke: #4a3aa7; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 29.573333 112.16 
+L 204.88 112.16 
+Q 210.96 112.16 210.96 106.08 
+L 210.96 82.773333 
+Q 210.96 76.693333 204.88 76.693333 
+L 29.573333 76.693333 
+Q 23.493333 76.693333 23.493333 82.773333 
+L 23.493333 106.08 
+Q 23.493333 112.16 29.573333 112.16 
+z
+" clip-path="url(#pfd44db91e2)" style="fill: #d9e7f8; stroke: #2a78d6; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 37.173333 157.76 
+L 197.28 157.76 
+Q 203.36 157.76 203.36 151.68 
+L 203.36 128.373333 
+Q 203.36 122.293333 197.28 122.293333 
+L 37.173333 122.293333 
+Q 31.093333 122.293333 31.093333 128.373333 
+L 31.093333 151.68 
+Q 31.093333 157.76 37.173333 157.76 
+z
+" clip-path="url(#pfd44db91e2)" style="fill: #d6f1e7; stroke: #1baf7a; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 44.773333 203.36 
+L 189.68 203.36 
+Q 195.76 203.36 195.76 197.28 
+L 195.76 173.973333 
+Q 195.76 167.893333 189.68 167.893333 
+L 44.773333 167.893333 
+Q 38.693333 167.893333 38.693333 173.973333 
+L 38.693333 197.28 
+Q 38.693333 203.36 44.773333 203.36 
+z
+" clip-path="url(#pfd44db91e2)" style="fill: #d1e9d1; stroke: #008300; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 52.373333 248.96 
+L 182.08 248.96 
+Q 188.16 248.96 188.16 242.88 
+L 188.16 219.573333 
+Q 188.16 213.493333 182.08 213.493333 
+L 52.373333 213.493333 
+Q 46.293333 213.493333 46.293333 219.573333 
+L 46.293333 242.88 
+Q 46.293333 248.96 52.373333 248.96 
+z
+" clip-path="url(#pfd44db91e2)" style="fill: #eaeae9; stroke: #8a8984; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 8.2px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #1b1b1a" x="117.226667" y="51.533307" transform="rotate(-0 117.226667 51.533307)">1 · tham số khởi tạo</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: start; fill: #1b1b1a" x="248.96" y="50.905104" transform="rotate(-0 248.96 50.905104)">Settings(env='prod') → env = 'prod'</text>
+   </g>
+   <g id="text_3">
+    <text style="font-weight: 700; font-size: 8.2px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #1b1b1a" x="117.226667" y="97.119214" transform="rotate(-0 117.226667 97.119214)">2 · biến môi trường</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: start; fill: #1b1b1a" x="248.96" y="96.526354" transform="rotate(-0 248.96 96.526354)">INVOICE_DB__POOL_SIZE=20 → pool_size = 20</text>
+   </g>
+   <g id="text_5">
+    <text style="font-weight: 700; font-size: 8.2px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #1b1b1a" x="117.226667" y="143.083729" transform="rotate(-0 117.226667 143.083729)">3 · file .env</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: start; fill: #1b1b1a" x="248.96" y="142.452604" transform="rotate(-0 248.96 142.452604)">bỏ biến môi trường → pool_size = 15</text>
+   </g>
+   <g id="text_7">
+    <text style="font-weight: 700; font-size: 8.2px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #1b1b1a" x="117.226667" y="187.871417" transform="rotate(-0 117.226667 187.871417)">4 · thư mục secrets</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: start; fill: #1b1b1a" x="248.96" y="188.052604" transform="rotate(-0 248.96 188.052604)">bỏ .env → jwt_secret đọc từ file</text>
+   </g>
+   <g id="text_9">
+    <text style="font-weight: 700; font-size: 8.2px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #1b1b1a" x="117.226667" y="233.621323" transform="rotate(-0 117.226667 233.621323)">5 · giá trị mặc định</text>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: start; fill: #1b1b1a" x="248.96" y="233.326354" transform="rotate(-0 248.96 233.326354)">db.url = postgresql+asyncpg://localhost/…</text>
+   </g>
+   <g id="text_11">
+    <text style="font-weight: 700; font-size: 9.2px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #1b1b1a" x="15.893333" y="20.96" transform="rotate(-0 15.893333 20.96)">Thứ tự ưu tiên nguồn của pydantic-settings (kiểm chứng bằng thí nghiệm)</text>
+   </g>
+   <g id="text_12">
+    <text style="font-size: 7.8px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: start; fill: #52514e" x="248.96" y="269.226667" transform="rotate(-0 248.96 269.226667)">repr(settings): jwt_secret=SecretStr('**********')</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pfd44db91e2">
+   <rect x="5.76" y="5.76" width="628.266667" height="273.6"/>
+  </clipPath>
+ </defs>
+</svg>

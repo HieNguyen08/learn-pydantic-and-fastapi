@@ -1,0 +1,3234 @@
+
+<!doctype html>
+<html lang="vi" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Pydantic & FastAPI từ nền tảng đến hệ thống production — xoay quanh API hóa đơn điện tử và AI gateway của Mekong Cloud">
+      
+      
+        <meta name="author" content="HieNguyen08">
+      
+      
+        <link rel="canonical" href="https://hienguyen08.github.io/learn-pydantic-and-fastapi/01-kieu-du-lieu-va-validation/">
+      
+      
+        <link rel="prev" href="../00-tong-quan-va-bai-toan/">
+      
+      
+        <link rel="next" href="../02-http-rest-asgi/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>01 · Kiểu dữ liệu & validation - Pydantic & FastAPI Masterclass</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Be+Vietnam+Pro:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Be Vietnam Pro";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="deep-orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#module-01-kieu-du-lieu-validation-nen-tang-ly-thuyet" class="md-skip">
+          Bỏ qua
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Đầu trang">
+    <a href=".." title="Pydantic &amp; FastAPI Masterclass" class="md-header__button md-logo" aria-label="Pydantic & FastAPI Masterclass" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 7H5a2 2 0 0 0-2 2v8h2v-4h2v4h2V9a2 2 0 0 0-2-2m0 4H5V9h2m7-2h-4v10h2v-4h2a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2m0 4h-2V9h2m6 0v6h1v2h-4v-2h1V9h-1V7h4v2Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Pydantic & FastAPI Masterclass
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              01 · Kiểu dữ liệu & validation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="deep-orange"  aria-label="Chuyển sang nền tối"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Chuyển sang nền tối" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="deep-orange"  aria-label="Chuyển sang nền sáng"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Chuyển sang nền sáng" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Tìm kiếm" placeholder="Tìm kiếm" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Tìm kiếm">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Xoá" aria-label="Xoá" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/HieNguyen08/learn-pydantic-and-fastapi" title="Xem mã nguồn" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    HieNguyen08/learn-pydantic-and-fastapi
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Trang chủ
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../00-tong-quan-va-bai-toan/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Phần I · Nền tảng
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../03-pydantic-v2-kien-truc/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Phần II · Pydantic
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../07-fastapi-vong-doi-request/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Phần III · FastAPI
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../12-testing-va-chat-luong/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Phần IV · Chất lượng & vận hành
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../15-pydantic-cho-llm/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Phần V · Chuyên đề
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../labs/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Thực hành
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Thanh điều hướng" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Pydantic &amp; FastAPI Masterclass" class="md-nav__button md-logo" aria-label="Pydantic & FastAPI Masterclass" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 7H5a2 2 0 0 0-2 2v8h2v-4h2v4h2V9a2 2 0 0 0-2-2m0 4H5V9h2m7-2h-4v10h2v-4h2a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2m0 4h-2V9h2m6 0v6h1v2h-4v-2h1V9h-1V7h4v2Z"/></svg>
+
+    </a>
+    Pydantic & FastAPI Masterclass
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/HieNguyen08/learn-pydantic-and-fastapi" title="Xem mã nguồn" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    HieNguyen08/learn-pydantic-and-fastapi
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trang chủ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phần I · Nền tảng
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phần I · Nền tảng
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-tong-quan-va-bai-toan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    00 · Tổng quan & bài toán
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01 · Kiểu dữ liệu & validation
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01 · Kiểu dữ liệu & validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Mục lục">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Mục lục
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#muc-tieu-hoc-tap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mục tiêu học tập
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-kieu-la-gi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Kiểu là gì
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Kiểu là gì">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-van-e" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1. Vấn đề
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-inh-nghia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2. Định nghĩa
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-cac-truc-phan-loai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3. Các trục phân loại
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-nominal-va-structural-trong-thuc-te" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4. Nominal và structural trong thực tế
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-gradual-typing-vi-sao-python-chon-hint-bi-xoa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Gradual typing: vì sao Python chọn hint bị xóa
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Gradual typing: vì sao Python chọn hint bị xóa">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-van-e" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1. Vấn đề
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-y-tuong-kieu-ong-va-quan-he-consistency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. Ý tưởng: kiểu động ? và quan hệ consistency
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-sound-gradual-typing-at" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3. Sound gradual typing đắt
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-python-chon-gi-va-he-qua" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4. Python chọn gì và hệ quả
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-bang-chung-thuc-nghiem-kieu-tinh-bat-uoc-bao-nhieu-loi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Bằng chứng thực nghiệm: kiểu tĩnh bắt được bao nhiêu lỗi?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Bằng chứng thực nghiệm: kiểu tĩnh bắt được bao nhiêu lỗi?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-ba-nghien-cuu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1. Ba nghiên cứu
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-dien-giai-ung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2. Diễn giải đúng
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-parse-dont-validate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Parse, don't validate
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Parse, don&#39;t validate">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-van-e-validation-lam-mat-thong-tin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1. Vấn đề: validation làm mất thông tin
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-smart-constructor-trong-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2. Smart constructor trong Python
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-lam-cho-trang-thai-phi-phap-khong-bieu-dien-uoc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3. "Làm cho trạng thái phi pháp không biểu diễn được"
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-langsec-au-vao-la-mot-ngon-ngu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. LangSec: đầu vào là một ngôn ngữ
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. LangSec: đầu vào là một ngôn ngữ">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-van-e" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1. Vấn đề
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-y-tuong" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2. Ý tưởng
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-xep-cac-quy-tac-hoa-on-vao-phan-cap-chomsky" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3. Xếp các quy tắc hóa đơn vào phân cấp Chomsky
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-thi-nghiem-parser-differential-tren-bon-thu-vien-json" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4. Thí nghiệm: parser differential trên bốn thư viện JSON
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-nguyen-ly-postel-va-cai-gia-cua-su-de-dai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Nguyên lý Postel và cái giá của sự dễ dãi
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Nguyên lý Postel và cái giá của sự dễ dãi">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-phat-bieu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1. Phát biểu
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-phan-bien-cua-rfc-9413" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2. Phản biện của RFC 9413
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-ap-vao-thiet-ke-api-lax-hay-strict" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3. Áp vào thiết kế API: lax hay strict?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-validation-nhu-mot-ham-cac-tinh-chat-can-co" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Validation như một hàm: các tính chất cần có
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Validation như một hàm: các tính chất cần có">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-hinh-thuc-hoa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1. Hình thức hóa
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-gom-loi-fail-fast-hay-tich-luy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2. Gom lỗi: fail-fast hay tích lũy?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-case-mekong-cloud-phan-tang-quy-tac-cua-mot-hoa-on" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Case Mekong Cloud: phân tầng quy tắc của một hóa đơn
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#loi-thuong-gap-cach-xu-ly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lỗi thường gặp &amp; cách xử lý
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tom-tat-cheat-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tóm tắt (cheat-sheet)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cau-hoi-tu-kiem-tra-phong-van" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Câu hỏi tự kiểm tra / phỏng vấn
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bai-tap-thuc-hanh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bài tập thực hành
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tai-lieu-tham-khao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tài liệu tham khảo
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-http-rest-asgi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02 · HTTP, REST & ASGI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phần II · Pydantic
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phần II · Pydantic
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-pydantic-v2-kien-truc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03 · Pydantic v2: kiến trúc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-validators-kieu-tuy-bien-union/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04 · Validator, kiểu tùy biến & union
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-serialization-json-schema-settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05 · Serialization, JSON Schema & settings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-hieu-nang-pydantic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06 · Hiệu năng Pydantic
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phần III · FastAPI
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phần III · FastAPI
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-fastapi-vong-doi-request/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07 · Vòng đời request
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-dependency-injection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08 · Dependency injection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09-async-dong-thoi-hieu-nang/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09 · Async, đồng thời & hiệu năng
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10-database-va-persistence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10 · Database & persistence
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11-bao-mat-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11 · Bảo mật API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phần IV · Chất lượng & vận hành
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phần IV · Chất lượng & vận hành
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12-testing-va-chat-luong/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12 · Testing & chất lượng
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../13-production-va-observability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13 · Production & observability
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../14-capstone-thiet-ke-he-thong/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14 · Capstone: thiết kế hệ thống
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phần V · Chuyên đề
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phần V · Chuyên đề
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../15-pydantic-cho-llm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15 · Pydantic cho LLM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../labs/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Thực hành
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Thực hành
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab01_invoice_models/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 01 · Mô hình hóa hóa đơn
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab02_benchmark_validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 02 · Benchmark validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab03_invoice_api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 03 · invoice-api hoàn chỉnh
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab04_concurrency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 04 · Đo đồng thời
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab05_property_fuzz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 05 · Property-based & fuzz
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab06_llm_structured_sse/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 06 · Structured output & SSE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Mục lục">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Mục lục
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#muc-tieu-hoc-tap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mục tiêu học tập
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-kieu-la-gi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Kiểu là gì
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Kiểu là gì">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-van-e" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1. Vấn đề
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-inh-nghia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2. Định nghĩa
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-cac-truc-phan-loai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3. Các trục phân loại
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-nominal-va-structural-trong-thuc-te" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4. Nominal và structural trong thực tế
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-gradual-typing-vi-sao-python-chon-hint-bi-xoa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Gradual typing: vì sao Python chọn hint bị xóa
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Gradual typing: vì sao Python chọn hint bị xóa">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-van-e" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1. Vấn đề
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-y-tuong-kieu-ong-va-quan-he-consistency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. Ý tưởng: kiểu động ? và quan hệ consistency
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-sound-gradual-typing-at" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3. Sound gradual typing đắt
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-python-chon-gi-va-he-qua" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4. Python chọn gì và hệ quả
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-bang-chung-thuc-nghiem-kieu-tinh-bat-uoc-bao-nhieu-loi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Bằng chứng thực nghiệm: kiểu tĩnh bắt được bao nhiêu lỗi?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Bằng chứng thực nghiệm: kiểu tĩnh bắt được bao nhiêu lỗi?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-ba-nghien-cuu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1. Ba nghiên cứu
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-dien-giai-ung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2. Diễn giải đúng
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-parse-dont-validate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Parse, don't validate
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Parse, don&#39;t validate">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-van-e-validation-lam-mat-thong-tin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1. Vấn đề: validation làm mất thông tin
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-smart-constructor-trong-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2. Smart constructor trong Python
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-lam-cho-trang-thai-phi-phap-khong-bieu-dien-uoc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3. "Làm cho trạng thái phi pháp không biểu diễn được"
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-langsec-au-vao-la-mot-ngon-ngu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. LangSec: đầu vào là một ngôn ngữ
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. LangSec: đầu vào là một ngôn ngữ">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-van-e" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1. Vấn đề
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-y-tuong" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2. Ý tưởng
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-xep-cac-quy-tac-hoa-on-vao-phan-cap-chomsky" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3. Xếp các quy tắc hóa đơn vào phân cấp Chomsky
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-thi-nghiem-parser-differential-tren-bon-thu-vien-json" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4. Thí nghiệm: parser differential trên bốn thư viện JSON
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-nguyen-ly-postel-va-cai-gia-cua-su-de-dai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Nguyên lý Postel và cái giá của sự dễ dãi
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Nguyên lý Postel và cái giá của sự dễ dãi">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-phat-bieu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1. Phát biểu
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-phan-bien-cua-rfc-9413" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2. Phản biện của RFC 9413
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-ap-vao-thiet-ke-api-lax-hay-strict" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3. Áp vào thiết kế API: lax hay strict?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-validation-nhu-mot-ham-cac-tinh-chat-can-co" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Validation như một hàm: các tính chất cần có
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Validation như một hàm: các tính chất cần có">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-hinh-thuc-hoa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1. Hình thức hóa
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-gom-loi-fail-fast-hay-tich-luy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2. Gom lỗi: fail-fast hay tích lũy?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-case-mekong-cloud-phan-tang-quy-tac-cua-mot-hoa-on" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Case Mekong Cloud: phân tầng quy tắc của một hóa đơn
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#loi-thuong-gap-cach-xu-ly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lỗi thường gặp &amp; cách xử lý
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tom-tat-cheat-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tóm tắt (cheat-sheet)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cau-hoi-tu-kiem-tra-phong-van" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Câu hỏi tự kiểm tra / phỏng vấn
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bai-tap-thuc-hanh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bài tập thực hành
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tai-lieu-tham-khao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tài liệu tham khảo
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/HieNguyen08/learn-pydantic-and-fastapi/edit/main/docs/01-kieu-du-lieu-va-validation.md" title="Chỉnh sửa" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="module-01-kieu-du-lieu-validation-nen-tang-ly-thuyet">Module 01 — Kiểu dữ liệu &amp; validation: nền tảng lý thuyết<a class="headerlink" href="#module-01-kieu-du-lieu-validation-nen-tang-ly-thuyet" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>Thời lượng: ~45 phút · Mức độ: Trung bình · Tiên quyết: Module 00</p>
+</blockquote>
+<p>Trước khi viết dòng Pydantic đầu tiên, hãy trả lời một câu hỏi nghe có vẻ triết học: <strong>type hint trong Python có nghĩa là gì?</strong> <code>def f(x: int)</code> không ngăn ai gọi <code>f("abc")</code>. Trình thông dịch bỏ qua chú thích đó; mypy kiểm tra nó, nhưng chỉ với code mypy nhìn thấy. Còn byte JSON từ máy POS thì không type checker nào nhìn thấy cả. Module này xây nền lý thuyết để hiểu <strong>vì sao cần validation lúc chạy, đặt nó ở đâu, và thiết kế nó đúng</strong> — từ lý thuyết kiểu, gradual typing, đến nguyên lý <em>parse, don't validate</em> và an ninh ngôn ngữ (LangSec). Đây là phần "vì sao" cho mọi thứ Pydantic làm ở Module 03–06.</p>
+<h2 id="muc-tieu-hoc-tap">Mục tiêu học tập<a class="headerlink" href="#muc-tieu-hoc-tap" title="Permanent link">&para;</a></h2>
+<p>Sau module này, bạn có thể:</p>
+<ol>
+<li>Định nghĩa kiểu như <strong>tập giá trị + phép toán</strong>, phân biệt static/dynamic, nominal/structural, sound/unsound, và xếp Python vào đúng chỗ.</li>
+<li>Giải thích <strong>gradual typing</strong>, quan hệ <em>consistency</em> với <code>Any</code>, vì sao gradual typing <em>sound</em> tốn kém (Takikawa et al. 2016) và vì sao Python chọn type hint <strong>bị xóa lúc chạy</strong>.</li>
+<li>Trích dẫn và diễn giải đúng các bằng chứng thực nghiệm: type checker bắt được khoảng <strong>15%</strong> lỗi (Gao 2017, Khan 2021); tốc độ chấp nhận type hint (Di Grazia &amp; Pradel 2022).</li>
+<li>Áp dụng <strong>"parse, don't validate"</strong>: viết smart constructor, phân biệt hàm <code>validate</code> (trả <code>bool</code>) và hàm <code>parse</code> (trả kiểu tinh chỉnh).</li>
+<li>Phân tích một định dạng đầu vào theo <strong>LangSec</strong>: lớp ngôn ngữ trong phân cấp Chomsky, shotgun parsing, parser differential — có thí nghiệm thật trên bốn thư viện JSON.</li>
+<li>Lập luận khi nào nên <strong>chặt</strong> (strict) và khi nào <strong>lỏng</strong> (lax), dựa trên nguyên lý Postel và phản biện của RFC 9413.</li>
+<li>Phân tầng các quy tắc của một hóa đơn (cú pháp, cấu trúc, ngữ nghĩa trường, liên trường, ngữ cảnh) và đặt mỗi tầng vào đúng thành phần.</li>
+</ol>
+<hr />
+<h2 id="1-kieu-la-gi">1. Kiểu là gì<a class="headerlink" href="#1-kieu-la-gi" title="Permanent link">&para;</a></h2>
+<h3 id="11-van-e">1.1. Vấn đề<a class="headerlink" href="#11-van-e" title="Permanent link">&para;</a></h3>
+<p>Trong ngôn ngữ thường ngày, "kiểu" của <code>total</code> là "số nguyên". Nhưng một con số tổng tiền hóa đơn còn phải <strong>không âm</strong>, <strong>bằng tổng các dòng</strong>, và <strong>tính bằng VND</strong>. Đâu là "kiểu", đâu là "validation"? Ranh giới đó quyết định cách bạn thiết kế model, nên cần định nghĩa cho rõ.</p>
+<h3 id="12-inh-nghia">1.2. Định nghĩa<a class="headerlink" href="#12-inh-nghia" title="Permanent link">&para;</a></h3>
+<p>Một cách nhìn đủ dùng cho kỹ sư: <strong>kiểu <span class="arithmatex">\(T\)</span> là một tập giá trị <span class="arithmatex">\(\llbracket T \rrbracket\)</span> cùng các phép toán được phép trên tập đó.</strong></p>
+<ul>
+<li><span class="arithmatex">\(\llbracket \texttt{int} \rrbracket = \mathbb{Z}\)</span> (Python có số nguyên không giới hạn).</li>
+<li><span class="arithmatex">\(\llbracket \texttt{bool} \rrbracket = \{\texttt{True}, \texttt{False}\}\)</span> — và trong Python <span class="arithmatex">\(\texttt{bool} \subset \texttt{int}\)</span> (<code>True + 1 == 2</code>), một chi tiết sẽ quay lại ở Module 03.</li>
+<li><span class="arithmatex">\(\llbracket \texttt{Literal["0","5","8","10","KCT","KKKNT"]} \rrbracket\)</span> là tập 6 chuỗi.</li>
+<li>Kiểu tinh chỉnh (refinement type) <span class="arithmatex">\(\{ x \in \mathbb{Z} \mid x \ge 0 \}\)</span> — "số nguyên không âm" — là <strong>tập con</strong> của <code>int</code> xác định bởi một vị từ.</li>
+</ul>
+<p>Với cách nhìn này, ràng buộc <code>ge=0</code>, regex của mã số thuế, hay "tổng bằng tổng các dòng" đều là <strong>vị từ thu hẹp tập giá trị</strong>. Phân biệt "kiểu" và "validation" chỉ là phân biệt <strong>vị từ nào hệ thống kiểu của ngôn ngữ biểu diễn được</strong> và vị từ nào phải kiểm tra bằng code. Pydantic xóa nhòa ranh giới này một cách có chủ đích: <code>Annotated[int, Field(ge=0)]</code> là một kiểu tinh chỉnh viết bằng cú pháp kiểu.</p>
+<h3 id="13-cac-truc-phan-loai">1.3. Các trục phân loại<a class="headerlink" href="#13-cac-truc-phan-loai" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Trục</th>
+<th>Hai cực</th>
+<th>Python ở đâu</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Thời điểm kiểm tra</td>
+<td><strong>static</strong> (trước khi chạy) vs <strong>dynamic</strong> (lúc chạy)</td>
+<td>dynamic; type hint là thông tin <em>tùy chọn</em> cho công cụ static bên ngoài (mypy, pyright, ty)</td>
+</tr>
+<tr>
+<td>Mức nghiêm ngặt khi kết hợp kiểu</td>
+<td><strong>strong</strong> vs <strong>weak</strong> (ngầm chuyển đổi)</td>
+<td>khá strong: <code>"1" + 1</code> lỗi; nhưng <code>bool</code> là <code>int</code>, <code>1 == 1.0</code></td>
+</tr>
+<tr>
+<td>Tương thích kiểu dựa vào</td>
+<td><strong>nominal</strong> (tên/khai báo kế thừa) vs <strong>structural</strong> (hình dạng)</td>
+<td>cả hai: class là nominal; <code>Protocol</code> (PEP 544), <code>TypedDict</code> là structural</td>
+</tr>
+<tr>
+<td>Đảm bảo</td>
+<td><strong>sound</strong> (đã kiểm tra thì không sai kiểu lúc chạy) vs <strong>unsound</strong></td>
+<td>type hint Python <strong>unsound và bị xóa</strong> (erased) — không ảnh hưởng thực thi</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Soundness</strong> nói nôm na: nếu checker chấp nhận chương trình thì lúc chạy không có lỗi kiểu (các định lý <em>progress</em> và <em>preservation</em> trong lý thuyết ngôn ngữ). Mypy không sound — một <code>cast()</code>, một <code># type: ignore</code>, một thư viện không có stub, một <code>json.loads</code> trả <code>Any</code> là đủ để giá trị sai kiểu chảy vào code "đã được kiểm tra".</p>
+<p>Điểm then chốt cho khóa này: <strong>type hint Python bị xóa về mặt ngữ nghĩa nhưng vẫn còn về mặt dữ liệu.</strong> Chúng không ảnh hưởng thực thi, nhưng được lưu trong <code>__annotations__</code> (từ Python 3.14 là đánh giá trễ qua <code>annotationlib</code>, PEP 649/749) và đọc được lúc chạy. Pydantic và FastAPI <em>đọc</em> chúng để dựng bộ kiểm tra lúc chạy. Đây là một "hợp đồng" giữa hai thế giới:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span><span class="p">,</span> <span class="n">get_type_hints</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">Field</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="k">class</span><span class="w"> </span><span class="nc">Line</span><span class="p">:</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">quantity</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Field</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">)]</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">vat_rate</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="nb">print</span><span class="p">(</span><span class="n">get_type_hints</span><span class="p">(</span><span class="n">Line</span><span class="p">,</span> <span class="n">include_extras</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="c1"># {'quantity': typing.Annotated[float, FieldInfo(annotation=NoneType, required=True, metadata=[Gt(gt=0)])],</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="c1">#  'vat_rate': &lt;class 'str'&gt;}</span>
+</span></code></pre></div>
+<p>Không có gì được kiểm tra ở đây — Python chỉ lưu lại thông tin. Ai đó (Pydantic) phải biến thông tin ấy thành code kiểm tra.</p>
+<h3 id="14-nominal-va-structural-trong-thuc-te">1.4. Nominal và structural trong thực tế<a class="headerlink" href="#14-nominal-va-structural-trong-thuc-te" title="Permanent link">&para;</a></h3>
+<p>Structural typing quan trọng với API vì JSON <strong>vốn là structural</strong>: một object JSON không mang tên class, chỉ có các khóa. Khi FastAPI nhận <code>{"sku": ..., "quantity": ...}</code>, việc gán nó vào <code>Line</code> là một <strong>quyết định nominal</strong> do code server đưa ra dựa trên <strong>ngữ cảnh</strong> (endpoint nào, trường nào). Khi một trường có thể là nhiều loại object (thanh toán bằng thẻ hay chuyển khoản), JSON không tự nói nó là loại nào — đó là lý do cần <strong>discriminated union</strong> với một trường "thẻ" (tag) như <code>"type": "card"</code> (Module 04). Tagged union là cách đưa thông tin nominal vào dữ liệu structural.</p>
+<hr />
+<h2 id="2-gradual-typing-vi-sao-python-chon-hint-bi-xoa">2. Gradual typing: vì sao Python chọn hint bị xóa<a class="headerlink" href="#2-gradual-typing-vi-sao-python-chon-hint-bi-xoa" title="Permanent link">&para;</a></h2>
+<h3 id="21-van-e">2.1. Vấn đề<a class="headerlink" href="#21-van-e" title="Permanent link">&para;</a></h3>
+<p>Ngôn ngữ động muốn thêm kiểu tĩnh mà không bắt viết lại toàn bộ code. Cần một hệ kiểu cho phép <strong>trộn</strong> code có kiểu và không kiểu.</p>
+<h3 id="22-y-tuong-kieu-ong-va-quan-he-consistency">2.2. Ý tưởng: kiểu động <code>?</code> và quan hệ consistency<a class="headerlink" href="#22-y-tuong-kieu-ong-va-quan-he-consistency" title="Permanent link">&para;</a></h3>
+<p>Siek &amp; Taha (2006) đề xuất <strong>gradual typing</strong>: thêm một kiểu đặc biệt <code>?</code> (trong Python là <code>Any</code>), và thay quan hệ bằng nhau giữa kiểu bằng quan hệ <strong>consistency</strong> <span class="arithmatex">\(\sim\)</span>:</p>
+<div class="arithmatex">\[
+\texttt{?} \sim T, \qquad T \sim \texttt{?}, \qquad T \sim T, \qquad \frac{A_1 \sim B_1 \quad A_2 \sim B_2}{A_1 \to A_2 \;\sim\; B_1 \to B_2}.
+\]</div>
+<p>Điểm tinh tế: <span class="arithmatex">\(\sim\)</span> <strong>không bắc cầu</strong>. Có <code>int ~ ?</code> và <code>? ~ str</code> nhưng không có <code>int ~ str</code>. Nếu bắc cầu, mọi kiểu đều tương thích với nhau qua <code>?</code> và hệ kiểu vô nghĩa. Hệ quả thực tế trong Python: <code>json.loads</code> trả <code>Any</code>, nên</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span>          <span class="c1"># data: Any</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">total</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">"total"</span><span class="p">]</span>      <span class="c1"># mypy chấp nhận: Any ~ int</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">total</span> <span class="o">+</span> <span class="mi">1</span>                        <span class="c1"># lúc chạy có thể là str → TypeError</span>
+</span></code></pre></div>
+<p>Mọi giá trị đi qua <code>Any</code> đều "tắt" kiểm tra tĩnh. Và <strong>mọi dữ liệu từ ngoài vào đều đi qua <code>Any</code></strong> (hoặc <code>dict[str, Any]</code>).</p>
+<h3 id="23-sound-gradual-typing-at">2.3. Sound gradual typing đắt<a class="headerlink" href="#23-sound-gradual-typing-at" title="Permanent link">&para;</a></h3>
+<p>Để gradual typing <em>sound</em>, ngôn ngữ phải chèn <strong>phép ép kiểu có kiểm tra (cast)</strong> tại mọi chỗ giá trị đi từ vùng không kiểu sang vùng có kiểu; với hàm và cấu trúc mutable, cast phải được bọc lại (wrapper/proxy) và kiểm tra mỗi lần dùng. Takikawa et al. (POPL 2016, <em>"Is Sound Gradual Typing Dead?"</em>) đo trên Typed Racket: với mọi cấu hình trộn module có kiểu/không kiểu của một tập benchmark, nhiều cấu hình chậm hơn <strong>hàng chục lần, có trường hợp hơn 100 lần</strong>, và người lập trình khó đoán cấu hình nào chậm. Bauman et al. (OOPSLA 2017, <em>"Sound Gradual Typing: Only Mostly Dead"</em>) cho thấy JIT có thể giảm mạnh chi phí này, nhưng không về 0.</p>
+<!-- placeholder-spectrum -->
+
+<!-- fig:spectrum -->
+<figure>
+  <img alt="Phổ các cách gõ kiểu theo đảm bảo lúc chạy và chi phí" loading="lazy" src="../assets/figures/01/spectrum.light.svg#only-light" />
+  <img alt="Phổ các cách gõ kiểu theo đảm bảo lúc chạy và chi phí" loading="lazy" src="../assets/figures/01/spectrum.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 1.1 — Phổ các cách gõ kiểu theo đảm bảo lúc chạy và chi phí. Pydantic đặt cast có kiểm tra đúng một lần tại ranh giới.</figcaption>
+</figure>
+<!-- /fig -->
+
+<h3 id="24-python-chon-gi-va-he-qua">2.4. Python chọn gì và hệ quả<a class="headerlink" href="#24-python-chon-gi-va-he-qua" title="Permanent link">&para;</a></h3>
+<p>Python (cùng TypeScript) chọn <strong>optional/erased typing</strong>: hint không ảnh hưởng thực thi, không có cast lúc chạy, chi phí 0, đảm bảo 0. Reticulated Python (Vitousek et al., DLS 2014) từng thử nghiệm ngữ nghĩa <em>transient</em> — kiểm tra nông ở biên hàm — nhưng không được đưa vào CPython.</p>
+<p>Hệ quả cho người viết API:</p>
+<ol>
+<li>Type checker giúp nhất quán <strong>bên trong</strong> code của bạn.</li>
+<li>Ở <strong>ranh giới</strong> (byte từ mạng), type checker mù hoàn toàn. Phải có cast có kiểm tra <strong>viết tay hoặc sinh tự động</strong>.</li>
+<li>Pydantic chính là "cast có kiểm tra" được đặt <strong>có chủ đích tại ranh giới</strong>, thay vì rải khắp nơi như sound gradual typing. Bên trong vùng chỉ nhận object đã parse, ta có lại phần lớn đảm bảo mà không trả chi phí kiểm tra ở mọi lời gọi hàm.</li>
+</ol>
+<p>Đây là một thiết kế kỹ thuật hợp lý: <strong>trả chi phí kiểm tra đúng một lần, ở nơi dữ liệu kém tin cậy nhất.</strong> Module 06 đo chi phí đó: khoảng 30 µs cho một hóa đơn 12 dòng — rẻ hơn nhiều so với một truy vấn database.</p>
+<hr />
+<h2 id="3-bang-chung-thuc-nghiem-kieu-tinh-bat-uoc-bao-nhieu-loi">3. Bằng chứng thực nghiệm: kiểu tĩnh bắt được bao nhiêu lỗi?<a class="headerlink" href="#3-bang-chung-thuc-nghiem-kieu-tinh-bat-uoc-bao-nhieu-loi" title="Permanent link">&para;</a></h2>
+<h3 id="31-ba-nghien-cuu">3.1. Ba nghiên cứu<a class="headerlink" href="#31-ba-nghien-cuu" title="Permanent link">&para;</a></h3>
+<p><strong>Gao, Bird &amp; Barr (ICSE 2017), <em>To Type or Not to Type</em>.</strong> Lấy các lỗi đã sửa trong dự án JavaScript công khai, thêm chú thích kiểu vào code <em>trước khi sửa</em>, rồi hỏi: Flow hoặc TypeScript có báo lỗi không? Kết quả: cả hai bắt được khoảng <strong>15%</strong> số lỗi. Các tác giả lưu ý con số này là cận dưới vì lỗi công khai đã lọt qua test và review.</p>
+<p><strong>Khan, Chen, Varró &amp; McIntosh (IEEE TSE 2021/2022), <em>An Empirical Study of Type-Related Defects in Python Projects</em>.</strong> Lặp lại phương pháp trên <strong>210 dự án Python</strong>: mypy có thể đã ngăn khoảng <strong>15%</strong> lỗi. Nguyên nhân lỗi liên quan kiểu phổ biến nhất: gán lại tham chiếu với kiểu khác, khởi tạo thuộc tính động, xử lý <code>None</code> sai. Không có khác biệt đáng kể về kinh nghiệm giữa người gây lỗi liên quan kiểu và lỗi khác.</p>
+<p><strong>Di Grazia &amp; Pradel (ESEC/FSE 2022, Distinguished Paper), <em>The Evolution of Type Annotations in Python</em>.</strong> Phân tích ~1,4 triệu thay đổi annotation trong 9.655 dự án: tỷ lệ commit có ít nhất một annotation tăng từ <strong>3,8% (2015) lên 10,9% (2021)</strong>; thêm annotation làm lộ thêm lỗi kiểu, và <strong>78,3%</strong> commit được đẩy lên dù checker còn báo lỗi.</p>
+<!-- placeholder-evidence -->
+
+<!-- fig:evidence -->
+<figure>
+  <img alt="Trái: tỷ lệ lỗi đã sửa mà type checker phát hiện được (Gao et al" loading="lazy" src="../assets/figures/01/evidence.light.svg#only-light" />
+  <img alt="Trái: tỷ lệ lỗi đã sửa mà type checker phát hiện được (Gao et al" loading="lazy" src="../assets/figures/01/evidence.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 1.2 — Trái: tỷ lệ lỗi đã sửa mà type checker phát hiện được (Gao et al. 2017; Khan et al. 2021). Phải: tỷ lệ commit có annotation (Di Grazia &amp; Pradel 2022).</figcaption>
+</figure>
+<!-- /fig -->
+
+<h3 id="32-dien-giai-ung">3.2. Diễn giải đúng<a class="headerlink" href="#32-dien-giai-ung" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>15% là nhiều</strong>: một công cụ miễn phí, chạy trong CI, loại được một phần bảy lỗi đã lọt ra ngoài. Nên dùng type checker.</li>
+<li><strong>15% cũng là ít</strong>: 85% còn lại là lỗi logic, lỗi tích hợp, lỗi dữ liệu. Đặc biệt, <strong>không nghiên cứu nào ở trên đo lỗi do dữ liệu bên ngoài sai hình dạng</strong>, vì type checker không nhìn thấy dữ liệu đó — chúng thuộc một lớp lỗi khác hẳn.</li>
+<li>Với API, lớp lỗi quan trọng nhất (payload sai, thiếu trường, sai đơn vị, số quá lớn) chỉ bị chặn bởi <strong>validation lúc chạy</strong>. Kiểm tra tĩnh và validation lúc chạy <strong>bổ sung</strong> nhau, không thay thế nhau.</li>
+</ul>
+<p>Liên hệ Mekong Cloud: CI chạy <code>pyright --strict</code> trên toàn bộ service (bắt lỗi bên trong), còn mọi byte vào từ POS/Zendesk/LLM đi qua model Pydantic (bắt lỗi ở biên). Module 12 thiết lập cả hai trong CI.</p>
+<hr />
+<h2 id="4-parse-dont-validate">4. Parse, don't validate<a class="headerlink" href="#4-parse-dont-validate" title="Permanent link">&para;</a></h2>
+<h3 id="41-van-e-validation-lam-mat-thong-tin">4.1. Vấn đề: validation làm mất thông tin<a class="headerlink" href="#41-van-e-validation-lam-mat-thong-tin" title="Permanent link">&para;</a></h3>
+<p>So sánh hai chữ ký:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">validate_mst</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>      <span class="c1"># ném lỗi nếu sai, không trả gì</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">parse_mst</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MST</span><span class="p">:</span> <span class="o">...</span>          <span class="c1"># trả về kiểu MST nếu đúng, ném lỗi nếu sai</span>
+</span></code></pre></div>
+<p>Sau <code>validate_mst(s)</code>, kiểu của <code>s</code> vẫn là <code>str</code>. Ba hàm sau nhận <code>s</code> không biết nó đã được kiểm tra chưa → hoặc kiểm tra lại (lãng phí, dễ lệch), hoặc tin tưởng (rủi ro nếu có nhánh code bỏ qua bước kiểm tra). Thông tin "đã kiểm tra" <strong>tồn tại trong đầu người viết nhưng không tồn tại trong kiểu</strong>.</p>
+<p>Sau <code>parse_mst(s)</code>, ta có một giá trị kiểu <code>MST</code>. Hàm nào nhận <code>MST</code> thì <strong>bằng chính chữ ký của nó</strong> đòi hỏi giá trị đã qua kiểm tra. Kiểu trở thành <strong>bằng chứng</strong> (evidence). Alexis King gói ý tưởng này trong khẩu hiệu <em>"Parse, don't validate"</em> (2019): một bộ parse là một hàm từ dữ liệu kém cấu trúc sang dữ liệu nhiều cấu trúc hơn, có thể thất bại; khác với validator, nó <strong>giữ lại</strong> những gì đã học được về dữ liệu dưới dạng kiểu.</p>
+<!-- placeholder-parse-vs-validate -->
+
+<!-- fig:parse-vs-validate -->
+<figure>
+  <img alt="Shotgun validation để lại tác dụng phụ dở dang; parse ở cửa từ chối toàn bộ trước khi có bất kỳ tác dụng phụ nào" loading="lazy" src="../assets/figures/01/parse-vs-validate.light.svg#only-light" />
+  <img alt="Shotgun validation để lại tác dụng phụ dở dang; parse ở cửa từ chối toàn bộ trước khi có bất kỳ tác dụng phụ nào" loading="lazy" src="../assets/figures/01/parse-vs-validate.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 1.3 — Shotgun validation để lại tác dụng phụ dở dang; parse ở cửa từ chối toàn bộ trước khi có bất kỳ tác dụng phụ nào.</figcaption>
+</figure>
+<!-- /fig -->
+
+<h3 id="42-smart-constructor-trong-python">4.2. Smart constructor trong Python<a class="headerlink" href="#42-smart-constructor-trong-python" title="Permanent link">&para;</a></h3>
+<p>Trong ngôn ngữ có kiểu tĩnh mạnh, ta ẩn constructor để chỉ có thể tạo <code>MST</code> qua hàm parse. Python không ẩn được hoàn toàn, nhưng làm được đủ tốt:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span><span class="p">,</span> <span class="n">NewType</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">AfterValidator</span><span class="p">,</span> <span class="n">TypeAdapter</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">WEIGHTS</span> <span class="o">=</span> <span class="p">(</span><span class="mi">31</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="k">def</span><span class="w"> </span><span class="nf">_check_mst</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"-"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">" "</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">13</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">s</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"MST phải có 10 hoặc 13 chữ số"</span><span class="p">)</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>    <span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">WEIGHTS</span><span class="p">,</span> <span class="n">s</span><span class="p">))</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>    <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="mi">10</span> <span class="o">-</span> <span class="n">total</span> <span class="o">%</span> <span class="mi">11</span><span class="p">)</span> <span class="o">!=</span> <span class="n">s</span><span class="p">[</span><span class="mi">9</span><span class="p">]:</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"MST sai chữ số kiểm tra"</span><span class="p">)</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>    <span class="k">return</span> <span class="n">s</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="n">MST</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">AfterValidator</span><span class="p">(</span><span class="n">_check_mst</span><span class="p">)]</span>   <span class="c1"># kiểu tinh chỉnh: str thỏa vị từ</span>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="n">parse_mst</span> <span class="o">=</span> <span class="n">TypeAdapter</span><span class="p">(</span><span class="n">MST</span><span class="p">)</span><span class="o">.</span><span class="n">validate_python</span>       <span class="c1"># smart constructor</span>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="nb">print</span><span class="p">(</span><span class="n">parse_mst</span><span class="p">(</span><span class="s2">"0100233488"</span><span class="p">))</span>        <span class="c1"># '0100233488'</span>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="nb">print</span><span class="p">(</span><span class="n">parse_mst</span><span class="p">(</span><span class="s2">"0314409058-002"</span><span class="p">))</span>    <span class="c1"># '0314409058002'</span>
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="n">parse_mst</span><span class="p">(</span><span class="s2">"0100233480"</span><span class="p">)</span>               <span class="c1"># ValidationError: MST sai chữ số kiểm tra</span>
+</span></code></pre></div>
+<p>Chữ số kiểm tra của MST (cùng thuật toán với thư viện python-stdnum): nhân 9 chữ số đầu với trọng số <span class="arithmatex">\((31, 29, 23, 19, 17, 13, 7, 5, 3)\)</span>, chữ số thứ 10 phải bằng <span class="arithmatex">\(10 - (\Sigma \bmod 11)\)</span>. Ví dụ <code>0100233488</code>:</p>
+<div class="arithmatex">\[
+0\cdot31 + 1\cdot29 + 0\cdot23 + 0\cdot19 + 2\cdot17 + 3\cdot13 + 3\cdot7 + 4\cdot5 + 8\cdot3 = 167, \quad 167 \bmod 11 = 2, \quad 10 - 2 = 8. \checkmark
+\]</div>
+<p>Chú ý biên: nếu <span class="arithmatex">\(\Sigma \bmod 11 = 0\)</span> thì <span class="arithmatex">\(10 - 0 = 10\)</span> — không phải một chữ số, nên <strong>mọi tiền tố 9 chữ số có tổng chia hết cho 11 không thể là MST hợp lệ</strong>. Đây là loại góc khuất mà property-based testing tìm ra rất giỏi (Module 12, Lab 05).</p>
+<p>Với <code>MST</code> là một kiểu, mọi model dùng nó (<code>seller_tax_code: MST</code>, <code>buyer.tax_code: MST | None</code>) đều tự động kiểm tra — một định nghĩa, nhiều nơi dùng. Đó là "parse, don't validate" theo phong cách Pydantic: <strong>đặt quy tắc vào kiểu, không vào hàm xử lý.</strong></p>
+<h3 id="43-lam-cho-trang-thai-phi-phap-khong-bieu-dien-uoc">4.3. "Làm cho trạng thái phi pháp không biểu diễn được"<a class="headerlink" href="#43-lam-cho-trang-thai-phi-phap-khong-bieu-dien-uoc" title="Permanent link">&para;</a></h3>
+<p>Nguyên tắc anh em (Yaron Minsky, cộng đồng OCaml): thiết kế kiểu sao cho tổ hợp giá trị vô nghĩa <strong>không thể được tạo ra</strong>. Ví dụ thanh toán:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Dễ sai: 4 trường optional → 16 tổ hợp, chỉ 2 tổ hợp có nghĩa</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">Payment</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    <span class="n">method</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    <span class="n">card_last4</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    <span class="n">bank_code</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="n">transfer_ref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="c1"># Đúng: union có thẻ → chỉ 2 hình dạng hợp lệ tồn tại</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="k">class</span><span class="w"> </span><span class="nc">Card</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    <span class="n">method</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"card"</span><span class="p">]</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>    <span class="n">card_last4</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Field</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="sa">r</span><span class="s2">"^\d</span><span class="si">{4}</span><span class="s2">$"</span><span class="p">)]</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="k">class</span><span class="w"> </span><span class="nc">Transfer</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>    <span class="n">method</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"transfer"</span><span class="p">]</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>    <span class="n">bank_code</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>    <span class="n">transfer_ref</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="n">Payment</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">Card</span> <span class="o">|</span> <span class="n">Transfer</span><span class="p">,</span> <span class="n">Field</span><span class="p">(</span><span class="n">discriminator</span><span class="o">=</span><span class="s2">"method"</span><span class="p">)]</span>
+</span></code></pre></div>
+<p>Số trạng thái biểu diễn được giảm từ <span class="arithmatex">\(2^3 \times |\texttt{str}|\)</span> tổ hợp xuống đúng hai hình dạng. Module 04 đi sâu discriminated union và chi phí của nó.</p>
+<hr />
+<h2 id="5-langsec-au-vao-la-mot-ngon-ngu">5. LangSec: đầu vào là một ngôn ngữ<a class="headerlink" href="#5-langsec-au-vao-la-mot-ngon-ngu" title="Permanent link">&para;</a></h2>
+<h3 id="51-van-e">5.1. Vấn đề<a class="headerlink" href="#51-van-e" title="Permanent link">&para;</a></h3>
+<p>Phần lớn lỗ hổng bảo mật lớn (Heartbleed, các lỗi parse chứng chỉ X.509, request smuggling) có chung một gốc: <strong>code xử lý đầu vào trước khi đầu vào được nhận dạng đầy đủ</strong>, hoặc <strong>hai thành phần hiểu cùng một đầu vào theo hai cách khác nhau</strong>.</p>
+<h3 id="52-y-tuong">5.2. Ý tưởng<a class="headerlink" href="#52-y-tuong" title="Permanent link">&para;</a></h3>
+<p>Nhóm <strong>Language-theoretic Security</strong> (Sassaman, Patterson, Bratus, Locasto, Shubina — báo cáo kỹ thuật Dartmouth 2011, sau đó đăng ở IEEE Systems Journal) đề xuất nhìn đầu vào như một <strong>ngôn ngữ hình thức</strong> và bộ xử lý đầu vào như một <strong>máy nhận dạng</strong> (recognizer). Các nguyên tắc chính, diễn đạt lại:</p>
+<ol>
+<li><strong>Định nghĩa ngôn ngữ đầu vào một cách tường minh</strong> (grammar/schema), không để nó "trồi lên" từ code.</li>
+<li><strong>Nhận dạng đầy đủ trước khi xử lý</strong> — từ chối toàn bộ đầu vào không thuộc ngôn ngữ, ngay tại cửa. Ngược lại là <strong>shotgun parsing</strong>: kiểm tra rải rác lẫn vào logic, nên khi phát hiện dữ liệu sai thì một phần xử lý đã chạy rồi.</li>
+<li><strong>Dùng lớp ngôn ngữ đơn giản nhất đủ dùng</strong> (nguyên lý sức mạnh tính toán tối thiểu): đầu vào càng gần lớp chính quy/phi ngữ cảnh, việc nhận dạng càng quyết định được và kiểm chứng được.</li>
+<li><strong>Tránh parser differential</strong>: mọi thành phần phải hiểu cùng một đầu vào như nhau.</li>
+</ol>
+<!-- placeholder-chomsky -->
+
+<!-- fig:chomsky -->
+<figure>
+  <img alt="Các quy tắc của hóa đơn trên phân cấp Chomsky và bộ nhận dạng tương ứng" loading="lazy" src="../assets/figures/01/chomsky.light.svg#only-light" />
+  <img alt="Các quy tắc của hóa đơn trên phân cấp Chomsky và bộ nhận dạng tương ứng" loading="lazy" src="../assets/figures/01/chomsky.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 1.4 — Các quy tắc của hóa đơn trên phân cấp Chomsky và bộ nhận dạng tương ứng.</figcaption>
+</figure>
+<!-- /fig -->
+
+<h3 id="53-xep-cac-quy-tac-hoa-on-vao-phan-cap-chomsky">5.3. Xếp các quy tắc hóa đơn vào phân cấp Chomsky<a class="headerlink" href="#53-xep-cac-quy-tac-hoa-on-vao-phan-cap-chomsky" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Quy tắc</th>
+<th>Lớp ngôn ngữ</th>
+<th>Bộ nhận dạng</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MST: 10 hoặc 13 chữ số</td>
+<td>chính quy</td>
+<td>regex <code>^\d{10}(\d{3})?$</code></td>
+</tr>
+<tr>
+<td>Chữ số kiểm tra MST</td>
+<td>chính quy (tập hữu hạn tiền tố × phần dư mod 11, có automaton hữu hạn) — nhưng viết bằng code số học dễ đọc hơn</td>
+<td>hàm Python ngắn</td>
+</tr>
+<tr>
+<td>Cú pháp JSON</td>
+<td>phi ngữ cảnh (cần ngăn xếp cho ngoặc lồng nhau)</td>
+<td>parser JSON (jiter)</td>
+</tr>
+<tr>
+<td>Cấu trúc hóa đơn (trường, kiểu, độ dài)</td>
+<td>phi ngữ cảnh + ràng buộc từng trường</td>
+<td>JSON Schema / Pydantic core schema</td>
+</tr>
+<tr>
+<td>Tổng = Σ dòng</td>
+<td>vượt phi ngữ cảnh (cần so sánh số học giữa các phần xa nhau)</td>
+<td>code (model validator)</td>
+</tr>
+<tr>
+<td>Số hóa đơn chưa tồn tại; MST thuộc tenant</td>
+<td>phụ thuộc trạng thái ngoài</td>
+<td>database (unique constraint, truy vấn)</td>
+</tr>
+</tbody>
+</table>
+<p>Bảng này cho một quy tắc thiết kế thực dụng: <strong>mỗi tầng quy tắc dùng bộ nhận dạng yếu nhất đủ dùng</strong>, và các tầng chạy theo thứ tự từ rẻ đến đắt. Pydantic sắp xếp đúng như vậy: parse JSON (Rust) → kiểu và ràng buộc trường (Rust) → validator Python của bạn → (ngoài Pydantic) kiểm tra với database.</p>
+<h3 id="54-thi-nghiem-parser-differential-tren-bon-thu-vien-json">5.4. Thí nghiệm: parser differential trên bốn thư viện JSON<a class="headerlink" href="#54-thi-nghiem-parser-differential-tren-bon-thu-vien-json" title="Permanent link">&para;</a></h3>
+<p>RFC 8259 nói tên khóa trong object JSON <strong>nên</strong> (SHOULD) là duy nhất và hành vi khi trùng là không đoán trước được; không giới hạn độ lớn số. Mình cho cùng một chuỗi byte đi qua bốn bộ parse đang có trong venv của khóa (Python 3.13, chạy thật):</p>
+<table>
+<thead>
+<tr>
+<th>Đầu vào</th>
+<th><code>json.loads</code></th>
+<th><code>orjson</code></th>
+<th><code>msgspec</code></th>
+<th>Pydantic (<code>TypeAdapter(Any)</code>, jiter)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{"total": 1, "total": 999}</code></td>
+<td><code>999</code></td>
+<td><code>999</code></td>
+<td><code>999</code></td>
+<td><code>999</code></td>
+</tr>
+<tr>
+<td><code>{"total": 18446744073709551616}</code> (2⁶⁴)</td>
+<td>int chính xác</td>
+<td><strong><code>1.8446744073709552e+19</code> (float, mất chính xác)</strong></td>
+<td>int chính xác</td>
+<td>int chính xác</td>
+</tr>
+<tr>
+<td><code>{"total": 1e400}</code></td>
+<td><code>inf</code></td>
+<td>lỗi</td>
+<td>lỗi</td>
+<td><code>inf</code></td>
+</tr>
+<tr>
+<td><code>{"total": NaN}</code> (không phải JSON chuẩn)</td>
+<td><code>nan</code></td>
+<td>lỗi</td>
+<td>lỗi</td>
+<td><code>nan</code></td>
+</tr>
+<tr>
+<td>BOM UTF-8 ở đầu</td>
+<td>chấp nhận</td>
+<td>lỗi</td>
+<td>lỗi</td>
+<td>lỗi</td>
+</tr>
+<tr>
+<td><code>"\ud800"</code> (surrogate lẻ)</td>
+<td>chấp nhận</td>
+<td>lỗi</td>
+<td>lỗi</td>
+<td>lỗi</td>
+</tr>
+<tr>
+<td>dấu phẩy thừa <code>{"total": 1,}</code></td>
+<td>lỗi</td>
+<td>lỗi</td>
+<td>lỗi</td>
+<td>lỗi</td>
+</tr>
+</tbody>
+</table>
+<!-- placeholder-differential -->
+
+<!-- fig:differential -->
+<figure>
+  <img alt="Kết quả chạy thật bảng ở mục 5" loading="lazy" src="../assets/figures/01/differential.light.svg#only-light" />
+  <img alt="Kết quả chạy thật bảng ở mục 5" loading="lazy" src="../assets/figures/01/differential.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 1.5 — Kết quả chạy thật bảng ở mục 5.4: các ô vàng là chỗ bộ parse nhận dữ liệu phi chuẩn hoặc đổi nghĩa — nguồn gốc của parser differential.</figcaption>
+</figure>
+<!-- /fig -->
+
+<p>Đọc bảng như một kỹ sư bảo mật:</p>
+<ul>
+<li>Nếu cổng API dùng <code>orjson</code> để log/định tuyến còn service xử lý dùng Pydantic, một tổng tiền <span class="arithmatex">\(2^{64}\)</span> được <strong>hiểu thành hai số khác nhau</strong> ở hai chỗ — một parser differential kinh điển.</li>
+<li><code>json.loads</code> và Pydantic (với kiểu <code>Any</code>/<code>float</code>) chấp nhận <code>NaN</code>/<code>inf</code> — <strong>không phải JSON hợp lệ</strong> theo RFC 8259. Với trường tiền, phải dùng kiểu <code>int</code> hoặc ràng buộc <code>allow_inf_nan=False</code> (Module 03).</li>
+<li>Khóa trùng: cả bốn lấy giá trị <strong>cuối</strong>. Nhất quán ở đây, nhưng một proxy/WAF viết bằng ngôn ngữ khác có thể lấy giá trị <strong>đầu</strong> — kẻ tấn công gửi <code>{"role": "user", "role": "admin"}</code> để WAF thấy <code>user</code>, backend thấy <code>admin</code>.</li>
+</ul>
+<p>Bài học LangSec áp vào FastAPI: <strong>một ranh giới, một bộ parse.</strong> Đừng parse request body hai lần bằng hai thư viện khác nhau (ví dụ middleware log dùng <code>json.loads</code>, handler dùng Pydantic) rồi đưa ra quyết định dựa trên cả hai kết quả.</p>
+<hr />
+<h2 id="6-nguyen-ly-postel-va-cai-gia-cua-su-de-dai">6. Nguyên lý Postel và cái giá của sự dễ dãi<a class="headerlink" href="#6-nguyen-ly-postel-va-cai-gia-cua-su-de-dai" title="Permanent link">&para;</a></h2>
+<h3 id="61-phat-bieu">6.1. Phát biểu<a class="headerlink" href="#61-phat-bieu" title="Permanent link">&para;</a></h3>
+<p>Nguyên lý robustness (Jon Postel, thường tóm là "<em>bảo thủ khi gửi, dễ dãi khi nhận</em>") giúp Internet thời đầu vận hành dù các cài đặt không hoàn hảo.</p>
+<h3 id="62-phan-bien-cua-rfc-9413">6.2. Phản biện của RFC 9413<a class="headerlink" href="#62-phan-bien-cua-rfc-9413" title="Permanent link">&para;</a></h3>
+<p>RFC 9413 (<em>Maintaining Robust Protocols</em>, IAB 2023, Thomson &amp; Schinazi) lập luận rằng áp dụng nguyên lý này quá rộng làm <strong>giao thức suy thoái</strong>: khi bên nhận chấp nhận dữ liệu lệch chuẩn, bên gửi không bao giờ sửa; "ngôn ngữ thực tế" của giao thức phình ra so với đặc tả, và mọi cài đặt mới phải bắt chước cả những lệch chuẩn đó. Tài liệu đề xuất thay vào đó là <strong>bảo trì giao thức chủ động</strong>: báo lỗi rõ ràng, sửa bên gửi, giữ đặc tả và thực tế khớp nhau.</p>
+<!-- placeholder-postel -->
+
+<!-- fig:postel -->
+<figure>
+  <img alt="Tập đầu vào được chấp nhận ở chế độ strict và lax; phần chênh lệch là nơi cần quyết định thiết kế" loading="lazy" src="../assets/figures/01/postel.light.svg#only-light" />
+  <img alt="Tập đầu vào được chấp nhận ở chế độ strict và lax; phần chênh lệch là nơi cần quyết định thiết kế" loading="lazy" src="../assets/figures/01/postel.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 1.6 — Tập đầu vào được chấp nhận ở chế độ strict và lax; phần chênh lệch là nơi cần quyết định thiết kế.</figcaption>
+</figure>
+<!-- /fig -->
+
+<h3 id="63-ap-vao-thiet-ke-api-lax-hay-strict">6.3. Áp vào thiết kế API: lax hay strict?<a class="headerlink" href="#63-ap-vao-thiet-ke-api-lax-hay-strict" title="Permanent link">&para;</a></h3>
+<p>Pydantic có hai chế độ (chi tiết ở Module 03):</p>
+<ul>
+<li><strong>Lax</strong> (mặc định): chuyển đổi "an toàn" — chuỗi <code>"42"</code> thành <code>42</code> cho trường <code>int</code>, <code>42.0</code> thành <code>42</code>, chuỗi ISO thành <code>datetime</code>.</li>
+<li><strong>Strict</strong>: chỉ nhận đúng kiểu JSON tương ứng — trường <code>int</code> chỉ nhận số nguyên JSON.</li>
+</ul>
+<p>Gọi <span class="arithmatex">\(A_{\text{strict}}\)</span> và <span class="arithmatex">\(A_{\text{lax}}\)</span> là tập đầu vào được chấp nhận; ta có <span class="arithmatex">\(A_{\text{strict}} \subset A_{\text{lax}}\)</span>, và hai chế độ cho <strong>cùng kết quả</strong> trên <span class="arithmatex">\(A_{\text{strict}}\)</span>. Câu hỏi thiết kế là: những đầu vào trong <span class="arithmatex">\(A_{\text{lax}} \setminus A_{\text{strict}}\)</span> có <strong>một cách hiểu duy nhất, hiển nhiên</strong> không?</p>
+<ul>
+<li>Query string, path, header, form: mọi thứ <strong>vốn là chuỗi</strong> trên đường truyền. <code>?page=2</code> buộc phải chuyển <code>"2"</code> → <code>2</code>. Lax là đúng — FastAPI dựa vào điều này.</li>
+<li>JSON body của <strong>dữ liệu tài chính</strong>: <code>"amount": "82500"</code> (chuỗi) hay <code>"amount": 82500.0</code> (float) nhiều khả năng là <strong>lỗi tích hợp phía client</strong>. Chấp nhận nó là "dễ dãi kiểu Postel": client không bao giờ sửa, và một ngày <code>"82.500"</code> (dấu chấm phân cách nghìn kiểu Việt Nam) được hiểu thành <code>82.5</code>. Với <code>invoice-api</code>, mình khuyên <strong>strict cho body</strong>, lax cho tham số trên URL.</li>
+</ul>
+<hr />
+<h2 id="7-validation-nhu-mot-ham-cac-tinh-chat-can-co">7. Validation như một hàm: các tính chất cần có<a class="headerlink" href="#7-validation-nhu-mot-ham-cac-tinh-chat-can-co" title="Permanent link">&para;</a></h2>
+<h3 id="71-hinh-thuc-hoa">7.1. Hình thức hóa<a class="headerlink" href="#71-hinh-thuc-hoa" title="Permanent link">&para;</a></h3>
+<p>Gọi <span class="arithmatex">\(B\)</span> là tập chuỗi byte, <span class="arithmatex">\(T\)</span> là kiểu đích, <span class="arithmatex">\(E\)</span> là tập danh sách lỗi. Một bộ parse là hàm toàn phần</p>
+<div class="arithmatex">\[
+\mathrm{parse}_T : B \to T \uplus E.
+\]</div>
+<p>Gọi <span class="arithmatex">\(V \subseteq B\)</span> là tập đầu vào "hợp lệ theo đặc tả". Ta muốn:</p>
+<ul>
+<li><strong>Sound (an toàn):</strong> <span class="arithmatex">\(\mathrm{parse}_T(b) \in T \Rightarrow b \in V\)</span> — không chấp nhận dữ liệu sai.</li>
+<li><strong>Complete (đầy đủ):</strong> <span class="arithmatex">\(b \in V \Rightarrow \mathrm{parse}_T(b) \in T\)</span> — không từ chối dữ liệu đúng.</li>
+<li><strong>Round-trip:</strong> với mọi <span class="arithmatex">\(x \in T\)</span>, <span class="arithmatex">\(\mathrm{parse}_T(\mathrm{serialize}_T(x)) = x\)</span> — dữ liệu mình tự xuất ra phải đọc lại được (Module 05, kiểm thử bằng property-based ở Module 12).</li>
+<li><strong>Tất định và toàn phần:</strong> không treo, không ném ngoại lệ "lạ" ngoài <span class="arithmatex">\(E\)</span>, thời gian bị chặn theo kích thước đầu vào (chống DoS, Module 11).</li>
+</ul>
+<p>Sound mà không complete → khách hàng hợp lệ bị từ chối (mất doanh thu). Complete mà không sound → dữ liệu sai lọt vào (mất tiền, mất an toàn). Trade-off giữa chúng chính là lựa chọn lax/strict ở trên.</p>
+<h3 id="72-gom-loi-fail-fast-hay-tich-luy">7.2. Gom lỗi: fail-fast hay tích lũy?<a class="headerlink" href="#72-gom-loi-fail-fast-hay-tich-luy" title="Permanent link">&para;</a></h3>
+<p>Hai chiến lược khi gặp lỗi:</p>
+<ul>
+<li><strong>Fail-fast (kiểu monad):</strong> dừng ở lỗi đầu tiên. Rẻ, nhưng client sửa xong lỗi 1 mới thấy lỗi 2 — một hóa đơn 12 dòng sai 5 chỗ cần 5 vòng gửi–sửa.</li>
+<li><strong>Tích lũy (kiểu applicative):</strong> kiểm tra các trường <strong>độc lập</strong> song song về mặt logic và trả <strong>tất cả</strong> lỗi, mỗi lỗi có vị trí (<code>loc</code>). Pydantic làm như vậy với các trường cùng cấp; chỉ những bước <strong>phụ thuộc</strong> (model validator <code>after</code> cần mọi trường đã hợp lệ) mới bị bỏ qua khi có lỗi trước đó.</li>
+</ul>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">ValidationError</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="k">class</span><span class="w"> </span><span class="nc">Line</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    <span class="n">quantity</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Field</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">)]</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>    <span class="n">unit_price</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">)]</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="k">try</span><span class="p">:</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>    <span class="n">Line</span><span class="o">.</span><span class="n">model_validate</span><span class="p">({</span><span class="s2">"quantity"</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s2">"unit_price"</span><span class="p">:</span> <span class="s2">"abc"</span><span class="p">})</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>    <span class="k">for</span> <span class="n">err</span> <span class="ow">in</span> <span class="n">e</span><span class="o">.</span><span class="n">errors</span><span class="p">():</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>        <span class="nb">print</span><span class="p">(</span><span class="n">err</span><span class="p">[</span><span class="s2">"loc"</span><span class="p">],</span> <span class="n">err</span><span class="p">[</span><span class="s2">"type"</span><span class="p">],</span> <span class="n">err</span><span class="p">[</span><span class="s2">"msg"</span><span class="p">])</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="c1"># ('quantity',) greater_than Input should be greater than 0</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="c1"># ('unit_price',) int_parsing Input should be a valid integer, unable to parse string as an integer</span>
+</span></code></pre></div>
+<p>Hai lỗi độc lập, trả cùng lúc, mỗi lỗi có <code>loc</code> và <code>type</code> máy đọc được. Module 03 phân tích cấu trúc lỗi và cách biến nó thành response 422 thân thiện.</p>
+<!-- placeholder-accumulate -->
+
+<!-- fig:accumulate -->
+<figure>
+  <img alt="Số lượt gửi–sửa của client theo số lỗi độc lập trong payload: fail-fast so với tích lũy lỗi" loading="lazy" src="../assets/figures/01/accumulate.light.svg#only-light" />
+  <img alt="Số lượt gửi–sửa của client theo số lỗi độc lập trong payload: fail-fast so với tích lũy lỗi" loading="lazy" src="../assets/figures/01/accumulate.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 1.7 — Số lượt gửi–sửa của client theo số lỗi độc lập trong payload: fail-fast so với tích lũy lỗi.</figcaption>
+</figure>
+<!-- /fig -->
+
+<hr />
+<h2 id="8-case-mekong-cloud-phan-tang-quy-tac-cua-mot-hoa-on">8. Case Mekong Cloud: phân tầng quy tắc của một hóa đơn<a class="headerlink" href="#8-case-mekong-cloud-phan-tang-quy-tac-cua-mot-hoa-on" title="Permanent link">&para;</a></h2>
+<p>Gom tất cả lại, các quy tắc của <code>POST /v1/invoices</code> chia thành <strong>năm tầng</strong>, mỗi tầng có bộ nhận dạng và vị trí thực thi riêng:</p>
+<!-- placeholder-layers -->
+
+<!-- fig:layers -->
+<figure>
+  <img alt="Năm tầng quy tắc của POST /v1/invoices, nơi thực thi và chi phí điển hình của từng tầng" loading="lazy" src="../assets/figures/01/layers.light.svg#only-light" />
+  <img alt="Năm tầng quy tắc của POST /v1/invoices, nơi thực thi và chi phí điển hình của từng tầng" loading="lazy" src="../assets/figures/01/layers.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 1.8 — Năm tầng quy tắc của POST /v1/invoices, nơi thực thi và chi phí điển hình của từng tầng.</figcaption>
+</figure>
+<!-- /fig -->
+
+<table>
+<thead>
+<tr>
+<th>Tầng</th>
+<th>Ví dụ</th>
+<th>Thực thi ở đâu</th>
+<th>Chi phí điển hình</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0. Giới hạn vận chuyển</td>
+<td>body ≤ 2 MB, <code>Content-Type: application/json</code></td>
+<td>reverse proxy / middleware (Module 11)</td>
+<td>~0</td>
+</tr>
+<tr>
+<td>1. Cú pháp</td>
+<td>JSON hợp lệ, UTF-8 hợp lệ</td>
+<td>parser JSON trong Pydantic (Rust)</td>
+<td>~1 µs/KB</td>
+</tr>
+<tr>
+<td>2. Cấu trúc &amp; trường</td>
+<td>đủ trường, đúng kiểu, <code>quantity &gt; 0</code>, MST đúng regex, <code>vat_rate</code> ∈ tập 6 giá trị</td>
+<td>core schema Pydantic (Rust)</td>
+<td>chục µs</td>
+</tr>
+<tr>
+<td>3. Ngữ nghĩa trong object</td>
+<td>chữ số kiểm tra MST, <code>amount = round(qty × price)</code>, tổng khớp</td>
+<td>validator Python của model</td>
+<td>chục µs</td>
+</tr>
+<tr>
+<td>4. Ngữ cảnh &amp; trạng thái</td>
+<td>MST người bán thuộc tenant của token; số hóa đơn chưa dùng; idempotency key</td>
+<td>dependency + database (Module 08, 10)</td>
+<td>ms</td>
+</tr>
+</tbody>
+</table>
+<p>Quy tắc vàng: <strong>tầng rẻ chạy trước, tầng đắt chạy sau, và mỗi tầng chỉ nhận đầu ra đã qua tầng trước.</strong> Một payload 50 MB bị chặn ở tầng 0 trước khi tốn một micro-giây parse; một MST sai checksum bị chặn ở tầng 3 trước khi tốn một round-trip database. Tầng 4 không thuộc Pydantic — đặt kiểm tra cần database vào validator Pydantic là một anti-pattern (validator trở nên chậm, khó test, và chạy cả khi bạn chỉ muốn parse dữ liệu đã tin cậy).</p>
+<hr />
+<h2 id="loi-thuong-gap-cach-xu-ly">Lỗi thường gặp &amp; cách xử lý<a class="headerlink" href="#loi-thuong-gap-cach-xu-ly" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Triệu chứng</th>
+<th>Nguyên nhân gốc</th>
+<th>Cách xử lý</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Code "đã có type hint" vẫn <code>TypeError</code> lúc chạy với dữ liệu từ API</td>
+<td>Hint bị xóa; dữ liệu đi vào qua <code>Any</code> (<code>json.loads</code>, <code>request.json()</code>)</td>
+<td>Parse ở biên bằng model Pydantic; không truyền <code>dict</code> thô vào trong</td>
+</tr>
+<tr>
+<td>Cùng một quy tắc (MST hợp lệ) được kiểm tra ở 5 chỗ, mỗi chỗ một kiểu</td>
+<td>Validate thay vì parse; quy tắc nằm trong hàm, không trong kiểu</td>
+<td>Định nghĩa kiểu <code>MST = Annotated[str, AfterValidator(...)]</code>, dùng lại mọi nơi</td>
+</tr>
+<tr>
+<td>Khách gửi <code>"82.500"</code> thành 82,5 đồng</td>
+<td>Lax mode chấp nhận chuỗi số cho trường tiền</td>
+<td>Strict cho body tài chính; tiền là <code>int</code> VND</td>
+</tr>
+<tr>
+<td>WAF chặn nhưng backend vẫn bị khai thác</td>
+<td>Parser differential (khóa trùng, số lớn, encoding)</td>
+<td>Một ranh giới, một bộ parse; từ chối khóa trùng nếu cần (validator <code>wrap</code> ở mức raw)</td>
+</tr>
+<tr>
+<td>Client phải gửi lại 5 lần mới sửa hết lỗi</td>
+<td>Fail-fast; lỗi không có vị trí</td>
+<td>Trả toàn bộ lỗi có <code>loc</code> (mặc định của Pydantic), map sang 422 có cấu trúc</td>
+</tr>
+<tr>
+<td>Validator gọi database, test chậm và flaky</td>
+<td>Trộn tầng 4 vào tầng 3</td>
+<td>Validator chỉ kiểm tra thuần dữ liệu; kiểm tra trạng thái ở dependency/service</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tom-tat-cheat-sheet">Tóm tắt (cheat-sheet)<a class="headerlink" href="#tom-tat-cheat-sheet" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Kiểu = tập giá trị + phép toán; ràng buộc là <strong>kiểu tinh chỉnh</strong> (tập con xác định bởi vị từ).</li>
+<li>Python: dynamic, khá strong, nominal + structural, hint <strong>unsound và bị xóa</strong> nhưng <strong>đọc được lúc chạy</strong> → Pydantic/FastAPI dùng chính chúng.</li>
+<li>Gradual typing: <code>Any</code> tương thích mọi kiểu, quan hệ <strong>không bắc cầu</strong>; sound gradual typing cần cast ở mọi biên → đắt (Takikawa 2016). Python chọn chi phí 0 + đặt cast có kiểm tra <strong>tại ranh giới</strong> (Pydantic).</li>
+<li>Type checker bắt ~<strong>15%</strong> lỗi (Gao 2017, Khan 2021) — đáng dùng, nhưng mù với dữ liệu ngoài.</li>
+<li><strong>Parse, don't validate</strong>: trả kiểu tinh chỉnh làm bằng chứng; đặt quy tắc vào kiểu; làm trạng thái phi pháp không biểu diễn được (tagged union).</li>
+<li><strong>LangSec</strong>: định nghĩa ngôn ngữ đầu vào, nhận dạng đủ trước khi xử lý, dùng lớp ngôn ngữ yếu nhất đủ dùng, tránh parser differential (thí nghiệm: 2⁶⁴, NaN, BOM khác nhau giữa 4 thư viện).</li>
+<li><strong>RFC 9413</strong>: dễ dãi kiểu Postel làm giao thức suy thoái → strict cho body tài chính, lax cho tham số URL.</li>
+<li>Bộ parse tốt: sound, complete, round-trip, toàn phần; <strong>tích lũy lỗi</strong> có <code>loc</code>.</li>
+<li>Năm tầng quy tắc: vận chuyển → cú pháp → cấu trúc → ngữ nghĩa → ngữ cảnh; rẻ trước, đắt sau.</li>
+</ul>
+<h2 id="cau-hoi-tu-kiem-tra-phong-van">Câu hỏi tự kiểm tra / phỏng vấn<a class="headerlink" href="#cau-hoi-tu-kiem-tra-phong-van" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>Vì sao quan hệ consistency trong gradual typing không được bắc cầu? Cho ví dụ hậu quả nếu nó bắc cầu.</p>
+<p><details markdown="1"><summary>Gợi ý</summary>
+Nếu bắc cầu, từ <code>int ~ Any</code> và <code>Any ~ str</code> suy ra <code>int ~ str</code>, mọi kiểu tương thích mọi kiểu, checker không còn phát hiện được gì. Tính không bắc cầu giữ cho <code>Any</code> là "lỗ hổng cục bộ" chứ không làm sụp cả hệ kiểu.
+</details></p>
+</li>
+<li>
+<p>Type hint Python "bị xóa" nghĩa là gì, và tại sao Pydantic vẫn dùng được chúng?</p>
+<p><details markdown="1"><summary>Gợi ý</summary>
+Hint không ảnh hưởng ngữ nghĩa thực thi (không có kiểm tra/cast tự động), nhưng vẫn được lưu dưới dạng dữ liệu (<code>__annotations__</code>, <code>get_type_hints</code>, <code>annotationlib</code> từ 3.14). Pydantic đọc chúng lúc định nghĩa class để sinh core schema và dựng validator.
+</details></p>
+</li>
+<li>
+<p>"Mypy bắt được 15% lỗi" — hãy diễn giải con số này cho một người quản lý đang hỏi "vậy có cần validation nữa không".</p>
+<p><details markdown="1"><summary>Gợi ý</summary>
+15% lỗi đã lọt ra ngoài là đáng kể và chi phí thấp → nên dùng. Nhưng các nghiên cứu đo lỗi trong code, không đo dữ liệu bên ngoài; type checker không nhìn thấy byte từ mạng. Validation ở biên chặn một lớp lỗi khác (payload sai hình dạng/ngữ nghĩa). Hai thứ bổ sung nhau.
+</details></p>
+</li>
+<li>
+<p>Viết lại <code>def is_valid_email(s: str) -&gt; bool</code> theo tinh thần "parse, don't validate". Lợi ích cụ thể là gì?</p>
+<p><details markdown="1"><summary>Gợi ý</summary>
+<code>Email = Annotated[str, AfterValidator(check_email)]</code> hoặc <code>def parse_email(s) -&gt; Email</code>. Hàm gửi mail nhận <code>Email</code> thay vì <code>str</code>, nên không thể gọi với chuỗi chưa kiểm tra; kiểm tra một lần, chuẩn hóa (lowercase domain) một lần.
+</details></p>
+</li>
+<li>
+<p>Shotgun parsing là gì? Chỉ ra một đoạn code shotgun parsing điển hình trong một handler FastAPI viết sai.</p>
+<p><details markdown="1"><summary>Gợi ý</summary>
+Kiểm tra đầu vào rải rác lẫn với logic xử lý. Ví dụ handler nhận <code>request: Request</code>, <code>data = await request.json()</code>, rồi <code>if "lines" in data:</code> … ghi DB từng dòng, giữa chừng mới phát hiện dòng 7 thiếu <code>quantity</code> → đã ghi 6 dòng. Sửa: khai báo body là model <code>Invoice</code>, FastAPI parse toàn bộ trước khi gọi handler.
+</details></p>
+</li>
+<li>
+<p>Trong thí nghiệm parser differential, kịch bản tấn công nào khai thác được việc <code>orjson</code> đọc 2⁶⁴ thành float?</p>
+<p><details markdown="1"><summary>Gợi ý</summary>
+Một thành phần (cổng hạn mức, log, kiểm tra gian lận) dùng orjson thấy <code>1.8446744073709552e19</code> (đã làm tròn), thành phần khác dùng parser giữ int chính xác thấy số khác. Với số gần biên (ví dụ hạn mức), hai bên có thể đưa ra hai quyết định ngược nhau. Phòng: giới hạn độ lớn số ở schema (<code>le=...</code>), một bộ parse duy nhất.
+</details></p>
+</li>
+<li>
+<p>Khi nào lax mode là lựa chọn đúng? Khi nào nó là "dễ dãi kiểu Postel" có hại?</p>
+<p><details markdown="1"><summary>Gợi ý</summary>
+Đúng khi đường truyền vốn là chuỗi (path, query, header, form, biến môi trường) và chuyển đổi có một cách hiểu duy nhất. Có hại khi đường truyền có kiểu (JSON) và chuyển đổi che giấu lỗi tích hợp của client, nhất là dữ liệu tiền/số lượng.
+</details></p>
+</li>
+<li>
+<p>Định nghĩa sound và complete cho một bộ parse. Trong <code>invoice-api</code>, vi phạm cái nào nguy hiểm hơn?</p>
+<p><details markdown="1"><summary>Gợi ý</summary>
+Sound: chấp nhận ⇒ hợp lệ; complete: hợp lệ ⇒ chấp nhận. Vi phạm sound (chấp nhận hóa đơn sai tổng/sai MST) nguy hiểm hơn: hóa đơn sai gửi lên cơ quan thuế khó sửa (phải lập hóa đơn điều chỉnh). Vi phạm complete gây phiền nhưng client thấy lỗi ngay và sửa được.
+</details></p>
+</li>
+<li>
+<p>Vì sao không nên kiểm tra "số hóa đơn chưa tồn tại" bên trong model validator của Pydantic?</p>
+<p><details markdown="1"><summary>Gợi ý</summary>
+Đó là quy tắc tầng 4 phụ thuộc trạng thái ngoài: cần I/O (chậm, có thể lỗi mạng), không tất định, và có race condition (hai request cùng kiểm tra rồi cùng ghi). Đúng chỗ là unique constraint trong database + xử lý lỗi vi phạm, hoặc dependency/service.
+</details></p>
+</li>
+<li>
+<p>Mars Climate Orbiter mất vì sai đơn vị dù dữ liệu "đúng kiểu float". Thiết kế kiểu nào giảm rủi ro tương tự trong <code>invoice-api</code>?</p>
+<p><details markdown="1"><summary>Gợi ý</summary>
+Kiểu tiền riêng (<code>VND = Annotated[int, Field(ge=0)]</code>, hoặc model <code>Money(amount: int, currency: Literal["VND"])</code>), không dùng <code>float</code> cho tiền; tên trường mang đơn vị (<code>unit_price_vnd</code>); thuế suất là <code>Literal</code> thay vì số thực "0.08 hay 8?".
+</details></p>
+</li>
+</ol>
+<h2 id="bai-tap-thuc-hanh">Bài tập thực hành<a class="headerlink" href="#bai-tap-thuc-hanh" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Smart constructor cho MST (CPU, 15 phút).</strong> Mở rộng <code>MST</code> ở mục 4.2: chuẩn hóa dấu <code>-</code>, <code>.</code> và khoảng trắng; từ chối chuỗi có <code>0000000</code> ở vị trí 3–9 và nhánh <code>000</code>. Viết 10 test bằng <code>pytest</code> gồm cả trường hợp <span class="arithmatex">\(\Sigma \bmod 11 = 0\)</span>. (Lab 01 có lời giải.)</li>
+<li><strong>Tái lập thí nghiệm parser differential (CPU, 10 phút).</strong> Chạy bảng ở mục 5.4 với Python của bạn, thêm hai trường hợp: số thực <code>0.1e-400</code> và chuỗi có ký tự NUL <code>"\u0000"</code>. Ghi lại thư viện nào khác biệt.</li>
+<li><strong>Phân tầng quy tắc (giấy, 15 phút).</strong> Lấy một API bạn từng làm (ví dụ form đăng ký của app Rails) và xếp mọi quy tắc vào năm tầng ở mục 8. Có quy tắc nào đang nằm sai tầng không?</li>
+<li><strong>Đọc paper (60 phút).</strong> Đọc phần 1–3 của <em>Is Sound Gradual Typing Dead?</em> hoặc <em>To Type or Not to Type</em> và tóm tắt phương pháp đo trong 10 dòng: biến độc lập, biến phụ thuộc, mối đe dọa tính hợp lệ.</li>
+</ol>
+<h2 id="tai-lieu-tham-khao">Tài liệu tham khảo<a class="headerlink" href="#tai-lieu-tham-khao" title="Permanent link">&para;</a></h2>
+<p>Paper:</p>
+<ul>
+<li>Siek, J. G., Taha, W. (2006). <em>Gradual Typing for Functional Languages</em>. Scheme and Functional Programming Workshop 2006.</li>
+<li>Vitousek, M. M., Kent, A. M., Siek, J. G., Baker, J. (2014). <em>Design and Evaluation of Gradual Typing for Python</em>. DLS 2014.</li>
+<li>Takikawa, A., Feltey, D., Greenman, B., New, M. S., Vitek, J., Felleisen, M. (2016). <em>Is Sound Gradual Typing Dead?</em> POPL 2016. https://users.cs.northwestern.edu/~dmf082/papers/popl16-tfgnvf.pdf</li>
+<li>Bauman, S., Bolz-Tereick, C. F., Siek, J., Tobin-Hochstadt, S. (2017). <em>Sound Gradual Typing: Only Mostly Dead</em>. OOPSLA 2017.</li>
+<li>Gao, Z., Bird, C., Barr, E. T. (2017). <em>To Type or Not to Type: Quantifying Detectable Bugs in JavaScript</em>. ICSE 2017, pp. 758–769. https://ieeexplore.ieee.org/document/7985711/</li>
+<li>Khan, F., Chen, B., Varró, D., McIntosh, S. (2021). <em>An Empirical Study of Type-Related Defects in Python Projects</em>. IEEE TSE 48(8). DOI 10.1109/TSE.2021.3082068. https://rebels.cs.uwaterloo.ca/papers/tse2021_khan.pdf</li>
+<li>Di Grazia, L., Pradel, M. (2022). <em>The Evolution of Type Annotations in Python: An Empirical Study</em>. ESEC/FSE 2022 (Distinguished Paper). https://2022.esec-fse.org/details/fse-2022-research-papers/36/The-Evolution-of-Type-Annotations-in-Python-An-Empirical-Study</li>
+<li>Sassaman, L., Patterson, M. L., Bratus, S., Locasto, M. E., Shubina, A. (2011). <em>Security Applications of Formal Language Theory</em>. Dartmouth TR2011-709 (bản tạp chí: IEEE Systems Journal, 2013). https://digitalcommons.dartmouth.edu/cs_tr/335</li>
+</ul>
+<p>Bài viết, tiêu chuẩn và tài liệu chính thức:</p>
+<ul>
+<li>King, A. (2019). <em>Parse, don't validate</em>. https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/</li>
+<li>Thomson, M., Schinazi, D. (2023). <em>RFC 9413: Maintaining Robust Protocols</em>. https://www.rfc-editor.org/rfc/rfc9413</li>
+<li>Bray, T. (2017). <em>RFC 8259: The JavaScript Object Notation (JSON) Data Interchange Format</em>. https://www.rfc-editor.org/rfc/rfc8259</li>
+<li>LangSec — tổng quan và danh mục paper. https://www.cs.dartmouth.edu/~sergey/langsec/</li>
+<li>PEP 484 (Type Hints), PEP 544 (Protocols), PEP 593 (Annotated), PEP 649/749 (đánh giá annotation trễ). https://peps.python.org/</li>
+<li>Python docs — <code>annotationlib</code>. https://docs.python.org/3/library/annotationlib.html</li>
+<li>python-stdnum — <code>stdnum.vn.mst</code>. https://arthurdejong.org/python-stdnum/doc/stdnum.vn.mst</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Trở lại mục lục
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Chân trang" >
+        
+          
+          <a href="../00-tong-quan-va-bai-toan/" class="md-footer__link md-footer__link--prev" aria-label="Trước: 00 · Tổng quan &amp; bài toán">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Trước
+              </span>
+              <div class="md-ellipsis">
+                00 · Tổng quan & bài toán
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../02-http-rest-asgi/" class="md-footer__link md-footer__link--next" aria-label="Sau: 02 · HTTP, REST &amp; ASGI">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Sau
+              </span>
+              <div class="md-ellipsis">
+                02 · HTTP, REST & ASGI
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Tài liệu học tập — Pydantic & FastAPI Masterclass · 2026
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/HieNguyen08/learn-pydantic-and-fastapi" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.top", "navigation.footer", "navigation.indexes", "navigation.tracking", "toc.follow", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "content.action.edit"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u0110\u00e3 sao ch\u00e9p", "clipboard.copy": "Sao ch\u00e9p v\u00e0o b\u1ed9 nh\u1edb t\u1ea1m", "search.result.more.one": "1 t\u1eeb kh\u00e1c trong trang", "search.result.more.other": "# t\u1eeb kh\u00e1c trong trang", "search.result.none": "Kh\u00f4ng t\u00ecm th\u1ea5y t\u00e0i li\u1ec7u li\u00ean quan", "search.result.one": "1 t\u00e0i li\u1ec7u li\u00ean quan", "search.result.other": "# t\u00e0i li\u1ec7u li\u00ean quan", "search.result.placeholder": "Nh\u1eadp \u0111\u1ec3 b\u1eaft \u0111\u1ea7u t\u00ecm ki\u1ebfm", "search.result.term.missing": "Kh\u00f4ng", "select.version": "Ch\u1ecdn phi\u00ean b\u1ea3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

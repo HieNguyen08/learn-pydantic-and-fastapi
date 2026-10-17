@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="670.186667pt" height="285.12pt" viewBox="0 0 670.186667 285.12" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 285.12 
+L 670.186667 285.12 
+L 670.186667 0 
+L 0 0 
+L 0 285.12 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 21.973333 259.093333 
+L 212.48 259.093333 
+Q 218.56 259.093333 218.56 253.013333 
+L 218.56 52.373333 
+Q 218.56 46.293333 212.48 46.293333 
+L 21.973333 46.293333 
+Q 15.893333 46.293333 15.893333 52.373333 
+L 15.893333 253.013333 
+Q 15.893333 259.093333 21.973333 259.093333 
+z
+" clip-path="url(#p63c2a3ac00)" style="fill: #f2f7fd; stroke: #2a78d6; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 244.906667 259.093333 
+L 435.413333 259.093333 
+Q 441.493333 259.093333 441.493333 253.013333 
+L 441.493333 52.373333 
+Q 441.493333 46.293333 435.413333 46.293333 
+L 244.906667 46.293333 
+Q 238.826667 46.293333 238.826667 52.373333 
+L 238.826667 253.013333 
+Q 238.826667 259.093333 244.906667 259.093333 
+z
+" clip-path="url(#p63c2a3ac00)" style="fill: #f4f3fa; stroke: #4a3aa7; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 467.84 259.093333 
+L 658.346667 259.093333 
+Q 664.426667 259.093333 664.426667 253.013333 
+L 664.426667 52.373333 
+Q 664.426667 46.293333 658.346667 46.293333 
+L 467.84 46.293333 
+Q 461.76 46.293333 461.76 52.373333 
+L 461.76 253.013333 
+Q 461.76 259.093333 467.84 259.093333 
+z
+" clip-path="url(#p63c2a3ac00)" style="fill: #f0f8f0; stroke: #008300; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 8.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #2a78d6" x="117.226667" y="66.56" transform="rotate(-0 117.226667 66.56)">InvoiceIn (client gửi)</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #1b1b1a" x="31.093333" y="96.96" transform="rotate(-0 31.093333 96.96)">series, number</text>
+   </g>
+   <g id="text_3">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #1b1b1a" x="31.093333" y="123.813333" transform="rotate(-0 31.093333 123.813333)">seller_tax_code</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #1b1b1a" x="31.093333" y="150.666667" transform="rotate(-0 31.093333 150.666667)">buyer</text>
+   </g>
+   <g id="text_5">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #1b1b1a" x="31.093333" y="177.52" transform="rotate(-0 31.093333 177.52)">issued_at</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #1b1b1a" x="31.093333" y="204.373333" transform="rotate(-0 31.093333 204.373333)">lines[LineIn]</text>
+   </g>
+   <g id="text_7">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #1b1b1a" x="31.093333" y="231.226667" transform="rotate(-0 31.093333 231.226667)">totals</text>
+   </g>
+   <g id="text_8">
+    <text style="font-weight: 700; font-size: 8.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #4a3aa7" x="340.16" y="66.56" transform="rotate(-0 340.16 66.56)">Hàng ORM (database)</text>
+   </g>
+   <g id="text_9">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #e34948" x="254.026667" y="96.96" transform="rotate(-0 254.026667 96.96)">id, tenant_id</text>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #1b1b1a" x="254.026667" y="123.813333" transform="rotate(-0 254.026667 123.813333)">series, number, …</text>
+   </g>
+   <g id="text_11">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #1b1b1a" x="254.026667" y="150.666667" transform="rotate(-0 254.026667 150.666667)">lines</text>
+   </g>
+   <g id="text_12">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #1b1b1a" x="254.026667" y="177.52" transform="rotate(-0 254.026667 177.52)">status</text>
+   </g>
+   <g id="text_13">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #e34948" x="254.026667" y="204.373333" transform="rotate(-0 254.026667 204.373333)">signature_blob</text>
+   </g>
+   <g id="text_14">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #e34948" x="254.026667" y="231.226667" transform="rotate(-0 254.026667 231.226667)">created_by</text>
+   </g>
+   <g id="text_15">
+    <text style="font-weight: 700; font-size: 8.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #008300" x="563.093333" y="66.56" transform="rotate(-0 563.093333 66.56)">InvoiceOut (server trả)</text>
+   </g>
+   <g id="text_16">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #1b1b1a" x="476.96" y="96.96" transform="rotate(-0 476.96 96.96)">id</text>
+   </g>
+   <g id="text_17">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #1b1b1a" x="476.96" y="123.813333" transform="rotate(-0 476.96 123.813333)">series, number, …</text>
+   </g>
+   <g id="text_18">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #1b1b1a" x="476.96" y="150.666667" transform="rotate(-0 476.96 150.666667)">lines[LineOut] + tax</text>
+   </g>
+   <g id="text_19">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #1b1b1a" x="476.96" y="177.52" transform="rotate(-0 476.96 177.52)">status</text>
+   </g>
+   <g id="text_20">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #1b1b1a" x="476.96" y="204.373333" transform="rotate(-0 476.96 204.373333)">lookup_code</text>
+   </g>
+   <g id="text_21">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #1b1b1a" x="476.96" y="231.226667" transform="rotate(-0 476.96 231.226667)">issued_at (+07:00)</text>
+   </g>
+   <g id="text_22">
+    <text style="font-weight: 700; font-size: 9.2px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #1b1b1a" x="15.893333" y="26.026667" transform="rotate(-0 15.893333 26.026667)">Ba hình dạng của cùng một hóa đơn — trường đỏ không bao giờ ra khỏi server</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p63c2a3ac00">
+   <rect x="5.76" y="5.76" width="658.666667" height="273.6"/>
+  </clipPath>
+ </defs>
+</svg>

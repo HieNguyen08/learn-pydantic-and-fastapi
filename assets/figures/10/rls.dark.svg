@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="688.32pt" height="274.158806pt" viewBox="0 0 688.32 274.158806" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 274.158806 
+L 688.32 274.158806 
+L 688.32 0 
+L 0 0 
+L 0 274.158806 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 21.922388 116.876418 
+L 161.322985 116.876418 
+Q 167.383881 116.876418 167.383881 110.815522 
+L 167.383881 67.379104 
+Q 167.383881 61.318209 161.322985 61.318209 
+L 21.922388 61.318209 
+Q 15.861493 61.318209 15.861493 67.379104 
+L 15.861493 110.815522 
+Q 15.861493 116.876418 21.922388 116.876418 
+z
+" clip-path="url(#p9556450ce1)" style="fill: #222d38; stroke: #3987e5; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 168.899104 89.097313 
+Q 197.688358 123.189851 225.395611 156.001071 
+" clip-path="url(#p9556450ce1)" style="fill: none; stroke: #3987e5; stroke-width: 1.5; stroke-linecap: round"/>
+    <path d="M 224.132415 150.785293 
+L 225.395611 156.001071 
+L 220.465071 153.882161 
+z
+" clip-path="url(#p9556450ce1)" style="fill: #3987e5; stroke: #3987e5; stroke-width: 1.5; stroke-linecap: round"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 431.53791 157.282388 
+Q 460.327164 123.189851 488.034417 90.378631 
+" clip-path="url(#p9556450ce1)" style="fill: none; stroke: #3987e5; stroke-width: 1.5; stroke-linecap: round"/>
+    <path d="M 483.103877 92.49754 
+L 488.034417 90.378631 
+L 486.771221 95.594408 
+z
+" clip-path="url(#p9556450ce1)" style="fill: #3987e5; stroke: #3987e5; stroke-width: 1.5; stroke-linecap: round"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 496.692537 116.876418 
+L 666.397612 116.876418 
+Q 672.458507 116.876418 672.458507 110.815522 
+L 672.458507 67.379104 
+Q 672.458507 61.318209 666.397612 61.318209 
+L 496.692537 61.318209 
+Q 490.631642 61.318209 490.631642 67.379104 
+L 490.631642 110.815522 
+Q 490.631642 116.876418 496.692537 116.876418 
+z
+" clip-path="url(#p9556450ce1)" style="fill: #222d38; stroke: #3987e5; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 21.922388 197.688358 
+L 161.322985 197.688358 
+Q 167.383881 197.688358 167.383881 191.627463 
+L 167.383881 148.191045 
+Q 167.383881 142.130149 161.322985 142.130149 
+L 21.922388 142.130149 
+Q 15.861493 142.130149 15.861493 148.191045 
+L 15.861493 191.627463 
+Q 15.861493 197.688358 21.922388 197.688358 
+z
+" clip-path="url(#p9556450ce1)" style="fill: #38261d; stroke: #d95926; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 168.899104 169.909254 
+Q 197.688358 163.595821 224.839489 157.641626 
+" clip-path="url(#p9556450ce1)" style="fill: none; stroke: #d95926; stroke-width: 1.5; stroke-linecap: round"/>
+    <path d="M 219.636807 156.325532 
+L 224.839489 157.641626 
+L 220.665005 161.014115 
+z
+" clip-path="url(#p9556450ce1)" style="fill: #d95926; stroke: #d95926; stroke-width: 1.5; stroke-linecap: round"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 431.53791 157.282388 
+Q 460.327164 163.595821 487.478294 169.550016 
+" clip-path="url(#p9556450ce1)" style="fill: none; stroke: #d95926; stroke-width: 1.5; stroke-linecap: round"/>
+    <path d="M 483.303811 166.177527 
+L 487.478294 169.550016 
+L 482.275613 170.86611 
+z
+" clip-path="url(#p9556450ce1)" style="fill: #d95926; stroke: #d95926; stroke-width: 1.5; stroke-linecap: round"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 496.692537 197.688358 
+L 666.397612 197.688358 
+Q 672.458507 197.688358 672.458507 191.627463 
+L 672.458507 148.191045 
+Q 672.458507 142.130149 666.397612 142.130149 
+L 496.692537 142.130149 
+Q 490.631642 142.130149 490.631642 148.191045 
+L 490.631642 191.627463 
+Q 490.631642 197.688358 496.692537 197.688358 
+z
+" clip-path="url(#p9556450ce1)" style="fill: #38261d; stroke: #d95926; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 234.053731 207.789851 
+L 423.961791 207.789851 
+Q 430.022687 207.789851 430.022687 201.728955 
+L 430.022687 112.835821 
+Q 430.022687 106.774925 423.961791 106.774925 
+L 234.053731 106.774925 
+Q 227.992836 106.774925 227.992836 112.835821 
+L 227.992836 201.728955 
+Q 227.992836 207.789851 234.053731 207.789851 
+z
+" clip-path="url(#p9556450ce1)" style="fill: #27262c; stroke: #9085e9; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 9px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #f2f1ec" x="15.861493" y="25.962985" transform="rotate(-0 15.861493 25.962985)">Cùng một câu  SELECT count(*) FROM invoices  — không có WHERE</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(61.552562 81.253251)">request tenant 1</text>
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(43.963187 90.983938)">set_config('app.tenant_id',</text>
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(76.272624 101.074063)">'1', true)</text>
+   </g>
+   <g id="text_3">
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(556.260825 86.392782)">thấy 10 hàng</text>
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(552.731575 96.218751)">tenant_id = [1]</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(61.552562 162.112441)">request tenant 2</text>
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(43.963187 171.795879)">set_config('app.tenant_id',</text>
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(76.272624 181.886004)">'2', true)</text>
+   </g>
+   <g id="text_5">
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(556.260825 167.204722)">thấy 10 hàng</text>
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(552.731575 177.030691)">tenant_id = [2]</text>
+   </g>
+   <g id="text_6">
+    <text style="font-weight: 700; font-size: 7.8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #9085e9" x="329.007761" y="126.97791" transform="rotate(-0 329.007761 126.97791)">policy tenant_isolation</text>
+   </g>
+   <g id="text_7">
+    <text style="font-size: 6.9px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; fill: #f2f1ec" transform="translate(291.621621 154.934097)">USING (tenant_id =</text>
+    <text style="font-size: 6.9px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; fill: #f2f1ec" transform="translate(250.081464 163.215984)">current_setting('app.tenant_id')::int)</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #c3c2b7" x="329.007761" y="192.637612" transform="rotate(-0 329.007761 192.637612)">bảng: 30 hàng, 3 tenant</text>
+   </g>
+   <g id="text_9">
+    <text style="font-size: 7.4px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #e66767" transform="translate(15.861493 245.677364)">Bẫy: SET (cấp session) sống cùng kết nối → request sau dùng lại kết nối từ pool thấy tenant cũ (d4leak).</text>
+    <text style="font-size: 7.4px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #e66767" transform="translate(15.861493 255.411544)">SET LOCAL hết hạn ở COMMIT → request quên đặt tenant thì lỗi, không lộ dữ liệu.</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p9556450ce1">
+   <rect x="5.76" y="5.76" width="676.8" height="262.638806"/>
+  </clipPath>
+ </defs>
+</svg>

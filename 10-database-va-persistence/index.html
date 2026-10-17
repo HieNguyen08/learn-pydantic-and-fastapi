@@ -1,0 +1,3941 @@
+
+<!doctype html>
+<html lang="vi" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Pydantic & FastAPI từ nền tảng đến hệ thống production — xoay quanh API hóa đơn điện tử và AI gateway của Mekong Cloud">
+      
+      
+        <meta name="author" content="HieNguyen08">
+      
+      
+        <link rel="canonical" href="https://hienguyen08.github.io/learn-pydantic-and-fastapi/10-database-va-persistence/">
+      
+      
+        <link rel="prev" href="../09-async-dong-thoi-hieu-nang/">
+      
+      
+        <link rel="next" href="../11-bao-mat-api/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>10 · Database & persistence - Pydantic & FastAPI Masterclass</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Be+Vietnam+Pro:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Be Vietnam Pro";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="deep-orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#module-10-database-persistence" class="md-skip">
+          Bỏ qua
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Đầu trang">
+    <a href=".." title="Pydantic &amp; FastAPI Masterclass" class="md-header__button md-logo" aria-label="Pydantic & FastAPI Masterclass" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 7H5a2 2 0 0 0-2 2v8h2v-4h2v4h2V9a2 2 0 0 0-2-2m0 4H5V9h2m7-2h-4v10h2v-4h2a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2m0 4h-2V9h2m6 0v6h1v2h-4v-2h1V9h-1V7h4v2Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Pydantic & FastAPI Masterclass
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              10 · Database & persistence
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="deep-orange"  aria-label="Chuyển sang nền tối"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Chuyển sang nền tối" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="deep-orange"  aria-label="Chuyển sang nền sáng"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Chuyển sang nền sáng" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Tìm kiếm" placeholder="Tìm kiếm" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Tìm kiếm">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Xoá" aria-label="Xoá" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/HieNguyen08/learn-pydantic-and-fastapi" title="Xem mã nguồn" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    HieNguyen08/learn-pydantic-and-fastapi
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Trang chủ
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../00-tong-quan-va-bai-toan/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Phần I · Nền tảng
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../03-pydantic-v2-kien-truc/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Phần II · Pydantic
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../07-fastapi-vong-doi-request/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Phần III · FastAPI
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../12-testing-va-chat-luong/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Phần IV · Chất lượng & vận hành
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../15-pydantic-cho-llm/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Phần V · Chuyên đề
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../labs/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Thực hành
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Thanh điều hướng" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Pydantic &amp; FastAPI Masterclass" class="md-nav__button md-logo" aria-label="Pydantic & FastAPI Masterclass" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 7H5a2 2 0 0 0-2 2v8h2v-4h2v4h2V9a2 2 0 0 0-2-2m0 4H5V9h2m7-2h-4v10h2v-4h2a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2m0 4h-2V9h2m6 0v6h1v2h-4v-2h1V9h-1V7h4v2Z"/></svg>
+
+    </a>
+    Pydantic & FastAPI Masterclass
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/HieNguyen08/learn-pydantic-and-fastapi" title="Xem mã nguồn" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    HieNguyen08/learn-pydantic-and-fastapi
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trang chủ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phần I · Nền tảng
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phần I · Nền tảng
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-tong-quan-va-bai-toan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    00 · Tổng quan & bài toán
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-kieu-du-lieu-va-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01 · Kiểu dữ liệu & validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-http-rest-asgi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02 · HTTP, REST & ASGI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phần II · Pydantic
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phần II · Pydantic
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-pydantic-v2-kien-truc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03 · Pydantic v2: kiến trúc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-validators-kieu-tuy-bien-union/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04 · Validator, kiểu tùy biến & union
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-serialization-json-schema-settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05 · Serialization, JSON Schema & settings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-hieu-nang-pydantic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06 · Hiệu năng Pydantic
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phần III · FastAPI
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phần III · FastAPI
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-fastapi-vong-doi-request/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07 · Vòng đời request
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-dependency-injection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08 · Dependency injection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09-async-dong-thoi-hieu-nang/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09 · Async, đồng thời & hiệu năng
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10 · Database & persistence
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10 · Database & persistence
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Mục lục">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Mục lục
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#muc-tieu-hoc-tap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mục tiêu học tập
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-kien-truc-tang-persistence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Kiến trúc tầng persistence
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Kiến trúc tầng persistence">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-ba-loai-model-khac-nhau" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1. Ba loại "model" khác nhau
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-tu-orm-sang-pydantic-from_attributes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2. Từ ORM sang Pydantic: from_attributes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-core-hay-orm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3. Core hay ORM?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-session-transaction-va-pool-ket-noi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Session, transaction và pool kết nối
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Session, transaction và pool kết nối">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-session-per-request-bang-dependency-yield" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1. Session-per-request bằng dependency yield
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-pool-ket-noi-van-hanh-ra-sao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. Pool kết nối vận hành ra sao
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-pool-can-bao-nhieu-ket-noi-inh-luat-little" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3. Pool cần bao nhiêu kết nối? Định luật Little
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-nhieu-ket-noi-hon-co-nhanh-hon-khong-so-o-that" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4. Nhiều kết nối hơn có nhanh hơn không? Số đo thật
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-n1-va-cac-anti-pattern-orm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. N+1 và các anti-pattern ORM
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. N+1 và các anti-pattern ORM">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-van-e" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1. Vấn đề
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-so-o-that" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2. Số đo thật
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-selectinload-hay-joinedload" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3. selectinload hay joinedload?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-nghien-cuu-anti-pattern-orm-ngoai-thuc-te" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4. Nghiên cứu: anti-pattern ORM ngoài thực tế
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-cap-so-hoa-on-race-condition-trong-mot-dong-sql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Cấp số hóa đơn: race condition trong một dòng SQL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Cấp số hóa đơn: race condition trong một dòng SQL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-yeu-cau" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1. Yêu cầu
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-thi-nghiem-ba-cach-400-giao-dich-32-ong-thoi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2. Thí nghiệm: ba cách, 400 giao dịch, 32 đồng thời
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-tran-thong-luong-cua-mot-khoa-lai-la-little" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3. Trần thông lượng của một khóa: lại là Little
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-idempotency-key-khong-tao-hoa-on-hai-lan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Idempotency key: không tạo hóa đơn hai lần
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Idempotency key: không tạo hóa đơn hai lần">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-bai-toan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1. Bài toán
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-thi-nghiem-ba-thiet-ke" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2. Thí nghiệm: ba thiết kế
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-cai-at-ay-u" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3. Cài đặt đầy đủ
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-trade-off-va-vong-oi-khoa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4. Trade-off và vòng đời khóa
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-multi-tenant-tenant_id-va-row-level-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Multi-tenant: tenant_id và Row-Level Security
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Multi-tenant: tenant_id và Row-Level Security">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-ba-mo-hinh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1. Ba mô hình
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-row-level-security-e-database-nho-thay-ban" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2. Row-Level Security: để database nhớ thay bạn
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-migration-khong-downtime-expandcontract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Migration không downtime: expand/contract
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Migration không downtime: expand/contract">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-vi-sao-migration-lam-sap-api-hang-oi-khoa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1. Vì sao migration làm sập API: hàng đợi khóa
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-expandcontract-parallel-change" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2. Expand/contract (parallel change)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-outbox-pattern-ghi-db-va-phat-su-kien" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Outbox pattern: ghi DB và phát sự kiện
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Outbox pattern: ghi DB và phát sự kiện">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-van-e-dual-write" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1. Vấn đề dual write
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-loi-giai-ghi-su-kien-vao-cung-transaction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2. Lời giải: ghi sự kiện vào cùng transaction
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83-nhieu-relay-song-song-skip-locked" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.3. Nhiều relay song song: SKIP LOCKED
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-case-mekong-cloud-luong-ghi-cua-post-v1invoices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Case Mekong Cloud: luồng ghi của POST /v1/invoices
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#loi-thuong-gap-cach-xu-ly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lỗi thường gặp &amp; cách xử lý
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tom-tat-cheat-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tóm tắt (cheat-sheet)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cau-hoi-tu-kiem-tra-phong-van" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Câu hỏi tự kiểm tra / phỏng vấn
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bai-tap-thuc-hanh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bài tập thực hành
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tai-lieu-tham-khao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tài liệu tham khảo
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11-bao-mat-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11 · Bảo mật API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phần IV · Chất lượng & vận hành
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phần IV · Chất lượng & vận hành
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12-testing-va-chat-luong/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12 · Testing & chất lượng
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../13-production-va-observability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13 · Production & observability
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../14-capstone-thiet-ke-he-thong/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14 · Capstone: thiết kế hệ thống
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phần V · Chuyên đề
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phần V · Chuyên đề
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../15-pydantic-cho-llm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15 · Pydantic cho LLM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../labs/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Thực hành
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Thực hành
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab01_invoice_models/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 01 · Mô hình hóa hóa đơn
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab02_benchmark_validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 02 · Benchmark validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab03_invoice_api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 03 · invoice-api hoàn chỉnh
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab04_concurrency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 04 · Đo đồng thời
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab05_property_fuzz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 05 · Property-based & fuzz
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab06_llm_structured_sse/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 06 · Structured output & SSE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Mục lục">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Mục lục
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#muc-tieu-hoc-tap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mục tiêu học tập
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-kien-truc-tang-persistence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Kiến trúc tầng persistence
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Kiến trúc tầng persistence">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-ba-loai-model-khac-nhau" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1. Ba loại "model" khác nhau
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-tu-orm-sang-pydantic-from_attributes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2. Từ ORM sang Pydantic: from_attributes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-core-hay-orm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3. Core hay ORM?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-session-transaction-va-pool-ket-noi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Session, transaction và pool kết nối
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Session, transaction và pool kết nối">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-session-per-request-bang-dependency-yield" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1. Session-per-request bằng dependency yield
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-pool-ket-noi-van-hanh-ra-sao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. Pool kết nối vận hành ra sao
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-pool-can-bao-nhieu-ket-noi-inh-luat-little" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3. Pool cần bao nhiêu kết nối? Định luật Little
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-nhieu-ket-noi-hon-co-nhanh-hon-khong-so-o-that" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4. Nhiều kết nối hơn có nhanh hơn không? Số đo thật
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-n1-va-cac-anti-pattern-orm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. N+1 và các anti-pattern ORM
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. N+1 và các anti-pattern ORM">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-van-e" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1. Vấn đề
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-so-o-that" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2. Số đo thật
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-selectinload-hay-joinedload" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3. selectinload hay joinedload?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-nghien-cuu-anti-pattern-orm-ngoai-thuc-te" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4. Nghiên cứu: anti-pattern ORM ngoài thực tế
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-cap-so-hoa-on-race-condition-trong-mot-dong-sql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Cấp số hóa đơn: race condition trong một dòng SQL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Cấp số hóa đơn: race condition trong một dòng SQL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-yeu-cau" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1. Yêu cầu
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-thi-nghiem-ba-cach-400-giao-dich-32-ong-thoi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2. Thí nghiệm: ba cách, 400 giao dịch, 32 đồng thời
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-tran-thong-luong-cua-mot-khoa-lai-la-little" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3. Trần thông lượng của một khóa: lại là Little
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-idempotency-key-khong-tao-hoa-on-hai-lan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Idempotency key: không tạo hóa đơn hai lần
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Idempotency key: không tạo hóa đơn hai lần">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-bai-toan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1. Bài toán
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-thi-nghiem-ba-thiet-ke" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2. Thí nghiệm: ba thiết kế
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-cai-at-ay-u" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3. Cài đặt đầy đủ
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-trade-off-va-vong-oi-khoa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4. Trade-off và vòng đời khóa
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-multi-tenant-tenant_id-va-row-level-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Multi-tenant: tenant_id và Row-Level Security
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Multi-tenant: tenant_id và Row-Level Security">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-ba-mo-hinh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1. Ba mô hình
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-row-level-security-e-database-nho-thay-ban" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2. Row-Level Security: để database nhớ thay bạn
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-migration-khong-downtime-expandcontract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Migration không downtime: expand/contract
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Migration không downtime: expand/contract">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-vi-sao-migration-lam-sap-api-hang-oi-khoa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1. Vì sao migration làm sập API: hàng đợi khóa
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-expandcontract-parallel-change" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2. Expand/contract (parallel change)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-outbox-pattern-ghi-db-va-phat-su-kien" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Outbox pattern: ghi DB và phát sự kiện
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Outbox pattern: ghi DB và phát sự kiện">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-van-e-dual-write" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1. Vấn đề dual write
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-loi-giai-ghi-su-kien-vao-cung-transaction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2. Lời giải: ghi sự kiện vào cùng transaction
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83-nhieu-relay-song-song-skip-locked" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.3. Nhiều relay song song: SKIP LOCKED
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-case-mekong-cloud-luong-ghi-cua-post-v1invoices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Case Mekong Cloud: luồng ghi của POST /v1/invoices
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#loi-thuong-gap-cach-xu-ly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lỗi thường gặp &amp; cách xử lý
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tom-tat-cheat-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tóm tắt (cheat-sheet)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cau-hoi-tu-kiem-tra-phong-van" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Câu hỏi tự kiểm tra / phỏng vấn
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bai-tap-thuc-hanh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bài tập thực hành
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tai-lieu-tham-khao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tài liệu tham khảo
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/HieNguyen08/learn-pydantic-and-fastapi/edit/main/docs/10-database-va-persistence.md" title="Chỉnh sửa" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="module-10-database-persistence">Module 10 — Database &amp; persistence<a class="headerlink" href="#module-10-database-persistence" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>Thời lượng: ~55 phút · Mức độ: Trung bình → Nâng cao · Tiên quyết: Module 08, 09</p>
+</blockquote>
+<p>Đến Module 09, <code>invoice-api</code> mới chỉ nhận, kiểm tra và trả về hóa đơn. Một hóa đơn thật còn phải được <strong>lưu</strong>, được <strong>cấp số liên tục</strong>, không bị <strong>tạo hai lần</strong> khi máy POS gửi lại, không bao giờ <strong>lộ sang tenant khác</strong>, và schema của nó phải <strong>đổi được</strong> khi hệ thống đang chạy. Cả năm yêu cầu đều không giải được ở tầng Pydantic hay FastAPI. Lời giải nằm ở database: transaction, ràng buộc, khóa và pool kết nối.</p>
+<p>Module này không dạy SQL từ đầu. Nó tập trung vào <strong>chỗ ghép</strong> giữa FastAPI/Pydantic và database, nơi phần lớn sự cố production xảy ra. Mỗi khẳng định đi kèm một thí nghiệm chạy thật trên <strong>PostgreSQL 16 + SQLAlchemy 2.1 async + asyncpg</strong>. Toàn bộ số đo nằm trong <code>scripts/bench/bench_db.py</code>, đo trên máy 4 vCPU với Postgres cùng máy, kết nối qua Unix socket.</p>
+<h2 id="muc-tieu-hoc-tap">Mục tiêu học tập<a class="headerlink" href="#muc-tieu-hoc-tap" title="Permanent link">&para;</a></h2>
+<p>Sau module này, bạn có thể:</p>
+<ol>
+<li>Tổ chức tầng persistence của một service FastAPI: tách <strong>model ORM</strong> khỏi <strong>schema Pydantic</strong> (<code>from_attributes</code>), dùng <strong>session-per-request</strong> bằng dependency <code>yield</code>, và đặt <strong>ranh giới transaction</strong> đúng chỗ.</li>
+<li>Chọn <strong>kích thước pool kết nối</strong> bằng định luật Little và Erlang C, đối chiếu với công thức HikariCP và với số đo thật (thông lượng đạt đỉnh ở pool = 2 × số core).</li>
+<li>Nhận diện và sửa <strong>N+1</strong> cùng các anti-pattern ORM khác (Yang et al., ICSE 2018). Chọn giữa <code>selectinload</code> và <code>joinedload</code> dựa trên số đo.</li>
+<li>Thiết kế <strong>cấp số hóa đơn liên tục</strong> và <strong>idempotency key</strong> chịu được request đồng thời. Giải thích bằng thí nghiệm vì sao "đọc rồi ghi" thất bại, còn ràng buộc unique và <code>INSERT … ON CONFLICT</code> thì đúng.</li>
+<li>Cô lập dữ liệu <strong>multi-tenant</strong> bằng <code>tenant_id</code> + <strong>Row-Level Security</strong>, và tránh bẫy <code>SET</code> rò qua pool kết nối.</li>
+<li>Lập kế hoạch <strong>migration không downtime</strong> theo expand/contract với Alembic, có <code>lock_timeout</code>.</li>
+<li>Dùng <strong>outbox pattern</strong> để vừa ghi database vừa phát sự kiện mà không mất hay thừa sự kiện.</li>
+</ol>
+<hr />
+<h2 id="1-kien-truc-tang-persistence">1. Kiến trúc tầng persistence<a class="headerlink" href="#1-kien-truc-tang-persistence" title="Permanent link">&para;</a></h2>
+<h3 id="11-ba-loai-model-khac-nhau">1.1. Ba loại "model" khác nhau<a class="headerlink" href="#11-ba-loai-model-khac-nhau" title="Permanent link">&para;</a></h3>
+<p>Một hóa đơn đi qua ba biểu diễn, mỗi biểu diễn có một nhiệm vụ:</p>
+<table>
+<thead>
+<tr>
+<th>Biểu diễn</th>
+<th>Thư viện</th>
+<th>Nhiệm vụ</th>
+<th>Ai được thay đổi nó</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>InvoiceIn</code></td>
+<td>Pydantic</td>
+<td>Hợp đồng <strong>đầu vào</strong>: kiểu, ràng buộc, quy tắc nghiệp vụ (Module 04)</td>
+<td>đội API, theo version</td>
+</tr>
+<tr>
+<td><code>Invoice</code> (ORM)</td>
+<td>SQLAlchemy</td>
+<td>Ánh xạ <strong>bảng</strong>: khóa, quan hệ, cột nội bộ (<code>tenant_id</code>, <code>created_at</code>, <code>signed_xml</code>…)</td>
+<td>đội backend, qua migration</td>
+</tr>
+<tr>
+<td><code>InvoiceOut</code></td>
+<td>Pydantic</td>
+<td>Hợp đồng <strong>đầu ra</strong>: chỉ các trường được phép lộ (Module 07)</td>
+<td>đội API, theo version</td>
+</tr>
+</tbody>
+</table>
+<p>Dùng một class cho cả ba việc là cám dỗ lớn. SQLModel được thiết kế quanh ý tưởng đó, và với CRUD nhỏ thì nó rất tiện. Nhưng ở <code>invoice-api</code>, ba biểu diễn <strong>tiến hóa với tốc độ khác nhau</strong>:</p>
+<ul>
+<li>Thêm một cột nội bộ không được phép làm đổi API.</li>
+<li>Đổi tên một trường API phải đi qua quy trình deprecation (Module 12).</li>
+<li>Bảng có những cột không bao giờ được trả ra ngoài: <code>tenant_id</code>, chữ ký số, ghi chú kiểm toán.</li>
+</ul>
+<p>Tách ra thì tốn thêm vài chục dòng, đổi lại mỗi lớp thay đổi độc lập. Đây cũng chính là phòng tuyến chống <strong>mass assignment</strong> và <strong>lộ dữ liệu</strong> của Module 11.</p>
+<!-- placeholder-layers -->
+
+<!-- fig:layers -->
+<figure>
+  <img alt="Ba biểu diễn của một hóa đơn: schema vào (Pydantic), model bảng (ORM), schema ra (Pydantic, fromattributes)" loading="lazy" src="../assets/figures/10/layers.light.svg#only-light" />
+  <img alt="Ba biểu diễn của một hóa đơn: schema vào (Pydantic), model bảng (ORM), schema ra (Pydantic, fromattributes)" loading="lazy" src="../assets/figures/10/layers.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 10.1 — Ba biểu diễn của một hóa đơn: schema vào (Pydantic), model bảng (ORM), schema ra (Pydantic, from_attributes).</figcaption>
+</figure>
+<!-- /fig -->
+
+<h3 id="12-tu-orm-sang-pydantic-from_attributes">1.2. Từ ORM sang Pydantic: <code>from_attributes</code><a class="headerlink" href="#12-tu-orm-sang-pydantic-from_attributes" title="Permanent link">&para;</a></h3>
+<p><code>InvoiceOut.model_validate(orm_obj)</code> chỉ chạy khi model bật <code>from_attributes=True</code>. Khi đó Pydantic đọc <strong>thuộc tính</strong> (<code>getattr</code>) thay vì khóa dict:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ConfigDict</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="k">class</span><span class="w"> </span><span class="nc">LineOut</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">from_attributes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">amount</span><span class="p">:</span> <span class="nb">int</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="k">class</span><span class="w"> </span><span class="nc">InvoiceOut</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">from_attributes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    <span class="n">buyer_name</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>    <span class="n">total</span><span class="p">:</span> <span class="nb">int</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>    <span class="n">lines</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">LineOut</span><span class="p">]</span>          <span class="c1"># đọc invoice.lines → từng LineRow → LineOut</span>
+</span></code></pre></div>
+<p>Điểm quan trọng: <code>getattr(invoice, "lines")</code> trên một đối tượng ORM <strong>có thể phát ra truy vấn SQL</strong> (lazy load). Trong code đồng bộ, việc đó diễn ra âm thầm. Trong SQLAlchemy async, nó <strong>không được phép</strong>, vì không có <code>await</code> nào bao quanh <code>getattr</code>. Chạy thật trên máy đo cho ba tình huống:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a># 1) expire_on_commit=True (mặc định), đọc thuộc tính sau commit
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>MissingGreenlet: greenlet_spawn has not been called; can't call await_() here.
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>                 Was IO attempted in an unexpected place?
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a># 2) quan hệ khai báo lazy="raise", quên nạp trước
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>InvalidRequestError: 'Invoice.lines' is not available due to lazy='raise'
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a># 3) model_validate trên đối tượng đó: Pydantic gói lỗi lại
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>1 validation error for InvoiceOut
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>lines
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>  Error extracting attribute: InvalidRequestError: 'Invoice.lines' is not
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>  available due to lazy='raise' [type=get_attribute_error, ...]
+</span></code></pre></div>
+<p>Ba quy tắc rút ra, áp dụng cho mọi service async:</p>
+<ol>
+<li>Tạo <code>async_sessionmaker(engine, expire_on_commit=False)</code>. Đối tượng vẫn dùng được sau <code>commit()</code> mà không phải nạp lại từ DB.</li>
+<li>Khai báo quan hệ với <code>lazy="raise"</code>, hoặc bật <code>raiseload("*")</code> trong truy vấn. Thiếu eager load khi đó là <strong>lỗi rõ ràng lúc phát triển</strong>, không còn là truy vấn ẩn lúc chạy (xem N+1 ở mục 3).</li>
+<li>Nạp đủ dữ liệu <strong>trong</strong> repository (<code>selectinload</code>), rồi mới đưa cho <code>model_validate</code>. Pydantic không nên là thứ kích hoạt I/O.</li>
+</ol>
+<h3 id="13-core-hay-orm">1.3. Core hay ORM?<a class="headerlink" href="#13-core-hay-orm" title="Permanent link">&para;</a></h3>
+<p>SQLAlchemy có hai tầng. <strong>Core</strong> là SQL viết bằng Python (<code>select()</code>, <code>insert()</code>, <code>text()</code>), trả về <code>Row</code>. <strong>ORM</strong> thêm identity map, unit of work, quan hệ và lazy load. Lời khuyên thực tế cho một API:</p>
+<ul>
+<li><strong>ORM</strong> cho đường đi chính, nơi bạn làm việc với "một hóa đơn và các dòng của nó". Unit of work giúp <code>session.add(invoice)</code> tự sinh đúng thứ tự <code>INSERT</code> cha trước con.</li>
+<li><strong>Core/<code>text()</code></strong> cho những câu mà ngữ nghĩa nằm ở SQL: <code>INSERT … ON CONFLICT</code>, <code>UPDATE … RETURNING</code>, <code>FOR UPDATE SKIP LOCKED</code>, báo cáo tổng hợp. Các mục 4–7 dùng Core vì lý do này.</li>
+</ul>
+<p>Hai tầng dùng chung một <code>AsyncSession</code> và một transaction, nên trộn chúng không có vấn đề gì.</p>
+<hr />
+<h2 id="2-session-transaction-va-pool-ket-noi">2. Session, transaction và pool kết nối<a class="headerlink" href="#2-session-transaction-va-pool-ket-noi" title="Permanent link">&para;</a></h2>
+<h3 id="21-session-per-request-bang-dependency-yield">2.1. Session-per-request bằng dependency <code>yield</code><a class="headerlink" href="#21-session-per-request-bang-dependency-yield" title="Permanent link">&para;</a></h3>
+<p>Module 08 đã giới thiệu <code>Depends(..., scope="function")</code>. Đây là chỗ nó phát huy tác dụng:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span><span class="p">,</span> <span class="n">AsyncIterator</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">Depends</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy</span><span class="w"> </span><span class="kn">import</span> <span class="n">text</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy.ext.asyncio</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncSession</span><span class="p">,</span> <span class="n">async_sessionmaker</span><span class="p">,</span> <span class="n">create_async_engine</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="n">engine</span> <span class="o">=</span> <span class="n">create_async_engine</span><span class="p">(</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    <span class="s2">"postgresql+asyncpg://app@db/invoices"</span><span class="p">,</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>    <span class="n">pool_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">max_overflow</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>        <span class="c1"># mục 2.3 giải thích con số 10</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>    <span class="n">pool_timeout</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>                      <span class="c1"># chờ pool tối đa 2 s rồi báo lỗi (fail fast)</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>    <span class="n">pool_pre_ping</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>                  <span class="c1"># kiểm tra kết nối chết trước khi giao</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="p">)</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="n">SessionLocal</span> <span class="o">=</span> <span class="n">async_sessionmaker</span><span class="p">(</span><span class="n">engine</span><span class="p">,</span> <span class="n">expire_on_commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_session</span><span class="p">(</span><span class="n">tenant_id</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span><span class="n">current_tenant</span><span class="p">)])</span> <span class="o">-&gt;</span> <span class="n">AsyncIterator</span><span class="p">[</span><span class="n">AsyncSession</span><span class="p">]:</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>    <span class="k">async</span> <span class="k">with</span> <span class="n">SessionLocal</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">,</span> <span class="n">session</span><span class="o">.</span><span class="n">begin</span><span class="p">():</span>      <span class="c1"># mở transaction</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>        <span class="k">await</span> <span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">text</span><span class="p">(</span><span class="s2">"select set_config('app.tenant_id', :t, true)"</span><span class="p">),</span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>                              <span class="p">{</span><span class="s2">"t"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">tenant_id</span><span class="p">)})</span>               <span class="c1"># cho RLS, mục 5</span>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>        <span class="k">yield</span> <span class="n">session</span>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>    <span class="c1"># thoát khối: không lỗi → COMMIT; có ngoại lệ (kể cả HTTPException) → ROLLBACK</span>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="n">DB</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">AsyncSession</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_session</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">"function"</span><span class="p">)]</span>
+</span></code></pre></div>
+<p>Handler thì không cần biết đến transaction:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">"/v1/invoices"</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="mi">201</span><span class="p">)</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">create_invoice</span><span class="p">(</span><span class="n">body</span><span class="p">:</span> <span class="n">InvoiceIn</span><span class="p">,</span> <span class="n">db</span><span class="p">:</span> <span class="n">DB</span><span class="p">,</span> <span class="n">tenant</span><span class="p">:</span> <span class="n">CurrentTenant</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InvoiceOut</span><span class="p">:</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    <span class="n">inv</span> <span class="o">=</span> <span class="n">Invoice</span><span class="p">(</span><span class="n">tenant_id</span><span class="o">=</span><span class="n">tenant</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">buyer_name</span><span class="o">=</span><span class="n">body</span><span class="o">.</span><span class="n">buyer</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>                  <span class="n">total</span><span class="o">=</span><span class="n">body</span><span class="o">.</span><span class="n">total</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="p">[</span><span class="n">Line</span><span class="p">(</span><span class="o">**</span><span class="n">l</span><span class="o">.</span><span class="n">model_dump</span><span class="p">())</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">body</span><span class="o">.</span><span class="n">lines</span><span class="p">])</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="n">db</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">inv</span><span class="p">)</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    <span class="k">await</span> <span class="n">db</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>                  <span class="c1"># gửi INSERT để lấy id do DB sinh, CHƯA commit</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    <span class="k">return</span> <span class="n">InvoiceOut</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">inv</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Chạy thật với một handler cố ý <code>raise HTTPException(409)</code> sau khi <code>flush()</code>: client nhận 409 và bảng <strong>không có</strong> hàng nào được thêm. Ngoại lệ đi xuyên qua <code>yield</code>, khối <code>session.begin()</code> nhận ngoại lệ và rollback.</p>
+<!-- placeholder-session -->
+
+<!-- fig:session -->
+<figure>
+  <img alt="Session-per-request: transaction mở khi mượn kết nối và commit trước khi gửi 201 nhờ scope=&quot;function&quot;" loading="lazy" src="../assets/figures/10/session.light.svg#only-light" />
+  <img alt="Session-per-request: transaction mở khi mượn kết nối và commit trước khi gửi 201 nhờ scope=&quot;function&quot;" loading="lazy" src="../assets/figures/10/session.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 10.2 — Session-per-request: transaction mở khi mượn kết nối và commit trước khi gửi 201 nhờ scope="function".</figcaption>
+</figure>
+<!-- /fig -->
+
+<p>Vì sao phải là <code>scope="function"</code>? Với scope mặc định <code>"request"</code>, phần sau <code>yield</code> chạy <strong>sau khi response đã gửi đi</strong> (Module 08 đã đo thứ tự này). Client có thể nhận <code>201 Created</code> trong khi <code>COMMIT</code> vẫn chưa chạy, và nếu commit thất bại (vi phạm ràng buộc trì hoãn, mất kết nối, failover) thì client đã tin là hóa đơn tồn tại. Với <code>scope="function"</code>, commit xong rồi response mới được gửi.</p>
+<div class="admonition warning">
+<p class="admonition-title">Không giữ transaction qua I/O chậm</p>
+<p>Transaction giữ <strong>một kết nối</strong> và mọi <strong>khóa</strong> đã lấy cho tới khi kết thúc. Gọi LLM 20 s, gọi API thuế, hay stream SSE bên trong transaction sẽ giữ kết nối đó suốt thời gian ấy. Mục 2.3 cho thấy hệ quả bằng số: số kết nối cần tỉ lệ thuận với thời gian giữ. Ở <code>ai-gateway</code>, hãy đọc dữ liệu cần thiết trong một transaction ngắn, đóng nó, gọi LLM, rồi mở transaction <strong>mới</strong> để lưu kết quả.</p>
+</div>
+<h3 id="22-pool-ket-noi-van-hanh-ra-sao">2.2. Pool kết nối vận hành ra sao<a class="headerlink" href="#22-pool-ket-noi-van-hanh-ra-sao" title="Permanent link">&para;</a></h3>
+<p>Mở một kết nối PostgreSQL rất đắt: handshake TCP/TLS, xác thực, và <strong>fork một tiến trình backend</strong> phía server. Vì vậy app giữ sẵn một <strong>pool</strong>. <code>QueuePool</code> của SQLAlchemy có bốn tham số:</p>
+<table>
+<thead>
+<tr>
+<th>Tham số</th>
+<th>Ý nghĩa</th>
+<th>Gợi ý cho API</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pool_size</code></td>
+<td>số kết nối giữ thường trực</td>
+<td>tính theo mục 2.3</td>
+</tr>
+<tr>
+<td><code>max_overflow</code></td>
+<td>số kết nối tạm thời được mở thêm khi pool cạn</td>
+<td><code>0</code>. Overflow làm tổng số kết nối khó dự đoán khi nhân với số pod</td>
+</tr>
+<tr>
+<td><code>pool_timeout</code></td>
+<td>thời gian chờ tối đa để mượn kết nối</td>
+<td>1–3 s, ngắn hơn timeout của request</td>
+</tr>
+<tr>
+<td><code>pool_recycle</code> / <code>pool_pre_ping</code></td>
+<td>thay kết nối cũ / kiểm tra trước khi giao</td>
+<td>bật <code>pre_ping</code> khi có failover, proxy, NAT</td>
+</tr>
+</tbody>
+</table>
+<p>Khi pool cạn và hết <code>pool_timeout</code>, SQLAlchemy ném lỗi (chạy thật):</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>TimeoutError: QueuePool limit of size 1 overflow 0 reached, connection timed out, timeout 0.50
+</span></code></pre></div>
+<p>Gặp lỗi này thì đừng vội tăng <code>pool_size</code>. Nó thường là <strong>triệu chứng</strong>: có transaction đang giữ kết nối quá lâu (mục 2.1), hoặc có rò kết nối (session không được đóng).</p>
+<!-- placeholder-pool -->
+
+<!-- fig:pool -->
+<figure>
+  <img alt="Pool kết nối: request chờ mượn theo FIFO, quá pooltimeout thì lỗi; commit trả kết nối về pool" loading="lazy" src="../assets/figures/10/pool.light.svg#only-light" />
+  <img alt="Pool kết nối: request chờ mượn theo FIFO, quá pooltimeout thì lỗi; commit trả kết nối về pool" loading="lazy" src="../assets/figures/10/pool.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 10.3 — Pool kết nối: request chờ mượn theo FIFO, quá pool_timeout thì lỗi; commit trả kết nối về pool.</figcaption>
+</figure>
+<!-- /fig -->
+
+<h3 id="23-pool-can-bao-nhieu-ket-noi-inh-luat-little">2.3. Pool cần bao nhiêu kết nối? Định luật Little<a class="headerlink" href="#23-pool-can-bao-nhieu-ket-noi-inh-luat-little" title="Permanent link">&para;</a></h3>
+<p>Một kết nối là một "máy phục vụ" trong mô hình hàng đợi của Module 09. Định luật Little cho số kết nối <strong>đang bận trung bình</strong>:</p>
+<div class="arithmatex">\[
+L = \lambda \cdot S
+\]</div>
+<p>trong đó <span class="arithmatex">\(\lambda\)</span> là số transaction mỗi giây và <span class="arithmatex">\(S\)</span> là <strong>thời gian giữ kết nối</strong> của mỗi transaction (không phải thời gian request). Thí nghiệm <code>d8</code> đo <span class="arithmatex">\(S\)</span> cho một transaction <code>POST /v1/invoices</code> đầy đủ:</p>
+<ul>
+<li>giành idempotency key;</li>
+<li>ghi hóa đơn 12 dòng;</li>
+<li>cấp số;</li>
+<li>lưu response.</li>
+</ul>
+<p>Kết quả: <strong>p50 = 6,4 ms, p99 = 11,6 ms, trung bình 6,6 ms</strong>.</p>
+<p>Ở tải thiết kế 500 req/s:</p>
+<div class="arithmatex">\[
+a = \lambda S = 500 \times 0{,}0066 \approx 3{,}3 \text{ kết nối bận trung bình (erlang)}
+\]</div>
+<p>Số trung bình chưa đủ, vì request đến ngẫu nhiên. Công thức Erlang C (Module 09, mục 3.4) cho xác suất một request <strong>phải chờ</strong> pool, <span class="arithmatex">\(P_{\text{chờ}}\)</span>, và thời gian chờ trung bình <span class="arithmatex">\(W_q\)</span>:</p>
+<table>
+<thead>
+<tr>
+<th>pool <span class="arithmatex">\(c\)</span></th>
+<th><span class="arithmatex">\(\rho = a/c\)</span></th>
+<th><span class="arithmatex">\(P_{\text{chờ}}\)</span></th>
+<th><span class="arithmatex">\(W_q\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>4</td>
+<td>0,82</td>
+<td>64%</td>
+<td>6,0 ms</td>
+</tr>
+<tr>
+<td>5</td>
+<td>0,66</td>
+<td>32%</td>
+<td>1,2 ms</td>
+</tr>
+<tr>
+<td>6</td>
+<td>0,55</td>
+<td>14%</td>
+<td>0,35 ms</td>
+</tr>
+<tr>
+<td>8</td>
+<td>0,41</td>
+<td>2,2%</td>
+<td>0,03 ms</td>
+</tr>
+<tr>
+<td>10</td>
+<td>0,33</td>
+<td>0,2%</td>
+<td>≈ 0</td>
+</tr>
+</tbody>
+</table>
+<p>Từ bảng này, <strong>8–10 kết nối là đủ cho 500 req/s</strong> nếu mỗi transaction thật sự ngắn. Con số nhỏ đến bất ngờ. Ngược lại, nếu một handler giữ transaction trong lúc gọi API thuế 200 ms thì <span class="arithmatex">\(a = 500 \times 0{,}2 = 100\)</span>, cần hơn 100 kết nối, và database sẽ gục trước khi pool kịp đủ (mục 2.4).</p>
+<!-- placeholder-little -->
+
+<!-- fig:little -->
+<figure>
+  <img alt="Erlang C với thời gian giữ kết nối đo được: xác suất request phải chờ pool theo tải và kích thước pool" loading="lazy" src="../assets/figures/10/little.light.svg#only-light" />
+  <img alt="Erlang C với thời gian giữ kết nối đo được: xác suất request phải chờ pool theo tải và kích thước pool" loading="lazy" src="../assets/figures/10/little.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 10.4 — Erlang C với thời gian giữ kết nối đo được: xác suất request phải chờ pool theo tải và kích thước pool.</figcaption>
+</figure>
+<!-- /fig -->
+
+<h3 id="24-nhieu-ket-noi-hon-co-nhanh-hon-khong-so-o-that">2.4. Nhiều kết nối hơn có nhanh hơn không? Số đo thật<a class="headerlink" href="#24-nhieu-ket-noi-hon-co-nhanh-hon-khong-so-o-that" title="Permanent link">&para;</a></h3>
+<p>Đây là câu hỏi ngược lại: phía <strong>database</strong>, bao nhiêu kết nối đồng thời là tối ưu? Thí nghiệm <code>d5</code> cho 64 client cùng gửi một truy vấn tốn CPU phía Postgres (~20 ms khi chạy một mình), thay đổi <code>pool_size</code>:</p>
+<table>
+<thead>
+<tr>
+<th>pool</th>
+<th>truy vấn/s</th>
+<th>request p50</th>
+<th>request p99</th>
+<th>thời gian <strong>trong DB</strong> p50</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>45</td>
+<td>1.389 ms</td>
+<td>1.752 ms</td>
+<td>20 ms</td>
+</tr>
+<tr>
+<td>2</td>
+<td>96</td>
+<td>657 ms</td>
+<td>815 ms</td>
+<td>18 ms</td>
+</tr>
+<tr>
+<td>4</td>
+<td>165</td>
+<td>385 ms</td>
+<td>729 ms</td>
+<td>24 ms</td>
+</tr>
+<tr>
+<td><strong>8</strong></td>
+<td><strong>190</strong></td>
+<td><strong>331 ms</strong></td>
+<td><strong>582 ms</strong></td>
+<td>37 ms</td>
+</tr>
+<tr>
+<td>16</td>
+<td>171</td>
+<td>369 ms</td>
+<td>585 ms</td>
+<td>84 ms</td>
+</tr>
+<tr>
+<td>32</td>
+<td>171</td>
+<td>366 ms</td>
+<td>607 ms</td>
+<td>162 ms</td>
+</tr>
+<tr>
+<td>64</td>
+<td>161</td>
+<td>377 ms</td>
+<td>685 ms</td>
+<td>284 ms</td>
+</tr>
+</tbody>
+</table>
+<!-- placeholder-pool-size -->
+
+<!-- fig:pool-size -->
+<figure>
+  <img alt="Số đo thật: thông lượng đạt đỉnh ở pool = 2 × số core; thêm kết nối chỉ chuyển hàng đợi từ app vào DB" loading="lazy" src="../assets/figures/10/pool-size.light.svg#only-light" />
+  <img alt="Số đo thật: thông lượng đạt đỉnh ở pool = 2 × số core; thêm kết nối chỉ chuyển hàng đợi từ app vào DB" loading="lazy" src="../assets/figures/10/pool-size.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 10.5 — Số đo thật: thông lượng đạt đỉnh ở pool = 2 × số core; thêm kết nối chỉ chuyển hàng đợi từ app vào DB.</figcaption>
+</figure>
+<!-- /fig -->
+
+<p>Ba điều đọc ra từ bảng:</p>
+<ol>
+<li><strong>Thông lượng đạt đỉnh ở pool = 8 = 2 × số core</strong> (máy đo có 4 vCPU), rồi <strong>giảm nhẹ</strong>. Đây chính là quan sát đằng sau công thức trong tài liệu <em>About Pool Sizing</em> của HikariCP: <code>connections = (core_count × 2) + effective_spindle_count</code>. Với SSD, phần spindle thực tế xấp xỉ 0–1. Hệ số 2 tồn tại vì mỗi truy vấn còn có những lúc chờ I/O và mạng, nên vẫn có thêm kết nối để lấp vào. Vượt quá mức đó thì CPU chỉ còn chuyển ngữ cảnh giữa các tiến trình backend.</li>
+<li><strong>Thêm kết nối không làm biến mất hàng đợi, chỉ dời nó đi.</strong> Ở pool 64, request không còn chờ pool, nhưng mỗi truy vấn chạy <strong>284 ms</strong> trong DB thay vì 37 ms. Hàng đợi chuyển từ app (nơi bạn đo và kiểm soát được) vào bộ lập lịch của hệ điều hành trên máy DB (nơi không ai nhìn thấy). Hơn nữa, mỗi truy vấn chậm hơn thì giữ khóa lâu hơn, nên tranh chấp khóa tăng theo.</li>
+<li><strong>Đuôi p99 tệ nhất ở hai đầu</strong>: pool 1 do xếp hàng, pool 64 do tranh CPU. Vùng tốt nằm quanh 2 × core.</li>
+</ol>
+<p>Cần đọc số đo này cẩn thận. Client Python chạy chung 4 vCPU với Postgres, nên điểm đỉnh trên máy riêng có thể khác đôi chút. Hình dạng đường cong (tăng, đạt đỉnh, rồi giảm) mới là kết luận chuyển được sang máy khác.</p>
+<div class="admonition example">
+<p class="admonition-title">Case thực tế — <code>invoice-api</code> của Mekong Cloud</p>
+<p>Database: Postgres 8 vCPU, trần <strong>tổng</strong> kết nối hợp lý khoảng 2 × 8 + 1 ≈ 17–20 kết nối <strong>đang chạy truy vấn</strong>. App: 4 pod × 1 tiến trình Uvicorn (Module 13), mỗi pool <code>pool_size=5, max_overflow=0</code>, tổng 20 kết nối. Theo Erlang C, 4 pool × 5 kết nối ở 125 req/s/pod cho <span class="arithmatex">\(a = 0{,}83\)</span> mỗi pod, <span class="arithmatex">\(P_{\text{chờ}} &lt; 1\%\)</span>.</p>
+<p>Khi cần 20 pod (autoscale ngày cuối tháng), <span class="arithmatex">\(20 \times 5 = 100\)</span> kết nối sẽ vượt mức tối ưu. Lúc đó đặt <strong>PgBouncer</strong> ở chế độ transaction pooling giữa app và DB: 100 kết nối phía client dồn vào ~20 kết nối thật. Lưu ý asyncpg dùng prepared statement. Sau PgBouncer ở chế độ transaction, cần cấu hình PgBouncer ≥ 1.21 với <code>max_prepared_statements</code>, hoặc tắt cache prepared statement của asyncpg (<code>prepared_statement_cache_size=0</code> trong URL của SQLAlchemy).</p>
+</div>
+<hr />
+<h2 id="3-n1-va-cac-anti-pattern-orm">3. N+1 và các anti-pattern ORM<a class="headerlink" href="#3-n1-va-cac-anti-pattern-orm" title="Permanent link">&para;</a></h2>
+<h3 id="31-van-e">3.1. Vấn đề<a class="headerlink" href="#31-van-e" title="Permanent link">&para;</a></h3>
+<p>Endpoint <code>GET /v1/invoices?limit=200</code> trả về hóa đơn kèm dòng hàng. Đoạn code ngây thơ sau đây trông vô hại:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">invoices</span> <span class="o">=</span> <span class="p">(</span><span class="k">await</span> <span class="n">db</span><span class="o">.</span><span class="n">scalars</span><span class="p">(</span><span class="n">select</span><span class="p">(</span><span class="n">Invoice</span><span class="p">)</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">200</span><span class="p">)))</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>     <span class="c1"># 1 truy vấn</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="k">for</span> <span class="n">inv</span> <span class="ow">in</span> <span class="n">invoices</span><span class="p">:</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="n">lines</span> <span class="o">=</span> <span class="p">(</span><span class="k">await</span> <span class="n">db</span><span class="o">.</span><span class="n">scalars</span><span class="p">(</span><span class="n">select</span><span class="p">(</span><span class="n">Line</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">Line</span><span class="o">.</span><span class="n">invoice_id</span> <span class="o">==</span> <span class="n">inv</span><span class="o">.</span><span class="n">id</span><span class="p">)))</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>   <span class="c1"># +1 mỗi hóa đơn</span>
+</span></code></pre></div>
+<p>Đây là <strong>N+1</strong>: một truy vấn danh sách cộng thêm N truy vấn con. Mỗi truy vấn con rất nhanh, nhưng mỗi cái tốn một <strong>vòng khứ hồi</strong> (round trip): gửi, Postgres lập kế hoạch và thực thi, gửi về, driver giải mã.</p>
+<h3 id="32-so-o-that">3.2. Số đo thật<a class="headerlink" href="#32-so-o-that" title="Permanent link">&para;</a></h3>
+<p>Thí nghiệm <code>d1</code>: 200 hóa đơn × 12 dòng, Postgres cùng máy (Unix socket, round trip ~0,5 ms).</p>
+<table>
+<thead>
+<tr>
+<th>Chiến lược</th>
+<th>10 hóa đơn</th>
+<th>50 hóa đơn</th>
+<th>200 hóa đơn</th>
+<th>Số truy vấn (200)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>N+1</td>
+<td>10,9 ms</td>
+<td>31,1 ms</td>
+<td><strong>122,4 ms</strong></td>
+<td>201</td>
+</tr>
+<tr>
+<td><code>selectinload</code></td>
+<td>2,9 ms</td>
+<td>4,8 ms</td>
+<td><strong>17,5 ms</strong></td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>joinedload</code></td>
+<td>1,9 ms</td>
+<td>6,9 ms</td>
+<td>22,6 ms</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<!-- placeholder-nplus1 -->
+
+<!-- fig:nplus1 -->
+<figure>
+  <img alt="Số đo thật: N+1 tăng tuyến tính theo số round trip; selectinload và joinedload giữ số truy vấn cố định" loading="lazy" src="../assets/figures/10/nplus1.light.svg#only-light" />
+  <img alt="Số đo thật: N+1 tăng tuyến tính theo số round trip; selectinload và joinedload giữ số truy vấn cố định" loading="lazy" src="../assets/figures/10/nplus1.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 10.6 — Số đo thật: N+1 tăng tuyến tính theo số round trip; selectinload và joinedload giữ số truy vấn cố định.</figcaption>
+</figure>
+<!-- /fig -->
+
+<p>Thời gian N+1 tăng <strong>tuyến tính theo số round trip</strong>: khoảng 0,6 ms mỗi hóa đơn. Con số đó là trên Unix socket. Qua mạng trong cùng datacenter (RTT 0,3–1 ms) cộng thêm 60–200 ms. Còn nếu DB nằm khác vùng (RTT 30 ms) thì 200 hóa đơn mất <strong>6 giây</strong>. N+1 vô hình ở môi trường dev, nơi DB nằm ngay trên laptop, và chỉ lộ ra ở production.</p>
+<h3 id="33-selectinload-hay-joinedload">3.3. <code>selectinload</code> hay <code>joinedload</code>?<a class="headerlink" href="#33-selectinload-hay-joinedload" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><code>selectinload</code></th>
+<th><code>joinedload</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SQL</td>
+<td><code>SELECT … FROM invoices</code> rồi <code>SELECT … FROM lines WHERE invoice_id IN (…)</code></td>
+<td>một <code>SELECT … FROM invoices LEFT JOIN lines</code></td>
+</tr>
+<tr>
+<td>Số truy vấn</td>
+<td>2 (mỗi quan hệ thêm 1)</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Dữ liệu trả về</td>
+<td>mỗi hóa đơn 1 lần</td>
+<td>cột hóa đơn <strong>lặp lại 12 lần</strong> (mỗi dòng hàng)</td>
+</tr>
+<tr>
+<td>Tốt khi</td>
+<td>quan hệ <strong>một-nhiều</strong>, nhiều con</td>
+<td>quan hệ <strong>nhiều-một</strong> / một-một (ví dụ <code>line.product</code>)</td>
+</tr>
+<tr>
+<td>Số đo (200 HĐ)</td>
+<td>17,5 ms</td>
+<td>22,6 ms</td>
+</tr>
+</tbody>
+</table>
+<p><code>joinedload</code> thắng ở n nhỏ vì nó tiết kiệm một round trip. Khi n lớn, nó thua vì phải truyền và giải mã 2.400 hàng chứa dữ liệu hóa đơn lặp lại. Quy tắc mặc định của tài liệu SQLAlchemy cũng như vậy: <code>selectinload</code> cho collection, <code>joinedload</code> cho quan hệ nhiều-một.</p>
+<h3 id="34-nghien-cuu-anti-pattern-orm-ngoai-thuc-te">3.4. Nghiên cứu: anti-pattern ORM ngoài thực tế<a class="headerlink" href="#34-nghien-cuu-anti-pattern-orm-ngoai-thuc-te" title="Permanent link">&para;</a></h3>
+<p>Yang và cộng sự (<strong>ICSE 2018</strong>, <em>"How not to structure your database-backed web applications: a study of performance bugs in the wild"</em>) khảo sát 12 ứng dụng Rails mã nguồn mở phổ biến và tổng kết <strong>9 anti-pattern hiệu năng ORM</strong> từ hơn 200 vấn đề hiệu năng. Sau khi sửa tay 64 lỗi, họ đạt mức tăng tốc trung vị <strong>2×</strong> (tối đa 39×), phần lớn chỉ với <strong>dưới 5 dòng code</strong>. Trước đó, Chen và cộng sự (<strong>ICSE 2014</strong>) đã chỉ ra các anti-pattern truy cập dữ liệu qua ORM (ví dụ truy vấn thừa trong vòng lặp) và xây công cụ phát hiện tự động.</p>
+<p>Các anti-pattern thường gặp nhất, ánh xạ sang SQLAlchemy:</p>
+<table>
+<thead>
+<tr>
+<th>Anti-pattern</th>
+<th>Dạng trong SQLAlchemy</th>
+<th>Cách sửa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Truy vấn trong vòng lặp (N+1)</td>
+<td>lazy load trong <code>for</code></td>
+<td><code>selectinload</code>, <code>lazy="raise"</code></td>
+</tr>
+<tr>
+<td>Nạp cột không dùng</td>
+<td><code>select(Invoice)</code> khi chỉ cần <code>id, total</code></td>
+<td><code>select(Invoice.id, Invoice.total)</code>, <code>load_only()</code>, <code>defer()</code> cho cột lớn như <code>signed_xml</code></td>
+</tr>
+<tr>
+<td>Đếm bằng cách nạp hết</td>
+<td><code>len((await db.scalars(q)).all())</code></td>
+<td><code>select(func.count()).select_from(...)</code></td>
+</tr>
+<tr>
+<td>Phân trang bằng <code>OFFSET</code> lớn</td>
+<td><code>.offset(100_000)</code></td>
+<td>phân trang theo con trỏ (keyset, Module 02)</td>
+</tr>
+<tr>
+<td>Lọc trong Python</td>
+<td>nạp hết rồi <code>[x for x in rows if ...]</code></td>
+<td>đẩy điều kiện vào <code>WHERE</code></td>
+</tr>
+<tr>
+<td>Thiếu index cho truy vấn thường dùng</td>
+<td><code>WHERE tenant_id = ? ORDER BY issued_at</code></td>
+<td>index <code>(tenant_id, issued_at)</code></td>
+</tr>
+</tbody>
+</table>
+<p>Cách phát hiện trong dự án: bật <code>lazy="raise"</code> toàn cục, đếm truy vấn mỗi request trong test (dùng sự kiện <code>before_cursor_execute</code>, như <code>bench_db.py</code> làm), và đặt ngưỡng trong CI, ví dụ "<code>GET /v1/invoices</code> ≤ 3 truy vấn".</p>
+<hr />
+<h2 id="4-cap-so-hoa-on-race-condition-trong-mot-dong-sql">4. Cấp số hóa đơn: race condition trong một dòng SQL<a class="headerlink" href="#4-cap-so-hoa-on-race-condition-trong-mot-dong-sql" title="Permanent link">&para;</a></h2>
+<h3 id="41-yeu-cau">4.1. Yêu cầu<a class="headerlink" href="#41-yeu-cau" title="Permanent link">&para;</a></h3>
+<p>Theo Nghị định 123/2020/NĐ-CP (khoản 3 Điều 10), số hóa đơn có <strong>tối đa 8 chữ số</strong>, lập <strong>theo thứ tự liên tục từ nhỏ đến lớn</strong> trong cùng một ký hiệu hóa đơn, và bắt đầu lại từ 1 mỗi năm. Như vậy hai yêu cầu kỹ thuật là: <strong>không trùng</strong> và <strong>không nhảy số</strong>.</p>
+<h3 id="42-thi-nghiem-ba-cach-400-giao-dich-32-ong-thoi">4.2. Thí nghiệm: ba cách, 400 giao dịch, 32 đồng thời<a class="headerlink" href="#42-thi-nghiem-ba-cach-400-giao-dich-32-ong-thoi" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Cách 1 — MAX()+1: đọc rồi ghi</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">nxt</span> <span class="o">=</span> <span class="k">await</span> <span class="n">s</span><span class="o">.</span><span class="n">scalar</span><span class="p">(</span><span class="n">text</span><span class="p">(</span><span class="s2">"select coalesce(max(number),0)+1 from inv_numbers where series='1C26TMK'"</span><span class="p">))</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="k">await</span> <span class="n">s</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">text</span><span class="p">(</span><span class="s2">"insert into inv_numbers(series, number) values ('1C26TMK', :n)"</span><span class="p">),</span> <span class="p">{</span><span class="s2">"n"</span><span class="p">:</span> <span class="n">nxt</span><span class="p">})</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="c1"># Cách 2 — bộ đếm theo ký hiệu, khóa hàng bằng UPDATE … RETURNING</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="n">nxt</span> <span class="o">=</span> <span class="k">await</span> <span class="n">s</span><span class="o">.</span><span class="n">scalar</span><span class="p">(</span><span class="n">text</span><span class="p">(</span><span class="s2">"update series_counter set last_number = last_number + 1 "</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>                          <span class="s2">"where series='1C26TMK' returning last_number"</span><span class="p">))</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="c1"># Cách 3 — SEQUENCE của Postgres</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="n">nxt</span> <span class="o">=</span> <span class="k">await</span> <span class="n">s</span><span class="o">.</span><span class="n">scalar</span><span class="p">(</span><span class="n">text</span><span class="p">(</span><span class="s2">"select nextval('inv_seq')"</span><span class="p">))</span>
+</span></code></pre></div>
+<p>Kết quả (thí nghiệm <code>d2</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Cách</th>
+<th>Số hàng</th>
+<th><strong>Trùng số</strong></th>
+<th><strong>Khoảng trống</strong></th>
+<th>Giao dịch/s</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MAX()+1</code></td>
+<td>400</td>
+<td><strong>371</strong></td>
+<td>0</td>
+<td>846</td>
+</tr>
+<tr>
+<td><code>UPDATE … RETURNING</code> (khóa hàng)</td>
+<td>400</td>
+<td>0</td>
+<td>0</td>
+<td>438</td>
+</tr>
+<tr>
+<td><code>sequence</code></td>
+<td>400</td>
+<td>0</td>
+<td>0</td>
+<td>948</td>
+</tr>
+<tr>
+<td><code>sequence</code> + 5% giao dịch rollback</td>
+<td>380</td>
+<td>0</td>
+<td><strong>19</strong></td>
+<td>1.131</td>
+</tr>
+</tbody>
+</table>
+<!-- placeholder-numbering -->
+
+<!-- fig:numbering -->
+<figure>
+  <img alt="Số đo thật: ba cách cấp số hóa đơn dưới 32 giao dịch đồng thời — đúng đắn và thông lượng" loading="lazy" src="../assets/figures/10/numbering.light.svg#only-light" />
+  <img alt="Số đo thật: ba cách cấp số hóa đơn dưới 32 giao dịch đồng thời — đúng đắn và thông lượng" loading="lazy" src="../assets/figures/10/numbering.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 10.7 — Số đo thật: ba cách cấp số hóa đơn dưới 32 giao dịch đồng thời — đúng đắn và thông lượng.</figcaption>
+</figure>
+<!-- /fig -->
+
+<p><strong><code>MAX()+1</code> sai gần như hoàn toàn</strong>: 400 hóa đơn chỉ có 29 số khác nhau. Ở mức cô lập mặc định <strong>READ COMMITTED</strong>, 32 transaction cùng đọc <code>MAX</code> khi chưa ai commit, nên cùng thấy một giá trị và cùng ghi <code>MAX+1</code>. Một <code>asyncio.sleep(0)</code> giữa đọc và ghi là đủ để race xảy ra. Code thật còn có validate, tính thuế, ký số ở khoảng giữa đó.</p>
+<p><strong>Sequence không trùng nhưng nhảy số</strong>. <code>nextval()</code> được thiết kế <strong>không transactional</strong>: số đã cấp không được trả lại khi transaction rollback. Điều này cố ý, để sequence không bao giờ phải khóa. Hệ quả là 19 khoảng trống ứng với 19 giao dịch bị hủy. Với khóa chính thì khoảng trống không sao, nhưng <strong>với số hóa đơn thì vi phạm yêu cầu liên tục</strong>.</p>
+<p><strong>Bộ đếm có khóa hàng đúng cả hai yêu cầu</strong>. <code>UPDATE</code> lấy khóa ghi trên hàng <code>series_counter</code>, nên transaction thứ hai <strong>chờ</strong> tới khi transaction thứ nhất commit hoặc rollback. Nếu transaction thứ nhất rollback, giá trị <code>last_number</code> cũng được rollback, nên không có khoảng trống. Cái giá là mọi giao dịch cùng ký hiệu bị <strong>tuần tự hóa</strong>: thông lượng giảm một nửa (438 so với 948/s).</p>
+<h3 id="43-tran-thong-luong-cua-mot-khoa-lai-la-little">4.3. Trần thông lượng của một khóa: lại là Little<a class="headerlink" href="#43-tran-thong-luong-cua-mot-khoa-lai-la-little" title="Permanent link">&para;</a></h3>
+<p>Khóa trên một ký hiệu là một máy phục vụ <strong>duy nhất</strong>, và thời gian phục vụ của nó là <strong>thời gian từ lúc lấy khóa tới lúc commit</strong>. Từ đó:</p>
+<div class="arithmatex">\[
+X_{\max}(\text{một ký hiệu}) = \frac{1}{t_{\text{giữ khóa}}}
+\]</div>
+<p>438 giao dịch/s tương ứng thời gian giữ khóa ≈ 2,3 ms. Hai hệ quả thiết kế:</p>
+<ol>
+<li><strong>Lấy số càng muộn càng tốt trong transaction</strong>. Validate, tính tiền, ghi dòng hàng trước, rồi cấp số <strong>ngay trước commit</strong>, như thí nghiệm <code>d8</code> làm. Nếu cấp số ở đầu transaction rồi làm thêm 6 ms việc khác, trần giảm còn ~150/s.</li>
+<li><strong>Khóa theo ký hiệu, không khóa toàn cục</strong>. Mỗi tenant có ký hiệu riêng, và 3.000 tenant song song không tranh nhau. Một tenant rất lớn (chuỗi siêu thị) có thể tạo nhiều ký hiệu theo cửa hàng. Đây là thiết kế được pháp luật cho phép.</li>
+</ol>
+<p>Cuối cùng, luôn thêm ràng buộc <code>UNIQUE (tenant_id, series, number)</code> làm <strong>phòng tuyến cuối</strong>. Nếu một bug nào đó đi vòng qua bộ đếm, database sẽ từ chối thay vì lặng lẽ lưu hai hóa đơn trùng số.</p>
+<hr />
+<h2 id="5-idempotency-key-khong-tao-hoa-on-hai-lan">5. Idempotency key: không tạo hóa đơn hai lần<a class="headerlink" href="#5-idempotency-key-khong-tao-hoa-on-hai-lan" title="Permanent link">&para;</a></h2>
+<h3 id="51-bai-toan">5.1. Bài toán<a class="headerlink" href="#51-bai-toan" title="Permanent link">&para;</a></h3>
+<p>Máy POS gửi <code>POST /v1/invoices</code> và mạng chập chờn: request tới server, hóa đơn được tạo, nhưng response bị mất. POS gửi lại. Nếu server tạo hóa đơn thứ hai thì khách hàng có hai hóa đơn cho một lần mua. Module 02 đã nêu lời giải ở tầng HTTP: client gửi header <strong><code>Idempotency-Key</code></strong> (UUID sinh một lần cho mỗi giao dịch), và server đảm bảo <strong>cùng khóa thì cùng kết quả</strong>. IETF đã soạn Internet-Draft <em>The Idempotency-Key HTTP Header Field</em> (nhóm httpapi) cho header này. Bản cuối là -07 (10/2025); tính đến 10/2026, draft đã hết hạn và chưa thành RFC. Tuy vậy, nó vẫn là mô tả tham chiếu tốt nhất, và các API thanh toán như Stripe đã dùng header này từ lâu. Draft khuyến nghị: thiếu khóa ở endpoint bắt buộc → <code>400</code>; dùng lại khóa với payload khác → <code>422</code>; bản gốc còn đang xử lý → <code>409</code>.</p>
+<p>Phần khó là phía server: <strong>50 request trùng khóa đến cùng lúc</strong>. Đây không phải giả định cực đoan. POS retry với timeout ngắn, cộng với load balancer retry, rất dễ tạo ra vài bản sao gần như đồng thời.</p>
+<h3 id="52-thi-nghiem-ba-thiet-ke">5.2. Thí nghiệm: ba thiết kế<a class="headerlink" href="#52-thi-nghiem-ba-thiet-ke" title="Permanent link">&para;</a></h3>
+<p>Thí nghiệm <code>d3</code>: 50 request đồng thời cùng một khóa, mỗi request có 2 ms "xử lý nghiệp vụ", lặp 20 lần.</p>
+<table>
+<thead>
+<tr>
+<th>Thiết kế</th>
+<th>Hóa đơn tạo ra cho <strong>một</strong> khóa</th>
+<th>Kết cục trung bình của 50 request</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SELECT</code> khóa → nếu chưa có thì <code>INSERT</code>, <strong>không</strong> ràng buộc unique</td>
+<td><strong>39,7</strong></td>
+<td>39,7 tạo mới, 10,3 phát lại</td>
+</tr>
+<tr>
+<td><code>SELECT</code> → <code>INSERT</code>, có <code>PRIMARY KEY (tenant_id, key)</code></td>
+<td>1</td>
+<td>1 tạo mới, <strong>39 lỗi 500</strong>, 10 phát lại</td>
+</tr>
+<tr>
+<td><code>INSERT … ON CONFLICT DO NOTHING</code> <strong>trước</strong>, rồi mới xử lý</td>
+<td><strong>1</strong></td>
+<td>1 tạo mới, <strong>49 phát lại</strong></td>
+</tr>
+</tbody>
+</table>
+<!-- placeholder-idem -->
+
+<!-- fig:idem -->
+<figure>
+  <img alt="Idempotency key: kiểm tra-rồi-ghi để lọt race, giành khóa trước bằng ON CONFLICT thì không; kết cục đo được của 50 request trùng" loading="lazy" src="../assets/figures/10/idem.light.svg#only-light" />
+  <img alt="Idempotency key: kiểm tra-rồi-ghi để lọt race, giành khóa trước bằng ON CONFLICT thì không; kết cục đo được của 50 request trùng" loading="lazy" src="../assets/figures/10/idem.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 10.8 — Idempotency key: kiểm tra-rồi-ghi để lọt race, giành khóa trước bằng ON CONFLICT thì không; kết cục đo được của 50 request trùng.</figcaption>
+</figure>
+<!-- /fig -->
+
+<ul>
+<li>Thiết kế 1 là cùng lỗi "đọc rồi ghi" của mục 4: mọi request cùng <code>SELECT</code> khi chưa ai commit, và tất cả đều kết luận "chưa có".</li>
+<li>Thiết kế 2 <strong>đúng về dữ liệu</strong> nhờ ràng buộc unique: transaction thứ hai trở đi vi phạm khóa chính và <strong>rollback toàn bộ</strong>, kể cả hóa đơn của nó. Nhưng client nhận 500 cho một request hoàn toàn hợp lệ, sẽ retry, rồi mới được phát lại. Đúng nhưng ồn, và log đầy lỗi giả.</li>
+<li>Thiết kế 3 <strong>giành khóa trước khi làm việc</strong>. Tính đúng đắn đến từ cách Postgres xử lý <code>INSERT … ON CONFLICT</code> khi có một transaction khác vừa chèn cùng khóa nhưng <strong>chưa commit</strong>: lệnh <code>INSERT</code> thứ hai <strong>chờ</strong> transaction thứ nhất kết thúc. Nếu transaction thứ nhất commit, lệnh thứ hai thấy xung đột, <code>DO NOTHING</code>, và đọc được response đã lưu. Nếu transaction thứ nhất rollback, lệnh thứ hai chèn thành công và trở thành người xử lý. Không có cửa sổ nào để hai request cùng tạo hóa đơn.</li>
+</ul>
+<h3 id="53-cai-at-ay-u">5.3. Cài đặt đầy đủ<a class="headerlink" href="#53-cai-at-ay-u" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span><span class="o">,</span><span class="w"> </span><span class="nn">json</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">uuid</span><span class="w"> </span><span class="kn">import</span> <span class="n">UUID</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">Header</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi.responses</span><span class="w"> </span><span class="kn">import</span> <span class="n">JSONResponse</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy</span><span class="w"> </span><span class="kn">import</span> <span class="n">text</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="c1"># create table idempotency_keys (</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="c1">#   tenant_id int not null, key uuid not null, request_hash text not null,</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="c1">#   status_code int, response_body jsonb, created_at timestamptz not null default now(),</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="c1">#   primary key (tenant_id, key));</span>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">"/v1/invoices"</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="mi">201</span><span class="p">)</span>
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">create_invoice</span><span class="p">(</span><span class="n">body</span><span class="p">:</span> <span class="n">InvoiceIn</span><span class="p">,</span> <span class="n">db</span><span class="p">:</span> <span class="n">DB</span><span class="p">,</span> <span class="n">tenant</span><span class="p">:</span> <span class="n">CurrentTenant</span><span class="p">,</span>
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>                         <span class="n">idempotency_key</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">UUID</span><span class="p">,</span> <span class="n">Header</span><span class="p">()]):</span>
+</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>    <span class="n">req_hash</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">body</span><span class="o">.</span><span class="n">model_dump_json</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>   <span class="c1"># băm model ĐÃ validate</span>
+</span><span id="__span-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a>    <span class="n">claimed</span> <span class="o">=</span> <span class="k">await</span> <span class="n">db</span><span class="o">.</span><span class="n">scalar</span><span class="p">(</span><span class="n">text</span><span class="p">(</span>
+</span><span id="__span-7-20"><a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a>        <span class="s2">"insert into idempotency_keys(tenant_id, key, request_hash) values (:t, :k, :h) "</span>
+</span><span id="__span-7-21"><a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a>        <span class="s2">"on conflict (tenant_id, key) do nothing returning key"</span><span class="p">),</span>
+</span><span id="__span-7-22"><a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a>        <span class="p">{</span><span class="s2">"t"</span><span class="p">:</span> <span class="n">tenant</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s2">"k"</span><span class="p">:</span> <span class="n">idempotency_key</span><span class="p">,</span> <span class="s2">"h"</span><span class="p">:</span> <span class="n">req_hash</span><span class="p">})</span>
+</span><span id="__span-7-23"><a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a>    <span class="k">if</span> <span class="n">claimed</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>                                   <span class="c1"># khóa đã có chủ và chủ đã commit</span>
+</span><span id="__span-7-24"><a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a>        <span class="n">row</span> <span class="o">=</span> <span class="p">(</span><span class="k">await</span> <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">text</span><span class="p">(</span>
+</span><span id="__span-7-25"><a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a>            <span class="s2">"select request_hash, status_code, response_body from idempotency_keys "</span>
+</span><span id="__span-7-26"><a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a>            <span class="s2">"where tenant_id = :t and key = :k"</span><span class="p">),</span> <span class="p">{</span><span class="s2">"t"</span><span class="p">:</span> <span class="n">tenant</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s2">"k"</span><span class="p">:</span> <span class="n">idempotency_key</span><span class="p">}))</span><span class="o">.</span><span class="n">one</span><span class="p">()</span>
+</span><span id="__span-7-27"><a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a>        <span class="k">if</span> <span class="n">row</span><span class="o">.</span><span class="n">request_hash</span> <span class="o">!=</span> <span class="n">req_hash</span><span class="p">:</span>
+</span><span id="__span-7-28"><a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a>            <span class="k">return</span> <span class="n">JSONResponse</span><span class="p">({</span><span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Idempotency-Key đã dùng cho payload khác"</span><span class="p">},</span> <span class="n">status_code</span><span class="o">=</span><span class="mi">422</span><span class="p">)</span>
+</span><span id="__span-7-29"><a id="__codelineno-7-29" name="__codelineno-7-29" href="#__codelineno-7-29"></a>        <span class="k">return</span> <span class="n">JSONResponse</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">response_body</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="n">row</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span>
+</span><span id="__span-7-30"><a id="__codelineno-7-30" name="__codelineno-7-30" href="#__codelineno-7-30"></a>                            <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">"Idempotent-Replayed"</span><span class="p">:</span> <span class="s2">"true"</span><span class="p">})</span>
+</span><span id="__span-7-31"><a id="__codelineno-7-31" name="__codelineno-7-31" href="#__codelineno-7-31"></a>    <span class="n">out</span> <span class="o">=</span> <span class="k">await</span> <span class="n">invoice_service</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">tenant</span><span class="p">,</span> <span class="n">body</span><span class="p">)</span>  <span class="c1"># validate nghiệp vụ, cấp số, ghi hóa đơn</span>
+</span><span id="__span-7-32"><a id="__codelineno-7-32" name="__codelineno-7-32" href="#__codelineno-7-32"></a>    <span class="n">payload</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"json"</span><span class="p">)</span>
+</span><span id="__span-7-33"><a id="__codelineno-7-33" name="__codelineno-7-33" href="#__codelineno-7-33"></a>    <span class="k">await</span> <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">text</span><span class="p">(</span>
+</span><span id="__span-7-34"><a id="__codelineno-7-34" name="__codelineno-7-34" href="#__codelineno-7-34"></a>        <span class="s2">"update idempotency_keys set status_code = 201, response_body = cast(:b as jsonb) "</span>
+</span><span id="__span-7-35"><a id="__codelineno-7-35" name="__codelineno-7-35" href="#__codelineno-7-35"></a>        <span class="s2">"where tenant_id = :t and key = :k"</span><span class="p">),</span> <span class="p">{</span><span class="s2">"b"</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">),</span> <span class="s2">"t"</span><span class="p">:</span> <span class="n">tenant</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s2">"k"</span><span class="p">:</span> <span class="n">idempotency_key</span><span class="p">})</span>
+</span><span id="__span-7-36"><a id="__codelineno-7-36" name="__codelineno-7-36" href="#__codelineno-7-36"></a>    <span class="k">return</span> <span class="n">payload</span>                                        <span class="c1"># hóa đơn + response đã lưu commit CÙNG LÚC</span>
+</span></code></pre></div>
+<p>Chạy thật với 20 request đồng thời cùng khóa: <strong>1</strong> response <code>201</code>, <strong>19</strong> response <code>201</code> kèm <code>Idempotent-Replayed: true</code>, cùng <code>id</code>, và bảng có đúng 1 hóa đơn. Hai chi tiết đáng chú ý:</p>
+<ul>
+<li><strong>Băm model đã validate, không băm bytes thô.</strong> Gửi lại cùng hóa đơn nhưng đổi thứ tự khóa JSON và khoảng trắng vẫn được nhận là cùng request (đã chạy thử: phát lại 201). Lý do: <code>model_dump_json()</code> luôn xuất các trường theo thứ tự khai báo trong model. Đổi một số tiền thì hash khác, nên server trả <strong>422</strong>, đúng như Internet-Draft khuyến nghị cho việc dùng lại khóa với payload khác.</li>
+<li><strong>Khóa và kết quả nằm trong cùng transaction với hóa đơn.</strong> Nếu xử lý thất bại, cả khóa cũng rollback, và client retry được bằng chính khóa đó. Không bao giờ tồn tại trạng thái "đã giữ khóa nhưng không có hóa đơn".</li>
+</ul>
+<h3 id="54-trade-off-va-vong-oi-khoa">5.4. Trade-off và vòng đời khóa<a class="headerlink" href="#54-trade-off-va-vong-oi-khoa" title="Permanent link">&para;</a></h3>
+<p>Thiết kế 3 có một cái giá: 49 request trùng <strong>chờ</strong> trong Postgres, mỗi request <strong>giữ một kết nối</strong> trong lúc chờ. Với 2–3 bản sao thì không vấn đề gì. Nếu kịch bản retry có thể tạo hàng chục bản sao, có một biến thể khác:</p>
+<ol>
+<li>Giành khóa trong một <strong>transaction riêng, commit ngay</strong>, với cột <code>status = 'processing'</code>.</li>
+<li>Bản sao đến sau thấy <code>processing</code> → trả ngay <strong><code>409 Conflict</code></strong> kèm <code>Retry-After</code> (Internet-Draft gợi ý 409 cho request trùng khi bản gốc còn đang xử lý).</li>
+<li>Xử lý xong thì cập nhật <code>status = 'completed'</code> + response.</li>
+</ol>
+<p>Biến thể này không giữ kết nối, nhưng phải xử lý thêm trường hợp tiến trình chết giữa bước 1 và 3: khóa kẹt ở <code>processing</code>. Cách xử lý là thêm hạn <code>locked_until</code>, hoặc chia "điểm khôi phục" (recovery point) như bài viết của Brandur Leach về idempotency key kiểu Stripe trên Postgres.</p>
+<p>Dọn dẹp: khóa không cần sống mãi. Stripe giữ khóa 24 giờ. Với <code>invoice-api</code>, POS retry trong vòng vài phút, nên giữ 48 giờ là đủ. Xóa theo lô bằng job định kỳ, hoặc chia partition theo ngày và <code>DROP PARTITION</code>.</p>
+<hr />
+<h2 id="6-multi-tenant-tenant_id-va-row-level-security">6. Multi-tenant: <code>tenant_id</code> và Row-Level Security<a class="headerlink" href="#6-multi-tenant-tenant_id-va-row-level-security" title="Permanent link">&para;</a></h2>
+<h3 id="61-ba-mo-hinh">6.1. Ba mô hình<a class="headerlink" href="#61-ba-mo-hinh" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Mô hình</th>
+<th>Cô lập</th>
+<th>Chi phí vận hành với 3.000 tenant</th>
+<th>Khi nào dùng</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DB riêng mỗi tenant</td>
+<td>mạnh nhất</td>
+<td>3.000 DB, 3.000 lần migration</td>
+<td>ít tenant lớn, yêu cầu pháp lý riêng</td>
+</tr>
+<tr>
+<td>Schema riêng mỗi tenant</td>
+<td>trung bình</td>
+<td>3.000 schema, catalog phình to</td>
+<td>vài chục–vài trăm tenant</td>
+</tr>
+<tr>
+<td><strong>Bảng chung + cột <code>tenant_id</code></strong></td>
+<td>phụ thuộc code</td>
+<td>một schema, một migration</td>
+<td><strong>nhiều tenant nhỏ, như <code>invoice-api</code></strong></td>
+</tr>
+</tbody>
+</table>
+<p>Bảng chung là lựa chọn hợp lý cho 3.000 tenant, nhưng có một rủi ro: <strong>chỉ cần quên một <code>WHERE tenant_id = …</code></strong> là lộ hóa đơn của tenant khác. Đây chính là lỗ hổng <strong>BOLA</strong>, mục số 1 trong OWASP API Top 10 (Module 11).</p>
+<h3 id="62-row-level-security-e-database-nho-thay-ban">6.2. Row-Level Security: để database nhớ thay bạn<a class="headerlink" href="#62-row-level-security-e-database-nho-thay-ban" title="Permanent link">&para;</a></h3>
+<p>PostgreSQL cho phép gắn <strong>policy</strong> vào bảng. Mọi truy vấn của role không được miễn trừ đều bị <strong>tự động thêm điều kiện</strong>:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">alter</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="n">invoices</span><span class="w"> </span><span class="n">enable</span><span class="w"> </span><span class="k">row</span><span class="w"> </span><span class="k">level</span><span class="w"> </span><span class="k">security</span><span class="p">;</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="k">create</span><span class="w"> </span><span class="n">policy</span><span class="w"> </span><span class="n">tenant_isolation</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">invoices</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span><span class="k">using</span><span class="w"> </span><span class="p">(</span><span class="n">tenant_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_setting</span><span class="p">(</span><span class="s1">'app.tenant_id'</span><span class="p">)::</span><span class="nb">int</span><span class="p">);</span>
+</span></code></pre></div>
+<p>App đặt tenant cho mỗi transaction (dependency ở mục 2.1). Thí nghiệm <code>d4</code> có 30 hóa đơn chia đều cho 3 tenant. Chạy <strong>cùng một câu <code>select count(*) from invoices</code> không có <code>WHERE</code></strong>:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>tenant 1: thấy 10 hàng, tenant_id xuất hiện: [1]
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>tenant 2: thấy 10 hàng, tenant_id xuất hiện: [2]
+</span></code></pre></div>
+<!-- placeholder-rls -->
+
+<!-- fig:rls -->
+<figure>
+  <img alt="Row-Level Security: cùng một truy vấn không WHERE, mỗi tenant chỉ thấy hàng của mình" loading="lazy" src="../assets/figures/10/rls.light.svg#only-light" />
+  <img alt="Row-Level Security: cùng một truy vấn không WHERE, mỗi tenant chỉ thấy hàng của mình" loading="lazy" src="../assets/figures/10/rls.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 10.9 — Row-Level Security: cùng một truy vấn không WHERE, mỗi tenant chỉ thấy hàng của mình.</figcaption>
+</figure>
+<!-- /fig -->
+
+<p>Ba điểm vận hành quan trọng, tất cả đều dễ bị bỏ qua:</p>
+<ol>
+<li><strong>Chủ bảng và superuser bỏ qua RLS.</strong> Role tạo bảng (thường là role chạy migration) không bị policy ràng buộc, trừ khi bật <code>ALTER TABLE … FORCE ROW LEVEL SECURITY</code>. Superuser và role có <code>BYPASSRLS</code> luôn bỏ qua. App phải kết nối bằng một role <strong>riêng</strong>, không sở hữu bảng. Thí nghiệm dùng <code>set local role app_user</code> vì lý do này.</li>
+<li>
+<p><strong>Phải là <code>SET LOCAL</code> (<code>set_config(..., true)</code>), không phải <code>SET</code>.</strong> Đây là bẫy nguy hiểm nhất, và thí nghiệm <code>d4leak</code> cho thấy nó trực tiếp. Dùng pool 1 kết nối: request 1 đặt tenant 1 rồi trả kết nối; request 2 <strong>quên</strong> đặt tenant.</p>
+<table>
+<thead>
+<tr>
+<th>Request 1 dùng</th>
+<th>Request 2 thấy <code>app.tenant_id</code></th>
+<th>Request 2 đọc được</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>set_config(..., false)</code> ~ <code>SET</code></td>
+<td><code>'1'</code></td>
+<td><strong>10 hàng của tenant 1</strong></td>
+</tr>
+<tr>
+<td><code>set_config(..., true)</code> ~ <code>SET LOCAL</code></td>
+<td><code>''</code></td>
+<td>lỗi <code>invalid input syntax for type integer: ""</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>SET</code> cấp session <strong>sống cùng kết nối</strong>, mà kết nối được pool trả cho request khác, nên dữ liệu của tenant 1 lộ sang request 2. <code>SET LOCAL</code> hết hiệu lực khi transaction kết thúc, nên request quên đặt tenant sẽ <strong>thất bại an toàn</strong> (fail closed) thay vì thấy dữ liệu của người khác.</p>
+</li>
+<li>
+<p><strong>RLS là lưới an toàn, không thay cho <code>WHERE tenant_id</code>.</strong> Vẫn viết điều kiện tenant trong truy vấn, để planner dùng được index <code>(tenant_id, …)</code> và để code đọc lên là hiểu. RLS bảo vệ bạn khỏi lần <strong>quên</strong> duy nhất.</p>
+</li>
+</ol>
+<p>Về hiệu năng: policy chỉ là một điều kiện thêm vào <code>WHERE</code>. Nếu có index bắt đầu bằng <code>tenant_id</code> thì chi phí không đáng kể. Cẩn thận với policy gọi hàm phức tạp hoặc subquery cho mỗi hàng.</p>
+<hr />
+<h2 id="7-migration-khong-downtime-expandcontract">7. Migration không downtime: expand/contract<a class="headerlink" href="#7-migration-khong-downtime-expandcontract" title="Permanent link">&para;</a></h2>
+<h3 id="71-vi-sao-migration-lam-sap-api-hang-oi-khoa">7.1. Vì sao migration làm sập API: hàng đợi khóa<a class="headerlink" href="#71-vi-sao-migration-lam-sap-api-hang-oi-khoa" title="Permanent link">&para;</a></h3>
+<p><code>ALTER TABLE … ADD COLUMN</code> trên Postgres hiện đại (từ bản 11, kể cả có <code>DEFAULT</code> hằng) chỉ sửa catalog, chạy trong vài mili giây. Vậy tại sao migration kiểu này vẫn làm sập API? Thí nghiệm <code>d6</code> tái hiện:</p>
+<ol>
+<li>Một transaction "báo cáo" đọc bảng <code>invoices</code> và chạy <strong>2 giây</strong>. Nó giữ khóa <code>ACCESS SHARE</code>.</li>
+<li>Migration chạy <code>ALTER TABLE invoices ADD COLUMN note text</code>. Lệnh cần khóa <code>ACCESS EXCLUSIVE</code>, nên phải <strong>chờ</strong> báo cáo xong.</li>
+<li>API tiếp tục gửi <code>SELECT</code> vào <code>invoices</code> mỗi 100 ms. Mỗi request độc lập với nhau, như traffic thật.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Migration</th>
+<th>ALTER</th>
+<th><code>SELECT</code> chậm nhất của API</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>không <code>lock_timeout</code></td>
+<td>chờ 1,8 s rồi thành công</td>
+<td><strong>1.718 ms</strong>; 18 request liên tiếp bị chặn</td>
+</tr>
+<tr>
+<td><code>SET LOCAL lock_timeout = '100ms'</code></td>
+<td>thất bại sau 104 ms (<code>canceling statement due to lock timeout</code>)</td>
+<td><strong>4,2 ms</strong></td>
+</tr>
+</tbody>
+</table>
+<!-- placeholder-lockqueue -->
+
+<!-- fig:lockqueue -->
+<figure>
+  <img alt="Số đo thật: ALTER TABLE chờ khóa sau transaction dài chặn mọi SELECT đến sau nó; locktimeout loại bỏ hoàn toàn hiện tượng này" loading="lazy" src="../assets/figures/10/lockqueue.light.svg#only-light" />
+  <img alt="Số đo thật: ALTER TABLE chờ khóa sau transaction dài chặn mọi SELECT đến sau nó; locktimeout loại bỏ hoàn toàn hiện tượng này" loading="lazy" src="../assets/figures/10/lockqueue.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 10.10 — Số đo thật: ALTER TABLE chờ khóa sau transaction dài chặn mọi SELECT đến sau nó; lock_timeout loại bỏ hoàn toàn hiện tượng này.</figcaption>
+</figure>
+<!-- /fig -->
+
+<p>Cơ chế: khóa trong Postgres được cấp <strong>theo hàng đợi FIFO</strong>. <code>ACCESS EXCLUSIVE</code> đang chờ sẽ chặn mọi yêu cầu khóa đến sau nó, kể cả <code>ACCESS SHARE</code> vốn tương thích với báo cáo đang chạy. Vì vậy một lệnh DDL "tức thời" đứng chờ sau một truy vấn dài sẽ <strong>chặn toàn bộ truy vấn của API</strong>. Pool cạn, mọi request timeout. Với <code>lock_timeout</code>, migration tự hủy và chạy lại sau. API không hề biết có chuyện gì.</p>
+<h3 id="72-expandcontract-parallel-change">7.2. Expand/contract (parallel change)<a class="headerlink" href="#72-expandcontract-parallel-change" title="Permanent link">&para;</a></h3>
+<p>Thay đổi không tương thích ngược, như đổi tên <code>buyer_name</code> → <code>legal_name</code>, không thể làm trong một bước. Lý do: trong lúc rolling deploy, <strong>phiên bản app cũ và mới chạy cùng lúc</strong> trên cùng một database. Mẫu <strong>expand/contract</strong> (Danilo Sato, <em>Parallel Change</em>, martinfowler.com, 2014) chia thay đổi thành các bước, và mỗi bước tương thích với cả hai phiên bản app liền kề:</p>
+<table>
+<thead>
+<tr>
+<th>Bước</th>
+<th>Database</th>
+<th>App</th>
+<th>Tương thích</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Expand</td>
+<td>thêm cột <code>legal_name</code> <strong>nullable</strong></td>
+<td>—</td>
+<td>app cũ không biết cột mới, không sao</td>
+</tr>
+<tr>
+<td>2. Dual write</td>
+<td>—</td>
+<td>ghi <strong>cả hai</strong> cột, đọc cột cũ</td>
+<td>app cũ vẫn chạy</td>
+</tr>
+<tr>
+<td>3. Backfill</td>
+<td>chép dữ liệu cũ sang theo <strong>lô nhỏ</strong></td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>4. Chuyển đọc</td>
+<td>—</td>
+<td>đọc <code>legal_name</code>, vẫn ghi cả hai</td>
+<td>rollback app vẫn an toàn</td>
+</tr>
+<tr>
+<td>5. Ngừng ghi cột cũ</td>
+<td>—</td>
+<td>chỉ dùng <code>legal_name</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td>6. Contract</td>
+<td><code>NOT NULL</code>, xóa <code>buyer_name</code></td>
+<td>—</td>
+<td>chỉ khi <strong>không còn</strong> phiên bản nào dùng cột cũ</td>
+</tr>
+</tbody>
+</table>
+<!-- placeholder-expand -->
+
+<!-- fig:expand -->
+<figure>
+  <img alt="Expand/contract: đổi tên cột qua sáu bước, mỗi bước tương thích với phiên bản app liền kề" loading="lazy" src="../assets/figures/10/expand.light.svg#only-light" />
+  <img alt="Expand/contract: đổi tên cột qua sáu bước, mỗi bước tương thích với phiên bản app liền kề" loading="lazy" src="../assets/figures/10/expand.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 10.11 — Expand/contract: đổi tên cột qua sáu bước, mỗi bước tương thích với phiên bản app liền kề.</figcaption>
+</figure>
+<!-- /fig -->
+
+<p>Ba migration Alembic tương ứng (đã chạy thật trên Postgres với 5.000 hàng):</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># versions/0001_expand.py</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">upgrade</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>    <span class="n">op</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"SET LOCAL lock_timeout = '2s'"</span><span class="p">)</span>             <span class="c1"># không xếp hàng vô hạn sau transaction dài</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>    <span class="n">op</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">"buyers"</span><span class="p">,</span> <span class="n">sa</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="s2">"legal_name"</span><span class="p">,</span> <span class="n">sa</span><span class="o">.</span><span class="n">Text</span><span class="p">(),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="c1"># versions/0002_backfill.py</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="k">def</span><span class="w"> </span><span class="nf">upgrade</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>    <span class="k">with</span> <span class="n">op</span><span class="o">.</span><span class="n">get_context</span><span class="p">()</span><span class="o">.</span><span class="n">autocommit_block</span><span class="p">():</span>               <span class="c1"># mỗi lô một transaction ngắn</span>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>            <span class="n">n</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">get_bind</span><span class="p">()</span><span class="o">.</span><span class="n">exec_driver_sql</span><span class="p">(</span>
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>                <span class="s2">"UPDATE buyers SET legal_name = buyer_name WHERE id IN ("</span>
+</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>                <span class="s2">"  SELECT id FROM buyers WHERE legal_name IS NULL LIMIT 1000)"</span><span class="p">)</span><span class="o">.</span><span class="n">rowcount</span>
+</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>            <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>                <span class="k">break</span>
+</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a>
+</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a><span class="c1"># versions/0003_contract.py — chạy ở một lần deploy SAU</span>
+</span><span id="__span-10-17"><a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a><span class="k">def</span><span class="w"> </span><span class="nf">upgrade</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-10-18"><a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a>    <span class="n">op</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"SET LOCAL lock_timeout = '2s'"</span><span class="p">)</span>
+</span><span id="__span-10-19"><a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a>    <span class="n">op</span><span class="o">.</span><span class="n">alter_column</span><span class="p">(</span><span class="s2">"buyers"</span><span class="p">,</span> <span class="s2">"legal_name"</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span><span id="__span-10-20"><a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a>    <span class="n">op</span><span class="o">.</span><span class="n">drop_column</span><span class="p">(</span><span class="s2">"buyers"</span><span class="p">,</span> <span class="s2">"buyer_name"</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Phía API, Pydantic hỗ trợ giai đoạn chuyển tiếp. Ta nhận cả tên cũ lẫn tên mới, nhưng chỉ công bố tên mới trong schema:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">AliasChoices</span><span class="p">,</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="k">class</span><span class="w"> </span><span class="nc">BuyerIn</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>    <span class="n">legal_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">validation_alias</span><span class="o">=</span><span class="n">AliasChoices</span><span class="p">(</span><span class="s2">"legal_name"</span><span class="p">,</span> <span class="s2">"buyer_name"</span><span class="p">))</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="n">BuyerIn</span><span class="o">.</span><span class="n">model_validate</span><span class="p">({</span><span class="s2">"buyer_name"</span><span class="p">:</span> <span class="s2">"Cty A"</span><span class="p">})</span>    <span class="c1"># legal_name='Cty A'  (client cũ)</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="n">BuyerIn</span><span class="o">.</span><span class="n">model_validate</span><span class="p">({</span><span class="s2">"legal_name"</span><span class="p">:</span> <span class="s2">"Cty B"</span><span class="p">})</span>    <span class="c1"># legal_name='Cty B'  (client mới)</span>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="c1"># JSON Schema chỉ liệt kê legal_name → client mới sinh từ OpenAPI dùng tên mới</span>
+</span></code></pre></div>
+<p>Thêm vài quy tắc vận hành:</p>
+<ul>
+<li>Tạo index bằng <code>CREATE INDEX CONCURRENTLY</code>. Lệnh này không được chạy trong transaction, nên trong Alembic phải dùng <code>autocommit_block()</code>.</li>
+<li>Thêm ràng buộc bằng <code>ADD CONSTRAINT … NOT VALID</code> rồi <code>VALIDATE CONSTRAINT</code> ở bước sau. Bước validate chỉ cần khóa nhẹ.</li>
+<li>Tách <strong>deploy app</strong> khỏi <strong>chạy migration</strong>. Chạy migration như một job riêng trước khi rollout (Module 13), không chạy trong lifespan của mỗi pod: 20 pod cùng chạy migration là công thức cho xung đột.</li>
+</ul>
+<hr />
+<h2 id="8-outbox-pattern-ghi-db-va-phat-su-kien">8. Outbox pattern: ghi DB và phát sự kiện<a class="headerlink" href="#8-outbox-pattern-ghi-db-va-phat-su-kien" title="Permanent link">&para;</a></h2>
+<h3 id="81-van-e-dual-write">8.1. Vấn đề dual write<a class="headerlink" href="#81-van-e-dual-write" title="Permanent link">&para;</a></h3>
+<p>Sau khi tạo hóa đơn, <code>invoice-api</code> cần báo cho hệ thống khác: gửi email cho người mua, đồng bộ sang kế toán, gửi lên cơ quan thuế. Cách ngây thơ:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">await</span> <span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="k">await</span> <span class="n">broker</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="s2">"invoice.created"</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span>     <span class="c1"># nếu tiến trình chết ở giữa hai dòng?</span>
+</span></code></pre></div>
+<ul>
+<li>Chết sau <code>commit</code>, trước <code>publish</code>: hóa đơn tồn tại nhưng <strong>không ai được báo</strong> (mất sự kiện).</li>
+<li>Đảo thứ tự (publish trước, commit sau) rồi commit thất bại: sự kiện về một hóa đơn <strong>không tồn tại</strong>.</li>
+</ul>
+<p>Không có cách sắp xếp hai lệnh ghi vào hai hệ thống khác nhau sao cho nguyên tử, nếu không có giao thức phân tán như 2PC. Mà 2PC thì hầu hết broker hiện đại không hỗ trợ, và nó cũng có chi phí riêng.</p>
+<h3 id="82-loi-giai-ghi-su-kien-vao-cung-transaction">8.2. Lời giải: ghi sự kiện vào cùng transaction<a class="headerlink" href="#82-loi-giai-ghi-su-kien-vao-cung-transaction" title="Permanent link">&para;</a></h3>
+<p><strong>Transactional outbox</strong> (Chris Richardson, <em>microservices.io</em>) biến hai lệnh ghi thành một:</p>
+<ol>
+<li>Trong <strong>cùng transaction</strong> tạo hóa đơn, <code>INSERT</code> một hàng vào bảng <code>outbox(id, payload, published_at)</code>. Hóa đơn và sự kiện cùng commit, hoặc cùng biến mất.</li>
+<li>Một tiến trình <strong>relay</strong> đọc các hàng chưa phát, gửi lên broker, rồi đánh dấu <code>published_at</code>.</li>
+</ol>
+<!-- placeholder-outbox -->
+
+<!-- fig:outbox -->
+<figure>
+  <img alt="Dual write so với transactional outbox" loading="lazy" src="../assets/figures/10/outbox.light.svg#only-light" />
+  <img alt="Dual write so với transactional outbox" loading="lazy" src="../assets/figures/10/outbox.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 10.12 — Dual write so với transactional outbox.</figcaption>
+</figure>
+<!-- /fig -->
+
+<p>Relay có thể chết <strong>sau khi gửi, trước khi đánh dấu</strong>. Khi khởi động lại, nó gửi lại sự kiện đó. Vì vậy outbox cho <strong>at-least-once</strong>, không phải exactly-once, và phía tiêu thụ phải <strong>idempotent</strong>: lưu <code>event_id</code> đã xử lý, đúng kỹ thuật của mục 5.</p>
+<h3 id="83-nhieu-relay-song-song-skip-locked">8.3. Nhiều relay song song: <code>SKIP LOCKED</code><a class="headerlink" href="#83-nhieu-relay-song-song-skip-locked" title="Permanent link">&para;</a></h3>
+<p>Để tăng thông lượng, ta chạy nhiều relay cùng lúc. Mỗi relay lấy một lô 100 sự kiện bằng <code>SELECT … FOR UPDATE</code> để hai relay không gửi trùng (thí nghiệm <code>d7</code>, 4.000 sự kiện, mỗi lô gửi lên broker giả lập mất 5 ms):</p>
+<table>
+<thead>
+<tr>
+<th>Khóa</th>
+<th>1 relay</th>
+<th>2 relay</th>
+<th>4 relay</th>
+<th>Trùng</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>FOR UPDATE</code></td>
+<td>10.806/s</td>
+<td>11.044/s</td>
+<td>11.111/s</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>FOR UPDATE SKIP LOCKED</code></td>
+<td>9.930/s</td>
+<td>18.616/s</td>
+<td><strong>36.963/s</strong></td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<!-- placeholder-outbox-scale -->
+
+<!-- fig:outbox-scale -->
+<figure>
+  <img alt="Số đo thật: relay outbox chỉ mở rộng theo số relay khi dùng SKIP LOCKED" loading="lazy" src="../assets/figures/10/outbox-scale.light.svg#only-light" />
+  <img alt="Số đo thật: relay outbox chỉ mở rộng theo số relay khi dùng SKIP LOCKED" loading="lazy" src="../assets/figures/10/outbox-scale.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 10.13 — Số đo thật: relay outbox chỉ mở rộng theo số relay khi dùng SKIP LOCKED.</figcaption>
+</figure>
+<!-- /fig -->
+
+<p>Chỉ dùng <code>FOR UPDATE</code> thì thêm relay <strong>vô ích</strong>: relay 2 cố khóa cùng 100 hàng đầu tiên mà relay 1 đang giữ, nên phải chờ. Kết quả là các relay chạy tuần tự. <code>SKIP LOCKED</code> bảo Postgres <strong>bỏ qua</strong> những hàng đang bị khóa và lấy lô kế tiếp, nên thông lượng tăng gần tuyến tính theo số relay. Cả hai cách đều không trùng sự kiện, vì khóa hàng đảm bảo điều đó. Cái giá của <code>SKIP LOCKED</code> là thứ tự toàn cục không còn được giữ. Nếu người tiêu thụ cần thứ tự <strong>theo hóa đơn</strong>, hãy phân vùng theo <code>invoice_id</code> (mỗi relay một phân vùng) hoặc để broker giữ thứ tự theo khóa (partition key của Kafka).</p>
+<p>Cùng kỹ thuật <code>FOR UPDATE SKIP LOCKED</code> này biến một bảng Postgres thành <strong>hàng đợi công việc</strong> đủ dùng cho hàng nghìn việc mỗi giây. Ở <code>ai-gateway</code>, đó là một lựa chọn thay Redis/Celery cho hàng đợi các lượt chạy LLM (Module 14).</p>
+<hr />
+<h2 id="9-case-mekong-cloud-luong-ghi-cua-post-v1invoices">9. Case Mekong Cloud: luồng ghi của <code>POST /v1/invoices</code><a class="headerlink" href="#9-case-mekong-cloud-luong-ghi-cua-post-v1invoices" title="Permanent link">&para;</a></h2>
+<p>Ghép tất cả lại thành một transaction duy nhất, giữ kết nối ~6,6 ms (số đo <code>d8</code>):</p>
+<pre class="mermaid"><code>sequenceDiagram
+    autonumber
+    participant H as Handler
+    participant D as get_session (yield, scope=function)
+    participant P as PostgreSQL
+    D-&gt;&gt;P: BEGIN; set_config('app.tenant_id', t, true)
+    H-&gt;&gt;P: INSERT idempotency_keys … ON CONFLICT DO NOTHING RETURNING key
+    alt khóa đã có chủ
+        P--&gt;&gt;H: (rỗng) → SELECT response đã lưu → phát lại 201 / 422
+    else giành được khóa
+        H-&gt;&gt;P: INSERT invoices + 12 invoice_lines (ORM flush)
+        H-&gt;&gt;P: UPDATE series_counter … RETURNING last_number (cấp số muộn nhất có thể)
+        H-&gt;&gt;P: INSERT outbox (invoice.created)
+        H-&gt;&gt;P: UPDATE idempotency_keys SET response_body
+    end
+    D-&gt;&gt;P: COMMIT (trước khi gửi 201)
+    Note over P: RLS chặn mọi hàng của tenant khác&lt;br/&gt;UNIQUE(tenant_id, series, number) là phòng tuyến cuối</code></pre>
+<table>
+<thead>
+<tr>
+<th>Quyết định</th>
+<th>Lựa chọn</th>
+<th>Lý do bằng số</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pool mỗi tiến trình</td>
+<td><code>pool_size=5, max_overflow=0</code>, <code>pool_timeout=2</code></td>
+<td><span class="arithmatex">\(a = 125 \times 0{,}0066 = 0{,}83\)</span> erlang/pod; <span class="arithmatex">\(P_{\text{chờ}} &lt; 1\%\)</span></td>
+</tr>
+<tr>
+<td>Tổng kết nối tới DB</td>
+<td>≤ 2 × core DB; PgBouncer khi autoscale</td>
+<td>thông lượng đỉnh ở 2 × core (<code>d5</code>)</td>
+</tr>
+<tr>
+<td>Cấp số</td>
+<td>bộ đếm theo ký hiệu + khóa hàng, cấp cuối transaction</td>
+<td><code>MAX()+1</code>: 371/400 trùng; sequence: có khoảng trống</td>
+</tr>
+<tr>
+<td>Idempotency</td>
+<td><code>ON CONFLICT DO NOTHING</code> trước, lưu response trong cùng transaction</td>
+<td>1 hóa đơn/khóa, 0 lỗi 500 (<code>d3</code>)</td>
+</tr>
+<tr>
+<td>Tenant</td>
+<td><code>tenant_id</code> + RLS + <code>SET LOCAL</code> + role riêng</td>
+<td><code>SET</code> thường rò dữ liệu qua pool (<code>d4leak</code>)</td>
+</tr>
+<tr>
+<td>Đọc danh sách</td>
+<td><code>selectinload</code>, <code>lazy="raise"</code></td>
+<td>122 ms → 17,5 ms (<code>d1</code>)</td>
+</tr>
+<tr>
+<td>Migration</td>
+<td>expand/contract, <code>lock_timeout</code></td>
+<td>không timeout: API kẹt tới 1,7 s (<code>d6</code>)</td>
+</tr>
+<tr>
+<td>Sự kiện</td>
+<td>outbox + relay <code>SKIP LOCKED</code></td>
+<td>37k sự kiện/s với 4 relay (<code>d7</code>)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="loi-thuong-gap-cach-xu-ly">Lỗi thường gặp &amp; cách xử lý<a class="headerlink" href="#loi-thuong-gap-cach-xu-ly" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Triệu chứng</th>
+<th>Nguyên nhân gốc</th>
+<th>Cách xử lý</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MissingGreenlet: greenlet_spawn has not been called</code></td>
+<td>lazy load hoặc refresh thuộc tính hết hạn trong code async</td>
+<td><code>expire_on_commit=False</code>; nạp trước bằng <code>selectinload</code>; <code>lazy="raise"</code> để lộ lỗi sớm</td>
+</tr>
+<tr>
+<td><code>QueuePool limit … reached, connection timed out</code></td>
+<td>transaction giữ kết nối quá lâu (gọi API/LLM bên trong), rò session, hoặc pool quá nhỏ</td>
+<td>đo thời gian giữ; rút I/O chậm ra khỏi transaction; tính pool bằng Little/Erlang C</td>
+</tr>
+<tr>
+<td>p99 tăng khi <strong>tăng</strong> pool</td>
+<td>DB quá tải CPU, hàng đợi chuyển vào DB</td>
+<td>giảm tổng kết nối về ~2 × core DB; PgBouncer</td>
+</tr>
+<tr>
+<td>Danh sách chậm dần theo <code>limit</code></td>
+<td>N+1</td>
+<td><code>selectinload</code>; đếm truy vấn trong test</td>
+</tr>
+<tr>
+<td>Số hóa đơn trùng</td>
+<td><code>MAX()+1</code> dưới READ COMMITTED</td>
+<td>bộ đếm có khóa hàng + <code>UNIQUE</code></td>
+</tr>
+<tr>
+<td>Số hóa đơn nhảy cóc</td>
+<td>dùng sequence, transaction rollback</td>
+<td>bộ đếm transactional</td>
+</tr>
+<tr>
+<td>Hóa đơn bị tạo hai lần khi POS retry</td>
+<td>kiểm tra-rồi-ghi khóa idempotency</td>
+<td><code>INSERT … ON CONFLICT</code> trước, lưu response trong cùng transaction</td>
+</tr>
+<tr>
+<td>Thỉnh thoảng thấy dữ liệu tenant khác</td>
+<td><code>SET</code> cấp session còn sót trên kết nối từ pool</td>
+<td><code>SET LOCAL</code> / <code>set_config(..., true)</code></td>
+</tr>
+<tr>
+<td>RLS "không có tác dụng"</td>
+<td>app kết nối bằng chủ bảng hoặc superuser</td>
+<td>role riêng; <code>FORCE ROW LEVEL SECURITY</code></td>
+</tr>
+<tr>
+<td>Deploy migration, toàn bộ API timeout vài giây</td>
+<td>DDL chờ khóa sau transaction dài, chặn hàng đợi khóa</td>
+<td><code>lock_timeout</code>, retry migration; tách job báo cáo sang replica</td>
+</tr>
+<tr>
+<td><code>prepared statement "__asyncpg_stmt_…" does not exist</code></td>
+<td>asyncpg sau PgBouncer chế độ transaction</td>
+<td><code>max_prepared_statements</code> (PgBouncer ≥ 1.21) hoặc tắt cache prepared statement</td>
+</tr>
+<tr>
+<td>Sự kiện mất khi tiến trình chết</td>
+<td>publish ngoài transaction (dual write)</td>
+<td>outbox</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tom-tat-cheat-sheet">Tóm tắt (cheat-sheet)<a class="headerlink" href="#tom-tat-cheat-sheet" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Ba model</strong>: <code>InvoiceIn</code> (Pydantic) → <code>Invoice</code> (ORM) → <code>InvoiceOut</code> (Pydantic, <code>from_attributes=True</code>). Không để Pydantic kích hoạt lazy load.</li>
+<li><strong>Session</strong>: <code>async_sessionmaker(expire_on_commit=False)</code>; dependency <code>yield</code> + <code>session.begin()</code> + <code>scope="function"</code> → commit trước khi trả response, ngoại lệ → rollback.</li>
+<li><strong>Pool</strong>: <span class="arithmatex">\(L = \lambda S\)</span> với <span class="arithmatex">\(S\)</span> là thời gian giữ kết nối; Erlang C cho xác suất chờ. Tổng kết nối tới DB ≈ 2 × core DB (+ spindle). <code>max_overflow=0</code>, <code>pool_timeout</code> ngắn.</li>
+<li><strong>N+1</strong>: <code>selectinload</code> cho collection, <code>joinedload</code> cho nhiều-một; <code>lazy="raise"</code>; đếm truy vấn trong test.</li>
+<li><strong>Đọc-rồi-ghi là race</strong> dưới READ COMMITTED. Dùng ràng buộc unique, <code>INSERT … ON CONFLICT</code>, <code>UPDATE … RETURNING</code>.</li>
+<li><strong>Cấp số liên tục</strong>: bộ đếm theo ký hiệu + khóa hàng, cấp <strong>cuối</strong> transaction; <span class="arithmatex">\(X_{\max} = 1/t_{\text{giữ khóa}}\)</span>.</li>
+<li><strong>Idempotency</strong>: giành khóa trước, băm model đã validate, lưu response cùng transaction; khác payload → 422.</li>
+<li><strong>Multi-tenant</strong>: <code>tenant_id</code> + RLS + <code>SET LOCAL</code> + role không sở hữu bảng.</li>
+<li><strong>Migration</strong>: expand → dual write → backfill theo lô → chuyển đọc → contract; luôn <code>lock_timeout</code>.</li>
+<li><strong>Outbox</strong>: sự kiện ghi cùng transaction; relay <code>FOR UPDATE SKIP LOCKED</code>; người tiêu thụ idempotent.</li>
+</ul>
+<h2 id="cau-hoi-tu-kiem-tra-phong-van">Câu hỏi tự kiểm tra / phỏng vấn<a class="headerlink" href="#cau-hoi-tu-kiem-tra-phong-van" title="Permanent link">&para;</a></h2>
+<p><strong>1.</strong> Vì sao <code>InvoiceOut.model_validate(invoice)</code> có thể ném lỗi trong code async nhưng chạy được trong code đồng bộ?</p>
+<details>
+<summary>Đáp án</summary>
+<p><code>from_attributes</code> đọc thuộc tính bằng <code>getattr</code>. Nếu <code>invoice.lines</code> chưa được nạp, ORM sẽ lazy load, tức phát truy vấn ngay trong <code>getattr</code>. Code đồng bộ làm được việc đó (âm thầm, và là nguồn của N+1). Trong async, I/O phải nằm sau một <code>await</code>, mà <code>getattr</code> không thể <code>await</code>, nên SQLAlchemy ném <code>MissingGreenlet</code>. Với <code>lazy="raise"</code> thì lỗi là <code>InvalidRequestError</code>, và Pydantic gói nó thành <code>get_attribute_error</code>. Cách sửa: nạp trước bằng <code>selectinload</code> trong repository.</p>
+</details>
+<p><strong>2.</strong> Một dependency session dùng scope mặc định <code>"request"</code> và commit sau <code>yield</code>. Rủi ro là gì?</p>
+<details>
+<summary>Đáp án</summary>
+<p>Phần sau <code>yield</code> của scope <code>"request"</code> chạy <strong>sau khi</strong> response đã gửi. Client có thể nhận <code>201</code> trước khi <code>COMMIT</code> chạy. Nếu commit thất bại (deadlock, ràng buộc trì hoãn, mất kết nối) thì client tin rằng hóa đơn đã tồn tại trong khi không phải. Lỗi lúc này cũng không thể biến thành response lỗi được nữa. Dùng <code>scope="function"</code> để commit xong rồi mới gửi response.</p>
+</details>
+<p><strong>3.</strong> <code>invoice-api</code> chạy 500 req/s, mỗi transaction giữ kết nối 6,6 ms. Cần bao nhiêu kết nối? Nếu một đồng nghiệp đưa lệnh gọi API thuế (200 ms) vào trong transaction thì sao?</p>
+<details>
+<summary>Đáp án</summary>
+<p><span class="arithmatex">\(a = 500 \times 0{,}0066 = 3{,}3\)</span> erlang. Theo Erlang C, 8 kết nối cho <span class="arithmatex">\(P_{\text{chờ}} \approx 2\%\)</span> và 10 kết nối cho ≈ 0,2%, vậy 8–10 là đủ. Khi đưa lời gọi 200 ms vào transaction, <span class="arithmatex">\(S \approx 0{,}207\)</span> s nên <span class="arithmatex">\(a \approx 103\)</span> erlang, cần hơn 100 kết nối. Con số đó vượt xa mức tối ưu của DB (~2 × core), và database sẽ chậm cho mọi người. Đúng ra phải gọi API thuế <strong>ngoài</strong> transaction (hoặc đẩy qua outbox).</p>
+</details>
+<p><strong>4.</strong> Trong thí nghiệm pool, tăng từ 8 lên 64 kết nối thì thông lượng giảm nhẹ nhưng latency request gần như không đổi. Giải thích.</p>
+<details>
+<summary>Đáp án</summary>
+<p>Với 64 client và mọi cấu hình pool, tổng số request trong hệ thống là như nhau (closed-loop). Theo Little, <span class="arithmatex">\(W = N/X\)</span>, và thông lượng gần như không đổi nên latency gần như không đổi. Thứ thay đổi là <strong>vị trí của hàng đợi</strong>. Pool 8 thì request chờ trong pool phía app, còn truy vấn chạy nhanh (37 ms trong DB). Pool 64 thì request không chờ pool, nhưng 64 truy vấn tranh 4 core, mỗi truy vấn mất 284 ms. Thông lượng giảm nhẹ vì chi phí chuyển ngữ cảnh và tranh chấp. Ngoài ra, truy vấn chạy lâu hơn thì giữ khóa lâu hơn, và đó là chi phí ẩn.</p>
+</details>
+<p><strong>5.</strong> Vì sao <code>SELECT max(number)+1</code> cho ra số trùng? Đổi sang <code>SERIALIZABLE</code> có sửa được không?</p>
+<details>
+<summary>Đáp án</summary>
+<p>Dưới READ COMMITTED, mỗi câu lệnh thấy snapshot tại thời điểm nó bắt đầu. 32 transaction cùng đọc <code>max</code> khi chưa ai commit, nên cùng tính ra một giá trị. <code>SERIALIZABLE</code> (SSI của Postgres) sẽ phát hiện xung đột đọc-ghi và <strong>hủy</strong> các transaction vi phạm với lỗi serialization failure. Dữ liệu khi đó đúng, nhưng app phải retry, và dưới tải cao tỉ lệ retry rất lớn. Bộ đếm có khóa hàng xếp hàng các transaction một cách tự nhiên, không phát sinh retry.</p>
+</details>
+<p><strong>6.</strong> Sequence của Postgres không trùng số. Tại sao không dùng nó cho số hóa đơn?</p>
+<details>
+<summary>Đáp án</summary>
+<p><code>nextval()</code> không transactional: số đã cấp không được trả lại khi rollback. Thí nghiệm có 5% rollback và tạo ra 19 khoảng trống. Pháp luật yêu cầu số hóa đơn liên tục, nên khoảng trống là vi phạm. Sequence phù hợp cho khóa chính, nơi khoảng trống vô hại.</p>
+</details>
+<p><strong>7.</strong> Thiết kế idempotency "SELECT rồi INSERT, có PRIMARY KEY" cho đúng một hóa đơn. Vì sao vẫn không chấp nhận được?</p>
+<details>
+<summary>Đáp án</summary>
+<p>Các request trùng đến đồng thời đều đi qua <code>SELECT</code>, đều xử lý, rồi bị ràng buộc unique chặn ở <code>INSERT</code> cuối. Transaction của chúng rollback và client nhận <strong>500</strong> (39/50 trong thí nghiệm) cho một request hợp lệ. Client sẽ retry, log ngập lỗi giả, và tài nguyên bị lãng phí cho việc xử lý rồi vứt bỏ. Giành khóa <strong>trước</strong> bằng <code>ON CONFLICT DO NOTHING</code> khiến bản sao chờ bản gốc commit rồi phát lại response đã lưu.</p>
+</details>
+<p><strong>8.</strong> Vì sao nên băm <code>body.model_dump_json()</code> thay vì bytes thô của request khi kiểm tra "cùng khóa, khác payload"?</p>
+<details>
+<summary>Đáp án</summary>
+<p>Hai request có cùng ngữ nghĩa có thể khác nhau ở bytes: thứ tự khóa JSON, khoảng trắng, <code>1</code> so với <code>1.0</code>, chuỗi số so với số (sau coercion). Model đã validate là <strong>dạng chuẩn hóa</strong>. <code>model_dump_json()</code> xuất các trường theo thứ tự khai báo và giá trị đã ép kiểu, nên hash phản ánh ngữ nghĩa thay vì cách client định dạng JSON. Thí nghiệm: đổi thứ tự khóa vẫn được phát lại, đổi số tiền thì nhận 422.</p>
+</details>
+<p><strong>9.</strong> RLS đã bật, nhưng test cho thấy một tenant vẫn đọc được hóa đơn của tenant khác. Liệt kê các nguyên nhân có thể.</p>
+<details>
+<summary>Đáp án</summary>
+<p>(1) App kết nối bằng <strong>chủ bảng</strong> mà chưa bật <code>FORCE ROW LEVEL SECURITY</code>, hoặc bằng superuser / role có <code>BYPASSRLS</code>. (2) Tenant được đặt bằng <code>SET</code> cấp session, rồi một request khác dùng lại kết nối từ pool mà không đặt lại (<code>d4leak</code>). (3) Policy chỉ có <code>USING</code> cho <code>SELECT</code>, còn đường ghi lại không có <code>WITH CHECK</code>, nên dữ liệu bị ghi sai tenant từ trước. (4) Truy vấn đi qua một view hoặc hàm <code>SECURITY DEFINER</code> chạy với quyền của chủ sở hữu.</p>
+</details>
+<p><strong>10.</strong> Thêm một cột nullable chỉ tốn vài mili giây. Vì sao migration đó vẫn làm API timeout?</p>
+<details>
+<summary>Đáp án</summary>
+<p><code>ALTER TABLE</code> cần khóa <code>ACCESS EXCLUSIVE</code>. Nếu có transaction dài đang giữ <code>ACCESS SHARE</code> (báo cáo, transaction bị bỏ quên ở trạng thái idle in transaction), DDL phải chờ. Khóa trong Postgres cấp theo hàng đợi, nên mọi <code>SELECT</code> đến sau phải đứng sau DDL đang chờ, và API bị chặn suốt thời gian đó (tới 1,7 s trong <code>d6</code>). Đặt <code>lock_timeout</code> để DDL tự hủy và thử lại, đồng thời đặt <code>idle_in_transaction_session_timeout</code> để dọn các transaction bị bỏ quên.</p>
+</details>
+<p><strong>11.</strong> Outbox cho at-least-once. Kể hai tình huống sinh trùng sự kiện và cách người tiêu thụ xử lý.</p>
+<details>
+<summary>Đáp án</summary>
+<p>(1) Relay gửi lên broker thành công rồi chết trước khi <code>UPDATE published_at</code> commit. Khi khởi động lại, nó gửi lại sự kiện đó. (2) Broker nhận sự kiện nhưng ack bị mất, nên relay timeout và gửi lại. Người tiêu thụ lưu <code>event_id</code> đã xử lý trong cùng transaction với hiệu ứng của mình (một bảng có khóa chính <code>event_id</code>, dùng <code>INSERT … ON CONFLICT DO NOTHING</code>), y như idempotency key phía API.</p>
+</details>
+<p><strong>12.</strong> Khi nào bạn chọn DB riêng mỗi tenant thay vì bảng chung + RLS?</p>
+<details>
+<summary>Đáp án</summary>
+<p>Khi số tenant ít và mỗi tenant lớn, khi có yêu cầu pháp lý hoặc hợp đồng về cô lập vật lý hay vị trí dữ liệu, khi cần sao lưu và khôi phục <strong>riêng từng tenant</strong>, hoặc khi một tenant gây tải quá lớn ("noisy neighbor") cần tách hẳn. Cái giá là migration và vận hành nhân theo số tenant. Với 3.000 tenant nhỏ của <code>invoice-api</code>, bảng chung + RLS hợp lý hơn. Có thể kết hợp: tenant cực lớn được chuyển sang DB riêng (mô hình lai).</p>
+</details>
+<h2 id="bai-tap-thuc-hanh">Bài tập thực hành<a class="headerlink" href="#bai-tap-thuc-hanh" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Đếm truy vấn trong test.</strong> Viết fixture pytest gắn listener <code>before_cursor_execute</code> và assert <code>GET /v1/invoices?limit=50</code> phát ≤ 3 truy vấn. Cố ý bỏ <code>selectinload</code> để thấy test đỏ.</li>
+<li><strong>Chạy lại thí nghiệm pool trên máy bạn.</strong> Khởi động Postgres (Docker: <code>docker run -e POSTGRES_HOST_AUTH_METHOD=trust -p 5432:5432 postgres:16</code>), đặt <code>PG_DSN</code>, chạy <code>python scripts/bench/bench_db.py --only d5</code>. Điểm đỉnh có rơi vào 2 × số core của máy bạn không?</li>
+<li><strong>Idempotency kiểu 409.</strong> Cài biến thể ở mục 5.4: giành khóa trong transaction riêng với <code>status='processing'</code>, bản sao nhận <code>409</code> + <code>Retry-After</code>. Viết test 50 request đồng thời và so số kết nối bị giữ với thiết kế trong bài.</li>
+<li><strong>RLS cho đường ghi.</strong> Thêm <code>WITH CHECK (tenant_id = current_setting('app.tenant_id')::int)</code> vào policy. Viết test chứng minh tenant 1 không thể <code>INSERT</code> hóa đơn mang <code>tenant_id = 2</code>.</li>
+</ol>
+<h2 id="tai-lieu-tham-khao">Tài liệu tham khảo<a class="headerlink" href="#tai-lieu-tham-khao" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Junwen Yang, Cong Yan, Pranav Subramaniam, Shan Lu, Alvin Cheung. <em>How not to structure your database-backed web applications: a study of performance bugs in the wild</em>. <strong>ICSE 2018</strong>. <a href="https://par.nsf.gov/servlets/purl/10067547">PDF (NSF PAR)</a></li>
+<li>Tse-Hsun Chen, Weiyi Shang, Zhen Ming Jiang, Ahmed E. Hassan, Mohamed Nasser, Parminder Flora. <em>Detecting performance anti-patterns for applications developed using object-relational mapping</em>. <strong>ICSE 2014</strong>.</li>
+<li>John D. C. Little. <em>A Proof for the Queuing Formula: L = λW</em>. Operations Research 9(3), 1961.</li>
+<li>Brett Wooldridge. <em>About Pool Sizing</em> — HikariCP wiki. <a href="https://github.com/brettwooldridge/HikariCP/wiki/About-Pool-Sizing">github.com/brettwooldridge/HikariCP/wiki/About-Pool-Sizing</a></li>
+<li>PostgreSQL 16 Documentation: <a href="https://www.postgresql.org/docs/16/ddl-rowsecurity.html">Row Security Policies</a>, <a href="https://www.postgresql.org/docs/16/explicit-locking.html">Explicit Locking</a>, <a href="https://www.postgresql.org/docs/16/sql-insert.html">INSERT … ON CONFLICT</a>, <a href="https://www.postgresql.org/docs/16/functions-sequence.html">Sequence functions</a>, <a href="https://www.postgresql.org/docs/16/transaction-iso.html">Transaction isolation</a>.</li>
+<li>SQLAlchemy 2.1 Documentation: <a href="https://docs.sqlalchemy.org/en/21/orm/extensions/asyncio.html">Asynchronous I/O (asyncio)</a>, <a href="https://docs.sqlalchemy.org/en/21/orm/queryguide/relationships.html">Relationship loading techniques</a>, <a href="https://docs.sqlalchemy.org/en/21/core/pooling.html">Connection pooling</a>.</li>
+<li>Alembic Documentation. <a href="https://alembic.sqlalchemy.org/">alembic.sqlalchemy.org</a></li>
+<li>Danilo Sato. <em>Parallel Change</em>. martinfowler.com, 2014. <a href="https://martinfowler.com/bliki/ParallelChange.html">martinfowler.com/bliki/ParallelChange.html</a></li>
+<li>Chris Richardson. <em>Pattern: Transactional outbox</em>. <a href="https://microservices.io/patterns/data/transactional-outbox.html">microservices.io/patterns/data/transactional-outbox.html</a></li>
+<li>J. Jena, S. Dalal. <em>The Idempotency-Key HTTP Header Field</em>. IETF httpapi WG, draft-ietf-httpapi-idempotency-key-header-07, 10/2025 (Internet-Draft, đã hết hạn). <a href="https://datatracker.ietf.org/doc/draft-ietf-httpapi-idempotency-key-header/">datatracker.ietf.org/doc/draft-ietf-httpapi-idempotency-key-header/</a></li>
+<li>Brandur Leach. <em>Implementing Stripe-like Idempotency Keys in Postgres</em>, 2017. <a href="https://brandur.org/idempotency-keys">brandur.org/idempotency-keys</a></li>
+<li>Stripe API Reference: <a href="https://docs.stripe.com/api/idempotent_requests">Idempotent requests</a>.</li>
+<li>Nghị định 123/2020/NĐ-CP quy định về hóa đơn, chứng từ (Điều 10 — nội dung hóa đơn, số hóa đơn).</li>
+<li>PgBouncer: <a href="https://www.pgbouncer.org/config.html">Configuration — max_prepared_statements</a>.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Trở lại mục lục
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Chân trang" >
+        
+          
+          <a href="../09-async-dong-thoi-hieu-nang/" class="md-footer__link md-footer__link--prev" aria-label="Trước: 09 · Async, đồng thời &amp; hiệu năng">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Trước
+              </span>
+              <div class="md-ellipsis">
+                09 · Async, đồng thời & hiệu năng
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../11-bao-mat-api/" class="md-footer__link md-footer__link--next" aria-label="Sau: 11 · Bảo mật API">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Sau
+              </span>
+              <div class="md-ellipsis">
+                11 · Bảo mật API
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Tài liệu học tập — Pydantic & FastAPI Masterclass · 2026
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/HieNguyen08/learn-pydantic-and-fastapi" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.top", "navigation.footer", "navigation.indexes", "navigation.tracking", "toc.follow", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "content.action.edit"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u0110\u00e3 sao ch\u00e9p", "clipboard.copy": "Sao ch\u00e9p v\u00e0o b\u1ed9 nh\u1edb t\u1ea1m", "search.result.more.one": "1 t\u1eeb kh\u00e1c trong trang", "search.result.more.other": "# t\u1eeb kh\u00e1c trong trang", "search.result.none": "Kh\u00f4ng t\u00ecm th\u1ea5y t\u00e0i li\u1ec7u li\u00ean quan", "search.result.one": "1 t\u00e0i li\u1ec7u li\u00ean quan", "search.result.other": "# t\u00e0i li\u1ec7u li\u00ean quan", "search.result.placeholder": "Nh\u1eadp \u0111\u1ec3 b\u1eaft \u0111\u1ea7u t\u00ecm ki\u1ebfm", "search.result.term.missing": "Kh\u00f4ng", "select.version": "Ch\u1ecdn phi\u00ean b\u1ea3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

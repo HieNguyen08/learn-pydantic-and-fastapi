@@ -1,0 +1,2611 @@
+
+<!doctype html>
+<html lang="vi" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Pydantic & FastAPI từ nền tảng đến hệ thống production — xoay quanh API hóa đơn điện tử và AI gateway của Mekong Cloud">
+      
+      
+        <meta name="author" content="HieNguyen08">
+      
+      
+        <link rel="canonical" href="https://hienguyen08.github.io/learn-pydantic-and-fastapi/00-tong-quan-va-bai-toan/">
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../01-kieu-du-lieu-va-validation/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>00 · Tổng quan & bài toán - Pydantic & FastAPI Masterclass</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Be+Vietnam+Pro:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Be Vietnam Pro";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="deep-orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#module-00-tong-quan-bai-toan" class="md-skip">
+          Bỏ qua
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Đầu trang">
+    <a href=".." title="Pydantic &amp; FastAPI Masterclass" class="md-header__button md-logo" aria-label="Pydantic & FastAPI Masterclass" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 7H5a2 2 0 0 0-2 2v8h2v-4h2v4h2V9a2 2 0 0 0-2-2m0 4H5V9h2m7-2h-4v10h2v-4h2a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2m0 4h-2V9h2m6 0v6h1v2h-4v-2h1V9h-1V7h4v2Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Pydantic & FastAPI Masterclass
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              00 · Tổng quan & bài toán
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="deep-orange"  aria-label="Chuyển sang nền tối"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Chuyển sang nền tối" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="deep-orange"  aria-label="Chuyển sang nền sáng"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Chuyển sang nền sáng" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Tìm kiếm" placeholder="Tìm kiếm" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Tìm kiếm">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Xoá" aria-label="Xoá" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/HieNguyen08/learn-pydantic-and-fastapi" title="Xem mã nguồn" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    HieNguyen08/learn-pydantic-and-fastapi
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Trang chủ
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Phần I · Nền tảng
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../03-pydantic-v2-kien-truc/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Phần II · Pydantic
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../07-fastapi-vong-doi-request/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Phần III · FastAPI
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../12-testing-va-chat-luong/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Phần IV · Chất lượng & vận hành
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../15-pydantic-cho-llm/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Phần V · Chuyên đề
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../labs/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Thực hành
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Thanh điều hướng" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Pydantic &amp; FastAPI Masterclass" class="md-nav__button md-logo" aria-label="Pydantic & FastAPI Masterclass" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 7H5a2 2 0 0 0-2 2v8h2v-4h2v4h2V9a2 2 0 0 0-2-2m0 4H5V9h2m7-2h-4v10h2v-4h2a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2m0 4h-2V9h2m6 0v6h1v2h-4v-2h1V9h-1V7h4v2Z"/></svg>
+
+    </a>
+    Pydantic & FastAPI Masterclass
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/HieNguyen08/learn-pydantic-and-fastapi" title="Xem mã nguồn" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    HieNguyen08/learn-pydantic-and-fastapi
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trang chủ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phần I · Nền tảng
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phần I · Nền tảng
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    00 · Tổng quan & bài toán
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    00 · Tổng quan & bài toán
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Mục lục">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Mục lục
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#muc-tieu-hoc-tap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mục tiêu học tập
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-van-e-du-lieu-o-ranh-gioi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Vấn đề: dữ liệu ở ranh giới
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Vấn đề: dữ liệu ở ranh giới">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-ranh-gioi-tin-cay" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1. Ranh giới tin cậy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-case-thuc-te-khi-gia-inh-ve-hinh-dang-du-lieu-sai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2. Case thực tế: khi giả định về hình dạng dữ liệu sai
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-pydantic-va-fastapi-trong-mot-service-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Pydantic và FastAPI trong một service Python
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Pydantic và FastAPI trong một service Python">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-vai-tro-cua-tung-thanh-phan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1. Vai trò của từng thành phần
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-lich-su-ngan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. Lịch sử ngắn
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-so-lieu-he-sinh-thai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3. Số liệu hệ sinh thái
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-case-study-mekong-cloud" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Case study: Mekong Cloud
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Case study: Mekong Cloud">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-dich-vu-a-invoice-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1. Dịch vụ A — invoice-api
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-uoc-luong-tai-bang-chuoi-nhan-fermi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2. Ước lượng tải bằng chuỗi nhân Fermi
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-dich-vu-b-ai-gateway" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3. Dịch vụ B — ai-gateway
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-vi-sao-chon-hai-dich-vu-trai-nguoc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4. Vì sao chọn hai dịch vụ trái ngược
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-ban-o-kien-thuc-va-lo-trinh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Bản đồ kiến thức và lộ trình
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#loi-thuong-gap-cach-xu-ly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lỗi thường gặp &amp; cách xử lý
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tom-tat-cheat-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tóm tắt (cheat-sheet)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cau-hoi-tu-kiem-tra-phong-van" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Câu hỏi tự kiểm tra / phỏng vấn
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bai-tap-thuc-hanh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bài tập thực hành
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tai-lieu-tham-khao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tài liệu tham khảo
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-kieu-du-lieu-va-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01 · Kiểu dữ liệu & validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-http-rest-asgi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02 · HTTP, REST & ASGI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phần II · Pydantic
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phần II · Pydantic
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-pydantic-v2-kien-truc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03 · Pydantic v2: kiến trúc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-validators-kieu-tuy-bien-union/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04 · Validator, kiểu tùy biến & union
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-serialization-json-schema-settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05 · Serialization, JSON Schema & settings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-hieu-nang-pydantic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06 · Hiệu năng Pydantic
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phần III · FastAPI
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phần III · FastAPI
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-fastapi-vong-doi-request/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07 · Vòng đời request
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-dependency-injection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08 · Dependency injection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09-async-dong-thoi-hieu-nang/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09 · Async, đồng thời & hiệu năng
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10-database-va-persistence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10 · Database & persistence
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11-bao-mat-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11 · Bảo mật API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phần IV · Chất lượng & vận hành
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phần IV · Chất lượng & vận hành
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12-testing-va-chat-luong/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12 · Testing & chất lượng
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../13-production-va-observability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13 · Production & observability
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../14-capstone-thiet-ke-he-thong/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14 · Capstone: thiết kế hệ thống
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phần V · Chuyên đề
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phần V · Chuyên đề
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../15-pydantic-cho-llm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15 · Pydantic cho LLM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../labs/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Thực hành
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Thực hành
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab01_invoice_models/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 01 · Mô hình hóa hóa đơn
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab02_benchmark_validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 02 · Benchmark validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab03_invoice_api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 03 · invoice-api hoàn chỉnh
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab04_concurrency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 04 · Đo đồng thời
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab05_property_fuzz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 05 · Property-based & fuzz
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab06_llm_structured_sse/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 06 · Structured output & SSE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Mục lục">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Mục lục
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#muc-tieu-hoc-tap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mục tiêu học tập
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-van-e-du-lieu-o-ranh-gioi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Vấn đề: dữ liệu ở ranh giới
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Vấn đề: dữ liệu ở ranh giới">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-ranh-gioi-tin-cay" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1. Ranh giới tin cậy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-case-thuc-te-khi-gia-inh-ve-hinh-dang-du-lieu-sai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2. Case thực tế: khi giả định về hình dạng dữ liệu sai
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-pydantic-va-fastapi-trong-mot-service-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Pydantic và FastAPI trong một service Python
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Pydantic và FastAPI trong một service Python">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-vai-tro-cua-tung-thanh-phan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1. Vai trò của từng thành phần
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-lich-su-ngan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. Lịch sử ngắn
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-so-lieu-he-sinh-thai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3. Số liệu hệ sinh thái
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-case-study-mekong-cloud" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Case study: Mekong Cloud
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Case study: Mekong Cloud">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-dich-vu-a-invoice-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1. Dịch vụ A — invoice-api
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-uoc-luong-tai-bang-chuoi-nhan-fermi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2. Ước lượng tải bằng chuỗi nhân Fermi
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-dich-vu-b-ai-gateway" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3. Dịch vụ B — ai-gateway
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-vi-sao-chon-hai-dich-vu-trai-nguoc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4. Vì sao chọn hai dịch vụ trái ngược
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-ban-o-kien-thuc-va-lo-trinh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Bản đồ kiến thức và lộ trình
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#loi-thuong-gap-cach-xu-ly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lỗi thường gặp &amp; cách xử lý
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tom-tat-cheat-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tóm tắt (cheat-sheet)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cau-hoi-tu-kiem-tra-phong-van" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Câu hỏi tự kiểm tra / phỏng vấn
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bai-tap-thuc-hanh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bài tập thực hành
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tai-lieu-tham-khao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tài liệu tham khảo
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/HieNguyen08/learn-pydantic-and-fastapi/edit/main/docs/00-tong-quan-va-bai-toan.md" title="Chỉnh sửa" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="module-00-tong-quan-bai-toan">Module 00 — Tổng quan &amp; bài toán<a class="headerlink" href="#module-00-tong-quan-bai-toan" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>Thời lượng: ~20 phút · Mức độ: Cơ bản · Tiên quyết: không</p>
+</blockquote>
+<p>Hầu hết sự cố nghiêm trọng của phần mềm không nằm ở thuật toán khó mà nằm ở <strong>ranh giới</strong>: chỗ dữ liệu đi từ hệ thống này sang hệ thống khác và một bên đã ngầm giả định điều gì đó về hình dạng của dữ liệu. Khóa học này dạy hai công cụ Python được thiết kế chính xác cho chỗ đó — <strong>Pydantic</strong> (biến dữ liệu thô thành đối tượng có kiểu, đã kiểm tra) và <strong>FastAPI</strong> (biến hàm Python có kiểu thành một HTTP API đầy đủ) — nhưng đi xa hơn mức "cách dùng": vì sao chúng được thiết kế như vậy, bên trong chạy ra sao, tốn bao nhiêu, và đặt chúng vào một hệ thống thật như thế nào.</p>
+<h2 id="muc-tieu-hoc-tap">Mục tiêu học tập<a class="headerlink" href="#muc-tieu-hoc-tap" title="Permanent link">&para;</a></h2>
+<p>Sau module này, bạn có thể:</p>
+<ol>
+<li>Giải thích vì sao <strong>dữ liệu ở ranh giới hệ thống</strong> là nguồn lỗi lớn, bằng ít nhất hai sự cố công khai có tài liệu.</li>
+<li>Mô tả vai trò của Pydantic và FastAPI trong một service Python, và vị trí của chúng trong hệ sinh thái (số liệu sử dụng, dự án tiêu biểu).</li>
+<li>Trình bày hai dịch vụ của case study Mekong Cloud và ước lượng tải của chúng bằng chuỗi nhân Fermi.</li>
+<li>Chỉ ra vì sao hai dịch vụ đòi hỏi <strong>quyết định thiết kế khác nhau</strong> (async/sync, số worker, timeout).</li>
+<li>Chọn lộ trình học phù hợp với mục tiêu của mình trong 16 module và 6 lab.</li>
+</ol>
+<hr />
+<h2 id="1-van-e-du-lieu-o-ranh-gioi">1. Vấn đề: dữ liệu ở ranh giới<a class="headerlink" href="#1-van-e-du-lieu-o-ranh-gioi" title="Permanent link">&para;</a></h2>
+<h3 id="11-ranh-gioi-tin-cay">1.1. Ranh giới tin cậy<a class="headerlink" href="#11-ranh-gioi-tin-cay" title="Permanent link">&para;</a></h3>
+<p>Một service web nhận dữ liệu từ những nguồn <strong>mình không kiểm soát</strong>: client HTTP, webhook của bên thứ ba, hàng đợi tin nhắn, file người dùng tải lên, và ngày nay là cả <strong>output của LLM</strong>. Mỗi nguồn là một <em>ranh giới tin cậy</em> (trust boundary): bên trong, code của bạn giả định dữ liệu có hình dạng nhất định; bên ngoài, không ai hứa điều đó.</p>
+<p>Có hai chiến lược xử lý dữ liệu qua ranh giới:</p>
+<ul>
+<li><strong>Kiểm tra rải rác (shotgun validation)</strong>: nhận <code>dict</code>, đi tới đâu kiểm tra tới đó (<code>if "total" in d and isinstance(d["total"], int) ...</code>). Code nghiệp vụ lẫn với code kiểm tra; một nhánh quên kiểm tra là đủ để dữ liệu sai lọt vào sâu bên trong.</li>
+<li><strong>Parse một lần ở cửa</strong>: ngay tại ranh giới, biến dữ liệu thô thành một <strong>kiểu</strong> chặt chẽ (<code>Invoice</code>), hoặc từ chối toàn bộ. Sau cửa, code chỉ làm việc với <code>Invoice</code> — kiểu dữ liệu chính là bằng chứng rằng dữ liệu đã được kiểm tra.</li>
+</ul>
+<p>Chiến lược thứ hai có tên trong cộng đồng lập trình hàm là <strong>"parse, don't validate"</strong> và có nền tảng lý thuyết trong an ninh phần mềm (<strong>LangSec</strong>); Module 01 phân tích kỹ. Pydantic là một hiện thực của chiến lược này cho Python; FastAPI đặt Pydantic đúng vào mọi cửa của một HTTP API.</p>
+<h3 id="12-case-thuc-te-khi-gia-inh-ve-hinh-dang-du-lieu-sai">1.2. Case thực tế: khi giả định về hình dạng dữ liệu sai<a class="headerlink" href="#12-case-thuc-te-khi-gia-inh-ve-hinh-dang-du-lieu-sai" title="Permanent link">&para;</a></h3>
+<p><strong>CrowdStrike, 19/07/2024.</strong> Bản phân tích nguyên nhân gốc của CrowdStrike mô tả một <em>template type</em> trong cảm biến Falcon được định nghĩa với <strong>21 trường đầu vào</strong>, trong khi code tích hợp chỉ cung cấp <strong>20 giá trị</strong>. Bộ kiểm tra nội dung (Content Validator) kiểm tra theo 21 trường, còn bộ thông dịch (Content Interpreter) nhận 20 — một bản cập nhật nội dung dùng trường thứ 21 đã gây đọc ngoài biên bộ nhớ, làm sập khoảng 8,5 triệu máy Windows. Các biện pháp khắc phục được công bố gồm: <strong>kiểm tra số trường ngay lúc biên dịch</strong>, <strong>kiểm tra biên mảng lúc chạy</strong>, sửa lỗi logic của bộ kiểm tra, và triển khai theo giai đoạn. Bài học cho khóa này: <em>hai thành phần cùng "biết" về một định dạng dữ liệu nhưng mỗi bên giữ một bản mô tả riêng</em> — chính là thứ mà một schema dùng chung (một model Pydantic, một tài liệu OpenAPI) loại bỏ.</p>
+<p><strong>Cloudflare, 18/11/2025.</strong> Theo các bản phân tích sau sự cố, một thay đổi quyền trên cụm ClickHouse làm truy vấn sinh file <em>feature</em> của hệ thống Bot Management trả về dòng trùng lặp, làm file <strong>to gấp đôi</strong>, vượt giới hạn cứng trong proxy lõi; proxy gặp dữ liệu vượt giới hạn và lỗi, gây lỗi 5xx diện rộng trong nhiều giờ. Bài học: dữ liệu <em>nội bộ</em>, <em>do chính mình sinh ra</em> cũng phải được kiểm tra ở ranh giới giữa hai thành phần, và phản ứng với dữ liệu sai phải là <strong>từ chối có kiểm soát</strong> (giữ cấu hình cũ, báo động), không phải sập.</p>
+<p>Hai sự cố không liên quan gì đến Python, nhưng cùng một hình mẫu: <strong>ranh giới không có hợp đồng dữ liệu được kiểm tra</strong>. Trong một service Python, hợp đồng đó chính là model Pydantic, và nơi thực thi nó là lớp FastAPI.</p>
+<div class="admonition note">
+<p class="admonition-title">Mars Climate Orbiter (1999) — ví dụ kinh điển</p>
+<p>Tàu thăm dò mất tích vì một hệ thống mặt đất xuất dữ liệu xung lực theo đơn vị Anh (pound-force·giây) trong khi phần mềm điều hướng chờ đơn vị SI (newton·giây). Không có lỗi "cú pháp" nào: dữ liệu đúng kiểu <code>float</code>, sai <strong>ý nghĩa</strong>. Kiểu dữ liệu giàu ngữ nghĩa (<code>Annotated[float, "N·s"]</code>, kiểu tiền <code>VND</code> thay vì <code>int</code> trần) là một cách đưa ý nghĩa vào hợp đồng — Module 04 làm điều này cho tiền và mã số thuế.</p>
+</div>
+<!-- placeholder-trust -->
+
+<!-- fig:trust-boundaries -->
+<figure>
+  <img alt="Ranh giới tin cậy: dữ liệu từ POS, webhook, LLM hay file cấu hình đều đi qua một cổng parse; dữ liệu sai bị từ chối tại cổng thay vì làm sập phần bên trong" loading="lazy" src="../assets/figures/00/trust-boundaries.light.svg#only-light" />
+  <img alt="Ranh giới tin cậy: dữ liệu từ POS, webhook, LLM hay file cấu hình đều đi qua một cổng parse; dữ liệu sai bị từ chối tại cổng thay vì làm sập phần bên trong" loading="lazy" src="../assets/figures/00/trust-boundaries.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 0.1 — Ranh giới tin cậy: dữ liệu từ POS, webhook, LLM hay file cấu hình đều đi qua một cổng parse; dữ liệu sai bị từ chối tại cổng thay vì làm sập phần bên trong.</figcaption>
+</figure>
+<!-- /fig -->
+
+<hr />
+<h2 id="2-pydantic-va-fastapi-trong-mot-service-python">2. Pydantic và FastAPI trong một service Python<a class="headerlink" href="#2-pydantic-va-fastapi-trong-mot-service-python" title="Permanent link">&para;</a></h2>
+<h3 id="21-vai-tro-cua-tung-thanh-phan">2.1. Vai trò của từng thành phần<a class="headerlink" href="#21-vai-tro-cua-tung-thanh-phan" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>flowchart LR
+    C[Client / POS / webhook] --&gt;|bytes HTTP| U[Uvicorn&lt;br/&gt;server ASGI]
+    U --&gt;|scope, receive, send| S[Starlette&lt;br/&gt;routing, middleware]
+    S --&gt; F[FastAPI&lt;br/&gt;giải dependency, gọi Pydantic]
+    F --&gt;|bytes JSON| P[Pydantic / pydantic-core&lt;br/&gt;parse + validate]
+    P --&gt;|Invoice đã kiểm tra| H[Hàm xử lý của bạn]
+    H --&gt;|object| F2[FastAPI&lt;br/&gt;response_model]
+    F2 --&gt;|serialize| P2[Pydantic&lt;br/&gt;model_dump_json]
+    P2 --&gt;|bytes| U</code></pre>
+<ul>
+<li><strong>Uvicorn</strong> là <em>server ASGI</em>: nhận kết nối TCP, phân tích HTTP, chuyển request thành lời gọi hàm theo chuẩn ASGI (Module 02).</li>
+<li><strong>Starlette</strong> là <em>framework ASGI</em> nhẹ: routing, middleware, request/response, WebSocket. FastAPI kế thừa Starlette.</li>
+<li><strong>FastAPI</strong> đọc <strong>chữ ký hàm</strong> (type hint, <code>Depends</code>, <code>Query</code>, <code>Body</code>…) để tự động: lấy tham số từ đúng chỗ trong request, gọi Pydantic để validate, tiêm dependency, lọc response, và sinh tài liệu <strong>OpenAPI</strong> (Module 07–08).</li>
+<li><strong>Pydantic</strong> biến dữ liệu thô thành object có kiểu và ngược lại; lõi viết bằng <strong>Rust</strong> (<code>pydantic-core</code>) nên phần nặng nhất chạy ngoài trình thông dịch Python (Module 03, 06).</li>
+</ul>
+<p>Điểm then chốt: trong FastAPI, <strong>một type hint làm bốn việc</strong> — tài liệu cho người đọc, gợi ý cho type checker tĩnh, quy tắc validate lúc chạy, và mô tả trong OpenAPI. Một nguồn sự thật, bốn nơi tiêu thụ. Đó là lý do hai thư viện này phổ biến nhanh: chúng loại bỏ việc viết cùng một hợp đồng bốn lần.</p>
+<h3 id="22-lich-su-ngan">2.2. Lịch sử ngắn<a class="headerlink" href="#22-lich-su-ngan" title="Permanent link">&para;</a></h3>
+<!-- placeholder-timeline -->
+
+<!-- fig:timeline -->
+<figure>
+  <img alt="Các mốc chính của type hint Python, Pydantic, Starlette và FastAPI (2014–10/2026)" loading="lazy" src="../assets/figures/00/timeline.light.svg#only-light" />
+  <img alt="Các mốc chính của type hint Python, Pydantic, Starlette và FastAPI (2014–10/2026)" loading="lazy" src="../assets/figures/00/timeline.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 0.2 — Các mốc chính của type hint Python, Pydantic, Starlette và FastAPI (2014–10/2026).</figcaption>
+</figure>
+<!-- /fig -->
+
+<p>Vài mốc đáng nhớ (chi tiết ở Module 01 và 03):</p>
+<ul>
+<li><strong>2014–2017</strong>: PEP 484 (type hint) và PEP 526 (annotation cho biến) biến type hint thành một phần chính thức của Python — nhưng <strong>không được kiểm tra lúc chạy</strong>. Pydantic (2017) khai thác chính các hint đó để validate lúc chạy.</li>
+<li><strong>2018</strong>: FastAPI ra đời, dựng trên Starlette + Pydantic.</li>
+<li><strong>06/2023</strong>: Pydantic v2 viết lại lõi bằng Rust; bài công bố của dự án báo cáo nhanh hơn v1 khoảng <strong>4–50 lần</strong>, điển hình ~17 lần cho một model nhiều kiểu trường phổ biến. Module 06 đo lại con số này trên payload hóa đơn của khóa.</li>
+<li><strong>10/2025</strong>: Python 3.14 — bản <em>free-threaded</em> (không GIL) được hỗ trợ chính thức (PEP 779), annotation được đánh giá trễ (PEP 649/749).</li>
+<li><strong>03/2026</strong>: Starlette 1.0 — bản ổn định đầu tiên sau gần tám năm.</li>
+<li><strong>10/2026</strong> (thời điểm viết khóa): Pydantic 2.14 (hỗ trợ Python 3.15, <code>TypeForm</code> theo PEP 747, ổn định sentinel <code>MISSING</code>), FastAPI 0.143 với SSE và JSONL tích hợp, telemetry OpenTelemetry tích hợp.</li>
+</ul>
+<h3 id="23-so-lieu-he-sinh-thai">2.3. Số liệu hệ sinh thái<a class="headerlink" href="#23-so-lieu-he-sinh-thai" title="Permanent link">&para;</a></h3>
+<!-- placeholder-ecosystem -->
+
+<!-- fig:ecosystem -->
+<figure>
+  <img alt="Trái: tỷ lệ dùng framework web trong Python Developers Survey (vạch chấm: năm trước)" loading="lazy" src="../assets/figures/00/ecosystem.light.svg#only-light" />
+  <img alt="Trái: tỷ lệ dùng framework web trong Python Developers Survey (vạch chấm: năm trước)" loading="lazy" src="../assets/figures/00/ecosystem.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 0.3 — Trái: tỷ lệ dùng framework web trong Python Developers Survey (vạch chấm: năm trước). Phải: lượt tải Pydantic theo hai nguồn với hai cách đếm khác nhau.</figcaption>
+</figure>
+<!-- /fig -->
+
+<ul>
+<li><strong>Pydantic</strong> là một trong những gói được tải nhiều nhất trên PyPI: blog của dự án (02/2026) nói khoảng <strong>550 triệu lượt tải/tháng</strong>; pepy.tech (có tính cả lượt tải từ CI) đếm hơn <strong>1 tỷ lượt trong 30 ngày</strong> tại thời điểm viết. Hai con số khác nhau vì cách đếm khác nhau — điều này chính là một bài học về đọc số liệu.</li>
+<li><strong>FastAPI</strong> theo khảo sát Python Developers Survey (PSF + JetBrains, công bố trong báo cáo <em>State of Python 2025</em>): <strong>38%</strong> người phát triển Python làm web dùng FastAPI, tăng <strong>9 điểm phần trăm</strong> so với năm trước, vượt Django (35%) và Flask (34%).</li>
+<li>Dự án tiêu biểu: <strong>SDK chính thức của OpenAI và Anthropic</strong> mô hình hóa request/response bằng Pydantic; server tương thích OpenAI của <strong>vLLM</strong> là một ứng dụng FastAPI; Netflix công bố mã nguồn <strong>Dispatch</strong> (quản lý sự cố) viết bằng FastAPI năm 2020; nhóm Ludwig của Uber dùng FastAPI để phục vụ dự đoán mô hình.</li>
+</ul>
+<p>Thông điệp cho người học: nếu bạn làm backend Python, hạ tầng AI, hay bất kỳ thứ gì nói chuyện với LLM, bạn sẽ đọc và viết model Pydantic hằng ngày. Hiểu sâu nó là một khoản đầu tư có lợi nhuận cao.</p>
+<hr />
+<h2 id="3-case-study-mekong-cloud">3. Case study: Mekong Cloud<a class="headerlink" href="#3-case-study-mekong-cloud" title="Permanent link">&para;</a></h2>
+<p>Mekong Cloud là doanh nghiệp SaaS B2B <strong>hư cấu</strong> làm phần mềm bán hàng, kho và hóa đơn điện tử, khách hàng ở Việt Nam, Nhật và quốc tế (cùng công ty trong RAG Masterclass). Mọi con số dưới đây là <strong>giả định để học</strong>.</p>
+<h3 id="31-dich-vu-a-invoice-api">3.1. Dịch vụ A — <code>invoice-api</code><a class="headerlink" href="#31-dich-vu-a-invoice-api" title="Permanent link">&para;</a></h3>
+<p>API công khai để máy POS và hệ thống ERP của khách hàng <strong>tạo và tra cứu hóa đơn điện tử</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Thông số</th>
+<th>Giá trị giả định</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Khách hàng</td>
+<td>3.000 doanh nghiệp (tenant), ~12.000 máy POS/ERP tích hợp</td>
+</tr>
+<tr>
+<td>Tải</td>
+<td>~1,8 triệu request/ngày: 60% <code>POST</code> tạo hóa đơn, 35% <code>GET</code> tra cứu, 5% khác</td>
+</tr>
+<tr>
+<td>Payload</td>
+<td>trung bình 12 dòng hàng, ~2–5 KB JSON; batch tối đa 500 hóa đơn/request</td>
+</tr>
+<tr>
+<td>SLO</td>
+<td>p99 ≤ 300 ms cho <code>POST /v1/invoices</code>; khả dụng 99,9%</td>
+</tr>
+<tr>
+<td>Quy tắc</td>
+<td>MST 10/13 số có chữ số kiểm tra; thuế suất ∈ {0, 5, 8, 10, KCT, KKKNT}; tiền VND nguyên; tổng phải khớp</td>
+</tr>
+<tr>
+<td>Rủi ro</td>
+<td>POS gửi lại khi mất mạng (trùng hóa đơn), lộ hóa đơn tenant khác, payload khổng lồ</td>
+</tr>
+</tbody>
+</table>
+<p>Một hóa đơn trông như sau (rút gọn):</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">"series"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1C26TMK"</span><span class="p">,</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nt">"number"</span><span class="p">:</span><span class="w"> </span><span class="mi">1024</span><span class="p">,</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="nt">"seller_tax_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0100233488"</span><span class="p">,</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="nt">"buyer"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Công ty TNHH Cà Phê Sông Hậu"</span><span class="p">,</span><span class="w"> </span><span class="nt">"tax_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0314409058"</span><span class="p">},</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">  </span><span class="nt">"issued_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-10-13T11:45:00+07:00"</span><span class="p">,</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">  </span><span class="nt">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"VND"</span><span class="p">,</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">  </span><span class="nt">"lines"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span><span class="p">{</span><span class="nt">"line_no"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nt">"sku"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SKU-10231"</span><span class="p">,</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Cà phê sữa đá"</span><span class="p">,</span><span class="w"> </span><span class="nt">"unit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ly"</span><span class="p">,</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">     </span><span class="nt">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="nt">"unit_price"</span><span class="p">:</span><span class="w"> </span><span class="mi">27500</span><span class="p">,</span><span class="w"> </span><span class="nt">"vat_rate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"8"</span><span class="p">,</span><span class="w"> </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">82500</span><span class="p">}</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">  </span><span class="p">],</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">  </span><span class="nt">"total_before_tax"</span><span class="p">:</span><span class="w"> </span><span class="mi">82500</span><span class="p">,</span><span class="w"> </span><span class="nt">"total_tax"</span><span class="p">:</span><span class="w"> </span><span class="mi">6600</span><span class="p">,</span><span class="w"> </span><span class="nt">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">89100</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>Mỗi trường là một câu hỏi cho khóa học: <code>seller_tax_code</code> cần kiểm tra chữ số cuối (Module 04, Lab 01); <code>vat_rate</code> là chuỗi chứ không phải số vì có giá trị <code>"KCT"</code> (Module 04 — union và literal); <code>issued_at</code> có múi giờ (Module 03 — lax/strict với datetime); ba trường tổng là <strong>bất biến liên trường</strong> (Module 04 — model validator); toàn bộ object phải được parse đủ nhanh để đạt 500 req/s (Module 06, 09).</p>
+<h3 id="32-uoc-luong-tai-bang-chuoi-nhan-fermi">3.2. Ước lượng tải bằng chuỗi nhân Fermi<a class="headerlink" href="#32-uoc-luong-tai-bang-chuoi-nhan-fermi" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[
+\lambda_{\text{TB giờ bán}} = \frac{0{,}85 \times 1{,}8 \times 10^6}{12 \times 3.600\ \text{s}} \approx 35\ \text{req/s}.
+\]</div>
+<p>Giờ cao điểm trưa/tối gấp ~4 lần → <strong>~140 req/s</strong>; ngày cuối tháng (doanh nghiệp xuất hóa đơn dồn) gấp thêm ~3 lần → <strong>~420 req/s</strong>. Cộng biên an toàn, <strong>thiết kế cho 500 req/s</strong>.</p>
+<!-- placeholder-fermi -->
+
+<!-- fig:fermi -->
+<figure>
+  <img alt="Chuỗi nhân Fermi cho invoice-api: từ 1,8 triệu request/ngày đến tải thiết kế 500 req/s (số giả định)" loading="lazy" src="../assets/figures/00/fermi.light.svg#only-light" />
+  <img alt="Chuỗi nhân Fermi cho invoice-api: từ 1,8 triệu request/ngày đến tải thiết kế 500 req/s (số giả định)" loading="lazy" src="../assets/figures/00/fermi.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 0.4 — Chuỗi nhân Fermi cho invoice-api: từ 1,8 triệu request/ngày đến tải thiết kế 500 req/s (số giả định).</figcaption>
+</figure>
+<!-- /fig -->
+
+<p>500 req/s nghe nhỏ so với các con số "hàng trăm nghìn request/giây" trong benchmark framework, nhưng mỗi request ở đây phải parse ~5 KB JSON lồng nhau, kiểm tra hàng chục quy tắc, ghi database trong một transaction và ghi audit log. Module 06 đo chi phí validation (cỡ chục đến vài trăm micro-giây), Module 09 tính số worker cần thiết bằng định luật Little, Module 10 tính kích thước pool kết nối database.</p>
+<!-- placeholder-load-profile -->
+
+<!-- fig:load-profile -->
+<figure>
+  <img alt="Hồ sơ tải theo giờ dựng từ các giả định của case: đỉnh trưa ~140 req/s, ngày cuối tháng ~420 req/s" loading="lazy" src="../assets/figures/00/load-profile.light.svg#only-light" />
+  <img alt="Hồ sơ tải theo giờ dựng từ các giả định của case: đỉnh trưa ~140 req/s, ngày cuối tháng ~420 req/s" loading="lazy" src="../assets/figures/00/load-profile.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 0.5 — Hồ sơ tải theo giờ dựng từ các giả định của case: đỉnh trưa ~140 req/s, ngày cuối tháng ~420 req/s.</figcaption>
+</figure>
+<!-- /fig -->
+
+<h3 id="33-dich-vu-b-ai-gateway">3.3. Dịch vụ B — <code>ai-gateway</code><a class="headerlink" href="#33-dich-vu-b-ai-gateway" title="Permanent link">&para;</a></h3>
+<p>Backend của hệ thống AI tư vấn khách hàng qua Zendesk (bài toán của RAG Masterclass):</p>
+<table>
+<thead>
+<tr>
+<th>Thông số</th>
+<th>Giá trị giả định</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tải</td>
+<td>~1.500 ticket/ngày → ~3.000 lượt chạy pipeline/ngày, đỉnh ~0,4 lượt/s</td>
+</tr>
+<tr>
+<td>Latency mỗi lượt</td>
+<td>5–30 s (gọi LLM, retrieval, kiểm chứng)</td>
+</tr>
+<tr>
+<td>Output</td>
+<td>JSON theo schema Pydantic (draft, citations, confidence, escalate) — validate, retry nếu sai</td>
+</tr>
+<tr>
+<td>Giao diện</td>
+<td>~60 agent CS mở UI nội bộ, nhận draft qua <strong>SSE</strong>; tool cho agent qua <strong>MCP</strong></td>
+</tr>
+<tr>
+<td>Ràng buộc</td>
+<td>webhook Zendesk phải trả lời nhanh và idempotent; prompt injection; PII</td>
+</tr>
+</tbody>
+</table>
+<h3 id="34-vi-sao-chon-hai-dich-vu-trai-nguoc">3.4. Vì sao chọn hai dịch vụ trái ngược<a class="headerlink" href="#34-vi-sao-chon-hai-dich-vu-trai-nguoc" title="Permanent link">&para;</a></h3>
+<!-- placeholder-two-workloads -->
+
+<!-- fig:two-workloads -->
+<figure>
+  <img alt="Hai workload trên mặt phẳng (tốc độ đến, thời gian mỗi request)" loading="lazy" src="../assets/figures/00/two-workloads.light.svg#only-light" />
+  <img alt="Hai workload trên mặt phẳng (tốc độ đến, thời gian mỗi request)" loading="lazy" src="../assets/figures/00/two-workloads.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 0.6 — Hai workload trên mặt phẳng (tốc độ đến, thời gian mỗi request). Đường chấm là số request đồng thời theo định luật Little — chủ đề chính của Module 09.</figcaption>
+</figure>
+<!-- /fig -->
+
+<table>
+<thead>
+<tr>
+<th>Khía cạnh</th>
+<th><code>invoice-api</code></th>
+<th><code>ai-gateway</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hình dạng tải</td>
+<td>nhiều request ngắn (ms)</td>
+<td>ít request dài (giây)</td>
+</tr>
+<tr>
+<td>Tài nguyên giới hạn</td>
+<td>CPU (parse, validate, serialize)</td>
+<td>chờ I/O (LLM, HTTP), bộ nhớ kết nối mở</td>
+</tr>
+<tr>
+<td>Kiểu hàm handler</td>
+<td><code>async def</code> có thể đúng hoặc sai tùy thư viện DB</td>
+<td><code>async def</code> gần như bắt buộc</td>
+</tr>
+<tr>
+<td>Số worker</td>
+<td>≈ số core</td>
+<td>1–2 worker, rất nhiều coroutine</td>
+</tr>
+<tr>
+<td>Pydantic dùng ở</td>
+<td>input request, response</td>
+<td>input webhook, <strong>output của LLM</strong>, sự kiện SSE</td>
+</tr>
+<tr>
+<td>Lỗi đáng sợ nhất</td>
+<td>sai tiền, lộ dữ liệu tenant</td>
+<td>treo kết nối, retry bão (retry storm), chi phí LLM</td>
+</tr>
+</tbody>
+</table>
+<p>Nếu chỉ có một dịch vụ, mọi lời khuyên dễ bị hiểu thành "luôn làm X". Với hai dịch vụ, bạn sẽ thấy cùng một câu hỏi ("nên dùng <code>async def</code> không?", "bao nhiêu worker?") có <strong>hai câu trả lời khác nhau</strong>, và học cách trả lời bằng số đo thay vì bằng khẩu hiệu.</p>
+<hr />
+<h2 id="4-ban-o-kien-thuc-va-lo-trinh">4. Bản đồ kiến thức và lộ trình<a class="headerlink" href="#4-ban-o-kien-thuc-va-lo-trinh" title="Permanent link">&para;</a></h2>
+<!-- placeholder-map -->
+
+<!-- fig:course-map -->
+<figure>
+  <img alt="Bản đồ 16 module trong năm phần" loading="lazy" src="../assets/figures/00/course-map.light.svg#only-light" />
+  <img alt="Bản đồ 16 module trong năm phần" loading="lazy" src="../assets/figures/00/course-map.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 0.7 — Bản đồ 16 module trong năm phần.</figcaption>
+</figure>
+<!-- /fig -->
+
+<p>Khóa học chia năm phần:</p>
+<ol>
+<li><strong>Nền tảng (00–02)</strong> — lý thuyết kiểu và validation; HTTP, REST, ASGI, event loop.</li>
+<li><strong>Pydantic (03–06)</strong> — kiến trúc, validator, union, serialization, JSON Schema, hiệu năng.</li>
+<li><strong>FastAPI (07–11)</strong> — vòng đời request, dependency injection, đồng thời, database, bảo mật.</li>
+<li><strong>Chất lượng &amp; vận hành (12–14)</strong> — testing, production, observability, capstone thiết kế hệ thống.</li>
+<li><strong>Chuyên đề (15)</strong> — Pydantic cho LLM: structured output, constrained decoding, tool calling.</li>
+</ol>
+<p>Song song có <strong>6 lab</strong> chạy trên CPU, mỗi lab tái tạo số liệu của một module.</p>
+<table>
+<thead>
+<tr>
+<th>Mục tiêu</th>
+<th>Lộ trình đề xuất</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dựng API ngay tuần này</td>
+<td>03 → 07 → 08 → 10 → 11 → Lab 03</td>
+</tr>
+<tr>
+<td>API đang chậm</td>
+<td>06 → 09 → 10 → 13 → Lab 02, Lab 04</td>
+</tr>
+<tr>
+<td>Làm backend cho LLM/agent</td>
+<td>05 → 07 (SSE) → 09 → 15 → Lab 06</td>
+</tr>
+<tr>
+<td>Hiểu nền tảng lý thuyết</td>
+<td>01 → 02 → 03 → 09 → 12</td>
+</tr>
+<tr>
+<td>Chuẩn bị phỏng vấn</td>
+<td>câu hỏi cuối mỗi module → 14</td>
+</tr>
+<tr>
+<td>Chuẩn bị giảng seminar</td>
+<td>00, 01, 03, 06, 07, 09, 14</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="loi-thuong-gap-cach-xu-ly">Lỗi thường gặp &amp; cách xử lý<a class="headerlink" href="#loi-thuong-gap-cach-xu-ly" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Triệu chứng</th>
+<th>Nguyên nhân gốc</th>
+<th>Cách xử lý</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Học FastAPI xong vẫn không biết vì sao API chậm</td>
+<td>Chỉ học cú pháp, không học mô hình thực thi</td>
+<td>Học Module 09 (event loop, threadpool, hàng đợi) trước khi tối ưu</td>
+</tr>
+<tr>
+<td>Model Pydantic trùng lặp ở nhiều service, lệch nhau</td>
+<td>Mỗi bên tự mô tả lại hợp đồng dữ liệu</td>
+<td>Một nguồn sự thật: model dùng chung hoặc sinh từ OpenAPI (Module 05, 12)</td>
+</tr>
+<tr>
+<td>Tin benchmark "framework X nhanh gấp 10 lần"</td>
+<td>Benchmark đo endpoint rỗng, không đo validation + DB</td>
+<td>Đo trên payload và luồng thật của mình (Module 06, 09)</td>
+</tr>
+<tr>
+<td>Dữ liệu nội bộ không được validate vì "mình tự sinh ra"</td>
+<td>Nhầm nguồn tin cậy với dữ liệu đúng</td>
+<td>Validate mọi ranh giới giữa các thành phần (case Cloudflare, CrowdStrike)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tom-tat-cheat-sheet">Tóm tắt (cheat-sheet)<a class="headerlink" href="#tom-tat-cheat-sheet" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Ranh giới tin cậy = nơi dữ liệu từ nguồn bạn không kiểm soát đi vào. Chiến lược: <strong>parse một lần ở cửa</strong> thành kiểu chặt chẽ.</li>
+<li>Uvicorn (server ASGI) → Starlette (routing, middleware) → FastAPI (chữ ký hàm → tham số, DI, OpenAPI) → Pydantic (parse/validate/serialize, lõi Rust).</li>
+<li>Một type hint trong FastAPI = tài liệu + kiểm tra tĩnh + validate lúc chạy + OpenAPI.</li>
+<li>Case: <code>invoice-api</code> (thiết kế 500 req/s, p99 ≤ 300 ms, CPU-bound) và <code>ai-gateway</code> (0,4 lượt/s, mỗi lượt 5–30 s, I/O-bound, SSE).</li>
+<li>Hai dịch vụ trái ngược → cùng câu hỏi, hai câu trả lời; luôn lập luận bằng số đo.</li>
+</ul>
+<h2 id="cau-hoi-tu-kiem-tra-phong-van">Câu hỏi tự kiểm tra / phỏng vấn<a class="headerlink" href="#cau-hoi-tu-kiem-tra-phong-van" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>"Ranh giới tin cậy" là gì? Kể ba ranh giới của <code>ai-gateway</code>.</p>
+<p><details markdown="1"><summary>Gợi ý</summary>
+Nơi dữ liệu đi từ nguồn không kiểm soát vào code của mình. <code>ai-gateway</code>: webhook Zendesk (nội dung email khách), output của LLM, kết quả gọi tool/API nội bộ, và cả dữ liệu đọc từ cache/hàng đợi do service khác ghi.
+</details></p>
+</li>
+<li>
+<p>Vì sao case CrowdStrike là ví dụ về "hai bản mô tả của cùng một định dạng dữ liệu"? Giải pháp kiểu "schema dùng chung" giúp gì?</p>
+<p><details markdown="1"><summary>Gợi ý</summary>
+Bộ kiểm tra nội dung và bộ thông dịch mỗi bên giả định một số trường khác nhau (21 vs 20). Nếu cả hai sinh ra từ cùng một định nghĩa (một schema), sự lệch không thể xảy ra; kiểm tra số trường lúc biên dịch là đúng tinh thần đó.
+</details></p>
+</li>
+<li>
+<p>Trong FastAPI, một type hint của tham số được dùng vào những việc gì?</p>
+<p><details markdown="1"><summary>Gợi ý</summary>
+Tài liệu cho người đọc; kiểm tra tĩnh (mypy/pyright); validate + chuyển đổi lúc chạy (Pydantic); sinh schema OpenAPI/JSON Schema cho docs và client.
+</details></p>
+</li>
+<li>
+<p>Từ 1,8 triệu request/ngày, ước lượng tải đỉnh ngày cuối tháng của <code>invoice-api</code>. Các giả định nào ảnh hưởng mạnh nhất?</p>
+<p><details markdown="1"><summary>Gợi ý</summary>
+0,85 × 1,8M / (12 × 3600) ≈ 35 req/s; ×4 giờ cao điểm ≈ 140; ×3 cuối tháng ≈ 420; thiết kế 500. Nhạy nhất với hệ số cao điểm (4) và hệ số cuối tháng (3) — cần lấy từ log thật.
+</details></p>
+</li>
+<li>
+<p>Vì sao không thể trả lời chung "nên dùng <code>async def</code> hay <code>def</code>" cho cả hai dịch vụ?</p>
+<p><details markdown="1"><summary>Gợi ý</summary>
+<code>ai-gateway</code> chủ yếu chờ I/O dài → coroutine rẻ, cần <code>async def</code> với thư viện async. <code>invoice-api</code> tốn CPU cho validation, và nếu dùng driver DB đồng bộ thì <code>def</code> (chạy trong threadpool) mới đúng; <code>async def</code> + gọi chặn sẽ chặn event loop (Module 09).
+</details></p>
+</li>
+<li>
+<p>Hai con số lượt tải Pydantic (550 triệu và hơn 1 tỷ/tháng) khác nhau vì sao? Khi trích dẫn nên làm gì?</p>
+<p><details markdown="1"><summary>Gợi ý</summary>
+Khác nguồn, khác thời điểm, khác cách đếm (có tính CI/mirror hay không). Ghi rõ nguồn, ngày, và phương pháp đếm; không trộn hai nguồn trong một phép so sánh.
+</details></p>
+</li>
+</ol>
+<h2 id="bai-tap-thuc-hanh">Bài tập thực hành<a class="headerlink" href="#bai-tap-thuc-hanh" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Vẽ ranh giới tin cậy</strong> (giấy hoặc mermaid) cho một dự án bạn từng làm (ví dụ app Rails): liệt kê mọi nguồn dữ liệu vào, đánh dấu nơi dữ liệu được kiểm tra, và nơi chưa.</li>
+<li><strong>Ước lượng Fermi</strong> cho một API bạn biết: số người dùng → request/ngày → req/s trung bình → đỉnh. Ghi rõ từng giả định và giả định nào bạn ít chắc chắn nhất.</li>
+<li><strong>Đọc một post-mortem</strong> (CrowdStrike RCA hoặc một sự cố bạn chọn) và viết 5 dòng: hợp đồng dữ liệu nào bị vi phạm, ở ranh giới nào, kiểm tra nào lẽ ra đã chặn được.</li>
+</ol>
+<h2 id="tai-lieu-tham-khao">Tài liệu tham khảo<a class="headerlink" href="#tai-lieu-tham-khao" title="Permanent link">&para;</a></h2>
+<p>Sự cố và bài học:</p>
+<ul>
+<li>CrowdStrike (2024). <em>Executive Summary — Root Cause Analysis: Channel File 291</em>. https://crowdstrike.com/wp-content/uploads/2024/08/Executive-Summary_Root-Cause-Analysis_Channel-File-291.pdf</li>
+<li>CrowdStrike. <em>Remediation and Guidance Hub: Channel File 291 Incident</em>. https://www.crowdstrike.com/en-us/blog/statement-on-falcon-content-update-for-windows-hosts/</li>
+<li>ilert Postmortem Library — <em>Cloudflare global outage, Nov 2025</em> (tổng hợp từ post-mortem của Cloudflare). https://www.ilert.com/postmortems/cloudflare-global-outage-nov-2025</li>
+</ul>
+<p>Hệ sinh thái (tra cứu 10/2026):</p>
+<ul>
+<li>Pydantic — <em>Pydantic V2 Plan</em> (bài công bố v2, các con số 4–50×, ~17×). https://docs.pydantic.dev/2.0/blog/pydantic-v2/</li>
+<li>Pydantic — <em>Pydantic v2.14 release</em> (08/10/2026). https://pydantic.dev/articles/pydantic-v2-14-release</li>
+<li>pepy.tech — thống kê lượt tải pydantic. https://pepy.tech/project/pydantic</li>
+<li>JetBrains — <em>The Most Popular Python Frameworks and Libraries in 2025</em>. https://blog.jetbrains.com/pycharm/2025/09/the-most-popular-python-frameworks-and-libraries-in-2025/</li>
+<li>The Register (08/2025) — tường thuật khảo sát Python Developers Survey (FastAPI 38%, Django 35%, Flask 34%). https://www.theregister.com/2025/08/19/python_survey/</li>
+<li>FastAPI — Release notes. https://fastapi.tiangolo.com/release-notes/</li>
+<li>Starlette — Release notes (1.0.0, 22/03/2026). https://starlette.dev/release-notes/</li>
+<li>InfoQ (2020) — <em>Netflix Open Sources Crisis Management Orchestration Framework Dispatch</em>. https://www.infoq.com/news/2020/03/netflix-open-source-dispatch/</li>
+<li>PEP 779 — <em>Criteria for supported status for free-threaded Python</em>. https://peps.python.org/pep-0779/</li>
+</ul>
+<p>Pháp lý dùng trong case (bản thứ cấp, cần đối chiếu văn bản gốc):</p>
+<ul>
+<li>Thư viện Pháp luật — <em>Năm 2026 còn áp dụng mức thuế suất thuế GTGT 8% hay không?</em> (NQ 204/2025/QH15, NĐ 174/2025/NĐ-CP). https://thuvienphapluat.vn/ma-so-thue/phap-luat-thue/nam-2026-con-ap-dung-muc-thue-suat-thue-gtgt-8-hay-khong-989951-218063.html</li>
+<li>python-stdnum — <code>stdnum.vn.mst</code> (cấu trúc và chữ số kiểm tra của MST). https://arthurdejong.org/python-stdnum/doc/stdnum.vn.mst</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Trở lại mục lục
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Chân trang" >
+        
+          
+          <a href=".." class="md-footer__link md-footer__link--prev" aria-label="Trước: Trang chủ">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Trước
+              </span>
+              <div class="md-ellipsis">
+                Trang chủ
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../01-kieu-du-lieu-va-validation/" class="md-footer__link md-footer__link--next" aria-label="Sau: 01 · Kiểu dữ liệu &amp; validation">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Sau
+              </span>
+              <div class="md-ellipsis">
+                01 · Kiểu dữ liệu & validation
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Tài liệu học tập — Pydantic & FastAPI Masterclass · 2026
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/HieNguyen08/learn-pydantic-and-fastapi" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.top", "navigation.footer", "navigation.indexes", "navigation.tracking", "toc.follow", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "content.action.edit"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u0110\u00e3 sao ch\u00e9p", "clipboard.copy": "Sao ch\u00e9p v\u00e0o b\u1ed9 nh\u1edb t\u1ea1m", "search.result.more.one": "1 t\u1eeb kh\u00e1c trong trang", "search.result.more.other": "# t\u1eeb kh\u00e1c trong trang", "search.result.none": "Kh\u00f4ng t\u00ecm th\u1ea5y t\u00e0i li\u1ec7u li\u00ean quan", "search.result.one": "1 t\u00e0i li\u1ec7u li\u00ean quan", "search.result.other": "# t\u00e0i li\u1ec7u li\u00ean quan", "search.result.placeholder": "Nh\u1eadp \u0111\u1ec3 b\u1eaft \u0111\u1ea7u t\u00ecm ki\u1ebfm", "search.result.term.missing": "Kh\u00f4ng", "select.version": "Ch\u1ecdn phi\u00ean b\u1ea3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

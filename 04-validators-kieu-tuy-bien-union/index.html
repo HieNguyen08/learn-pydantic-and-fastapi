@@ -1,0 +1,3303 @@
+
+<!doctype html>
+<html lang="vi" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Pydantic & FastAPI từ nền tảng đến hệ thống production — xoay quanh API hóa đơn điện tử và AI gateway của Mekong Cloud">
+      
+      
+        <meta name="author" content="HieNguyen08">
+      
+      
+        <link rel="canonical" href="https://hienguyen08.github.io/learn-pydantic-and-fastapi/04-validators-kieu-tuy-bien-union/">
+      
+      
+        <link rel="prev" href="../03-pydantic-v2-kien-truc/">
+      
+      
+        <link rel="next" href="../05-serialization-json-schema-settings/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>04 · Validator, kiểu tùy biến & union - Pydantic & FastAPI Masterclass</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Be+Vietnam+Pro:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Be Vietnam Pro";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="deep-orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#module-04-validator-kieu-tuy-bien-union" class="md-skip">
+          Bỏ qua
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Đầu trang">
+    <a href=".." title="Pydantic &amp; FastAPI Masterclass" class="md-header__button md-logo" aria-label="Pydantic & FastAPI Masterclass" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 7H5a2 2 0 0 0-2 2v8h2v-4h2v4h2V9a2 2 0 0 0-2-2m0 4H5V9h2m7-2h-4v10h2v-4h2a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2m0 4h-2V9h2m6 0v6h1v2h-4v-2h1V9h-1V7h4v2Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Pydantic & FastAPI Masterclass
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              04 · Validator, kiểu tùy biến & union
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="deep-orange"  aria-label="Chuyển sang nền tối"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Chuyển sang nền tối" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="deep-orange"  aria-label="Chuyển sang nền sáng"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Chuyển sang nền sáng" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Tìm kiếm" placeholder="Tìm kiếm" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Tìm kiếm">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Xoá" aria-label="Xoá" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/HieNguyen08/learn-pydantic-and-fastapi" title="Xem mã nguồn" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    HieNguyen08/learn-pydantic-and-fastapi
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Trang chủ
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../00-tong-quan-va-bai-toan/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Phần I · Nền tảng
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../03-pydantic-v2-kien-truc/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Phần II · Pydantic
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../07-fastapi-vong-doi-request/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Phần III · FastAPI
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../12-testing-va-chat-luong/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Phần IV · Chất lượng & vận hành
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../15-pydantic-cho-llm/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Phần V · Chuyên đề
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../labs/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Thực hành
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Thanh điều hướng" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Pydantic &amp; FastAPI Masterclass" class="md-nav__button md-logo" aria-label="Pydantic & FastAPI Masterclass" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 7H5a2 2 0 0 0-2 2v8h2v-4h2v4h2V9a2 2 0 0 0-2-2m0 4H5V9h2m7-2h-4v10h2v-4h2a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2m0 4h-2V9h2m6 0v6h1v2h-4v-2h1V9h-1V7h4v2Z"/></svg>
+
+    </a>
+    Pydantic & FastAPI Masterclass
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/HieNguyen08/learn-pydantic-and-fastapi" title="Xem mã nguồn" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    HieNguyen08/learn-pydantic-and-fastapi
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trang chủ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phần I · Nền tảng
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phần I · Nền tảng
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-tong-quan-va-bai-toan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    00 · Tổng quan & bài toán
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-kieu-du-lieu-va-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01 · Kiểu dữ liệu & validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-http-rest-asgi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02 · HTTP, REST & ASGI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phần II · Pydantic
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phần II · Pydantic
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-pydantic-v2-kien-truc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03 · Pydantic v2: kiến trúc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04 · Validator, kiểu tùy biến & union
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04 · Validator, kiểu tùy biến & union
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Mục lục">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Mục lục
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#muc-tieu-hoc-tap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mục tiêu học tập
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-bon-che-o-validator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Bốn chế độ validator
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Bốn chế độ validator">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-van-e" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1. Vấn đề
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-inh-nghia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2. Định nghĩa
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-thu-tu-chay-mo-hinh-cu-hanh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3. Thứ tự chạy: mô hình củ hành
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-model-validator-va-validationinfo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4. Model validator và ValidationInfo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-chi-phi-rang-buoc-trong-rust-gan-nhu-mien-phi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Chi phí: ràng buộc trong Rust gần như miễn phí
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Chi phí: ràng buộc trong Rust gần như miễn phí">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-thi-nghiem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1. Thí nghiệm
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-dien-giai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. Diễn giải
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-kieu-tuy-bien" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Kiểu tùy biến
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Kiểu tùy biến">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-muc-1-annotated-co-ten" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1. Mức 1 — Annotated có tên
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-muc-2-class-co-__get_pydantic_core_schema__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2. Mức 2 — class có __get_pydantic_core_schema__
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-thu-vien-co-san" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3. Thư viện có sẵn
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-kiem-tra-lien-truong-va-bay-lam-tron" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Kiểm tra liên trường và bẫy làm tròn
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Kiểm tra liên trường và bẫy làm tròn">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-van-e" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1. Vấn đề
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-bay-1-round-cua-python-la-lam-tron-ngan-hang" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2. Bẫy 1 — round() của Python là làm tròn ngân hàng
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-bay-2-float-khong-bieu-dien-uoc-so-thap-phan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3. Bẫy 2 — float không biểu diễn được số thập phân
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-bay-3-lam-tron-tung-dong-hay-lam-tron-tong" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4. Bẫy 3 — làm tròn từng dòng hay làm tròn tổng
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-cai-at-model-validator-after" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5. Cài đặt: model validator after
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-union-smart-left-to-right-va-discriminated" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Union: smart, left-to-right và discriminated
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Union: smart, left-to-right và discriminated">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-van-e" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1. Vấn đề
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-smart-mode-mac-inh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2. Smart mode (mặc định)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-discriminated-union-tagged-union" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3. Discriminated union (tagged union)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-khi-du-lieu-cu-khong-co-tag-discriminatorcallable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4. Khi dữ liệu cũ không có tag: Discriminator(callable)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-generic-rootmodel-va-model-e-quy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Generic, RootModel và model đệ quy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Generic, RootModel và model đệ quy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-generic-mot-kieu-phan-trang-cho-moi-tai-nguyen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1. Generic: một kiểu phân trang cho mọi tài nguyên
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-rootmodel-khi-goc-khong-phai-object" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2. RootModel: khi gốc không phải object
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-model-e-quy-va-gioi-han-o-sau" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3. Model đệ quy và giới hạn độ sâu
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-case-mekong-cloud-invoicein-phien-ban-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Case Mekong Cloud: InvoiceIn phiên bản 2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#loi-thuong-gap-cach-xu-ly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lỗi thường gặp &amp; cách xử lý
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tom-tat-cheat-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tóm tắt (cheat-sheet)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cau-hoi-tu-kiem-tra-phong-van" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Câu hỏi tự kiểm tra / phỏng vấn
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bai-tap-thuc-hanh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bài tập thực hành
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tai-lieu-tham-khao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tài liệu tham khảo
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-serialization-json-schema-settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05 · Serialization, JSON Schema & settings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-hieu-nang-pydantic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06 · Hiệu năng Pydantic
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phần III · FastAPI
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phần III · FastAPI
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-fastapi-vong-doi-request/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07 · Vòng đời request
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-dependency-injection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08 · Dependency injection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09-async-dong-thoi-hieu-nang/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09 · Async, đồng thời & hiệu năng
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10-database-va-persistence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10 · Database & persistence
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11-bao-mat-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11 · Bảo mật API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phần IV · Chất lượng & vận hành
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phần IV · Chất lượng & vận hành
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12-testing-va-chat-luong/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12 · Testing & chất lượng
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../13-production-va-observability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13 · Production & observability
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../14-capstone-thiet-ke-he-thong/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14 · Capstone: thiết kế hệ thống
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phần V · Chuyên đề
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phần V · Chuyên đề
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../15-pydantic-cho-llm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15 · Pydantic cho LLM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../labs/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Thực hành
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Thực hành
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab01_invoice_models/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 01 · Mô hình hóa hóa đơn
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab02_benchmark_validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 02 · Benchmark validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab03_invoice_api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 03 · invoice-api hoàn chỉnh
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab04_concurrency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 04 · Đo đồng thời
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab05_property_fuzz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 05 · Property-based & fuzz
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab06_llm_structured_sse/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 06 · Structured output & SSE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Mục lục">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Mục lục
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#muc-tieu-hoc-tap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mục tiêu học tập
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-bon-che-o-validator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Bốn chế độ validator
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Bốn chế độ validator">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-van-e" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1. Vấn đề
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-inh-nghia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2. Định nghĩa
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-thu-tu-chay-mo-hinh-cu-hanh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3. Thứ tự chạy: mô hình củ hành
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-model-validator-va-validationinfo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4. Model validator và ValidationInfo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-chi-phi-rang-buoc-trong-rust-gan-nhu-mien-phi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Chi phí: ràng buộc trong Rust gần như miễn phí
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Chi phí: ràng buộc trong Rust gần như miễn phí">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-thi-nghiem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1. Thí nghiệm
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-dien-giai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. Diễn giải
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-kieu-tuy-bien" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Kiểu tùy biến
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Kiểu tùy biến">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-muc-1-annotated-co-ten" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1. Mức 1 — Annotated có tên
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-muc-2-class-co-__get_pydantic_core_schema__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2. Mức 2 — class có __get_pydantic_core_schema__
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-thu-vien-co-san" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3. Thư viện có sẵn
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-kiem-tra-lien-truong-va-bay-lam-tron" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Kiểm tra liên trường và bẫy làm tròn
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Kiểm tra liên trường và bẫy làm tròn">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-van-e" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1. Vấn đề
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-bay-1-round-cua-python-la-lam-tron-ngan-hang" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2. Bẫy 1 — round() của Python là làm tròn ngân hàng
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-bay-2-float-khong-bieu-dien-uoc-so-thap-phan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3. Bẫy 2 — float không biểu diễn được số thập phân
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-bay-3-lam-tron-tung-dong-hay-lam-tron-tong" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4. Bẫy 3 — làm tròn từng dòng hay làm tròn tổng
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-cai-at-model-validator-after" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5. Cài đặt: model validator after
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-union-smart-left-to-right-va-discriminated" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Union: smart, left-to-right và discriminated
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Union: smart, left-to-right và discriminated">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-van-e" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1. Vấn đề
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-smart-mode-mac-inh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2. Smart mode (mặc định)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-discriminated-union-tagged-union" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3. Discriminated union (tagged union)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-khi-du-lieu-cu-khong-co-tag-discriminatorcallable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4. Khi dữ liệu cũ không có tag: Discriminator(callable)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-generic-rootmodel-va-model-e-quy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Generic, RootModel và model đệ quy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Generic, RootModel và model đệ quy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-generic-mot-kieu-phan-trang-cho-moi-tai-nguyen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1. Generic: một kiểu phân trang cho mọi tài nguyên
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-rootmodel-khi-goc-khong-phai-object" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2. RootModel: khi gốc không phải object
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-model-e-quy-va-gioi-han-o-sau" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3. Model đệ quy và giới hạn độ sâu
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-case-mekong-cloud-invoicein-phien-ban-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Case Mekong Cloud: InvoiceIn phiên bản 2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#loi-thuong-gap-cach-xu-ly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lỗi thường gặp &amp; cách xử lý
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tom-tat-cheat-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tóm tắt (cheat-sheet)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cau-hoi-tu-kiem-tra-phong-van" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Câu hỏi tự kiểm tra / phỏng vấn
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bai-tap-thuc-hanh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bài tập thực hành
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tai-lieu-tham-khao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tài liệu tham khảo
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/HieNguyen08/learn-pydantic-and-fastapi/edit/main/docs/04-validators-kieu-tuy-bien-union.md" title="Chỉnh sửa" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="module-04-validator-kieu-tuy-bien-union">Module 04 — Validator, kiểu tùy biến &amp; union<a class="headerlink" href="#module-04-validator-kieu-tuy-bien-union" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>Thời lượng: ~50 phút · Mức độ: Trung bình–Nâng cao · Tiên quyết: Module 01, Module 03</p>
+</blockquote>
+<p>Module 03 dừng ở tầng 2 (cấu trúc và ràng buộc từng trường), toàn bộ chạy trong Rust. Nhưng một hóa đơn còn những quy tắc mà kiểu dữ liệu chuẩn không diễn tả được: mã số thuế phải đúng <strong>chữ số kiểm tra</strong>, <code>amount</code> phải bằng <strong>số lượng × đơn giá làm tròn</strong>, ba con số tổng phải <strong>khớp nhau</strong>, một khoản thanh toán có thể là <strong>thẻ, chuyển khoản hay ví điện tử</strong> với các trường khác nhau. Module này dạy bốn công cụ để đưa các quy tắc đó vào kiểu — validator, kiểu tùy biến, union có phân biệt, model generic — và <strong>đo chi phí</strong> của từng công cụ để biết khi nào nên dùng.</p>
+<p>Mọi hành vi và số đo được chạy thật với Pydantic 2.14.1 (script <code>scripts/bench/bench_validators.py</code>).</p>
+<h2 id="muc-tieu-hoc-tap">Mục tiêu học tập<a class="headerlink" href="#muc-tieu-hoc-tap" title="Permanent link">&para;</a></h2>
+<p>Sau module này, bạn có thể:</p>
+<ol>
+<li>Phân biệt bốn chế độ validator <strong>before / after / wrap / plain</strong>, dùng ở dạng decorator và dạng <code>Annotated</code>, và <strong>dự đoán thứ tự chạy</strong> khi xếp chồng nhiều validator.</li>
+<li>Dùng <code>ValidationInfo</code> (<code>data</code>, <code>context</code>) đúng cách, và giải thích vì sao model validator <code>after</code> không chạy khi có lỗi trường.</li>
+<li>Định lượng chi phí: ràng buộc trong Rust gần như <strong>miễn phí</strong>, validator Python tốn thêm <strong>~30–170 ns</strong> mỗi lần gọi; chọn đúng chỗ đặt quy tắc.</li>
+<li>Viết <strong>kiểu tùy biến</strong> có thể dùng lại (<code>Annotated</code> và <code>__get_pydantic_core_schema__</code>), kèm mã lỗi riêng và JSON Schema đúng.</li>
+<li>Viết <strong>kiểm tra liên trường</strong> cho hóa đơn với <code>Decimal</code> và làm tròn half-up, chỉ ra hai bẫy làm tròn (banker's rounding, sai số float).</li>
+<li>Giải thích thuật toán <strong>smart union</strong>, đo chi phí <span class="arithmatex">\(O(k)\)</span> và "bùng nổ lỗi" của nó; dùng <strong>discriminated union</strong> (<span class="arithmatex">\(O(1)\)</span>, một lỗi gọn).</li>
+<li>Dùng <strong>generic model</strong>, <code>RootModel</code> và model <strong>đệ quy</strong>, và biết giới hạn độ sâu lồng nhau.</li>
+</ol>
+<hr />
+<h2 id="1-bon-che-o-validator">1. Bốn chế độ validator<a class="headerlink" href="#1-bon-che-o-validator" title="Permanent link">&para;</a></h2>
+<h3 id="11-van-e">1.1. Vấn đề<a class="headerlink" href="#11-van-e" title="Permanent link">&para;</a></h3>
+<p>Validator là hàm Python bạn chèn vào cây validator của Module 03. Câu hỏi đầu tiên là nó chạy <strong>trước</strong> hay <strong>sau</strong> validator gốc của kiểu, và nó nhận <strong>giá trị thô</strong> hay <strong>giá trị đã chuyển đổi</strong>.</p>
+<h3 id="12-inh-nghia">1.2. Định nghĩa<a class="headerlink" href="#12-inh-nghia" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Chế độ</th>
+<th>Chạy khi nào</th>
+<th>Nhận</th>
+<th>Dùng cho</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>after</strong></td>
+<td>sau validator gốc</td>
+<td>giá trị <strong>đã</strong> đúng kiểu</td>
+<td>quy tắc ngữ nghĩa (checksum, khoảng hợp lệ phức tạp) — phổ biến nhất</td>
+</tr>
+<tr>
+<td><strong>before</strong></td>
+<td>trước validator gốc</td>
+<td>giá trị <strong>thô</strong> (bất kỳ kiểu gì)</td>
+<td>chuẩn hóa đầu vào (bỏ dấu <code>-</code> trong MST, đổi <code>"8%"</code> → <code>"8"</code>)</td>
+</tr>
+<tr>
+<td><strong>wrap</strong></td>
+<td>bao quanh validator gốc</td>
+<td>giá trị thô + <code>handler</code> để gọi validator gốc</td>
+<td>thử–bắt lỗi, mặc định khi lỗi, đo đếm, xử lý trước <em>và</em> sau</td>
+</tr>
+<tr>
+<td><strong>plain</strong></td>
+<td><strong>thay thế</strong> validator gốc</td>
+<td>giá trị thô</td>
+<td>khi kiểu gốc không phù hợp; bạn tự chịu trách nhiệm toàn bộ</td>
+</tr>
+</tbody>
+</table>
+<p>Hai cách viết tương đương:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">AfterValidator</span><span class="p">,</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">BeforeValidator</span><span class="p">,</span> <span class="n">field_validator</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="k">def</span><span class="w"> </span><span class="nf">strip_dashes</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>            <span class="c1"># before: nhận giá trị thô</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="k">return</span> <span class="n">v</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"-"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">v</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="k">def</span><span class="w"> </span><span class="nf">check_len</span><span class="p">(</span><span class="n">v</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>   <span class="c1"># after: nhận str đã hợp lệ</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">13</span><span class="p">):</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"MST phải có 10 hoặc 13 chữ số"</span><span class="p">)</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="k">return</span> <span class="n">v</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="c1"># Cách 1 — Annotated: gắn với KIỂU, dùng lại được ở mọi model</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="n">TaxCodeStr</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">BeforeValidator</span><span class="p">(</span><span class="n">strip_dashes</span><span class="p">),</span> <span class="n">AfterValidator</span><span class="p">(</span><span class="n">check_len</span><span class="p">)]</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="k">class</span><span class="w"> </span><span class="nc">Seller</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>    <span class="n">tax_code</span><span class="p">:</span> <span class="n">TaxCodeStr</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="c1"># Cách 2 — decorator: gắn với TRƯỜNG của một model</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="k">class</span><span class="w"> </span><span class="nc">Seller2</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>    <span class="n">tax_code</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">"tax_code"</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"before"</span><span class="p">)</span>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>    <span class="nd">@classmethod</span>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_strip</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>        <span class="k">return</span> <span class="n">strip_dashes</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">"tax_code"</span><span class="p">)</span>          <span class="c1"># mặc định mode="after"</span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>    <span class="nd">@classmethod</span>
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_len</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>        <span class="k">return</span> <span class="n">check_len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Mình khuyên <strong>Annotated cho quy tắc thuộc về kiểu</strong> (MST hợp lệ ở mọi nơi nó xuất hiện) và <strong>decorator cho quy tắc thuộc về model</strong> (một trường chỉ có ý nghĩa trong ngữ cảnh model đó).</p>
+<h3 id="13-thu-tu-chay-mo-hinh-cu-hanh">1.3. Thứ tự chạy: mô hình củ hành<a class="headerlink" href="#13-thu-tu-chay-mo-hinh-cu-hanh" title="Permanent link">&para;</a></h3>
+<p>Khi xếp nhiều validator trong một <code>Annotated</code>, mỗi validator <strong>bọc</strong> lấy mọi thứ bên trái nó. Thí nghiệm thật:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">T</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">BeforeValidator</span><span class="p">(</span><span class="n">B1</span><span class="p">),</span> <span class="n">AfterValidator</span><span class="p">(</span><span class="n">A1</span><span class="p">),</span> <span class="n">WrapValidator</span><span class="p">(</span><span class="n">W1</span><span class="p">),</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>                   <span class="n">BeforeValidator</span><span class="p">(</span><span class="n">B2</span><span class="p">),</span> <span class="n">AfterValidator</span><span class="p">(</span><span class="n">A2</span><span class="p">)]</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">TypeAdapter</span><span class="p">(</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">validate_python</span><span class="p">(</span><span class="s2">"5"</span><span class="p">)</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># thứ tự ghi nhận: B2 → W1:trước → B1 → (int gốc) → A1 → W1:sau → A2</span>
+</span></code></pre></div>
+<p>Đọc từ trong ra ngoài: lõi là <code>int</code>; <code>B1</code> và <code>A1</code> là lớp sát lõi; <code>W1</code> bọc chúng; <code>B2</code> và <code>A2</code> là lớp ngoài cùng. Một giá trị đi vào sẽ xuyên qua các lớp <em>before</em> từ <strong>ngoài vào trong</strong> (phải sang trái), chạm lõi, rồi đi ra qua các lớp <em>after</em> từ <strong>trong ra ngoài</strong> (trái sang phải). Validator <code>wrap</code> là một lớp có cả hai phía.</p>
+<!-- placeholder-onion -->
+
+<!-- fig:onion -->
+<figure>
+  <img alt="Mô hình củ hành của Annotated và thứ tự chạy ghi nhận được khi chạy thật" loading="lazy" src="../assets/figures/04/onion.light.svg#only-light" />
+  <img alt="Mô hình củ hành của Annotated và thứ tự chạy ghi nhận được khi chạy thật" loading="lazy" src="../assets/figures/04/onion.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 4.1 — Mô hình củ hành của Annotated và thứ tự chạy ghi nhận được khi chạy thật.</figcaption>
+</figure>
+<!-- /fig -->
+
+<p>Hệ quả thiết kế: đặt <strong>chuẩn hóa</strong> (before) ở ngoài cùng bên phải nếu muốn nó chạy đầu tiên; đặt <strong>kiểm tra rẻ</strong> gần lõi và <strong>kiểm tra đắt</strong> ở ngoài để lỗi rẻ dừng sớm.</p>
+<h3 id="14-model-validator-va-validationinfo">1.4. Model validator và <code>ValidationInfo</code><a class="headerlink" href="#14-model-validator-va-validationinfo" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ValidationInfo</span><span class="p">,</span> <span class="n">field_validator</span><span class="p">,</span> <span class="n">model_validator</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="k">class</span><span class="w"> </span><span class="nc">M</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    <span class="n">a</span><span class="p">:</span> <span class="nb">int</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    <span class="n">b</span><span class="p">:</span> <span class="nb">int</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">"b"</span><span class="p">)</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    <span class="nd">@classmethod</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">chk</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">info</span><span class="p">:</span> <span class="n">ValidationInfo</span><span class="p">):</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>        <span class="nb">print</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">info</span><span class="o">.</span><span class="n">context</span><span class="p">)</span>       <span class="c1"># các trường ĐÃ validate thành công trước b</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>        <span class="k">return</span> <span class="n">v</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"before"</span><span class="p">)</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>    <span class="nd">@classmethod</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">before</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>                   <span class="c1"># nhận đầu vào thô: dict, object, bytes…</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>        <span class="k">return</span> <span class="n">data</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"after"</span><span class="p">)</span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">after</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>                         <span class="c1"># nhận instance đã đầy đủ</span>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>        <span class="k">return</span> <span class="bp">self</span>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="n">M</span><span class="o">.</span><span class="n">model_validate</span><span class="p">({</span><span class="s2">"a"</span><span class="p">:</span> <span class="s2">"1"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mi">2</span><span class="p">},</span> <span class="n">context</span><span class="o">=</span><span class="p">{</span><span class="s2">"tenant_id"</span><span class="p">:</span> <span class="mi">7</span><span class="p">})</span>
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="c1"># {'a': 1} {'tenant_id': 7}</span>
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="n">M</span><span class="o">.</span><span class="n">model_validate</span><span class="p">({</span><span class="s2">"a"</span><span class="p">:</span> <span class="s2">"x"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="c1"># info.data == {}  (a lỗi nên không có trong data); model "after" KHÔNG chạy; 1 lỗi</span>
+</span></code></pre></div>
+<p>Ba điều cần nhớ, đều đã kiểm chứng:</p>
+<ol>
+<li><code>info.data</code> chỉ chứa <strong>các trường đứng trước</strong> và <strong>đã validate thành công</strong>. Thứ tự khai báo trường quan trọng; đừng giả định trường kia luôn có mặt.</li>
+<li>Model validator <code>after</code> <strong>không chạy</strong> nếu có bất kỳ lỗi trường nào — nó cần mọi trường hợp lệ. Hệ quả: client nhận lỗi trường trước, sửa xong mới thấy lỗi tổng tiền. Đây là cách duy nhất hợp lý (không thể kiểm tra tổng khi một <code>amount</code> không phải số), nhưng cần biết để giải thích cho đội tích hợp.</li>
+<li><code>context</code> là kênh truyền thông tin ngoài dữ liệu vào validator (tenant, ngôn ngữ, thời điểm hiện tại cho quy tắc "không lập hóa đơn ngày tương lai"). Nó <strong>không</strong> là chỗ để truyền session database — tầng 4 thuộc về dependency (Module 01, 08).</li>
+</ol>
+<hr />
+<h2 id="2-chi-phi-rang-buoc-trong-rust-gan-nhu-mien-phi">2. Chi phí: ràng buộc trong Rust gần như miễn phí<a class="headerlink" href="#2-chi-phi-rang-buoc-trong-rust-gan-nhu-mien-phi" title="Permanent link">&para;</a></h2>
+<h3 id="21-thi-nghiem">2.1. Thí nghiệm<a class="headerlink" href="#21-thi-nghiem" title="Permanent link">&para;</a></h3>
+<p>Validate một danh sách 1.000 số thực dương bằng nhiều cách cài cùng một quy tắc "&gt; 0" (thời gian tốt nhất trong 9 lần lặp, tính trên mỗi phần tử, 1 core):</p>
+<table>
+<thead>
+<tr>
+<th>Cách cài</th>
+<th>ns / phần tử</th>
+<th>Thêm so với không kiểm tra</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>float</code> (không ràng buộc)</td>
+<td>42,3</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>Annotated[float, Field(gt=0)]</code></td>
+<td><strong>42,6</strong></td>
+<td><strong>+0,3</strong></td>
+</tr>
+<tr>
+<td><code>AfterValidator(pos)</code></td>
+<td>75,2</td>
+<td>+33</td>
+</tr>
+<tr>
+<td><code>BeforeValidator(pos)</code></td>
+<td>85,6</td>
+<td>+43</td>
+</tr>
+<tr>
+<td><code>PlainValidator(pos_plain)</code></td>
+<td>127,6</td>
+<td>+85</td>
+</tr>
+<tr>
+<td><code>WrapValidator(pos_wrap)</code></td>
+<td>214,3</td>
+<td>+172</td>
+</tr>
+<tr>
+<td>model <code>{q}</code> + <code>Field(gt=0)</code></td>
+<td>366,6</td>
+<td>(chi phí tạo object model)</td>
+</tr>
+<tr>
+<td>model <code>{q}</code> + <code>@field_validator</code></td>
+<td>446,0</td>
+<td>+79 so với dòng trên</td>
+</tr>
+</tbody>
+</table>
+<!-- placeholder-validator-cost -->
+
+<!-- fig:validator-cost -->
+<figure>
+  <img alt="Số đo thật: chi phí mỗi phần tử của sáu cách cài cùng quy tắc «&gt; 0»" loading="lazy" src="../assets/figures/04/validator-cost.light.svg#only-light" />
+  <img alt="Số đo thật: chi phí mỗi phần tử của sáu cách cài cùng quy tắc «&gt; 0»" loading="lazy" src="../assets/figures/04/validator-cost.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 4.2 — Số đo thật: chi phí mỗi phần tử của sáu cách cài cùng quy tắc «&gt; 0». Ràng buộc trong Rust gần như miễn phí; mỗi validator Python thêm hàng chục đến hàng trăm nano-giây.</figcaption>
+</figure>
+<!-- /fig -->
+
+<h3 id="22-dien-giai">2.2. Diễn giải<a class="headerlink" href="#22-dien-giai" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Ràng buộc <code>gt</code> nằm trong validator Rust: một phép so sánh số, không rời Rust. Chi phí đo được nằm trong nhiễu.</li>
+<li>Mỗi validator Python là <strong>một lần quay lại trình thông dịch</strong>: chuyển giá trị Rust → object Python, gọi hàm, nhận kết quả. ~30–40 ns là chi phí tối thiểu; <code>wrap</code> đắt nhất vì phải dựng <code>handler</code> gọi ngược vào Rust.</li>
+<li>Đặt trong ngữ cảnh: hóa đơn 12 dòng có ~100 giá trị; thêm 10 validator Python mỗi dòng là ~120 × 40 ns ≈ 5 µs — nhỏ so với 25–30 µs validate toàn bộ và vô nghĩa so với một truy vấn database (ms). <strong>Đừng tối ưu sớm</strong>: viết quy tắc ngữ nghĩa bằng Python là đúng.</li>
+<li>Nhưng với quy tắc <strong>có sẵn trong core</strong> (<code>gt</code>, <code>ge</code>, <code>max_length</code>, <code>pattern</code>, <code>multiple_of</code>, <code>max_digits</code>, <code>Literal</code>), luôn dùng core: vừa nhanh hơn, vừa <strong>tự sinh JSON Schema</strong> (<code>exclusiveMinimum</code>, <code>pattern</code>…) mà validator Python không làm được, vừa có mã lỗi chuẩn.</li>
+</ul>
+<hr />
+<h2 id="3-kieu-tuy-bien">3. Kiểu tùy biến<a class="headerlink" href="#3-kieu-tuy-bien" title="Permanent link">&para;</a></h2>
+<h3 id="31-muc-1-annotated-co-ten">3.1. Mức 1 — <code>Annotated</code> có tên<a class="headerlink" href="#31-muc-1-annotated-co-ten" title="Permanent link">&para;</a></h3>
+<p>Cách đơn giản và đủ dùng nhất: đặt tên cho tổ hợp kiểu + ràng buộc + validator.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">VND</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">15</span><span class="p">)]</span>                               <span class="c1"># tiền: nguyên, có trần</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">Qty</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">Decimal</span><span class="p">,</span> <span class="n">Field</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">9</span><span class="p">,</span> <span class="n">max_digits</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">decimal_places</span><span class="o">=</span><span class="mi">4</span><span class="p">)]</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">VatRate</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"0"</span><span class="p">,</span> <span class="s2">"5"</span><span class="p">,</span> <span class="s2">"8"</span><span class="p">,</span> <span class="s2">"10"</span><span class="p">,</span> <span class="s2">"KCT"</span><span class="p">,</span> <span class="s2">"KKKNT"</span><span class="p">]</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">NonBlank</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">StringConstraints</span><span class="p">(</span><span class="n">strip_whitespace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
+</span></code></pre></div>
+<p>Ưu điểm: không cần class mới, JSON Schema tự sinh, dùng chung ở mọi model. Nhược điểm: giá trị vẫn là <code>int</code>/<code>str</code> thường — kiểu tĩnh không phân biệt được <code>VND</code> với <code>int</code> (có thể bổ sung bằng <code>NewType</code> cho type checker).</p>
+<h3 id="32-muc-2-class-co-__get_pydantic_core_schema__">3.2. Mức 2 — class có <code>__get_pydantic_core_schema__</code><a class="headerlink" href="#32-muc-2-class-co-__get_pydantic_core_schema__" title="Permanent link">&para;</a></h3>
+<p>Khi muốn giá trị mang <strong>kiểu riêng</strong> (để type checker và code nghiệp vụ phân biệt), có <strong>mã lỗi riêng</strong> và <strong>JSON Schema tùy chỉnh</strong>:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">GetCoreSchemaHandler</span><span class="p">,</span> <span class="n">GetJsonSchemaHandler</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic_core</span><span class="w"> </span><span class="kn">import</span> <span class="n">PydanticCustomError</span><span class="p">,</span> <span class="n">core_schema</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">WEIGHTS</span> <span class="o">=</span> <span class="p">(</span><span class="mi">31</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="k">class</span><span class="w"> </span><span class="nc">TaxCode</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span><span class="sd">"""Mã số thuế đã chuẩn hóa và kiểm tra chữ số cuối. Chỉ tạo được qua validate."""</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    <span class="nd">@classmethod</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_parse</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"TaxCode"</span><span class="p">:</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>        <span class="n">s</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"-"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"."</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">" "</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">13</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">s</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>            <span class="k">raise</span> <span class="n">PydanticCustomError</span><span class="p">(</span><span class="s2">"tax_code_format"</span><span class="p">,</span> <span class="s2">"MST phải có 10 hoặc 13 chữ số"</span><span class="p">)</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>        <span class="k">if</span> <span class="n">s</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">9</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"0000000"</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="mi">13</span> <span class="ow">and</span> <span class="n">s</span><span class="p">[</span><span class="mi">10</span><span class="p">:]</span> <span class="o">==</span> <span class="s2">"000"</span><span class="p">):</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>            <span class="k">raise</span> <span class="n">PydanticCustomError</span><span class="p">(</span><span class="s2">"tax_code_format"</span><span class="p">,</span> <span class="s2">"MST có thành phần không hợp lệ"</span><span class="p">)</span>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>        <span class="n">check</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">-</span> <span class="nb">sum</span><span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">WEIGHTS</span><span class="p">,</span> <span class="n">s</span><span class="p">))</span> <span class="o">%</span> <span class="mi">11</span>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>        <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">check</span><span class="p">)</span> <span class="o">!=</span> <span class="n">s</span><span class="p">[</span><span class="mi">9</span><span class="p">]:</span>
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>            <span class="k">raise</span> <span class="n">PydanticCustomError</span><span class="p">(</span><span class="s2">"tax_code_checksum"</span><span class="p">,</span> <span class="s2">"MST sai chữ số kiểm tra (cần </span><span class="si">{expected}</span><span class="s2">)"</span><span class="p">,</span>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>                                      <span class="p">{</span><span class="s2">"expected"</span><span class="p">:</span> <span class="n">check</span> <span class="k">if</span> <span class="n">check</span> <span class="o">&lt;</span> <span class="mi">10</span> <span class="k">else</span> <span class="s2">"không có"</span><span class="p">})</span>
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>
+</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>    <span class="nd">@classmethod</span>
+</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">__get_pydantic_core_schema__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">handler</span><span class="p">:</span> <span class="n">GetCoreSchemaHandler</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">core_schema</span><span class="o">.</span><span class="n">CoreSchema</span><span class="p">:</span>
+</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>        <span class="c1"># chuỗi 10–17 ký tự (cho phép dấu phân cách) → _parse; khi serialize trả về str thường</span>
+</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>        <span class="k">return</span> <span class="n">core_schema</span><span class="o">.</span><span class="n">no_info_after_validator_function</span><span class="p">(</span>
+</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>            <span class="bp">cls</span><span class="o">.</span><span class="n">_parse</span><span class="p">,</span> <span class="n">core_schema</span><span class="o">.</span><span class="n">str_schema</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">17</span><span class="p">),</span>
+</span><span id="__span-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>            <span class="n">serialization</span><span class="o">=</span><span class="n">core_schema</span><span class="o">.</span><span class="n">to_string_ser_schema</span><span class="p">())</span>
+</span><span id="__span-4-29"><a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a>
+</span><span id="__span-4-30"><a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a>    <span class="nd">@classmethod</span>
+</span><span id="__span-4-31"><a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">__get_pydantic_json_schema__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">cs</span><span class="p">,</span> <span class="n">handler</span><span class="p">:</span> <span class="n">GetJsonSchemaHandler</span><span class="p">):</span>
+</span><span id="__span-4-32"><a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a>        <span class="n">js</span> <span class="o">=</span> <span class="n">handler</span><span class="p">(</span><span class="n">cs</span><span class="p">)</span>
+</span><span id="__span-4-33"><a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a>        <span class="n">js</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="sa">r</span><span class="s2">"^\d</span><span class="si">{10}</span><span class="s2">(-?\d</span><span class="si">{3}</span><span class="s2">)?$"</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Mã số thuế 10 hoặc 13 chữ số"</span><span class="p">,</span>
+</span><span id="__span-4-34"><a id="__codelineno-4-34" name="__codelineno-4-34" href="#__codelineno-4-34"></a>                  <span class="n">examples</span><span class="o">=</span><span class="p">[</span><span class="s2">"0100233488"</span><span class="p">])</span>
+</span><span id="__span-4-35"><a id="__codelineno-4-35" name="__codelineno-4-35" href="#__codelineno-4-35"></a>        <span class="k">return</span> <span class="n">js</span>
+</span></code></pre></div>
+<p>Ba điểm của thiết kế:</p>
+<ul>
+<li><strong><code>PydanticCustomError(type, template, ctx)</code></strong> thay cho <code>ValueError</code>: lỗi có <code>type</code> riêng (<code>tax_code_checksum</code>) để client và bảng dịch thông báo (Module 03) xử lý theo mã, và <code>ctx</code> có giá trị đúng (<code>expected: 8</code>).</li>
+<li><strong>Phần rẻ trong Rust, phần đắt trong Python</strong>: <code>str_schema(min_length=10, max_length=17)</code> chặn chuỗi rác trước khi <code>_parse</code> chạy.</li>
+<li><strong>JSON Schema đúng sự thật</strong>: tài liệu OpenAPI cho client thấy <code>pattern</code>, ví dụ, mô tả — dù checksum (không biểu diễn được bằng JSON Schema) chỉ kiểm tra ở server.</li>
+</ul>
+<!-- placeholder-custom-type -->
+
+<!-- fig:custom-type -->
+<figure>
+  <img alt="Luồng validate của kiểu TaxCode: kiểm tra độ dài trong Rust, chuẩn hóa và checksum trong Python, lỗi có mã riêng, JSON Schema tùy chỉnh" loading="lazy" src="../assets/figures/04/custom-type.light.svg#only-light" />
+  <img alt="Luồng validate của kiểu TaxCode: kiểm tra độ dài trong Rust, chuẩn hóa và checksum trong Python, lỗi có mã riêng, JSON Schema tùy chỉnh" loading="lazy" src="../assets/figures/04/custom-type.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 4.3 — Luồng validate của kiểu TaxCode: kiểm tra độ dài trong Rust, chuẩn hóa và checksum trong Python, lỗi có mã riêng, JSON Schema tùy chỉnh.</figcaption>
+</figure>
+<!-- /fig -->
+
+<h3 id="33-thu-vien-co-san">3.3. Thư viện có sẵn<a class="headerlink" href="#33-thu-vien-co-san" title="Permanent link">&para;</a></h3>
+<p>Trước khi tự viết, kiểm tra: <code>annotated-types</code> (ràng buộc chuẩn <code>Gt</code>, <code>Len</code>, <code>MultipleOf</code>, <code>Predicate</code>), các kiểu có sẵn của Pydantic (<code>EmailStr</code> cần gói <code>email-validator</code>, <code>AnyUrl</code>, <code>IPvAnyAddress</code>, <code>SecretStr</code>, <code>PastDatetime</code>, <code>AwareDatetime</code>, <code>UUID4</code>, <code>ByteSize</code>…) và <code>pydantic-extra-types</code> (số điện thoại, mã quốc gia, tiền tệ ISO 4217, màu…). Với dữ liệu riêng của Việt Nam (MST, CCCD, mã ngân hàng), bạn tự viết như trên; thuật toán MST có thể đối chiếu với <code>python-stdnum</code> (<code>stdnum.vn.mst</code>).</p>
+<hr />
+<h2 id="4-kiem-tra-lien-truong-va-bay-lam-tron">4. Kiểm tra liên trường và bẫy làm tròn<a class="headerlink" href="#4-kiem-tra-lien-truong-va-bay-lam-tron" title="Permanent link">&para;</a></h2>
+<h3 id="41-van-e">4.1. Vấn đề<a class="headerlink" href="#41-van-e" title="Permanent link">&para;</a></h3>
+<p>Ba quy tắc tầng 3 của hóa đơn:</p>
+<div class="arithmatex">\[
+\text{amount}_i = \operatorname{round}(q_i \cdot p_i), \qquad
+T_{\text{trước thuế}} = \sum_i \text{amount}_i, \qquad
+T_{\text{thuế}} = \sum_i \operatorname{round}\!\left(\text{amount}_i \cdot \frac{r_i}{100}\right), \qquad
+T = T_{\text{trước thuế}} + T_{\text{thuế}}.
+\]</div>
+<p>Câu hỏi kỹ thuật duy nhất là <strong>"round" nghĩa là gì</strong>. Và đó cũng là chỗ hay sai nhất.</p>
+<h3 id="42-bay-1-round-cua-python-la-lam-tron-ngan-hang">4.2. Bẫy 1 — <code>round()</code> của Python là làm tròn ngân hàng<a class="headerlink" href="#42-bay-1-round-cua-python-la-lam-tron-ngan-hang" title="Permanent link">&para;</a></h3>
+<p><code>round()</code> trong Python làm tròn <strong>nửa về số chẵn</strong> (banker's rounding): <code>round(0.5) == 0</code>, <code>round(2.5) == 2</code>. Kế toán thường dùng <strong>nửa lên</strong> (half-up). Ví dụ số với thuế suất 5%:</p>
+<table>
+<thead>
+<tr>
+<th>amount</th>
+<th>amount × 5%</th>
+<th><code>round()</code> (half-even)</th>
+<th>half-up</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>27.510</td>
+<td>1.375,5</td>
+<td>1.376</td>
+<td>1.376</td>
+</tr>
+<tr>
+<td>27.530</td>
+<td>1.376,5</td>
+<td><strong>1.376</strong></td>
+<td><strong>1.377</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Lệch 1 đồng trên một dòng là đủ để tổng thuế của client và server khác nhau → hóa đơn bị từ chối, hoặc tệ hơn, được chấp nhận với số sai. Quy tắc làm tròn là <strong>quyết định nghiệp vụ</strong> phải ghi trong tài liệu API và cài giống hệt nhau ở mọi bên.</p>
+<h3 id="43-bay-2-float-khong-bieu-dien-uoc-so-thap-phan">4.3. Bẫy 2 — float không biểu diễn được số thập phân<a class="headerlink" href="#43-bay-2-float-khong-bieu-dien-uoc-so-thap-phan" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="mf">0.29</span> <span class="o">*</span> <span class="mi">100</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="mf">28.999999999999996</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">int</span><span class="p">(</span><span class="mf">0.29</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>          <span class="c1"># cắt phần thập phân</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="mi">28</span>
+</span></code></pre></div>
+<p>Số lượng <code>0,29 kg</code> × đơn giá <code>100</code> đồng thành 28 đồng nếu ai đó dùng <code>int()</code>. Với tiền và số lượng có phần thập phân, dùng <strong><code>Decimal</code></strong> từ đầu (Pydantic parse chuỗi/số JSON thẳng thành <code>Decimal</code>, không đi qua float) và làm tròn tường minh:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">decimal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decimal</span><span class="p">,</span> <span class="n">ROUND_HALF_UP</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="k">def</span><span class="w"> </span><span class="nf">half_up</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Decimal</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">quantize</span><span class="p">(</span><span class="n">Decimal</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">rounding</span><span class="o">=</span><span class="n">ROUND_HALF_UP</span><span class="p">))</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="n">half_up</span><span class="p">(</span><span class="n">Decimal</span><span class="p">(</span><span class="s2">"1.5"</span><span class="p">)</span> <span class="o">*</span> <span class="mi">18353</span><span class="p">)</span>        <span class="c1"># 27529,5 → 27530</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="n">half_up</span><span class="p">(</span><span class="n">Decimal</span><span class="p">(</span><span class="mi">27530</span><span class="p">)</span> <span class="o">*</span> <span class="mi">5</span> <span class="o">/</span> <span class="mi">100</span><span class="p">)</span>      <span class="c1"># 1376,5 → 1377</span>
+</span></code></pre></div>
+<!-- placeholder-rounding -->
+
+<!-- fig:rounding -->
+<figure>
+  <img alt="Mô phỏng 10" loading="lazy" src="../assets/figures/04/rounding.light.svg#only-light" />
+  <img alt="Mô phỏng 10" loading="lazy" src="../assets/figures/04/rounding.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 4.4 — Mô phỏng 10.000 hóa đơn: độ lệch tổng thuế giữa half-up và round() của Python (trái), và giữa làm tròn từng dòng với làm tròn tổng (phải).</figcaption>
+</figure>
+<!-- /fig -->
+
+<p>Hai bẫy này không hiếm. Mô phỏng 10.000 hóa đơn 12 dòng (tiền là bội của 10 đồng như thực tế bán lẻ, thuế suất 5/8/10%): <strong>65%</strong> hóa đơn có tổng thuế tính bằng half-up khác tổng tính bằng <code>round()</code> của Python (lệch tới 6 đồng), vì với thuế suất 5% mọi <code>amount</code> có dạng <span class="arithmatex">\(20k + 10\)</span> đều cho phần lẻ đúng 0,5.</p>
+<h3 id="44-bay-3-lam-tron-tung-dong-hay-lam-tron-tong">4.4. Bẫy 3 — làm tròn từng dòng hay làm tròn tổng<a class="headerlink" href="#44-bay-3-lam-tron-tung-dong-hay-lam-tron-tong" title="Permanent link">&para;</a></h3>
+<p><span class="arithmatex">\(\sum_i \operatorname{round}(t_i)\)</span> và <span class="arithmatex">\(\operatorname{round}(\sum_i t_i)\)</span> có thể lệch nhau. Với <span class="arithmatex">\(n\)</span> dòng, mỗi lần làm tròn sai lệch tối đa <span class="arithmatex">\(\tfrac12\)</span>, nên</p>
+<div class="arithmatex">\[
+\left|\sum_{i=1}^{n} \operatorname{round}(t_i) - \operatorname{round}\!\Big(\sum_{i=1}^{n} t_i\Big)\right| \le \frac{n}{2} + \frac12.
+\]</div>
+<p>Hóa đơn 12 dòng có thể lệch tới vài đồng tùy cách tính; trong mô phỏng ở hình trên, <strong>74%</strong> hóa đơn có hai cách tính cho kết quả khác nhau (lệch từ −2 đến +4 đồng). <code>invoice-api</code> chọn <strong>làm tròn từng dòng rồi cộng</strong> (khớp với cách in trên hóa đơn: mỗi dòng có tiền thuế riêng) và ghi rõ trong tài liệu.</p>
+<h3 id="45-cai-at-model-validator-after">4.5. Cài đặt: model validator <code>after</code><a class="headerlink" href="#45-cai-at-model-validator-after" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">LineIn</span><span class="p">(</span><span class="n">RequestModel</span><span class="p">):</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>    <span class="o">...</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    <span class="n">quantity</span><span class="p">:</span> <span class="n">Qty</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    <span class="n">unit_price</span><span class="p">:</span> <span class="n">VND</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>    <span class="n">vat_rate</span><span class="p">:</span> <span class="n">VatRate</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>    <span class="n">amount</span><span class="p">:</span> <span class="n">VND</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"after"</span><span class="p">)</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_amount</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>        <span class="n">expected</span> <span class="o">=</span> <span class="n">half_up</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">quantity</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">unit_price</span><span class="p">)</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">amount</span> <span class="o">!=</span> <span class="n">expected</span><span class="p">:</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>            <span class="k">raise</span> <span class="n">PydanticCustomError</span><span class="p">(</span><span class="s2">"line_amount"</span><span class="p">,</span>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>                                      <span class="s2">"amount phải bằng làm tròn(quantity × unit_price) = </span><span class="si">{expected}</span><span class="s2">"</span><span class="p">,</span>
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>                                      <span class="p">{</span><span class="s2">"expected"</span><span class="p">:</span> <span class="n">expected</span><span class="p">})</span>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>        <span class="k">return</span> <span class="bp">self</span>
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>    <span class="nd">@property</span>
+</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">tax</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+</span><span id="__span-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a>        <span class="k">return</span> <span class="n">half_up</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">amount</span> <span class="o">*</span> <span class="n">RATE</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">vat_rate</span><span class="p">]</span> <span class="o">/</span> <span class="mi">100</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Kiểm tra ở <strong>mức dòng</strong> đặt trong <code>LineIn</code> (lỗi có <code>loc = ('lines', 1)</code> — client biết dòng nào sai), kiểm tra <strong>tổng</strong> đặt trong <code>InvoiceIn</code> (lỗi ở gốc, <code>loc = ()</code>). Mã đầy đủ ở mục 7.</p>
+<hr />
+<h2 id="5-union-smart-left-to-right-va-discriminated">5. Union: smart, left-to-right và discriminated<a class="headerlink" href="#5-union-smart-left-to-right-va-discriminated" title="Permanent link">&para;</a></h2>
+<h3 id="51-van-e">5.1. Vấn đề<a class="headerlink" href="#51-van-e" title="Permanent link">&para;</a></h3>
+<p>Một hóa đơn có thể kèm thông tin thanh toán: thẻ (<code>last4</code>), chuyển khoản (<code>bank_code</code>, <code>ref</code>), tiền mặt, ví điện tử (<code>provider</code>, <code>phone</code>), voucher (<code>code</code>). JSON không mang tên class (Module 01, mục 1.4) — server phải <strong>đoán</strong> object thuộc loại nào.</p>
+<h3 id="52-smart-mode-mac-inh">5.2. Smart mode (mặc định)<a class="headerlink" href="#52-smart-mode-mac-inh" title="Permanent link">&para;</a></h3>
+<p>Với <code>Card | Transfer | Cash | EWallet | Voucher</code>, Pydantic thử lần lượt các thành viên: trước hết ở chế độ strict để tìm thành viên khớp <strong>chính xác</strong>; nếu không có, thử lại ở chế độ lax; khi nhiều thành viên cùng hợp lệ, chọn cái "khớp tốt nhất" (với model: nhiều trường được đặt nhất). Hệ quả kiểm chứng được:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">TypeAdapter</span><span class="p">(</span><span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">validate_python</span><span class="p">(</span><span class="s2">"1"</span><span class="p">)</span>     <span class="c1"># '1'  — str khớp chính xác, không ép sang int</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="n">TypeAdapter</span><span class="p">(</span><span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">validate_python</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>     <span class="c1"># 1    — int khớp chính xác, không thành 1.0</span>
+</span></code></pre></div>
+<p>Hai cái giá:</p>
+<ol>
+<li><strong>Chi phí <span class="arithmatex">\(O(k)\)</span></strong>: trong trường hợp xấu, mọi thành viên đều được thử (có khi hai lượt). Đo thật: chi phí mỗi phần tử tăng gần tuyến tính theo vị trí của thành viên khớp — từ ~570 ns (1 thành viên) lên ~3.500 ns khi thành viên khớp là thành viên thứ 5.</li>
+<li><strong>Bùng nổ lỗi</strong>: khi phần tử không khớp thành viên nào, Pydantic báo lỗi của <strong>từng</strong> thành viên. Một khoản thanh toán ví điện tử có <code>provider: "paypal"</code> sinh ra <strong>9 lỗi</strong> — client phải tự đoán lỗi nào là lỗi thật.</li>
+</ol>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># một phần tử chuyển khoản thiếu "ref"</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">smart</span> <span class="err">→</span> <span class="mi">4</span> <span class="n">lỗi</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="s1">'Card'</span><span class="p">,</span><span class="s1">'method'</span><span class="p">)</span> <span class="n">literal_error</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="s1">'Card'</span><span class="p">,</span><span class="s1">'last4'</span><span class="p">)</span> <span class="n">missing</span><span class="p">,</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>               <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="s1">'Transfer'</span><span class="p">,</span><span class="s1">'ref'</span><span class="p">)</span> <span class="n">missing</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="s1">'Cash'</span><span class="p">,</span><span class="s1">'method'</span><span class="p">)</span> <span class="n">literal_error</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="n">discriminated</span> <span class="err">→</span> <span class="mi">1</span> <span class="n">lỗi</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="s1">'transfer'</span><span class="p">,</span><span class="s1">'ref'</span><span class="p">)</span> <span class="n">missing</span>
+</span></code></pre></div>
+<h3 id="53-discriminated-union-tagged-union">5.3. Discriminated union (tagged union)<a class="headerlink" href="#53-discriminated-union-tagged-union" title="Permanent link">&para;</a></h3>
+<p>Khi mọi thành viên có một trường <strong>thẻ</strong> (tag) với giá trị <code>Literal</code> khác nhau, khai báo nó:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">Payment</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">Card</span> <span class="o">|</span> <span class="n">Transfer</span> <span class="o">|</span> <span class="n">Cash</span> <span class="o">|</span> <span class="n">EWallet</span> <span class="o">|</span> <span class="n">Voucher</span><span class="p">,</span> <span class="n">Field</span><span class="p">(</span><span class="n">discriminator</span><span class="o">=</span><span class="s2">"method"</span><span class="p">)]</span>
+</span></code></pre></div>
+<p>Pydantic dựng một <strong>bảng băm</strong> <code>method → validator</code>, đọc tag và nhảy thẳng tới đúng thành viên: <span class="arithmatex">\(O(1)\)</span>, đúng <strong>một</strong> lỗi có <code>loc</code> chứa tên tag (<code>('transfer', 'ref')</code>), và tag lạ cho lỗi rõ ràng <code>union_tag_invalid</code> kèm danh sách tag hợp lệ. JSON Schema sinh ra dùng <code>oneOf</code> + <code>discriminator</code> của OpenAPI — client sinh code (TypeScript, Kotlin) nhận đúng kiểu.</p>
+<!-- fig:union-flow -->
+<figure>
+  <img alt="Smart union thử lần lượt các thành viên; discriminated union tra bảng theo thẻ" loading="lazy" src="../assets/figures/04/union-flow.light.svg#only-light" />
+  <img alt="Smart union thử lần lượt các thành viên; discriminated union tra bảng theo thẻ" loading="lazy" src="../assets/figures/04/union-flow.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 4.5 — Smart union thử lần lượt các thành viên; discriminated union tra bảng theo thẻ. Khác biệt cũng thể hiện trong OpenAPI.</figcaption>
+</figure>
+<!-- /fig -->
+
+<!-- placeholder-union-cost -->
+
+<!-- fig:union-cost -->
+<figure>
+  <img alt="Số đo thật: chi phí smart union tăng theo vị trí của thành viên khớp, discriminated union thì không đổi (trái); tốc độ và số lỗi của bốn cách khai báo (phải)" loading="lazy" src="../assets/figures/04/union-cost.light.svg#only-light" />
+  <img alt="Số đo thật: chi phí smart union tăng theo vị trí của thành viên khớp, discriminated union thì không đổi (trái); tốc độ và số lỗi của bốn cách khai báo (phải)" loading="lazy" src="../assets/figures/04/union-cost.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 4.6 — Số đo thật: chi phí smart union tăng theo vị trí của thành viên khớp, discriminated union thì không đổi (trái); tốc độ và số lỗi của bốn cách khai báo (phải).</figcaption>
+</figure>
+<!-- /fig -->
+
+<table>
+<thead>
+<tr>
+<th>Cách khai báo</th>
+<th>ns / phần tử (5 loại, dữ liệu trộn)</th>
+<th>Lỗi cho 1 phần tử sai</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>smart (mặc định)</td>
+<td>~3.560</td>
+<td>9</td>
+</tr>
+<tr>
+<td><code>union_mode="left_to_right"</code></td>
+<td>~2.120</td>
+<td>9</td>
+</tr>
+<tr>
+<td><code>Field(discriminator="method")</code></td>
+<td><strong>~710</strong></td>
+<td><strong>1</strong></td>
+</tr>
+<tr>
+<td><code>Discriminator(callable)</code></td>
+<td>~990</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p><code>left_to_right</code> thử theo thứ tự khai báo và lấy thành viên hợp lệ đầu tiên — nhanh hơn smart nhưng kết quả phụ thuộc thứ tự, dễ bất ngờ (<code>int | str</code> với <code>"1"</code> cho ra <code>1</code>).</p>
+<h3 id="54-khi-du-lieu-cu-khong-co-tag-discriminatorcallable">5.4. Khi dữ liệu cũ không có tag: <code>Discriminator(callable)</code><a class="headerlink" href="#54-khi-du-lieu-cu-khong-co-tag-discriminatorcallable" title="Permanent link">&para;</a></h3>
+<p>API phiên bản cũ của Mekong Cloud gửi thanh toán không có <code>method</code>. Một hàm tự suy ra tag từ hình dạng dữ liệu:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">Discriminator</span><span class="p">,</span> <span class="n">Tag</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="k">def</span><span class="w"> </span><span class="nf">infer_method</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>        <span class="k">if</span> <span class="s2">"method"</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span> <span class="k">return</span> <span class="n">v</span><span class="p">[</span><span class="s2">"method"</span><span class="p">]</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>        <span class="k">if</span> <span class="s2">"last4"</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span> <span class="k">return</span> <span class="s2">"card"</span>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>        <span class="k">if</span> <span class="s2">"bank_code"</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span> <span class="k">return</span> <span class="s2">"transfer"</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>        <span class="k">if</span> <span class="s2">"provider"</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span> <span class="k">return</span> <span class="s2">"ewallet"</span>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>        <span class="k">return</span> <span class="s2">"cash"</span>
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>    <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="s2">"method"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="n">PaymentCompat</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span>
+</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>    <span class="n">Annotated</span><span class="p">[</span><span class="n">Card</span><span class="p">,</span> <span class="n">Tag</span><span class="p">(</span><span class="s2">"card"</span><span class="p">)]</span> <span class="o">|</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">Transfer</span><span class="p">,</span> <span class="n">Tag</span><span class="p">(</span><span class="s2">"transfer"</span><span class="p">)]</span> <span class="o">|</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">Cash</span><span class="p">,</span> <span class="n">Tag</span><span class="p">(</span><span class="s2">"cash"</span><span class="p">)]</span>
+</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>    <span class="o">|</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">EWallet</span><span class="p">,</span> <span class="n">Tag</span><span class="p">(</span><span class="s2">"ewallet"</span><span class="p">)]</span> <span class="o">|</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">Voucher</span><span class="p">,</span> <span class="n">Tag</span><span class="p">(</span><span class="s2">"voucher"</span><span class="p">)],</span>
+</span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a>    <span class="n">Discriminator</span><span class="p">(</span><span class="n">infer_method</span><span class="p">),</span>
+</span><span id="__span-11-16"><a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a><span class="p">]</span>
+</span></code></pre></div>
+<p>Chi phí cao hơn tag thuần một chút (một lời gọi Python), nhưng vẫn <span class="arithmatex">\(O(1)\)</span> và một lỗi. Nguyên tắc: <strong>thiết kế API mới luôn có tag</strong>; dùng callable để tương thích ngược.</p>
+<hr />
+<h2 id="6-generic-rootmodel-va-model-e-quy">6. Generic, RootModel và model đệ quy<a class="headerlink" href="#6-generic-rootmodel-va-model-e-quy" title="Permanent link">&para;</a></h2>
+<h3 id="61-generic-mot-kieu-phan-trang-cho-moi-tai-nguyen">6.1. Generic: một kiểu phân trang cho mọi tài nguyên<a class="headerlink" href="#61-generic-mot-kieu-phan-trang-cho-moi-tai-nguyen" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Generic</span><span class="p">,</span> <span class="n">TypeVar</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">"T"</span><span class="p">)</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="k">class</span><span class="w"> </span><span class="nc">Page</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">Generic</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>    <span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">T</span><span class="p">]</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>    <span class="n">next_cursor</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="k">class</span><span class="w"> </span><span class="nc">InvoiceSummary</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>    <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span>
+</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>    <span class="n">total</span><span class="p">:</span> <span class="nb">int</span>
+</span><span id="__span-12-13"><a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a>
+</span><span id="__span-12-14"><a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a><span class="n">Page</span><span class="p">[</span><span class="n">InvoiceSummary</span><span class="p">]</span><span class="o">.</span><span class="n">model_validate</span><span class="p">({</span><span class="s2">"items"</span><span class="p">:</span> <span class="p">[{</span><span class="s2">"id"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"total"</span><span class="p">:</span> <span class="s2">"5"</span><span class="p">}]})</span>
+</span><span id="__span-12-15"><a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a><span class="c1"># items=[InvoiceSummary(id=1, total=5)] next_cursor=None — tên model sinh ra: "Page[InvoiceSummary]"</span>
+</span><span id="__span-12-16"><a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a>
+</span><span id="__span-12-17"><a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a><span class="k">class</span><span class="w"> </span><span class="nc">Page2</span><span class="p">[</span><span class="n">T</span><span class="p">](</span><span class="n">BaseModel</span><span class="p">):</span>           <span class="c1"># cú pháp PEP 695 (Python 3.12+) cũng được hỗ trợ</span>
+</span><span id="__span-12-18"><a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a>    <span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">T</span><span class="p">]</span>
+</span></code></pre></div>
+<p>FastAPI dùng <code>Page[InvoiceSummary]</code> làm <code>response_model</code> cho <code>GET /v1/invoices</code> — OpenAPI có schema riêng cho từng tham số kiểu.</p>
+<h3 id="62-rootmodel-khi-goc-khong-phai-object">6.2. <code>RootModel</code>: khi gốc không phải object<a class="headerlink" href="#62-rootmodel-khi-goc-khong-phai-object" title="Permanent link">&para;</a></h3>
+<p><code>RootModel[list[int]]</code> validate một mảng JSON ở gốc (<code>[1, 2]</code> → <code>.root == [1, 2]</code>). Với API mới, mình khuyên <strong>gốc luôn là object</strong> (<code>{"items": [...]}</code>) để sau này thêm trường (<code>next_cursor</code>, <code>warnings</code>) mà không phá client; <code>RootModel</code>/<code>TypeAdapter</code> để đọc định dạng có sẵn.</p>
+<h3 id="63-model-e-quy-va-gioi-han-o-sau">6.3. Model đệ quy và giới hạn độ sâu<a class="headerlink" href="#63-model-e-quy-va-gioi-han-o-sau" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">Category</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>    <span class="n">children</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="s2">"Category"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+</span></code></pre></div>
+<p>Dữ liệu đệ quy là cửa cho tấn công cạn tài nguyên: JSON lồng sâu hàng nghìn cấp. Thí nghiệm: một payload lồng ~300 cấp <code>{"children": [ ... ]}</code> bị <strong>jiter từ chối</strong> với lỗi <code>json_invalid: recursion limit exceeded</code> ở khoảng cấp thứ 100 — bộ parse có giới hạn độ sâu cứng. Tốt, nhưng vẫn nên đặt <code>max_length</code> cho danh sách con và giới hạn kích thước body ở tầng 0 (Module 11).</p>
+<hr />
+<h2 id="7-case-mekong-cloud-invoicein-phien-ban-2">7. Case Mekong Cloud: <code>InvoiceIn</code> phiên bản 2<a class="headerlink" href="#7-case-mekong-cloud-invoicein-phien-ban-2" title="Permanent link">&para;</a></h2>
+<p>Ghép tất cả: tầng 1–2 trong Rust (Module 03), tầng 3 bằng validator Python có mã lỗi riêng. Mã đầy đủ, đã chạy thử:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># invoice_v2.py — model hóa đơn phiên bản 2: đủ tầng 1–3 (Pydantic 2.14)</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">decimal</span><span class="w"> </span><span class="kn">import</span> <span class="n">ROUND_HALF_UP</span><span class="p">,</span> <span class="n">Decimal</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span><span class="p">,</span> <span class="n">Literal</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">AfterValidator</span><span class="p">,</span> <span class="n">AwareDatetime</span><span class="p">,</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ConfigDict</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">model_validator</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic_core</span><span class="w"> </span><span class="kn">import</span> <span class="n">PydanticCustomError</span>
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="c1"># TaxCode: xem mục 3.2</span>
+</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="n">RATE</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"0"</span><span class="p">:</span> <span class="n">Decimal</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="s2">"5"</span><span class="p">:</span> <span class="n">Decimal</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="s2">"8"</span><span class="p">:</span> <span class="n">Decimal</span><span class="p">(</span><span class="mi">8</span><span class="p">),</span> <span class="s2">"10"</span><span class="p">:</span> <span class="n">Decimal</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="s2">"KCT"</span><span class="p">:</span> <span class="n">Decimal</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="s2">"KKKNT"</span><span class="p">:</span> <span class="n">Decimal</span><span class="p">(</span><span class="mi">0</span><span class="p">)}</span>
+</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>
+</span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="k">def</span><span class="w"> </span><span class="nf">half_up</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Decimal</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+</span><span id="__span-14-12"><a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a>    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">quantize</span><span class="p">(</span><span class="n">Decimal</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">rounding</span><span class="o">=</span><span class="n">ROUND_HALF_UP</span><span class="p">))</span>
+</span><span id="__span-14-13"><a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a>
+</span><span id="__span-14-14"><a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a><span class="n">VND</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">15</span><span class="p">)]</span>
+</span><span id="__span-14-15"><a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a><span class="n">Qty</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">Decimal</span><span class="p">,</span> <span class="n">Field</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">9</span><span class="p">,</span> <span class="n">max_digits</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">decimal_places</span><span class="o">=</span><span class="mi">4</span><span class="p">)]</span>
+</span><span id="__span-14-16"><a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a><span class="n">VatRate</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"0"</span><span class="p">,</span> <span class="s2">"5"</span><span class="p">,</span> <span class="s2">"8"</span><span class="p">,</span> <span class="s2">"10"</span><span class="p">,</span> <span class="s2">"KCT"</span><span class="p">,</span> <span class="s2">"KKKNT"</span><span class="p">]</span>
+</span><span id="__span-14-17"><a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a>
+</span><span id="__span-14-18"><a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a><span class="k">class</span><span class="w"> </span><span class="nc">RequestModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+</span><span id="__span-14-19"><a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a>    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">extra</span><span class="o">=</span><span class="s2">"forbid"</span><span class="p">,</span> <span class="n">str_strip_whitespace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-14-20"><a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a>
+</span><span id="__span-14-21"><a id="__codelineno-14-21" name="__codelineno-14-21" href="#__codelineno-14-21"></a><span class="k">class</span><span class="w"> </span><span class="nc">BuyerIn</span><span class="p">(</span><span class="n">RequestModel</span><span class="p">):</span>
+</span><span id="__span-14-22"><a id="__codelineno-14-22" name="__codelineno-14-22" href="#__codelineno-14-22"></a>    <span class="n">name</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Field</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">400</span><span class="p">)]</span>
+</span><span id="__span-14-23"><a id="__codelineno-14-23" name="__codelineno-14-23" href="#__codelineno-14-23"></a>    <span class="n">tax_code</span><span class="p">:</span> <span class="n">TaxCode</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="__span-14-24"><a id="__codelineno-14-24" name="__codelineno-14-24" href="#__codelineno-14-24"></a>    <span class="n">email</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Field</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">254</span><span class="p">)]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="__span-14-25"><a id="__codelineno-14-25" name="__codelineno-14-25" href="#__codelineno-14-25"></a>    <span class="n">address</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Field</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">400</span><span class="p">)]</span> <span class="o">=</span> <span class="s2">""</span>
+</span><span id="__span-14-26"><a id="__codelineno-14-26" name="__codelineno-14-26" href="#__codelineno-14-26"></a>
+</span><span id="__span-14-27"><a id="__codelineno-14-27" name="__codelineno-14-27" href="#__codelineno-14-27"></a><span class="k">class</span><span class="w"> </span><span class="nc">LineIn</span><span class="p">(</span><span class="n">RequestModel</span><span class="p">):</span>
+</span><span id="__span-14-28"><a id="__codelineno-14-28" name="__codelineno-14-28" href="#__codelineno-14-28"></a>    <span class="n">line_no</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">1000</span><span class="p">)]</span>
+</span><span id="__span-14-29"><a id="__codelineno-14-29" name="__codelineno-14-29" href="#__codelineno-14-29"></a>    <span class="n">sku</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Field</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">)]</span>
+</span><span id="__span-14-30"><a id="__codelineno-14-30" name="__codelineno-14-30" href="#__codelineno-14-30"></a>    <span class="n">name</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Field</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">500</span><span class="p">)]</span>
+</span><span id="__span-14-31"><a id="__codelineno-14-31" name="__codelineno-14-31" href="#__codelineno-14-31"></a>    <span class="n">unit</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Field</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">)]</span>
+</span><span id="__span-14-32"><a id="__codelineno-14-32" name="__codelineno-14-32" href="#__codelineno-14-32"></a>    <span class="n">quantity</span><span class="p">:</span> <span class="n">Qty</span>
+</span><span id="__span-14-33"><a id="__codelineno-14-33" name="__codelineno-14-33" href="#__codelineno-14-33"></a>    <span class="n">unit_price</span><span class="p">:</span> <span class="n">VND</span>
+</span><span id="__span-14-34"><a id="__codelineno-14-34" name="__codelineno-14-34" href="#__codelineno-14-34"></a>    <span class="n">vat_rate</span><span class="p">:</span> <span class="n">VatRate</span>
+</span><span id="__span-14-35"><a id="__codelineno-14-35" name="__codelineno-14-35" href="#__codelineno-14-35"></a>    <span class="n">amount</span><span class="p">:</span> <span class="n">VND</span>
+</span><span id="__span-14-36"><a id="__codelineno-14-36" name="__codelineno-14-36" href="#__codelineno-14-36"></a>
+</span><span id="__span-14-37"><a id="__codelineno-14-37" name="__codelineno-14-37" href="#__codelineno-14-37"></a>    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"after"</span><span class="p">)</span>
+</span><span id="__span-14-38"><a id="__codelineno-14-38" name="__codelineno-14-38" href="#__codelineno-14-38"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_amount</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="__span-14-39"><a id="__codelineno-14-39" name="__codelineno-14-39" href="#__codelineno-14-39"></a>        <span class="n">expected</span> <span class="o">=</span> <span class="n">half_up</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">quantity</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">unit_price</span><span class="p">)</span>
+</span><span id="__span-14-40"><a id="__codelineno-14-40" name="__codelineno-14-40" href="#__codelineno-14-40"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">amount</span> <span class="o">!=</span> <span class="n">expected</span><span class="p">:</span>
+</span><span id="__span-14-41"><a id="__codelineno-14-41" name="__codelineno-14-41" href="#__codelineno-14-41"></a>            <span class="k">raise</span> <span class="n">PydanticCustomError</span><span class="p">(</span><span class="s2">"line_amount"</span><span class="p">,</span> <span class="s2">"amount phải bằng làm tròn(quantity × unit_price) = </span><span class="si">{expected}</span><span class="s2">"</span><span class="p">,</span>
+</span><span id="__span-14-42"><a id="__codelineno-14-42" name="__codelineno-14-42" href="#__codelineno-14-42"></a>                                      <span class="p">{</span><span class="s2">"expected"</span><span class="p">:</span> <span class="n">expected</span><span class="p">})</span>
+</span><span id="__span-14-43"><a id="__codelineno-14-43" name="__codelineno-14-43" href="#__codelineno-14-43"></a>        <span class="k">return</span> <span class="bp">self</span>
+</span><span id="__span-14-44"><a id="__codelineno-14-44" name="__codelineno-14-44" href="#__codelineno-14-44"></a>
+</span><span id="__span-14-45"><a id="__codelineno-14-45" name="__codelineno-14-45" href="#__codelineno-14-45"></a>    <span class="nd">@property</span>
+</span><span id="__span-14-46"><a id="__codelineno-14-46" name="__codelineno-14-46" href="#__codelineno-14-46"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">tax</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+</span><span id="__span-14-47"><a id="__codelineno-14-47" name="__codelineno-14-47" href="#__codelineno-14-47"></a>        <span class="k">return</span> <span class="n">half_up</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">amount</span> <span class="o">*</span> <span class="n">RATE</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">vat_rate</span><span class="p">]</span> <span class="o">/</span> <span class="mi">100</span><span class="p">)</span>
+</span><span id="__span-14-48"><a id="__codelineno-14-48" name="__codelineno-14-48" href="#__codelineno-14-48"></a>
+</span><span id="__span-14-49"><a id="__codelineno-14-49" name="__codelineno-14-49" href="#__codelineno-14-49"></a><span class="k">def</span><span class="w"> </span><span class="nf">_unique_line_no</span><span class="p">(</span><span class="n">lines</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">LineIn</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">LineIn</span><span class="p">]:</span>
+</span><span id="__span-14-50"><a id="__codelineno-14-50" name="__codelineno-14-50" href="#__codelineno-14-50"></a>    <span class="n">nos</span> <span class="o">=</span> <span class="p">[</span><span class="n">l</span><span class="o">.</span><span class="n">line_no</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">]</span>
+</span><span id="__span-14-51"><a id="__codelineno-14-51" name="__codelineno-14-51" href="#__codelineno-14-51"></a>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">nos</span><span class="p">))</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">nos</span><span class="p">):</span>
+</span><span id="__span-14-52"><a id="__codelineno-14-52" name="__codelineno-14-52" href="#__codelineno-14-52"></a>        <span class="k">raise</span> <span class="n">PydanticCustomError</span><span class="p">(</span><span class="s2">"line_no_duplicate"</span><span class="p">,</span> <span class="s2">"line_no bị trùng"</span><span class="p">)</span>
+</span><span id="__span-14-53"><a id="__codelineno-14-53" name="__codelineno-14-53" href="#__codelineno-14-53"></a>    <span class="k">return</span> <span class="n">lines</span>
+</span><span id="__span-14-54"><a id="__codelineno-14-54" name="__codelineno-14-54" href="#__codelineno-14-54"></a>
+</span><span id="__span-14-55"><a id="__codelineno-14-55" name="__codelineno-14-55" href="#__codelineno-14-55"></a><span class="k">class</span><span class="w"> </span><span class="nc">InvoiceIn</span><span class="p">(</span><span class="n">RequestModel</span><span class="p">):</span>
+</span><span id="__span-14-56"><a id="__codelineno-14-56" name="__codelineno-14-56" href="#__codelineno-14-56"></a>    <span class="n">series</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Field</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="sa">r</span><span class="s2">"^[0-9][A-Z0-9]{1,9}$"</span><span class="p">)]</span>
+</span><span id="__span-14-57"><a id="__codelineno-14-57" name="__codelineno-14-57" href="#__codelineno-14-57"></a>    <span class="n">number</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">99_999_999</span><span class="p">)]</span>
+</span><span id="__span-14-58"><a id="__codelineno-14-58" name="__codelineno-14-58" href="#__codelineno-14-58"></a>    <span class="n">seller_tax_code</span><span class="p">:</span> <span class="n">TaxCode</span>
+</span><span id="__span-14-59"><a id="__codelineno-14-59" name="__codelineno-14-59" href="#__codelineno-14-59"></a>    <span class="n">buyer</span><span class="p">:</span> <span class="n">BuyerIn</span>
+</span><span id="__span-14-60"><a id="__codelineno-14-60" name="__codelineno-14-60" href="#__codelineno-14-60"></a>    <span class="n">issued_at</span><span class="p">:</span> <span class="n">AwareDatetime</span>
+</span><span id="__span-14-61"><a id="__codelineno-14-61" name="__codelineno-14-61" href="#__codelineno-14-61"></a>    <span class="n">currency</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"VND"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"VND"</span>
+</span><span id="__span-14-62"><a id="__codelineno-14-62" name="__codelineno-14-62" href="#__codelineno-14-62"></a>    <span class="n">lines</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">LineIn</span><span class="p">],</span> <span class="n">Field</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">1000</span><span class="p">),</span> <span class="n">AfterValidator</span><span class="p">(</span><span class="n">_unique_line_no</span><span class="p">)]</span>
+</span><span id="__span-14-63"><a id="__codelineno-14-63" name="__codelineno-14-63" href="#__codelineno-14-63"></a>    <span class="n">total_before_tax</span><span class="p">:</span> <span class="n">VND</span>
+</span><span id="__span-14-64"><a id="__codelineno-14-64" name="__codelineno-14-64" href="#__codelineno-14-64"></a>    <span class="n">total_tax</span><span class="p">:</span> <span class="n">VND</span>
+</span><span id="__span-14-65"><a id="__codelineno-14-65" name="__codelineno-14-65" href="#__codelineno-14-65"></a>    <span class="n">total</span><span class="p">:</span> <span class="n">VND</span>
+</span><span id="__span-14-66"><a id="__codelineno-14-66" name="__codelineno-14-66" href="#__codelineno-14-66"></a>
+</span><span id="__span-14-67"><a id="__codelineno-14-67" name="__codelineno-14-67" href="#__codelineno-14-67"></a>    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"after"</span><span class="p">)</span>
+</span><span id="__span-14-68"><a id="__codelineno-14-68" name="__codelineno-14-68" href="#__codelineno-14-68"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_totals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="__span-14-69"><a id="__codelineno-14-69" name="__codelineno-14-69" href="#__codelineno-14-69"></a>        <span class="n">before</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">l</span><span class="o">.</span><span class="n">amount</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lines</span><span class="p">)</span>
+</span><span id="__span-14-70"><a id="__codelineno-14-70" name="__codelineno-14-70" href="#__codelineno-14-70"></a>        <span class="n">tax</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">l</span><span class="o">.</span><span class="n">tax</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lines</span><span class="p">)</span>
+</span><span id="__span-14-71"><a id="__codelineno-14-71" name="__codelineno-14-71" href="#__codelineno-14-71"></a>        <span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="__span-14-72"><a id="__codelineno-14-72" name="__codelineno-14-72" href="#__codelineno-14-72"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_before_tax</span> <span class="o">!=</span> <span class="n">before</span><span class="p">:</span>
+</span><span id="__span-14-73"><a id="__codelineno-14-73" name="__codelineno-14-73" href="#__codelineno-14-73"></a>            <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"total_before_tax phải là </span><span class="si">{</span><span class="n">before</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="__span-14-74"><a id="__codelineno-14-74" name="__codelineno-14-74" href="#__codelineno-14-74"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_tax</span> <span class="o">!=</span> <span class="n">tax</span><span class="p">:</span>
+</span><span id="__span-14-75"><a id="__codelineno-14-75" name="__codelineno-14-75" href="#__codelineno-14-75"></a>            <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"total_tax phải là </span><span class="si">{</span><span class="n">tax</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="__span-14-76"><a id="__codelineno-14-76" name="__codelineno-14-76" href="#__codelineno-14-76"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">total</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_before_tax</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_tax</span><span class="p">:</span>
+</span><span id="__span-14-77"><a id="__codelineno-14-77" name="__codelineno-14-77" href="#__codelineno-14-77"></a>            <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"total phải bằng total_before_tax + total_tax"</span><span class="p">)</span>
+</span><span id="__span-14-78"><a id="__codelineno-14-78" name="__codelineno-14-78" href="#__codelineno-14-78"></a>        <span class="k">if</span> <span class="n">errors</span><span class="p">:</span>
+</span><span id="__span-14-79"><a id="__codelineno-14-79" name="__codelineno-14-79" href="#__codelineno-14-79"></a>            <span class="k">raise</span> <span class="n">PydanticCustomError</span><span class="p">(</span><span class="s2">"invoice_totals"</span><span class="p">,</span> <span class="s2">"Tổng tiền không khớp: </span><span class="si">{detail}</span><span class="s2">"</span><span class="p">,</span> <span class="p">{</span><span class="s2">"detail"</span><span class="p">:</span> <span class="s2">"; "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">errors</span><span class="p">)})</span>
+</span><span id="__span-14-80"><a id="__codelineno-14-80" name="__codelineno-14-80" href="#__codelineno-14-80"></a>        <span class="k">return</span> <span class="bp">self</span>
+</span></code></pre></div>
+<p>Chạy với một hóa đơn 2 dòng (3 ly cà phê 27.500đ thuế 8%; 1,5 phần bánh mì 18.353đ thuế 5% → <code>amount</code> = làm tròn 27.529,5 = 27.530; thuế 1.376,5 → <strong>1.377</strong>):</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>OK  seller=0100233488  buyer=0314409058002  thuế từng dòng=[6600, 1377]  total=118007
+</span></code></pre></div>
+<p>Cố tình làm sai ba chỗ (MST sai checksum, <code>amount</code> dòng 2 lệch 1 đồng, <code>total_tax</code> lệch 1 đồng):</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>('seller_tax_code',) tax_code_checksum  MST sai chữ số kiểm tra (cần 8)
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>('lines', 1)         line_amount        amount phải bằng làm tròn(quantity × unit_price) = 27530
+</span></code></pre></div>
+<p>Chỉ hai lỗi — lỗi tổng tiền <strong>chưa</strong> được báo vì model validator <code>after</code> của <code>InvoiceIn</code> không chạy khi trường con có lỗi (mục 1.4). Sửa hai lỗi đầu, gửi lại:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>() invoice_totals  Tổng tiền không khớp: total_tax phải là 7977; total phải bằng total_before_tax + total_tax
+</span></code></pre></div>
+<!-- placeholder-invoice-v2 -->
+
+<!-- fig:invoice-v2 -->
+<figure>
+  <img alt="Ba lần gửi một hóa đơn sai: lỗi trường được báo trước, lỗi tổng tiền chỉ xuất hiện khi mọi trường đã hợp lệ" loading="lazy" src="../assets/figures/04/invoice-v2.light.svg#only-light" />
+  <img alt="Ba lần gửi một hóa đơn sai: lỗi trường được báo trước, lỗi tổng tiền chỉ xuất hiện khi mọi trường đã hợp lệ" loading="lazy" src="../assets/figures/04/invoice-v2.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 4.7 — Ba lần gửi một hóa đơn sai: lỗi trường được báo trước, lỗi tổng tiền chỉ xuất hiện khi mọi trường đã hợp lệ.</figcaption>
+</figure>
+<!-- /fig -->
+
+<p><code>InvoiceIn</code> v2 giờ phủ tầng 1–3. Còn tầng 4 (MST người bán thuộc tenant, số hóa đơn chưa dùng, idempotency) — Module 08 và 10.</p>
+<hr />
+<h2 id="loi-thuong-gap-cach-xu-ly">Lỗi thường gặp &amp; cách xử lý<a class="headerlink" href="#loi-thuong-gap-cach-xu-ly" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Triệu chứng</th>
+<th>Nguyên nhân gốc</th>
+<th>Cách xử lý</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Validator chạy sai thứ tự, chuẩn hóa chạy sau kiểm tra</td>
+<td>Không hiểu mô hình củ hành của <code>Annotated</code></td>
+<td>Before chạy phải → trái, after chạy trái → phải; đặt chuẩn hóa ở ngoài cùng</td>
+</tr>
+<tr>
+<td><code>KeyError</code> trong <code>field_validator</code> khi đọc <code>info.data["x"]</code></td>
+<td>Trường <code>x</code> khai báo sau, hoặc đã lỗi</td>
+<td>Dùng <code>info.data.get</code>; chuyển sang model validator <code>after</code></td>
+</tr>
+<tr>
+<td>Client không thấy lỗi tổng tiền dù tổng sai</td>
+<td>Model <code>after</code> bị bỏ qua khi có lỗi trường</td>
+<td>Bình thường; ghi trong tài liệu: sửa lỗi trường trước</td>
+</tr>
+<tr>
+<td>Tổng thuế lệch 1 đồng giữa client và server</td>
+<td><code>round()</code> là half-even; float</td>
+<td><code>Decimal</code> + <code>ROUND_HALF_UP</code>; tài liệu hóa quy tắc</td>
+</tr>
+<tr>
+<td>Lỗi trả về <code>value_error</code> chung chung</td>
+<td>Ném <code>ValueError</code></td>
+<td><code>PydanticCustomError("ma_rieng", "thông báo {x}", {"x": ...})</code></td>
+</tr>
+<tr>
+<td>Union chậm và lỗi trả về hàng chục mục khó hiểu</td>
+<td>Smart union không tag</td>
+<td>Thêm trường tag + <code>discriminator</code></td>
+</tr>
+<tr>
+<td><code>int \| str</code> biến <code>"1"</code> thành <code>1</code></td>
+<td><code>union_mode="left_to_right"</code></td>
+<td>Dùng smart (mặc định) hoặc tag</td>
+</tr>
+<tr>
+<td>Ràng buộc viết bằng validator Python không hiện trong OpenAPI</td>
+<td>JSON Schema không biết logic Python</td>
+<td>Dùng <code>Field(gt=..., pattern=...)</code> khi có thể; thêm <code>__get_pydantic_json_schema__</code></td>
+</tr>
+<tr>
+<td>Validator gọi database</td>
+<td>Trộn tầng 4 vào tầng 3</td>
+<td>Chuyển sang dependency/service (Module 08)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tom-tat-cheat-sheet">Tóm tắt (cheat-sheet)<a class="headerlink" href="#tom-tat-cheat-sheet" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>after</strong> (giá trị đã đúng kiểu) · <strong>before</strong> (thô, để chuẩn hóa) · <strong>wrap</strong> (bao quanh, có <code>handler</code>) · <strong>plain</strong> (thay thế).</li>
+<li><code>Annotated</code> xếp chồng = củ hành: before ngoài → trong, after trong → ngoài.</li>
+<li><code>info.data</code> = các trường trước đó đã hợp lệ; <code>context</code> để truyền tenant/ngôn ngữ; model <code>after</code> không chạy khi có lỗi trường.</li>
+<li>Chi phí: <code>Field(gt=0)</code> +0,3 ns; <code>AfterValidator</code> +33 ns; <code>WrapValidator</code> +172 ns mỗi lần gọi. Quy tắc có trong core → dùng core; quy tắc ngữ nghĩa → Python, đừng ngại.</li>
+<li>Kiểu tùy biến: <code>Annotated</code> có tên (đủ cho đa số) hoặc class + <code>__get_pydantic_core_schema__</code> + <code>PydanticCustomError</code> + <code>__get_pydantic_json_schema__</code>.</li>
+<li>Tiền: <code>int</code> VND hoặc <code>Decimal</code>, làm tròn <code>ROUND_HALF_UP</code> tường minh; không <code>round()</code>, không float. Làm tròn từng dòng vs tổng lệch tối đa <span class="arithmatex">\(n/2 + 1/2\)</span>.</li>
+<li>Union: smart <span class="arithmatex">\(O(k)\)</span>, nhiều lỗi; discriminated <span class="arithmatex">\(O(1)\)</span>, một lỗi, OpenAPI <code>discriminator</code>. Đo được: ~3.560 → ~710 ns/phần tử, 9 → 1 lỗi.</li>
+<li><code>Page[T]</code> generic cho phân trang; gốc API nên là object; jiter giới hạn độ sâu lồng nhau.</li>
+</ul>
+<h2 id="cau-hoi-tu-kiem-tra-phong-van">Câu hỏi tự kiểm tra / phỏng vấn<a class="headerlink" href="#cau-hoi-tu-kiem-tra-phong-van" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>Cho <code>Annotated[str, AfterValidator(a), BeforeValidator(b), AfterValidator(c), BeforeValidator(d)]</code>. Thứ tự chạy là gì?</p>
+<p><details markdown="1"><summary>Gợi ý</summary>
+d → b → (str gốc) → a → c. Before chạy từ phải sang trái (ngoài vào trong), after chạy từ trái sang phải (trong ra ngoài).
+</details></p>
+</li>
+<li>
+<p>Khi nào dùng <code>wrap</code> thay vì cặp <code>before</code> + <code>after</code>?</p>
+<p><details markdown="1"><summary>Gợi ý</summary>
+Khi cần xử lý phụ thuộc kết quả của validator gốc, ví dụ bắt lỗi của validator gốc để trả mặc định, đo thời gian, hay biến đổi cả trước và sau trong cùng một ngữ cảnh. Đổi lại wrap đắt nhất (~172 ns thêm mỗi lần đo được).
+</details></p>
+</li>
+<li>
+<p>Vì sao một model validator <code>after</code> kiểm tra tổng tiền không chạy khi <code>lines[3].amount</code> là chuỗi <code>"abc"</code>?</p>
+<p><details markdown="1"><summary>Gợi ý</summary>
+<code>after</code> nhận instance đã đầy đủ, mọi trường hợp lệ. Khi có lỗi trường thì không tồn tại instance nào để truyền vào; Pydantic dừng và trả các lỗi trường.
+</details></p>
+</li>
+<li>
+<p>Viết ba dòng giải thích cho đội tích hợp POS vì sao tổng thuế của họ lệch 1 đồng so với server.</p>
+<p><details markdown="1"><summary>Gợi ý</summary>
+Server làm tròn thuế từng dòng theo half-up (0,5 lên), dùng số thập phân chính xác. Có thể POS dùng <code>round()</code>/làm tròn ngân hàng (0,5 về chẵn) hoặc float, hoặc làm tròn trên tổng thay vì từng dòng. Ví dụ 27.530 × 5% = 1.376,5 → server 1.377.
+</details></p>
+</li>
+<li>
+<p>So sánh smart union và discriminated union về độ phức tạp, số lỗi, và JSON Schema.</p>
+<p><details markdown="1"><summary>Gợi ý</summary>
+Smart: thử tới <span class="arithmatex">\(k\)</span> thành viên (có thể 2 lượt strict/lax), lỗi của mọi thành viên khi thất bại, schema <code>anyOf</code>. Discriminated: tra bảng theo tag <span class="arithmatex">\(O(1)\)</span>, một lỗi có <code>loc</code> chứa tag, schema <code>oneOf</code> + <code>discriminator</code> (client sinh code chính xác).
+</details></p>
+</li>
+<li>
+<p>Thiết kế kiểu <code>Phone</code> cho số điện thoại Việt Nam (chấp nhận <code>0901 234 567</code>, <code>+84901234567</code>, lưu dạng E.164). Mức 1 hay mức 2?</p>
+<p><details markdown="1"><summary>Gợi ý</summary>
+Mức 1 đủ: <code>Annotated[str, BeforeValidator(normalize), AfterValidator(check_prefix)]</code> với <code>normalize</code> bỏ khoảng trắng, đổi <code>0</code> đầu thành <code>+84</code>. Mức 2 nếu muốn kiểu riêng để code nghiệp vụ không nhầm với chuỗi thường và có mã lỗi + JSON Schema tùy chỉnh. Có thể cân nhắc <code>pydantic-extra-types</code> (dựa trên <code>phonenumbers</code>).
+</details></p>
+</li>
+<li>
+<p>Vì sao nên dùng <code>PydanticCustomError</code> thay vì <code>ValueError</code> trong validator?</p>
+<p><details markdown="1"><summary>Gợi ý</summary>
+<code>ValueError</code> cho <code>type = value_error</code> chung, client không phân loại được. <code>PydanticCustomError</code> cho mã riêng (<code>tax_code_checksum</code>) và <code>ctx</code> có cấu trúc để dịch thông báo, thống kê lỗi tích hợp theo mã.
+</details></p>
+</li>
+<li>
+<p>Bất đẳng thức chặn độ lệch giữa "làm tròn từng dòng rồi cộng" và "cộng rồi làm tròn" là gì? Với 1.000 dòng, lệch tối đa bao nhiêu đồng?</p>
+<p><details markdown="1"><summary>Gợi ý</summary>
+<span class="arithmatex">\(|\sum \mathrm{round}(t_i) - \mathrm{round}(\sum t_i)| \le n/2 + 1/2\)</span>. Với 1.000 dòng: tối đa 500 đồng (thực tế thường nhỏ hơn nhiều vì sai số triệt tiêu, cỡ <span class="arithmatex">\(\sqrt{n}\)</span>).
+</details></p>
+</li>
+<li>
+<p>Endpoint <code>GET /v1/invoices</code> trả về <code>Page[InvoiceSummary]</code>. OpenAPI sinh ra trông thế nào và vì sao generic tốt hơn viết tay <code>InvoicePage</code>, <code>BuyerPage</code>…?</p>
+<p><details markdown="1"><summary>Gợi ý</summary>
+Pydantic sinh schema tên <code>Page_InvoiceSummary_</code> (hoặc tương tự) với <code>items: array of InvoiceSummary</code>. Generic tránh lặp code, đảm bảo mọi trang có cùng hình dạng (<code>items</code>, <code>next_cursor</code>), sửa một chỗ áp dụng mọi nơi.
+</details></p>
+</li>
+</ol>
+<h2 id="bai-tap-thuc-hanh">Bài tập thực hành<a class="headerlink" href="#bai-tap-thuc-hanh" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Thứ tự validator (CPU, 10 phút).</strong> Tái tạo thí nghiệm mục 1.3 với 3 before, 2 after, 2 wrap; vẽ sơ đồ củ hành trước rồi chạy để kiểm chứng.</li>
+<li><strong>TaxCode đầy đủ (CPU, 20 phút).</strong> Hoàn thiện <code>TaxCode</code> mục 3.2, viết test cho: có dấu <code>-</code>, có khoảng trắng, nhánh <code>000</code>, tổng chia hết cho 11 (không có chữ số kiểm tra hợp lệ), và kiểm tra JSON Schema sinh ra. (Lab 01.)</li>
+<li><strong>Đo union (CPU, 15 phút).</strong> Chạy <code>scripts/bench/bench_validators.py</code>; thêm thành viên thứ 6, thứ 7 và vẽ chi phí theo <span class="arithmatex">\(k\)</span> cho smart và discriminated.</li>
+<li><strong>Quy tắc làm tròn (CPU, 20 phút).</strong> Sinh ngẫu nhiên 10.000 hóa đơn 12 dòng, tính tổng thuế theo bốn cách (half-up/half-even × từng dòng/tổng) và vẽ phân phối độ lệch. So với cận <span class="arithmatex">\(n/2 + 1/2\)</span>.</li>
+</ol>
+<h2 id="tai-lieu-tham-khao">Tài liệu tham khảo<a class="headerlink" href="#tai-lieu-tham-khao" title="Permanent link">&para;</a></h2>
+<p>Tài liệu chính thức (tra cứu 10/2026, Pydantic 2.14):</p>
+<ul>
+<li>Pydantic — <em>Validators</em> (field/model validators, các chế độ, thứ tự). https://docs.pydantic.dev/latest/concepts/validators/</li>
+<li>Pydantic — <em>Unions</em> (smart mode, left_to_right, discriminated). https://docs.pydantic.dev/latest/concepts/unions/</li>
+<li>Pydantic — <em>Custom Types</em> (<code>__get_pydantic_core_schema__</code>). https://docs.pydantic.dev/latest/concepts/types/</li>
+<li>Pydantic — <em>Models: Generic models, RootModel</em>. https://docs.pydantic.dev/latest/concepts/models/</li>
+<li>Pydantic — <em>Validation Errors</em> và <code>PydanticCustomError</code>. https://docs.pydantic.dev/latest/errors/validation_errors/</li>
+<li>annotated-types. https://github.com/annotated-types/annotated-types</li>
+<li>pydantic-extra-types. https://github.com/pydantic/pydantic-extra-types</li>
+<li>OpenAPI Specification 3.1 — <em>Discriminator Object</em>. https://spec.openapis.org/oas/v3.1.0#discriminator-object</li>
+<li>Python docs — <code>decimal</code> (ROUND_HALF_UP, ROUND_HALF_EVEN); <code>round()</code>. https://docs.python.org/3/library/decimal.html</li>
+<li>python-stdnum — <code>stdnum.vn.mst</code>. https://arthurdejong.org/python-stdnum/doc/stdnum.vn.mst</li>
+</ul>
+<p>Nền tảng:</p>
+<ul>
+<li>Goldberg, D. (1991). <em>What Every Computer Scientist Should Know About Floating-Point Arithmetic</em>. ACM Computing Surveys 23(1). https://dl.acm.org/doi/10.1145/103162.103163</li>
+<li>PEP 593 (Annotated), PEP 695 (Type Parameter Syntax). https://peps.python.org/</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Trở lại mục lục
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Chân trang" >
+        
+          
+          <a href="../03-pydantic-v2-kien-truc/" class="md-footer__link md-footer__link--prev" aria-label="Trước: 03 · Pydantic v2: kiến trúc">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Trước
+              </span>
+              <div class="md-ellipsis">
+                03 · Pydantic v2: kiến trúc
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../05-serialization-json-schema-settings/" class="md-footer__link md-footer__link--next" aria-label="Sau: 05 · Serialization, JSON Schema &amp; settings">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Sau
+              </span>
+              <div class="md-ellipsis">
+                05 · Serialization, JSON Schema & settings
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Tài liệu học tập — Pydantic & FastAPI Masterclass · 2026
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/HieNguyen08/learn-pydantic-and-fastapi" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.top", "navigation.footer", "navigation.indexes", "navigation.tracking", "toc.follow", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "content.action.edit"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u0110\u00e3 sao ch\u00e9p", "clipboard.copy": "Sao ch\u00e9p v\u00e0o b\u1ed9 nh\u1edb t\u1ea1m", "search.result.more.one": "1 t\u1eeb kh\u00e1c trong trang", "search.result.more.other": "# t\u1eeb kh\u00e1c trong trang", "search.result.none": "Kh\u00f4ng t\u00ecm th\u1ea5y t\u00e0i li\u1ec7u li\u00ean quan", "search.result.one": "1 t\u00e0i li\u1ec7u li\u00ean quan", "search.result.other": "# t\u00e0i li\u1ec7u li\u00ean quan", "search.result.placeholder": "Nh\u1eadp \u0111\u1ec3 b\u1eaft \u0111\u1ea7u t\u00ecm ki\u1ebfm", "search.result.term.missing": "Kh\u00f4ng", "select.version": "Ch\u1ecdn phi\u00ean b\u1ea3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

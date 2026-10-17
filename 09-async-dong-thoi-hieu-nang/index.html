@@ -1,0 +1,3239 @@
+
+<!doctype html>
+<html lang="vi" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Pydantic & FastAPI từ nền tảng đến hệ thống production — xoay quanh API hóa đơn điện tử và AI gateway của Mekong Cloud">
+      
+      
+        <meta name="author" content="HieNguyen08">
+      
+      
+        <link rel="canonical" href="https://hienguyen08.github.io/learn-pydantic-and-fastapi/09-async-dong-thoi-hieu-nang/">
+      
+      
+        <link rel="prev" href="../08-dependency-injection/">
+      
+      
+        <link rel="next" href="../10-database-va-persistence/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>09 · Async, đồng thời & hiệu năng - Pydantic & FastAPI Masterclass</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Be+Vietnam+Pro:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Be Vietnam Pro";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="deep-orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#module-09-async-ong-thoi-hieu-nang" class="md-skip">
+          Bỏ qua
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Đầu trang">
+    <a href=".." title="Pydantic &amp; FastAPI Masterclass" class="md-header__button md-logo" aria-label="Pydantic & FastAPI Masterclass" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 7H5a2 2 0 0 0-2 2v8h2v-4h2v4h2V9a2 2 0 0 0-2-2m0 4H5V9h2m7-2h-4v10h2v-4h2a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2m0 4h-2V9h2m6 0v6h1v2h-4v-2h1V9h-1V7h4v2Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Pydantic & FastAPI Masterclass
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              09 · Async, đồng thời & hiệu năng
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="deep-orange"  aria-label="Chuyển sang nền tối"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Chuyển sang nền tối" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="deep-orange"  aria-label="Chuyển sang nền sáng"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Chuyển sang nền sáng" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Tìm kiếm" placeholder="Tìm kiếm" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Tìm kiếm">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Xoá" aria-label="Xoá" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/HieNguyen08/learn-pydantic-and-fastapi" title="Xem mã nguồn" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    HieNguyen08/learn-pydantic-and-fastapi
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Trang chủ
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../00-tong-quan-va-bai-toan/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Phần I · Nền tảng
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../03-pydantic-v2-kien-truc/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Phần II · Pydantic
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../07-fastapi-vong-doi-request/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Phần III · FastAPI
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../12-testing-va-chat-luong/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Phần IV · Chất lượng & vận hành
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../15-pydantic-cho-llm/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Phần V · Chuyên đề
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../labs/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Thực hành
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Thanh điều hướng" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Pydantic &amp; FastAPI Masterclass" class="md-nav__button md-logo" aria-label="Pydantic & FastAPI Masterclass" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 7H5a2 2 0 0 0-2 2v8h2v-4h2v4h2V9a2 2 0 0 0-2-2m0 4H5V9h2m7-2h-4v10h2v-4h2a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2m0 4h-2V9h2m6 0v6h1v2h-4v-2h1V9h-1V7h4v2Z"/></svg>
+
+    </a>
+    Pydantic & FastAPI Masterclass
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/HieNguyen08/learn-pydantic-and-fastapi" title="Xem mã nguồn" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    HieNguyen08/learn-pydantic-and-fastapi
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trang chủ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phần I · Nền tảng
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phần I · Nền tảng
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-tong-quan-va-bai-toan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    00 · Tổng quan & bài toán
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-kieu-du-lieu-va-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01 · Kiểu dữ liệu & validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-http-rest-asgi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02 · HTTP, REST & ASGI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phần II · Pydantic
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phần II · Pydantic
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-pydantic-v2-kien-truc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03 · Pydantic v2: kiến trúc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-validators-kieu-tuy-bien-union/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04 · Validator, kiểu tùy biến & union
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-serialization-json-schema-settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05 · Serialization, JSON Schema & settings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-hieu-nang-pydantic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06 · Hiệu năng Pydantic
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phần III · FastAPI
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phần III · FastAPI
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-fastapi-vong-doi-request/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07 · Vòng đời request
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-dependency-injection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08 · Dependency injection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09 · Async, đồng thời & hiệu năng
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09 · Async, đồng thời & hiệu năng
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Mục lục">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Mục lục
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#muc-tieu-hoc-tap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mục tiêu học tập
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-hai-cach-fastapi-chay-handler" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Hai cách FastAPI chạy handler
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Hai cách FastAPI chạy handler">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-co-che" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1. Cơ chế
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-thi-nghiem-e1-ba-cach-cho-50-ms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2. Thí nghiệm e1: ba cách chờ 50 ms
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-thi-nghiem-e2-mot-endpoint-chan-lam-hong-moi-endpoint-khac" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3. Thí nghiệm e2: một endpoint chặn làm hỏng mọi endpoint khác
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-thi-nghiem-e6-noi-gioi-han-threadpool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4. Thí nghiệm e6: nới giới hạn threadpool
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15-quy-tac-chon" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.5. Quy tắc chọn
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-thi-nghiem-e4-latency-theo-muc-tai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Thí nghiệm e4: latency theo mức tải
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Thí nghiệm e4: latency theo mức tải">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-closed-loop-open-loop-va-coordinated-omission" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1. Closed-loop, open-loop và coordinated omission
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-ket-qua" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. Kết quả
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-ly-thuyet-hang-oi-cho-ky-su-backend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Lý thuyết hàng đợi cho kỹ sư backend
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Lý thuyết hàng đợi cho kỹ sư backend">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-inh-luat-little" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1. Định luật Little
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-mm1-va-md1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2. M/M/1 và M/D/1
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-oi-chieu-voi-so-o" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3. Đối chiếu với số đo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-nhieu-may-phuc-vu-mmc-va-erlang-c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4. Nhiều máy phục vụ: M/M/c và Erlang C
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-uoi-phan-phoi-khi-fan-out" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5. Đuôi phân phối khi fan-out
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-nhieu-tien-trinh-worker-usl-va-cuoc-ieu-tra-40-ms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Nhiều tiến trình: worker, USL và cuộc điều tra 40 ms
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Nhiều tiến trình: worker, USL và cuộc điều tra 40 ms">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-thi-nghiem-e3-va-mot-bat-thuong" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1. Thí nghiệm e3 và một bất thường
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-ieu-tra" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2. Điều tra
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-universal-scalability-law" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3. Universal Scalability Law
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-bao-nhieu-worker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4. Bao nhiêu worker?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-kiem-soat-ong-thoi-backpressure-va-timeout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Kiểm soát đồng thời: backpressure và timeout
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Kiểm soát đồng thời: backpressure và timeout">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-van-e" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1. Vấn đề
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-cac-cong-cu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2. Các công cụ
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-case-mekong-cloud-ke-hoach-nang-luc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Case Mekong Cloud: kế hoạch năng lực
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Case Mekong Cloud: kế hoạch năng lực">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-invoice-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1. invoice-api
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-ai-gateway" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2. ai-gateway
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#loi-thuong-gap-cach-xu-ly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lỗi thường gặp &amp; cách xử lý
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tom-tat-cheat-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tóm tắt (cheat-sheet)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cau-hoi-tu-kiem-tra-phong-van" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Câu hỏi tự kiểm tra / phỏng vấn
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bai-tap-thuc-hanh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bài tập thực hành
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tai-lieu-tham-khao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tài liệu tham khảo
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10-database-va-persistence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10 · Database & persistence
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11-bao-mat-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11 · Bảo mật API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phần IV · Chất lượng & vận hành
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phần IV · Chất lượng & vận hành
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12-testing-va-chat-luong/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12 · Testing & chất lượng
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../13-production-va-observability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13 · Production & observability
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../14-capstone-thiet-ke-he-thong/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14 · Capstone: thiết kế hệ thống
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phần V · Chuyên đề
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phần V · Chuyên đề
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../15-pydantic-cho-llm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15 · Pydantic cho LLM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../labs/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Thực hành
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Thực hành
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab01_invoice_models/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 01 · Mô hình hóa hóa đơn
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab02_benchmark_validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 02 · Benchmark validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab03_invoice_api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 03 · invoice-api hoàn chỉnh
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab04_concurrency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 04 · Đo đồng thời
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab05_property_fuzz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 05 · Property-based & fuzz
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab06_llm_structured_sse/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 06 · Structured output & SSE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Mục lục">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Mục lục
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#muc-tieu-hoc-tap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mục tiêu học tập
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-hai-cach-fastapi-chay-handler" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Hai cách FastAPI chạy handler
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Hai cách FastAPI chạy handler">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-co-che" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1. Cơ chế
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-thi-nghiem-e1-ba-cach-cho-50-ms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2. Thí nghiệm e1: ba cách chờ 50 ms
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-thi-nghiem-e2-mot-endpoint-chan-lam-hong-moi-endpoint-khac" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3. Thí nghiệm e2: một endpoint chặn làm hỏng mọi endpoint khác
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-thi-nghiem-e6-noi-gioi-han-threadpool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4. Thí nghiệm e6: nới giới hạn threadpool
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15-quy-tac-chon" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.5. Quy tắc chọn
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-thi-nghiem-e4-latency-theo-muc-tai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Thí nghiệm e4: latency theo mức tải
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Thí nghiệm e4: latency theo mức tải">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-closed-loop-open-loop-va-coordinated-omission" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1. Closed-loop, open-loop và coordinated omission
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-ket-qua" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. Kết quả
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-ly-thuyet-hang-oi-cho-ky-su-backend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Lý thuyết hàng đợi cho kỹ sư backend
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Lý thuyết hàng đợi cho kỹ sư backend">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-inh-luat-little" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1. Định luật Little
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-mm1-va-md1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2. M/M/1 và M/D/1
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-oi-chieu-voi-so-o" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3. Đối chiếu với số đo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-nhieu-may-phuc-vu-mmc-va-erlang-c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4. Nhiều máy phục vụ: M/M/c và Erlang C
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-uoi-phan-phoi-khi-fan-out" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5. Đuôi phân phối khi fan-out
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-nhieu-tien-trinh-worker-usl-va-cuoc-ieu-tra-40-ms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Nhiều tiến trình: worker, USL và cuộc điều tra 40 ms
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Nhiều tiến trình: worker, USL và cuộc điều tra 40 ms">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-thi-nghiem-e3-va-mot-bat-thuong" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1. Thí nghiệm e3 và một bất thường
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-ieu-tra" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2. Điều tra
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-universal-scalability-law" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3. Universal Scalability Law
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-bao-nhieu-worker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4. Bao nhiêu worker?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-kiem-soat-ong-thoi-backpressure-va-timeout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Kiểm soát đồng thời: backpressure và timeout
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Kiểm soát đồng thời: backpressure và timeout">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-van-e" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1. Vấn đề
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-cac-cong-cu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2. Các công cụ
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-case-mekong-cloud-ke-hoach-nang-luc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Case Mekong Cloud: kế hoạch năng lực
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Case Mekong Cloud: kế hoạch năng lực">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-invoice-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1. invoice-api
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-ai-gateway" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2. ai-gateway
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#loi-thuong-gap-cach-xu-ly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lỗi thường gặp &amp; cách xử lý
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tom-tat-cheat-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tóm tắt (cheat-sheet)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cau-hoi-tu-kiem-tra-phong-van" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Câu hỏi tự kiểm tra / phỏng vấn
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bai-tap-thuc-hanh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bài tập thực hành
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tai-lieu-tham-khao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tài liệu tham khảo
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/HieNguyen08/learn-pydantic-and-fastapi/edit/main/docs/09-async-dong-thoi-hieu-nang.md" title="Chỉnh sửa" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="module-09-async-ong-thoi-hieu-nang">Module 09 — Async, đồng thời &amp; hiệu năng<a class="headerlink" href="#module-09-async-ong-thoi-hieu-nang" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>Thời lượng: ~55 phút · Mức độ: Nâng cao · Tiên quyết: Module 02 (event loop, GIL), Module 07, Module 08</p>
+</blockquote>
+<p>"Nên viết <code>async def</code> hay <code>def</code>?", "Chạy bao nhiêu worker?", "Vì sao CPU mới 40% mà latency đã tăng vọt?" — ba câu hỏi này quyết định một service FastAPI chịu được tải hay không, và chúng đều có câu trả lời <strong>định lượng</strong>. Module này làm ba việc: (1) <strong>đo</strong> ba cách viết handler dưới tải tăng dần và chỉ ra con số 40 luồng ẩn trong FastAPI; (2) dùng <strong>lý thuyết hàng đợi</strong> (định luật Little, M/M/1, M/D/1, M/M/c, Universal Scalability Law) để giải thích <em>mọi</em> đường cong đo được — kể cả một thí nghiệm open-loop khớp với mô hình M/D/1 sai lệch vài phần trăm; (3) kể lại một <strong>cuộc điều tra hiệu năng thật</strong> trong lúc viết khóa: vì sao <code>uvicorn --workers 2</code> lại <em>chậm</em> hơn 1 worker gần ba lần.</p>
+<p>Mọi số đo chạy trên container 4 vCPU (bộ sinh tải chạy cùng máy), script <code>scripts/bench/bench_concurrency.py</code> (thí nghiệm e1–e9), Uvicorn 0.54, FastAPI 0.143, Python 3.13.</p>
+<h2 id="muc-tieu-hoc-tap">Mục tiêu học tập<a class="headerlink" href="#muc-tieu-hoc-tap" title="Permanent link">&para;</a></h2>
+<p>Sau module này, bạn có thể:</p>
+<ol>
+<li>Giải thích cách FastAPI chạy <code>async def</code> (trên event loop) và <code>def</code> (threadpool anyio, <strong>mặc định 40 luồng</strong>), và dự đoán throughput tối đa của mỗi cách bằng <strong>định luật Little</strong>.</li>
+<li>Nhận diện và đo tác hại của <strong>lời gọi chặn trong <code>async def</code></strong> (head-of-line blocking).</li>
+<li>Áp dụng <strong>M/M/1, M/D/1, M/M/c (Erlang C)</strong> để dự đoán latency theo mức tải, và giải thích vì sao latency tăng phi tuyến khi utilization vượt ~70%.</li>
+<li>Phân biệt đo <strong>closed-loop</strong> và <strong>open-loop</strong>, và hiểu <strong>coordinated omission</strong>.</li>
+<li>Dùng <strong>Universal Scalability Law</strong> để đọc đường cong throughput theo số worker.</li>
+<li>Chẩn đoán một bất thường hiệu năng theo quy trình triệu chứng → giả thuyết → thí nghiệm → kết luận (case Nagle/<code>TCP_NODELAY</code>).</li>
+<li>Lập <strong>kế hoạch năng lực</strong> (số worker, số luồng, giới hạn đồng thời, timeout) cho <code>invoice-api</code> và <code>ai-gateway</code>.</li>
+</ol>
+<hr />
+<h2 id="1-hai-cach-fastapi-chay-handler">1. Hai cách FastAPI chạy handler<a class="headerlink" href="#1-hai-cach-fastapi-chay-handler" title="Permanent link">&para;</a></h2>
+<h3 id="11-co-che">1.1. Cơ chế<a class="headerlink" href="#11-co-che" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong><code>async def</code></strong>: FastAPI <code>await</code> hàm ngay trên <strong>event loop</strong>. Hàm phải nhường quyền (<code>await</code>) mỗi khi chờ I/O; trong lúc đó các coroutine khác chạy.</li>
+<li><strong><code>def</code></strong>: FastAPI gọi <code>run_in_threadpool(func)</code> (Starlette → <code>anyio.to_thread.run_sync</code>). Hàm chạy trên một luồng của <strong>threadpool mặc định của anyio</strong>, có <strong>giới hạn 40 luồng</strong> (một <code>CapacityLimiter(40)</code>, đọc từ mã nguồn anyio). Luồng chờ I/O sẽ nhả GIL, event loop vẫn chạy.</li>
+<li>Quy tắc này áp dụng cho <strong>cả handler lẫn dependency</strong> (Module 08).</li>
+</ul>
+<h3 id="12-thi-nghiem-e1-ba-cach-cho-50-ms">1.2. Thí nghiệm e1: ba cách chờ 50 ms<a class="headerlink" href="#12-thi-nghiem-e1-ba-cach-cho-50-ms" title="Permanent link">&para;</a></h3>
+<p>Ba endpoint cùng "chờ I/O" 50 ms:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"/io/async"</span><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">io_async</span><span class="p">():</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.05</span><span class="p">)</span>      <span class="c1"># nhường event loop</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"/io/sync"</span><span class="p">)</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="k">def</span><span class="w"> </span><span class="nf">io_sync</span><span class="p">():</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.05</span><span class="p">)</span>               <span class="c1"># chạy trong threadpool — không chặn loop</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"/io/blocking"</span><span class="p">)</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">io_blocking</span><span class="p">():</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.05</span><span class="p">)</span>               <span class="c1"># SAI: chặn cả event loop</span>
+</span></code></pre></div>
+<p>Tải closed-loop với <span class="arithmatex">\(C\)</span> kết nối đồng thời (1 worker, h11 + asyncio):</p>
+<table>
+<thead>
+<tr>
+<th><span class="arithmatex">\(C\)</span></th>
+<th><code>async</code> (req/s, p50)</th>
+<th><code>def</code> (req/s, p50)</th>
+<th><code>async</code> + chặn (req/s, p50)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>19 · 52 ms</td>
+<td>19 · 52 ms</td>
+<td>19 · 52 ms</td>
+</tr>
+<tr>
+<td>10</td>
+<td>190 · 53 ms</td>
+<td>179 · 56 ms</td>
+<td><strong>19,5 · 511 ms</strong></td>
+</tr>
+<tr>
+<td>40</td>
+<td>760 · 53 ms</td>
+<td>548 · 72 ms</td>
+<td><strong>19,5 · 2.047 ms</strong></td>
+</tr>
+<tr>
+<td>80</td>
+<td>1.514 · 53 ms</td>
+<td><strong>776 · 103 ms</strong></td>
+<td>—</td>
+</tr>
+<tr>
+<td>160</td>
+<td>2.239 · 71 ms</td>
+<td><strong>768 · 208 ms</strong></td>
+<td>—</td>
+</tr>
+<tr>
+<td>320</td>
+<td>2.519 · 123 ms</td>
+<td><strong>766 · 415 ms</strong></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<!-- placeholder-e1 -->
+
+<!-- fig:e1 -->
+<figure>
+  <img alt="Số đo thật (e1): throughput và latency theo số kết nối đồng thời của ba cách chờ I/O 50 ms; đường chấm là trần tính bằng định luật Little" loading="lazy" src="../assets/figures/09/e1.light.svg#only-light" />
+  <img alt="Số đo thật (e1): throughput và latency theo số kết nối đồng thời của ba cách chờ I/O 50 ms; đường chấm là trần tính bằng định luật Little" loading="lazy" src="../assets/figures/09/e1.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 9.1 — Số đo thật (e1): throughput và latency theo số kết nối đồng thời của ba cách chờ I/O 50 ms; đường chấm là trần tính bằng định luật Little.</figcaption>
+</figure>
+<!-- /fig -->
+
+<p>Ba đường cong, ba cơ chế giới hạn khác nhau — và cả ba đều tính được trước bằng định luật Little (mục 3):</p>
+<ul>
+<li><strong><code>async</code></strong>: throughput tăng tuyến tính <span class="arithmatex">\(X = C / 0{,}052\)</span> cho tới khi <strong>CPU</strong> của worker bão hòa (~2.500 req/s ở <span class="arithmatex">\(C = 320\)</span>; mỗi request vẫn tốn ~0,4 ms CPU cho HTTP + FastAPI).</li>
+<li><strong><code>def</code></strong>: dừng ở <strong>~770 req/s</strong> bất kể <span class="arithmatex">\(C\)</span> — vì chỉ có 40 luồng, mỗi luồng giữ 52 ms: <span class="arithmatex">\(X_{\max} = 40 / 0{,}052 \approx 770\)</span>. Request thứ 41 trở đi xếp hàng chờ luồng; p50 tăng tuyến tính theo <span class="arithmatex">\(C\)</span>.</li>
+<li><strong><code>async</code> + chặn</strong>: dừng ở <strong>~19,5 req/s</strong> — chỉ có <em>một</em> event loop, mỗi request giữ nó 51 ms: <span class="arithmatex">\(X_{\max} = 1 / 0{,}0513 \approx 19{,}5\)</span>. Với <span class="arithmatex">\(C = 40\)</span>, mỗi request chờ 39 request khác: p50 ≈ 2 giây.</li>
+</ul>
+<h3 id="13-thi-nghiem-e2-mot-endpoint-chan-lam-hong-moi-endpoint-khac">1.3. Thí nghiệm e2: một endpoint chặn làm hỏng mọi endpoint khác<a class="headerlink" href="#13-thi-nghiem-e2-mot-endpoint-chan-lam-hong-moi-endpoint-khac" title="Permanent link">&para;</a></h3>
+<p>Đo <code>GET /health</code> (không làm gì) bằng một kết nối, trong khi 20 kết nối khác gọi liên tục một endpoint khác:</p>
+<table>
+<thead>
+<tr>
+<th>Tải nền</th>
+<th><code>/health</code> p50</th>
+<th><code>/health</code> p99</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>không có</td>
+<td>0,43 ms</td>
+<td>1,0 ms</td>
+</tr>
+<tr>
+<td>20 kết nối vào <code>/io/async</code></td>
+<td>0,43 ms</td>
+<td>1,1 ms</td>
+</tr>
+<tr>
+<td>20 kết nối vào <code>/io/blocking</code></td>
+<td><strong>1.026 ms</strong></td>
+<td><strong>1.030 ms</strong></td>
+</tr>
+</tbody>
+</table>
+<!-- placeholder-e2 -->
+
+<!-- fig:e2 -->
+<figure>
+  <img alt="Số đo thật (e2): latency của /health dưới ba loại tải nền" loading="lazy" src="../assets/figures/09/e2.light.svg#only-light" />
+  <img alt="Số đo thật (e2): latency của /health dưới ba loại tải nền" loading="lazy" src="../assets/figures/09/e2.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 9.2 — Số đo thật (e2): latency của /health dưới ba loại tải nền.</figcaption>
+</figure>
+<!-- /fig -->
+
+<p>Gấp <strong>~2.400 lần</strong>. Đây là điều khiến lỗi "gọi thư viện đồng bộ trong <code>async def</code>" nguy hiểm: endpoint lỗi không chỉ chậm <em>chính nó</em> mà chậm <strong>mọi</strong> request trên cùng tiến trình — kể cả health check, khiến Kubernetes nghĩ pod chết và khởi động lại (Module 13). Thủ phạm thường gặp: <code>requests.get</code>, driver DB đồng bộ (<code>psycopg2</code>, <code>pymysql</code>), SDK đồng bộ của nhà cung cấp, <code>time.sleep</code>, đọc file lớn, băm mật khẩu, nén ảnh, <code>model_validate</code> trên payload khổng lồ (Module 06, mục 6).</p>
+<h3 id="14-thi-nghiem-e6-noi-gioi-han-threadpool">1.4. Thí nghiệm e6: nới giới hạn threadpool<a class="headerlink" href="#14-thi-nghiem-e6-noi-gioi-han-threadpool" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nd">@asynccontextmanager</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">lifespan</span><span class="p">(</span><span class="n">app</span><span class="p">):</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    <span class="n">anyio</span><span class="o">.</span><span class="n">to_thread</span><span class="o">.</span><span class="n">current_default_thread_limiter</span><span class="p">()</span><span class="o">.</span><span class="n">total_tokens</span> <span class="o">=</span> <span class="mi">100</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    <span class="k">yield</span>
+</span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th><span class="arithmatex">\(C\)</span></th>
+<th>40 luồng (mặc định)</th>
+<th>100 luồng</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>40</td>
+<td>598 req/s</td>
+<td>603 req/s</td>
+</tr>
+<tr>
+<td>80</td>
+<td>773</td>
+<td>1.021</td>
+</tr>
+<tr>
+<td>160</td>
+<td>764</td>
+<td><strong>1.536</strong> ≈ 100 / 0,065</td>
+</tr>
+</tbody>
+</table>
+<!-- placeholder-e6 -->
+
+<!-- fig:e6 -->
+<figure>
+  <img alt="Số đo thật (e6): nới giới hạn threadpool từ 40 lên 100 luồng dịch trần throughput đúng như Little dự đoán" loading="lazy" src="../assets/figures/09/e6.light.svg#only-light" />
+  <img alt="Số đo thật (e6): nới giới hạn threadpool từ 40 lên 100 luồng dịch trần throughput đúng như Little dự đoán" loading="lazy" src="../assets/figures/09/e6.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 9.3 — Số đo thật (e6): nới giới hạn threadpool từ 40 lên 100 luồng dịch trần throughput đúng như Little dự đoán.</figcaption>
+</figure>
+<!-- /fig -->
+
+<p>Nới giới hạn có tác dụng, nhưng đó là <strong>chữa triệu chứng</strong>: mỗi luồng tốn ~16 KB RSS và chi phí chuyển ngữ cảnh (Module 02), luồng CPU-bound vẫn tranh nhau một GIL. Lời giải gốc cho I/O là thư viện <strong>async</strong> (<code>httpx.AsyncClient</code>, <code>asyncpg</code>, SQLAlchemy async — Module 10).</p>
+<h3 id="15-quy-tac-chon">1.5. Quy tắc chọn<a class="headerlink" href="#15-quy-tac-chon" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Handler/dependency làm gì</th>
+<th>Viết</th>
+<th>Vì sao</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>I/O bằng thư viện async</td>
+<td><code>async def</code> + <code>await</code></td>
+<td>rẻ nhất, mở rộng tới hàng nghìn request đồng thời</td>
+</tr>
+<tr>
+<td>I/O bằng thư viện <strong>đồng bộ</strong></td>
+<td><code>def</code></td>
+<td>không chặn loop; giới hạn 40 luồng → tính bằng Little</td>
+</tr>
+<tr>
+<td>CPU ngắn (&lt; ~1 ms)</td>
+<td><code>async def</code></td>
+<td>tránh chi phí threadpool (~65 µs/lần, Module 08)</td>
+</tr>
+<tr>
+<td>CPU dài (băm mật khẩu, validate batch lớn, xử lý ảnh)</td>
+<td><code>def</code> hoặc <code>await run_in_threadpool(...)</code>; nặng hơn nữa → tiến trình/worker riêng</td>
+<td>không chặn loop; GIL vẫn giới hạn song song</td>
+</tr>
+<tr>
+<td>Không chắc thư viện có chặn không</td>
+<td>đo bằng thí nghiệm e2 (latency <code>/health</code> dưới tải)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Chế độ debug của asyncio (<code>PYTHONASYNCIODEBUG=1</code> hoặc <code>loop.set_debug(True)</code>) ghi cảnh báo mỗi khi một callback giữ loop quá <code>slow_callback_duration</code> (mặc định 100 ms) — một cách rẻ để bắt lời gọi chặn trong môi trường test.</p>
+<hr />
+<h2 id="2-thi-nghiem-e4-latency-theo-muc-tai">2. Thí nghiệm e4: latency theo mức tải<a class="headerlink" href="#2-thi-nghiem-e4-latency-theo-muc-tai" title="Permanent link">&para;</a></h2>
+<h3 id="21-closed-loop-open-loop-va-coordinated-omission">2.1. Closed-loop, open-loop và coordinated omission<a class="headerlink" href="#21-closed-loop-open-loop-va-coordinated-omission" title="Permanent link">&para;</a></h3>
+<p>Các thí nghiệm e1–e3 là <strong>closed-loop</strong>: <span class="arithmatex">\(C\)</span> client, mỗi client chờ response rồi mới gửi tiếp. Khi server chậm, client tự gửi chậm lại — tải tự giảm. Người dùng thật thì không như vậy: 12.000 máy POS gửi hóa đơn theo nhịp bán hàng, không chờ nhau. Đo closed-loop vì thế <strong>che</strong> latency đuôi: những request lẽ ra phải gửi trong lúc server đang nghẽn bị trì hoãn, và thời gian chờ đó không được tính — hiện tượng Gil Tene gọi là <strong>coordinated omission</strong>.</p>
+<p>Thí nghiệm e4 dùng <strong>open-loop</strong>: request đến theo quá trình Poisson tốc độ <span class="arithmatex">\(\lambda\)</span> không phụ thuộc server, và latency tính từ <strong>thời điểm lẽ ra phải gửi</strong> (<code>loadgen.py</code>, chế độ <code>open</code>). Endpoint <code>/cpu/2</code> đốt đúng 2 ms CPU trên event loop — một "máy phục vụ" có thời gian phục vụ gần như cố định. Năng lực đo bằng closed-loop: <span class="arithmatex">\(\mu \approx 402\)</span> req/s, tức thời gian phục vụ <span class="arithmatex">\(S = 1/\mu \approx 2{,}49\)</span> ms (2 ms tính toán + ~0,5 ms HTTP/FastAPI).</p>
+<h3 id="22-ket-qua">2.2. Kết quả<a class="headerlink" href="#22-ket-qua" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th><span class="arithmatex">\(\rho = \lambda/\mu\)</span> (đạt được)</th>
+<th>0,20</th>
+<th>0,39</th>
+<th>0,60</th>
+<th>0,70</th>
+<th>0,79</th>
+<th>0,84</th>
+<th>0,90</th>
+<th>0,94</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>latency trung bình (ms)</td>
+<td>4,8</td>
+<td>4,6</td>
+<td>5,7</td>
+<td>6,8</td>
+<td>9,4</td>
+<td>10,9</td>
+<td>15,4</td>
+<td>24,9</td>
+</tr>
+<tr>
+<td>p99 (ms)</td>
+<td>14,3</td>
+<td>10,0</td>
+<td>15,7</td>
+<td>18,6</td>
+<td>29,0</td>
+<td>34,3</td>
+<td>54,8</td>
+<td>77,2</td>
+</tr>
+</tbody>
+</table>
+<!-- placeholder-e4 -->
+
+<!-- fig:e4 -->
+<figure>
+  <img alt="Số đo thật (e4, open-loop): latency trung bình, p50, p99 theo utilization" loading="lazy" src="../assets/figures/09/e4.light.svg#only-light" />
+  <img alt="Số đo thật (e4, open-loop): latency trung bình, p50, p99 theo utilization" loading="lazy" src="../assets/figures/09/e4.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 9.4 — Số đo thật (e4, open-loop): latency trung bình, p50, p99 theo utilization.</figcaption>
+</figure>
+<!-- /fig -->
+
+<p>Từ <span class="arithmatex">\(\rho = 0{,}2\)</span> đến <span class="arithmatex">\(0{,}7\)</span>, latency trung bình chỉ tăng 2 ms. Từ <span class="arithmatex">\(0{,}7\)</span> đến <span class="arithmatex">\(0{,}94\)</span> — tức thêm chưa tới 100 req/s — latency trung bình tăng <strong>3,7 lần</strong>, p99 tăng <strong>4 lần</strong>. CPU lúc đó vẫn "chưa đầy". Phần tiếp theo giải thích vì sao bằng toán, và mô hình dự đoán đúng các con số này.</p>
+<hr />
+<h2 id="3-ly-thuyet-hang-oi-cho-ky-su-backend">3. Lý thuyết hàng đợi cho kỹ sư backend<a class="headerlink" href="#3-ly-thuyet-hang-oi-cho-ky-su-backend" title="Permanent link">&para;</a></h2>
+<h3 id="31-inh-luat-little">3.1. Định luật Little<a class="headerlink" href="#31-inh-luat-little" title="Permanent link">&para;</a></h3>
+<p>Với một hệ ổn định bất kỳ (không cần giả định phân phối), gọi <span class="arithmatex">\(\lambda\)</span> là tốc độ đến trung bình, <span class="arithmatex">\(W\)</span> thời gian trung bình một yêu cầu ở trong hệ, <span class="arithmatex">\(L\)</span> số yêu cầu trung bình đang ở trong hệ:</p>
+<div class="arithmatex">\[
+L = \lambda W.
+\]</div>
+<p>(Little, <em>Operations Research</em> 1961.) Trực giác: nếu mỗi giây có <span class="arithmatex">\(\lambda\)</span> khách vào và mỗi khách ở lại <span class="arithmatex">\(W\)</span> giây, thì bất kỳ lúc nào cũng có <span class="arithmatex">\(\lambda W\)</span> khách bên trong. Dạng nghịch đảo dùng để tính <strong>throughput tối đa</strong> khi số "chỗ" <span class="arithmatex">\(L_{\max}\)</span> bị giới hạn:</p>
+<div class="arithmatex">\[
+X_{\max} = \frac{L_{\max}}{W}.
+\]</div>
+<p>Đây chính là ba trần ở mục 1.2: 40 luồng / 52 ms ≈ 770 req/s; 1 event loop / 51 ms ≈ 19,5 req/s; và mục 1.4: 100 luồng / 65 ms ≈ 1.540 req/s. Định luật Little dùng ở <strong>mọi</strong> tầng: số kết nối DB cần (Module 10), số worker, số request LLM đồng thời.</p>
+<h3 id="32-mm1-va-md1">3.2. M/M/1 và M/D/1<a class="headerlink" href="#32-mm1-va-md1" title="Permanent link">&para;</a></h3>
+<p>Mô hình một máy phục vụ, khách đến Poisson tốc độ <span class="arithmatex">\(\lambda\)</span>, thời gian phục vụ trung bình <span class="arithmatex">\(S = 1/\mu\)</span>, utilization <span class="arithmatex">\(\rho = \lambda/\mu &lt; 1\)</span>:</p>
+<ul>
+<li><strong>M/M/1</strong> (thời gian phục vụ phân phối mũ): thời gian trong hệ trung bình
+  $$
+  W = \frac{S}{1 - \rho}.
+  $$</li>
+<li><strong>M/D/1</strong> (thời gian phục vụ cố định — gần với endpoint <code>/cpu/2</code>): công thức Pollaczek–Khinchine cho
+  $$
+  W = S + \frac{\rho\, S}{2(1 - \rho)}.
+  $$</li>
+</ul>
+<p>Cả hai có chung mẫu số <span class="arithmatex">\(1 - \rho\)</span>: khi <span class="arithmatex">\(\rho \to 1\)</span>, thời gian chờ <strong>tiến tới vô cùng</strong>. Ví dụ số với <span class="arithmatex">\(S = 2{,}49\)</span> ms (M/D/1): <span class="arithmatex">\(\rho = 0{,}5 \Rightarrow W = 3{,}7\)</span> ms; <span class="arithmatex">\(\rho = 0{,}8 \Rightarrow W = 7{,}5\)</span> ms; <span class="arithmatex">\(\rho = 0{,}9 \Rightarrow W = 13{,}7\)</span> ms; <span class="arithmatex">\(\rho = 0{,}95 \Rightarrow W = 26{,}1\)</span> ms. Mỗi lần khoảng cách tới 100% giảm một nửa, thời gian chờ <strong>gấp đôi</strong>.</p>
+<h3 id="33-oi-chieu-voi-so-o">3.3. Đối chiếu với số đo<a class="headerlink" href="#33-oi-chieu-voi-so-o" title="Permanent link">&para;</a></h3>
+<p>Latency đo được gồm thời gian trong server <strong>cộng</strong> một hằng số <span class="arithmatex">\(\delta\)</span> (bộ sinh tải, loopback TCP). Ước lượng <span class="arithmatex">\(\delta \approx 2\)</span> ms từ điểm <span class="arithmatex">\(\rho = 0{,}2\)</span>, rồi so mô hình với số đo ở các mức tải cao (dùng <span class="arithmatex">\(\rho\)</span> thực đạt được):</p>
+<table>
+<thead>
+<tr>
+<th><span class="arithmatex">\(\rho\)</span></th>
+<th>M/D/1 + <span class="arithmatex">\(\delta\)</span></th>
+<th>M/M/1 + <span class="arithmatex">\(\delta\)</span></th>
+<th>đo được</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0,79</td>
+<td>9,2 ms</td>
+<td>14,0 ms</td>
+<td>9,4 ms</td>
+</tr>
+<tr>
+<td>0,84</td>
+<td>11,0 ms</td>
+<td>17,5 ms</td>
+<td>10,9 ms</td>
+</tr>
+<tr>
+<td>0,90</td>
+<td>15,6 ms</td>
+<td>26,6 ms</td>
+<td><strong>15,4 ms</strong></td>
+</tr>
+<tr>
+<td>0,945</td>
+<td>25,8 ms</td>
+<td>47,1 ms</td>
+<td><strong>24,9 ms</strong></td>
+</tr>
+</tbody>
+</table>
+<!-- placeholder-theory -->
+
+<!-- fig:theory -->
+<figure>
+  <img alt="Đối chiếu số đo e4 với lý thuyết hàng đợi: trung bình so với M/D/1 và M/M/1 (trái); p99 so với mô phỏng M/D/1 (phải)" loading="lazy" src="../assets/figures/09/theory.light.svg#only-light" />
+  <img alt="Đối chiếu số đo e4 với lý thuyết hàng đợi: trung bình so với M/D/1 và M/M/1 (trái); p99 so với mô phỏng M/D/1 (phải)" loading="lazy" src="../assets/figures/09/theory.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 9.5 — Đối chiếu số đo e4 với lý thuyết hàng đợi: trung bình so với M/D/1 và M/M/1 (trái); p99 so với mô phỏng M/D/1 (phải).</figcaption>
+</figure>
+<!-- /fig -->
+
+<p>M/D/1 khớp trong vài phần trăm; ngay cả p99 cũng khớp với mô phỏng M/D/1 bằng phương trình Lindley (hình bên phải) ở dải <span class="arithmatex">\(\rho\)</span> từ 0,4 đến 0,9. M/M/1 bi quan gần gấp đôi vì giả định thời gian phục vụ biến thiên mạnh. Bài học: <strong>độ biến thiên của thời gian phục vụ</strong> cũng quan trọng như giá trị trung bình — endpoint có latency lúc nhanh lúc chậm (cache hit/miss, payload to nhỏ) xếp hàng tệ hơn endpoint đều đặn có cùng trung bình. Công thức Pollaczek–Khinchine tổng quát (M/G/1) nói chính xác điều đó: thời gian chờ tỷ lệ với <span class="arithmatex">\((1 + C_s^2)/2\)</span>, trong đó <span class="arithmatex">\(C_s\)</span> là hệ số biến thiên của thời gian phục vụ.</p>
+<p><strong>Quy tắc vận hành</strong>: đặt mục tiêu utilization <strong>≤ 60–70%</strong> cho tài nguyên nằm trên đường đi của request có SLO latency. Vượt mức đó, một đợt tăng tải nhỏ biến thành latency đuôi lớn.</p>
+<h3 id="34-nhieu-may-phuc-vu-mmc-va-erlang-c">3.4. Nhiều máy phục vụ: M/M/c và Erlang C<a class="headerlink" href="#34-nhieu-may-phuc-vu-mmc-va-erlang-c" title="Permanent link">&para;</a></h3>
+<p>Với <span class="arithmatex">\(c\)</span> worker giống nhau và một hàng đợi chung, xác suất một request phải chờ là công thức <strong>Erlang C</strong> (với <span class="arithmatex">\(a = \lambda S\)</span> là tải tính bằng erlang, <span class="arithmatex">\(\rho = a/c\)</span>):</p>
+<div class="arithmatex">\[
+P_{\text{chờ}} = \frac{\dfrac{a^c}{c!}\dfrac{c}{c - a}}{\displaystyle\sum_{k=0}^{c-1}\frac{a^k}{k!} + \dfrac{a^c}{c!}\dfrac{c}{c - a}}, \qquad
+W_q = \frac{P_{\text{chờ}}\, S}{c - a}.
+\]</div>
+<p>Hệ quả quan trọng: <strong>gộp tài nguyên</strong> giảm thời gian chờ. Hai worker dùng chung một hàng đợi có latency tốt hơn hẳn hai worker mỗi cái một hàng đợi riêng ở cùng tổng tải — một lý do để cân bằng tải tới các pod theo "ít kết nối nhất" thay vì ngẫu nhiên.</p>
+<p>Áp vào CPU của <code>invoice-api</code>: 500 req/s, mỗi request ~0,5 ms CPU (h11) → <span class="arithmatex">\(a = 0{,}25\)</span> erlang. Với <span class="arithmatex">\(c = 1\)</span>: <span class="arithmatex">\(P_{\text{chờ}} = 0{,}25\)</span>, <span class="arithmatex">\(W_q \approx 0{,}17\)</span> ms; với <span class="arithmatex">\(c = 2\)</span>: <span class="arithmatex">\(P_{\text{chờ}} \approx 0{,}03\)</span>. CPU <strong>không</strong> phải nút thắt của <code>invoice-api</code> ở tải thiết kế — nút thắt nằm ở database (Module 10). Nhiều worker/pod ở đây chủ yếu để <strong>chịu lỗi</strong> và hấp thụ burst, không phải vì thiếu CPU.</p>
+<h3 id="35-uoi-phan-phoi-khi-fan-out">3.5. Đuôi phân phối khi fan-out<a class="headerlink" href="#35-uoi-phan-phoi-khi-fan-out" title="Permanent link">&para;</a></h3>
+<p>Dean &amp; Barroso (<em>The Tail at Scale</em>, CACM 2013): nếu một request phải chờ <span class="arithmatex">\(n\)</span> thành phần song song và mỗi thành phần có xác suất <span class="arithmatex">\(p\)</span> chậm, xác suất request chậm là <span class="arithmatex">\(1 - (1-p)^n\)</span>. Với <span class="arithmatex">\(p = 1\%\)</span> và <span class="arithmatex">\(n = 100\)</span>: <span class="arithmatex">\(1 - 0{,}99^{100} \approx 63\%\)</span>. Với <code>ai-gateway</code>, một lượt chạy gọi tuần tự 3–4 dịch vụ (retrieval, LLM, kiểm chứng) — latency đuôi của từng bước <strong>cộng dồn</strong>. Kỹ thuật giảm đuôi từ bài báo: hedged request (gửi bản sao sau một ngưỡng thời gian), timeout theo ngân sách, bỏ bớt phần không thiết yếu khi trễ.</p>
+<hr />
+<h2 id="4-nhieu-tien-trinh-worker-usl-va-cuoc-ieu-tra-40-ms">4. Nhiều tiến trình: worker, USL và cuộc điều tra 40 ms<a class="headerlink" href="#4-nhieu-tien-trinh-worker-usl-va-cuoc-ieu-tra-40-ms" title="Permanent link">&para;</a></h2>
+<h3 id="41-thi-nghiem-e3-va-mot-bat-thuong">4.1. Thí nghiệm e3 và một bất thường<a class="headerlink" href="#41-thi-nghiem-e3-va-mot-bat-thuong" title="Permanent link">&para;</a></h3>
+<p><code>POST /invoices</code> (hóa đơn 12 dòng), 32 kết nối, tăng số worker Uvicorn (<code>--workers N</code>, h11 + asyncio):</p>
+<table>
+<thead>
+<tr>
+<th>worker</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>req/s</td>
+<td>2.048</td>
+<td><strong>705</strong></td>
+<td><strong>708</strong></td>
+<td><strong>701</strong></td>
+</tr>
+<tr>
+<td>p50</td>
+<td>14,6 ms</td>
+<td><strong>44,1 ms</strong></td>
+<td>44,1 ms</td>
+<td>44,1 ms</td>
+</tr>
+</tbody>
+</table>
+<p>Thêm worker làm throughput <strong>giảm gần ba lần</strong>, và p50 dính chặt ở <strong>44 ms</strong> bất kể số worker. Không có tài nguyên nào bão hòa (mỗi tiến trình ~15–20% CPU).</p>
+<h3 id="42-ieu-tra">4.2. Điều tra<a class="headerlink" href="#42-ieu-tra" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Triệu chứng đặc trưng</strong>: một con số latency cố định (~40–44 ms) độc lập với tải và số worker → nghi một <strong>bộ đếm thời gian</strong> chứ không phải tranh chấp tài nguyên. Trên Linux, ~40 ms là thời gian <strong>delayed ACK</strong> mặc định của TCP.</li>
+<li><strong>Giả thuyết</strong>: thuật toán Nagle (gom gói nhỏ, chờ ACK trước khi gửi gói tiếp) + delayed ACK của phía nhận. Uvicorn ghi header và body response bằng <strong>hai</strong> lần <code>write</code>; nếu socket không bật <code>TCP_NODELAY</code>, phần body chờ ACK của phần header, và client trì hoãn ACK ~40 ms.</li>
+<li><strong>Kiểm tra với 1 kết nối</strong>: <code>GET /health</code>, 1 kết nối: 1 worker 0,49 ms; 2 worker <strong>44 ms</strong> → không liên quan tải; xác nhận cơ chế theo-từng-request.</li>
+<li><strong>Tìm nguyên nhân trong mã</strong>: asyncio chỉ bật <code>TCP_NODELAY</code> cho socket có <code>proto == IPPROTO_TCP</code> (<code>asyncio.base_events._set_nodelay</code>). Với 1 worker, Uvicorn tạo socket qua <code>loop.create_server(host, port)</code> (qua <code>getaddrinfo</code>, <code>proto = 6</code>). Với <code>--workers</code>, tiến trình cha tạo socket bằng <code>socket.socket(AF_INET, SOCK_STREAM)</code> — <strong><code>proto = 0</code></strong> (kiểm chứng trực tiếp) — rồi chia cho tiến trình con; mọi kết nối được accept kế thừa <code>proto = 0</code>, nên asyncio <strong>bỏ qua</strong> <code>TCP_NODELAY</code>.</li>
+<li><strong>Thí nghiệm kiểm chứng</strong>: vá <code>_set_nodelay</code> để bật <code>TCP_NODELAY</code> bất kể <code>proto</code> (biến môi trường <code>FORCE_NODELAY</code> trong <code>bench_app.py</code>):</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>worker</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>mặc định (req/s)</td>
+<td>2.048</td>
+<td>705</td>
+<td>708</td>
+<td>701</td>
+</tr>
+<tr>
+<td>ép <code>TCP_NODELAY</code> (req/s)</td>
+<td>2.048</td>
+<td><strong>3.516</strong></td>
+<td><strong>5.380</strong></td>
+<td><strong>5.563</strong></td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li><strong>Phạm vi</strong> (thí nghiệm e9, 1 kết nối, p50 của <code>/health</code>):</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>vòng lặp</th>
+<th>1 worker</th>
+<th>2 worker</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>asyncio (h11 hoặc httptools)</td>
+<td>0,2 ms</td>
+<td><strong>44 ms</strong></td>
+</tr>
+<tr>
+<td>uvloop</td>
+<td>0,2 ms</td>
+<td>0,2 ms</td>
+</tr>
+</tbody>
+</table>
+<p>uvloop bật <code>TCP_NODELAY</code> cho mọi socket TCP nên không bị ảnh hưởng.</p>
+<!-- placeholder-nagle -->
+
+<!-- fig:nagle -->
+<figure>
+  <img alt="Số đo thật: thêm worker làm chậm đi do Nagle + delayed ACK (e3); chỉ tổ hợp vòng lặp asyncio với --workers bị ảnh hưởng (e9)" loading="lazy" src="../assets/figures/09/nagle.light.svg#only-light" />
+  <img alt="Số đo thật: thêm worker làm chậm đi do Nagle + delayed ACK (e3); chỉ tổ hợp vòng lặp asyncio với --workers bị ảnh hưởng (e9)" loading="lazy" src="../assets/figures/09/nagle.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 9.6 — Số đo thật: thêm worker làm chậm đi do Nagle + delayed ACK (e3); chỉ tổ hợp vòng lặp asyncio với --workers bị ảnh hưởng (e9).</figcaption>
+</figure>
+<!-- /fig -->
+
+<p><strong>Kết luận thực hành</strong>: chạy <code>--workers</code> với vòng lặp asyncio thuần (tức cài <code>uvicorn</code> không kèm <code>[standard]</code>) trên Linux có thể làm mỗi response chậm thêm ~40 ms. Cài <code>uvicorn[standard]</code> (uvloop) — hoặc mô hình một tiến trình mỗi container (Module 13) — tránh được. Quan trọng hơn con số: <strong>một latency cố định, độc lập với tải là dấu vân tay của một bộ hẹn giờ</strong>, không phải của thiếu tài nguyên; đừng thêm máy để chữa nó.</p>
+<h3 id="43-universal-scalability-law">4.3. Universal Scalability Law<a class="headerlink" href="#43-universal-scalability-law" title="Permanent link">&para;</a></h3>
+<p>Gunther mô hình hóa throughput theo số đơn vị song song <span class="arithmatex">\(N\)</span>:</p>
+<div class="arithmatex">\[
+X(N) = \frac{\lambda N}{1 + \sigma (N - 1) + \kappa N (N - 1)},
+\]</div>
+<p>trong đó <span class="arithmatex">\(\sigma\)</span> là phần <strong>tranh chấp</strong> (hàng đợi trên tài nguyên chung — dạng Amdahl), <span class="arithmatex">\(\kappa\)</span> là chi phí <strong>đồng bộ/nhất quán</strong> giữa các đơn vị (tăng theo số cặp). Khớp với dữ liệu đã sửa <code>TCP_NODELAY</code>: <span class="arithmatex">\(\sigma \approx 0\)</span>, <span class="arithmatex">\(\kappa \approx 0{,}037\)</span>, đỉnh ở <span class="arithmatex">\(N^* = \sqrt{(1-\sigma)/\kappa} \approx 5\)</span>.</p>
+<!-- placeholder-usl -->
+
+<!-- fig:usl -->
+<figure>
+  <img alt="Universal Scalability Law khớp với throughput theo số worker sau khi đã sửa TCPNODELAY" loading="lazy" src="../assets/figures/09/usl.light.svg#only-light" />
+  <img alt="Universal Scalability Law khớp với throughput theo số worker sau khi đã sửa TCPNODELAY" loading="lazy" src="../assets/figures/09/usl.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 9.7 — Universal Scalability Law khớp với throughput theo số worker sau khi đã sửa TCP_NODELAY.</figcaption>
+</figure>
+<!-- /fig -->
+
+<p>Đọc cẩn thận: trên máy đo, <strong>bộ sinh tải chạy chung 4 vCPU với server</strong>, nên từ 3 lên 4 worker các tiến trình tranh CPU với chính client — <span class="arithmatex">\(\kappa\)</span> ở đây phần lớn là "tranh CPU với máy đo", không phải chi phí của Uvicorn. Trên máy riêng, đường cong thẳng hơn nhiều cho tới số core vật lý. Cách dùng USL đúng: đo ở 3–5 điểm, khớp <span class="arithmatex">\(\sigma\)</span>, <span class="arithmatex">\(\kappa\)</span>, và dùng <span class="arithmatex">\(N^*\)</span> để biết <strong>thêm worker từ đâu trở đi là vô ích hoặc có hại</strong>.</p>
+<h3 id="44-bao-nhieu-worker">4.4. Bao nhiêu worker?<a class="headerlink" href="#44-bao-nhieu-worker" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Ngữ cảnh</th>
+<th>Khuyến nghị</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Kubernetes/container</td>
+<td><strong>1 tiến trình Uvicorn mỗi container</strong>, scale bằng số pod (HPA); request/limit CPU ~1 core. Đơn giản hóa health check, log, graceful shutdown (Module 13).</td>
+</tr>
+<tr>
+<td>Máy ảo/bare metal</td>
+<td><code>--workers</code> ≈ số core cho service CPU-bound; với I/O-bound async thường ít hơn (1–2 đã đủ để dùng hết core khi phần lớn là chờ).</td>
+</tr>
+<tr>
+<td>Luôn</td>
+<td><code>uvicorn[standard]</code>; đo bằng tải open-loop ở <span class="arithmatex">\(\rho\)</span> mục tiêu ~0,6.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="5-kiem-soat-ong-thoi-backpressure-va-timeout">5. Kiểm soát đồng thời: backpressure và timeout<a class="headerlink" href="#5-kiem-soat-ong-thoi-backpressure-va-timeout" title="Permanent link">&para;</a></h2>
+<h3 id="51-van-e">5.1. Vấn đề<a class="headerlink" href="#51-van-e" title="Permanent link">&para;</a></h3>
+<p>Một service không giới hạn sẽ nhận <strong>mọi</strong> request đến, kể cả khi đã quá tải. Hàng đợi nội bộ phình ra, latency của mọi request tăng (mục 3.2), client hết thời gian chờ và <strong>gửi lại</strong> — tải thật tăng gấp đôi đúng lúc hệ đang yếu nhất. Đây là cơ chế của <em>metastable failure</em> (Module 13). Phòng thủ là <strong>giới hạn có chủ đích</strong> ở mọi tầng.</p>
+<h3 id="52-cac-cong-cu">5.2. Các công cụ<a class="headerlink" href="#52-cac-cong-cu" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">httpx</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">LLM_LIMIT</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Semaphore</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>              <span class="c1"># ≤ 20 lượt gọi LLM đồng thời mỗi tiến trình</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">llm</span> <span class="o">=</span> <span class="n">httpx</span><span class="o">.</span><span class="n">AsyncClient</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="n">httpx</span><span class="o">.</span><span class="n">Timeout</span><span class="p">(</span><span class="n">connect</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">read</span><span class="o">=</span><span class="mf">30.0</span><span class="p">,</span> <span class="n">write</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="mf">1.0</span><span class="p">))</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">call_llm</span><span class="p">(</span><span class="n">payload</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    <span class="k">try</span><span class="p">:</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>        <span class="k">async</span> <span class="k">with</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">timeout</span><span class="p">(</span><span class="mf">0.5</span><span class="p">):</span>       <span class="c1"># chờ "chỗ" tối đa 0,5 s, quá thì từ chối ngay</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>            <span class="k">await</span> <span class="n">LLM_LIMIT</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>    <span class="k">except</span> <span class="ne">TimeoutError</span><span class="p">:</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="mi">503</span><span class="p">,</span> <span class="s2">"Quá tải, thử lại sau"</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">"Retry-After"</span><span class="p">:</span> <span class="s2">"5"</span><span class="p">})</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>    <span class="k">try</span><span class="p">:</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>        <span class="n">r</span> <span class="o">=</span> <span class="k">await</span> <span class="n">llm</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">"/v1/chat/completions"</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>        <span class="n">r</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>        <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>    <span class="k">finally</span><span class="p">:</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>        <span class="n">LLM_LIMIT</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+</span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Tầng</th>
+<th>Cơ chế</th>
+<th>Giá trị cho <code>invoice-api</code> / <code>ai-gateway</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Server</td>
+<td><code>uvicorn --limit-concurrency N</code> → 503 khi vượt; <code>--backlog</code></td>
+<td>invoice-api: N ≈ 4 × L dự kiến mỗi tiến trình</td>
+</tr>
+<tr>
+<td>Handler</td>
+<td><code>asyncio.Semaphore</code> quanh tài nguyên khan hiếm (LLM, API bên thứ ba)</td>
+<td>ai-gateway: 20 lượt LLM/tiến trình</td>
+</tr>
+<tr>
+<td>Client đi ra</td>
+<td>timeout <code>connect</code>/<code>read</code>/<code>pool</code> tường minh (httpx mặc định 5 s cho mọi loại)</td>
+<td>LLM read 30 s; Zendesk API 10 s</td>
+</tr>
+<tr>
+<td>Toàn request</td>
+<td><code>asyncio.timeout(...)</code> theo ngân sách latency</td>
+<td>invoice-api 2 s; ai-gateway 60 s</td>
+</tr>
+<tr>
+<td>DB</td>
+<td>pool size + <code>pool_timeout</code> (Module 10)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Nguyên tắc: <strong>từ chối sớm và rõ ràng</strong> (503 + <code>Retry-After</code>) tốt hơn nhận rồi xử lý chậm cho tất cả.</p>
+<hr />
+<h2 id="6-case-mekong-cloud-ke-hoach-nang-luc">6. Case Mekong Cloud: kế hoạch năng lực<a class="headerlink" href="#6-case-mekong-cloud-ke-hoach-nang-luc" title="Permanent link">&para;</a></h2>
+<h3 id="61-invoice-api">6.1. <code>invoice-api</code><a class="headerlink" href="#61-invoice-api" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Tải thiết kế 500 req/s. Thời gian mỗi request (ước lượng): ~0,25 ms CPU (<code>uvicorn[standard]</code>) + ~5 ms chờ DB (transaction ghi hóa đơn, Module 10) → <span class="arithmatex">\(W \approx 6\)</span> ms.</li>
+<li><strong>Little</strong>: <span class="arithmatex">\(L = 500 \times 0{,}006 = 3\)</span> request đồng thời trên toàn hệ. Rất ít — và đó là lý do handler <code>async def</code> với driver async là đủ, không cần threadpool lớn.</li>
+<li><strong>CPU</strong>: <span class="arithmatex">\(a = 500 \times 0{,}25\text{ ms} = 0{,}125\)</span> core. Mục tiêu <span class="arithmatex">\(\rho \le 0{,}6\)</span> trên mỗi pod 1 core → 1 pod là đủ về CPU; chạy <strong>3 pod</strong> (mỗi pod 1 tiến trình) để chịu mất một zone và hấp thụ burst cuối tháng.</li>
+<li><strong>Kết nối DB</strong>: <span class="arithmatex">\(L_{\text{DB}} = 500 \times 0{,}005 = 2{,}5\)</span> kết nối bận trung bình → pool 5–10 mỗi pod là thừa (Module 10 tính kỹ hơn).</li>
+<li><strong>Giới hạn</strong>: <code>--limit-concurrency 200</code> mỗi tiến trình, timeout request 2 s.</li>
+</ul>
+<h3 id="62-ai-gateway">6.2. <code>ai-gateway</code><a class="headerlink" href="#62-ai-gateway" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Đỉnh 0,4 lượt chạy/giây, mỗi lượt ~15 s (chủ yếu chờ LLM) → <span class="arithmatex">\(L = 6\)</span> lượt đồng thời; burst ×3 → 18.</li>
+<li>Mọi I/O async (<code>httpx.AsyncClient</code>, Redis async) → <strong>một</strong> event loop phục vụ được hàng trăm lượt chờ; 2 pod để chịu lỗi.</li>
+<li>Semaphore LLM 20/tiến trình (khớp hạn mức của nhà cung cấp), timeout đọc 30 s, timeout toàn lượt 60 s.</li>
+<li>60 kết nối SSE mở lâu: ~60 coroutine (~1 KB mỗi cái, Module 02) — không đáng kể; nhưng load balancer thường đóng kết nối rảnh sau 60 s → gửi dòng comment <code>: ping</code> mỗi 15 s.</li>
+</ul>
+<!-- placeholder-capacity -->
+
+<!-- fig:capacity -->
+<figure>
+  <img alt="Kế hoạch năng lực của hai dịch vụ, tính bằng định luật Little và mục tiêu utilization" loading="lazy" src="../assets/figures/09/capacity.light.svg#only-light" />
+  <img alt="Kế hoạch năng lực của hai dịch vụ, tính bằng định luật Little và mục tiêu utilization" loading="lazy" src="../assets/figures/09/capacity.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 9.8 — Kế hoạch năng lực của hai dịch vụ, tính bằng định luật Little và mục tiêu utilization.</figcaption>
+</figure>
+<!-- /fig -->
+
+<hr />
+<h2 id="loi-thuong-gap-cach-xu-ly">Lỗi thường gặp &amp; cách xử lý<a class="headerlink" href="#loi-thuong-gap-cach-xu-ly" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Triệu chứng</th>
+<th>Nguyên nhân gốc</th>
+<th>Cách xử lý</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Throughput dừng ở ~X req/s dù tăng client, CPU thấp</td>
+<td><code>def</code> handler, 40 luồng / thời gian chờ</td>
+<td>Thư viện async; hoặc tính và nới giới hạn threadpool</td>
+</tr>
+<tr>
+<td>Mọi endpoint (cả <code>/health</code>) chậm khi một endpoint bị gọi nhiều</td>
+<td>Lời gọi chặn trong <code>async def</code></td>
+<td>Đổi sang <code>def</code> / thư viện async; bật asyncio debug trong test</td>
+</tr>
+<tr>
+<td>Latency tăng vọt khi CPU mới ~70–80%</td>
+<td>Hàng đợi: <span class="arithmatex">\(W \propto 1/(1-\rho)\)</span></td>
+<td>Mục tiêu <span class="arithmatex">\(\rho \le 0{,}6\)</span>–<span class="arithmatex">\(0{,}7\)</span>; scale sớm</td>
+</tr>
+<tr>
+<td>Benchmark đẹp nhưng production có p99 xấu</td>
+<td>Đo closed-loop (coordinated omission)</td>
+<td>Đo open-loop theo tốc độ đến; tính latency từ thời điểm dự kiến</td>
+</tr>
+<tr>
+<td>Thêm worker mà chậm hơn, latency cố định ~40 ms</td>
+<td>Nagle + delayed ACK (asyncio + <code>--workers</code> trên Linux)</td>
+<td><code>uvicorn[standard]</code> (uvloop) hoặc 1 tiến trình/container</td>
+</tr>
+<tr>
+<td>Thêm worker không tăng throughput</td>
+<td>Tranh chấp tài nguyên chung (USL: <span class="arithmatex">\(\sigma\)</span>, <span class="arithmatex">\(\kappa\)</span>)</td>
+<td>Đo, khớp USL, dừng ở <span class="arithmatex">\(N^*\)</span>; tìm tài nguyên chung</td>
+</tr>
+<tr>
+<td>Quá tải → client retry → sập hẳn</td>
+<td>Không giới hạn đồng thời, không timeout</td>
+<td>Semaphore, <code>--limit-concurrency</code>, timeout, 503 + <code>Retry-After</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="tom-tat-cheat-sheet">Tóm tắt (cheat-sheet)<a class="headerlink" href="#tom-tat-cheat-sheet" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>async def</code> → event loop; <code>def</code> → threadpool anyio <strong>40 luồng</strong>. Quy tắc áp dụng cho cả dependency.</li>
+<li>Đo được (chờ 50 ms): async tăng tới khi hết CPU (~2.500 req/s); <code>def</code> trần <strong>~770</strong> = 40/0,052; async-chặn trần <strong>~19,5</strong> = 1/0,051 và làm <code>/health</code> chậm <strong>~2.400×</strong>.</li>
+<li><strong>Little</strong>: <span class="arithmatex">\(L = \lambda W\)</span>, <span class="arithmatex">\(X_{\max} = L_{\max}/W\)</span> — dùng cho luồng, worker, kết nối DB, lượt LLM.</li>
+<li><strong>M/D/1</strong>: <span class="arithmatex">\(W = S + \rho S/(2(1-\rho))\)</span> — khớp số đo open-loop trong vài phần trăm; <strong>M/M/1</strong>: <span class="arithmatex">\(W = S/(1-\rho)\)</span>. Giữ <span class="arithmatex">\(\rho \le 0{,}6\)</span>–<span class="arithmatex">\(0{,}7\)</span>.</li>
+<li><strong>Erlang C</strong>: gộp tài nguyên giảm thời gian chờ; CPU của <code>invoice-api</code> chỉ ~0,125 core ở tải thiết kế.</li>
+<li>Đo <strong>open-loop</strong> để tránh coordinated omission.</li>
+<li><code>--workers</code> + asyncio thuần trên Linux: +~40 ms mỗi response (Nagle). uvloop không bị.</li>
+<li><strong>USL</strong>: <span class="arithmatex">\(X(N) = \lambda N / (1 + \sigma(N-1) + \kappa N(N-1))\)</span>; <span class="arithmatex">\(N^* = \sqrt{(1-\sigma)/\kappa}\)</span>.</li>
+<li>Giới hạn có chủ đích: semaphore, <code>--limit-concurrency</code>, timeout tường minh, 503 + <code>Retry-After</code>.</li>
+</ul>
+<h2 id="cau-hoi-tu-kiem-tra-phong-van">Câu hỏi tự kiểm tra / phỏng vấn<a class="headerlink" href="#cau-hoi-tu-kiem-tra-phong-van" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>Endpoint <code>def</code> gọi một API bên ngoài mất 200 ms. Throughput tối đa của một worker FastAPI mặc định là bao nhiêu? Làm sao tăng?</p>
+<p><details markdown="1"><summary>Gợi ý</summary>
+<span class="arithmatex">\(X_{\max} = 40 / 0{,}2 = 200\)</span> req/s (Little, 40 luồng). Tăng: dùng <code>httpx.AsyncClient</code> + <code>async def</code> (giới hạn chuyển sang CPU/kết nối), hoặc nới threadpool (tạm thời), hoặc thêm worker/pod.
+</details></p>
+</li>
+<li>
+<p>Vì sao <code>time.sleep(0.05)</code> trong <code>async def</code> làm <code>/health</code> chậm tới 1 giây khi có 20 kết nối?</p>
+<p><details markdown="1"><summary>Gợi ý</summary>
+Event loop bị chặn 50 ms mỗi request; 20 request xếp hàng tuần tự → một request <code>/health</code> phải chờ ~20 × 51 ms ≈ 1 s. Mọi coroutine trên loop đều chờ.
+</details></p>
+</li>
+<li>
+<p>Phát biểu định luật Little. Dùng nó tính số kết nối DB cần cho 500 req/s, mỗi request giữ kết nối 8 ms.</p>
+<p><details markdown="1"><summary>Gợi ý</summary>
+<span class="arithmatex">\(L = \lambda W\)</span>. <span class="arithmatex">\(L = 500 \times 0{,}008 = 4\)</span> kết nối bận trung bình; cộng dư cho biến động và burst (ví dụ ×2–3) → pool ~10.
+</details></p>
+</li>
+<li>
+<p>Server có <span class="arithmatex">\(S = 10\)</span> ms. So latency trung bình ở <span class="arithmatex">\(\rho = 0{,}5\)</span> và <span class="arithmatex">\(0{,}9\)</span> theo M/M/1 và M/D/1.</p>
+<p><details markdown="1"><summary>Gợi ý</summary>
+M/M/1: 20 ms và 100 ms. M/D/1: <span class="arithmatex">\(10 + 0{,}5\cdot10/(2\cdot0{,}5) = 15\)</span> ms và <span class="arithmatex">\(10 + 0{,}9\cdot10/0{,}2 = 55\)</span> ms.
+</details></p>
+</li>
+<li>
+<p>Coordinated omission là gì? Vì sao benchmark closed-loop đánh giá thấp latency đuôi?</p>
+<p><details markdown="1"><summary>Gợi ý</summary>
+Khi server chậm, client closed-loop tự gửi chậm lại, nên các request lẽ ra đến trong lúc nghẽn không được gửi/không được tính thời gian chờ. Open-loop gửi theo lịch độc lập và tính latency từ thời điểm dự kiến.
+</details></p>
+</li>
+<li>
+<p>Throughput giảm khi thêm worker và latency dính ở ~40 ms. Bạn nghi gì đầu tiên và kiểm chứng thế nào?</p>
+<p><details markdown="1"><summary>Gợi ý</summary>
+Latency cố định độc lập tải → bộ hẹn giờ; 40 ms → delayed ACK + Nagle. Kiểm chứng: đo với 1 kết nối (vẫn ~40 ms), kiểm tra <code>TCP_NODELAY</code> trên socket, thử uvloop hoặc ép NODELAY.
+</details></p>
+</li>
+<li>
+<p>Giải thích hai tham số <span class="arithmatex">\(\sigma\)</span>, <span class="arithmatex">\(\kappa\)</span> của USL và ý nghĩa của <span class="arithmatex">\(N^*\)</span>.</p>
+<p><details markdown="1"><summary>Gợi ý</summary>
+<span class="arithmatex">\(\sigma\)</span>: tranh chấp (phần tuần tự, hàng đợi trên tài nguyên chung) làm throughput bão hòa; <span class="arithmatex">\(\kappa\)</span>: chi phí đồng bộ/nhất quán theo cặp làm throughput <strong>giảm</strong> sau đỉnh. <span class="arithmatex">\(N^* = \sqrt{(1-\sigma)/\kappa}\)</span> là số đơn vị cho throughput lớn nhất.
+</details></p>
+</li>
+<li>
+<p>Thiết kế giới hạn đồng thời cho <code>ai-gateway</code> khi nhà cung cấp LLM cho phép 50 request đồng thời và có 2 pod.</p>
+<p><details markdown="1"><summary>Gợi ý</summary>
+Semaphore ~20–25 mỗi pod (tổng &lt; 50, chừa biên); chờ semaphore có timeout ngắn rồi trả 503 + Retry-After; timeout đọc LLM 30 s; timeout toàn lượt 60 s; webhook Zendesk trả nhanh và đẩy việc vào hàng đợi (Module 13–14).
+</details></p>
+</li>
+</ol>
+<h2 id="bai-tap-thuc-hanh">Bài tập thực hành<a class="headerlink" href="#bai-tap-thuc-hanh" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Tái tạo e1, e2 (CPU, 20 phút).</strong> Làm theo Lab 04; vẽ throughput theo <span class="arithmatex">\(C\)</span> cho ba cách viết và đánh dấu ba trần tính bằng Little.</li>
+<li><strong>Kiểm chứng M/D/1 (CPU, 20 phút).</strong> Chạy <code>bench_concurrency.py --only e4</code>, rồi đổi <code>/cpu/2</code> thành thời gian phục vụ ngẫu nhiên (phân phối mũ trung bình 2 ms). So với M/M/1.</li>
+<li><strong>Erlang C (giấy/CPU, 15 phút).</strong> Viết hàm Erlang C, tính <span class="arithmatex">\(P_{\text{chờ}}\)</span> khi <code>ai-gateway</code> có <span class="arithmatex">\(a = 6\)</span> lượt LLM và semaphore <span class="arithmatex">\(c = 8, 10, 20\)</span>.</li>
+<li><strong>Bắt lời gọi chặn (CPU, 15 phút).</strong> Bật <code>PYTHONASYNCIODEBUG=1</code>, gọi một endpoint <code>async def</code> có <code>requests.get(...)</code>; đọc cảnh báo "Executing … took … seconds".</li>
+</ol>
+<h2 id="tai-lieu-tham-khao">Tài liệu tham khảo<a class="headerlink" href="#tai-lieu-tham-khao" title="Permanent link">&para;</a></h2>
+<p>Paper và sách:</p>
+<ul>
+<li>Little, J. D. C. (1961). <em>A Proof for the Queuing Formula: L = λW</em>. Operations Research 9(3), 383–387.</li>
+<li>Kleinrock, L. (1975). <em>Queueing Systems, Volume 1: Theory</em>. Wiley — M/M/1, M/M/c, M/G/1 (Pollaczek–Khinchine).</li>
+<li>Harchol-Balter, M. (2013). <em>Performance Modeling and Design of Computer Systems: Queueing Theory in Action</em>. Cambridge University Press.</li>
+<li>Gunther, N. J. (2007). <em>Guerrilla Capacity Planning</em>. Springer — Universal Scalability Law.</li>
+<li>Dean, J., Barroso, L. A. (2013). <em>The Tail at Scale</em>. Communications of the ACM 56(2), 74–80.</li>
+<li>Nagle, J. (1984). <em>RFC 896: Congestion Control in IP/TCP Internetworks</em>. https://www.rfc-editor.org/rfc/rfc896</li>
+<li>Braden, R. (1989). <em>RFC 1122: Requirements for Internet Hosts</em> (delayed ACK). https://www.rfc-editor.org/rfc/rfc1122</li>
+<li>Tene, G. <em>How NOT to Measure Latency</em> (bài nói, coordinated omission). https://www.youtube.com/watch?v=lJ8ydIuPFeU</li>
+</ul>
+<p>Tài liệu chính thức (tra cứu 10/2026):</p>
+<ul>
+<li>FastAPI — <em>Concurrency and async / await</em>. https://fastapi.tiangolo.com/async/</li>
+<li>anyio — <em>Working with threads</em> (<code>CapacityLimiter</code>, giới hạn mặc định). https://anyio.readthedocs.io/en/stable/threads.html</li>
+<li>Python docs — <em>Developing with asyncio</em> (debug mode, slow callbacks). https://docs.python.org/3/library/asyncio-dev.html</li>
+<li>Uvicorn — <em>Settings</em> (<code>--workers</code>, <code>--limit-concurrency</code>, <code>--loop</code>). https://www.uvicorn.org/settings/</li>
+<li>HTTPX — <em>Timeouts</em>. https://www.python-httpx.org/advanced/timeouts/</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Trở lại mục lục
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Chân trang" >
+        
+          
+          <a href="../08-dependency-injection/" class="md-footer__link md-footer__link--prev" aria-label="Trước: 08 · Dependency injection">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Trước
+              </span>
+              <div class="md-ellipsis">
+                08 · Dependency injection
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../10-database-va-persistence/" class="md-footer__link md-footer__link--next" aria-label="Sau: 10 · Database &amp; persistence">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Sau
+              </span>
+              <div class="md-ellipsis">
+                10 · Database & persistence
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Tài liệu học tập — Pydantic & FastAPI Masterclass · 2026
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/HieNguyen08/learn-pydantic-and-fastapi" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.top", "navigation.footer", "navigation.indexes", "navigation.tracking", "toc.follow", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "content.action.edit"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u0110\u00e3 sao ch\u00e9p", "clipboard.copy": "Sao ch\u00e9p v\u00e0o b\u1ed9 nh\u1edb t\u1ea1m", "search.result.more.one": "1 t\u1eeb kh\u00e1c trong trang", "search.result.more.other": "# t\u1eeb kh\u00e1c trong trang", "search.result.none": "Kh\u00f4ng t\u00ecm th\u1ea5y t\u00e0i li\u1ec7u li\u00ean quan", "search.result.one": "1 t\u00e0i li\u1ec7u li\u00ean quan", "search.result.other": "# t\u00e0i li\u1ec7u li\u00ean quan", "search.result.placeholder": "Nh\u1eadp \u0111\u1ec3 b\u1eaft \u0111\u1ea7u t\u00ecm ki\u1ebfm", "search.result.term.missing": "Kh\u00f4ng", "select.version": "Ch\u1ecdn phi\u00ean b\u1ea3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

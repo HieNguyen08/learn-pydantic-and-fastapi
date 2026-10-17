@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="691.520587pt" height="296.861538pt" viewBox="0 0 691.520587 296.861538" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 296.861538 
+L 691.520587 296.861538 
+L 691.520587 0 
+L 0 0 
+L 0 296.861538 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 22.065231 260.529231 
+L 132.125538 260.529231 
+Q 138.24 260.529231 138.24 254.414769 
+L 138.24 42.446769 
+Q 138.24 36.332308 132.125538 36.332308 
+L 22.065231 36.332308 
+Q 15.950769 36.332308 15.950769 42.446769 
+L 15.950769 254.414769 
+Q 15.950769 260.529231 22.065231 260.529231 
+z
+" clip-path="url(#pff8fa9cc7e)" style="fill: #e9e7f4; stroke: #4a3aa7; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 185.117538 260.529231 
+L 325.750154 260.529231 
+Q 331.864615 260.529231 331.864615 254.414769 
+L 331.864615 42.446769 
+Q 331.864615 36.332308 325.750154 36.332308 
+L 185.117538 36.332308 
+Q 179.003077 36.332308 179.003077 42.446769 
+L 179.003077 254.414769 
+Q 179.003077 260.529231 185.117538 260.529231 
+z
+" clip-path="url(#pff8fa9cc7e)" style="fill: #edf9f4; stroke: #1baf7a; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 205.499077 240.147692 
+L 305.368615 240.147692 
+Q 311.483077 240.147692 311.483077 234.033231 
+L 311.483077 93.400615 
+Q 311.483077 87.286154 305.368615 87.286154 
+L 205.499077 87.286154 
+Q 199.384615 87.286154 199.384615 93.400615 
+L 199.384615 234.033231 
+Q 199.384615 240.147692 205.499077 240.147692 
+z
+" clip-path="url(#pff8fa9cc7e)" style="fill: #e1ecf9; stroke: #2a78d6; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 378.742154 260.529231 
+L 651.854769 260.529231 
+Q 657.969231 260.529231 657.969231 254.414769 
+L 657.969231 42.446769 
+Q 657.969231 36.332308 651.854769 36.332308 
+L 378.742154 36.332308 
+Q 372.627692 36.332308 372.627692 42.446769 
+L 372.627692 254.414769 
+Q 372.627692 260.529231 378.742154 260.529231 
+z
+" clip-path="url(#pff8fa9cc7e)" style="fill: #f2f7fd; stroke: #2a78d6; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 139.768615 97.476923 
+Q 169.067077 97.476923 196.688487 97.476923 
+" clip-path="url(#pff8fa9cc7e)" style="fill: none; stroke: #52514e; stroke-width: 1.5; stroke-linecap: round"/>
+    <path d="M 191.888487 95.076923 
+L 196.688487 97.476923 
+L 191.888487 99.876923 
+z
+" clip-path="url(#pff8fa9cc7e)" style="fill: #52514e; stroke: #52514e; stroke-width: 1.5; stroke-linecap: round"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 313.011692 97.476923 
+Q 342.310154 97.476923 369.931564 97.476923 
+" clip-path="url(#pff8fa9cc7e)" style="fill: none; stroke: #52514e; stroke-width: 1.5; stroke-linecap: round"/>
+    <path d="M 365.131564 95.076923 
+L 369.931564 97.476923 
+L 365.131564 99.876923 
+z
+" clip-path="url(#pff8fa9cc7e)" style="fill: #52514e; stroke: #52514e; stroke-width: 1.5; stroke-linecap: round"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 371.608615 179.003077 
+Q 342.310154 179.003077 314.688743 179.003077 
+" clip-path="url(#pff8fa9cc7e)" style="fill: none; stroke: #008300; stroke-width: 1.5; stroke-linecap: round"/>
+    <path d="M 319.488743 181.403077 
+L 314.688743 179.003077 
+L 319.488743 176.603077 
+z
+" clip-path="url(#pff8fa9cc7e)" style="fill: #008300; stroke: #008300; stroke-width: 1.5; stroke-linecap: round"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 198.365538 179.003077 
+Q 169.067077 179.003077 141.445666 179.003077 
+" clip-path="url(#pff8fa9cc7e)" style="fill: none; stroke: #008300; stroke-width: 1.5; stroke-linecap: round"/>
+    <path d="M 146.245666 181.403077 
+L 141.445666 179.003077 
+L 146.245666 176.603077 
+z
+" clip-path="url(#pff8fa9cc7e)" style="fill: #008300; stroke: #008300; stroke-width: 1.5; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #1b1b1a" transform="translate(52.5524 129.275441)">Server ASGI</text>
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #1b1b1a" transform="translate(58.354541 139.935441)">(Uvicorn)</text>
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #1b1b1a" transform="translate(77.095385 148.430769)"/>
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #1b1b1a" transform="translate(34.989025 161.763457)">socket, HTTP parser,</text>
+    <text style="font-size: 8.2px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #1b1b1a" transform="translate(55.355135 172.833457)">event loop</text>
+   </g>
+   <g id="text_2">
+    <text style="font-weight: 700; font-size: 8.4px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #1baf7a" x="255.433846" y="56.713846" transform="rotate(-0 255.433846 56.713846)">Middleware (cũng là app ASGI)</text>
+   </g>
+   <g id="text_3">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #1b1b1a" transform="translate(233.340721 155.120048)">app(scope,</text>
+    <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #1b1b1a" transform="translate(239.544471 166.291298)">receive,</text>
+    <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #1b1b1a" transform="translate(225.702596 176.613173)">send_wrapper)</text>
+   </g>
+   <g id="text_4">
+    <text style="font-weight: 700; font-size: 8.4px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #2a78d6" x="515.298462" y="56.713846" transform="rotate(-0 515.298462 56.713846)">Ứng dụng (Starlette / FastAPI)</text>
+   </g>
+   <g id="text_5">
+    <text style="font-size: 7.4px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: start; fill: #1b1b1a" x="382.818462" y="97.476923" transform="rotate(-0 382.818462 97.476923)">scope: {type: http, method: POST, path: /v1/invoices, headers…}</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 7.4px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: start; fill: #1b1b1a" x="382.818462" y="133.144615" transform="rotate(-0 382.818462 133.144615)">await receive() → {type: http.request, body: b'…', more_body: False}</text>
+   </g>
+   <g id="text_7">
+    <text style="font-size: 7.4px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: start; fill: #1b1b1a" x="382.818462" y="179.003077" transform="rotate(-0 382.818462 179.003077)">await send({type: http.response.start, status: 201, headers})</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 7.4px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; text-anchor: start; fill: #1b1b1a" x="382.818462" y="214.670769" transform="rotate(-0 382.818462 214.670769)">await send({type: http.response.body, body: b'{…}'})</text>
+   </g>
+   <g id="text_9">
+    <text style="font-weight: 700; font-size: 9.4px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #1b1b1a" x="15.950769" y="21.046154" transform="rotate(-0 15.950769 21.046154)">ASGI: mọi lớp đều là coroutine app(scope, receive, send)</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pff8fa9cc7e">
+   <rect x="5.76" y="5.76" width="662.4" height="285.341538"/>
+  </clipPath>
+ </defs>
+</svg>

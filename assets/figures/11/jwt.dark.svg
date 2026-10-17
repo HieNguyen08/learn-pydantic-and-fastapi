@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="702.72pt" height="275.802353pt" viewBox="0 0 702.72 275.802353" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 275.802353 
+L 702.72 275.802353 
+L 702.72 0 
+L 0 0 
+L 0 275.802353 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 22.023529 137.901176 
+L 141.967059 137.901176 
+Q 148.065882 137.901176 148.065882 131.802353 
+L 148.065882 62.682353 
+Q 148.065882 56.583529 141.967059 56.583529 
+L 22.023529 56.583529 
+Q 15.924706 56.583529 15.924706 62.682353 
+L 15.924706 131.802353 
+Q 15.924706 137.901176 22.023529 137.901176 
+z
+" clip-path="url(#p75db42d4ef)" style="fill: #322524; stroke: #e66767; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 194.823529 137.901176 
+L 446.908235 137.901176 
+Q 453.007059 137.901176 453.007059 131.802353 
+L 453.007059 62.682353 
+Q 453.007059 56.583529 446.908235 56.583529 
+L 194.823529 56.583529 
+Q 188.724706 56.583529 188.724706 62.682353 
+L 188.724706 131.802353 
+Q 188.724706 137.901176 194.823529 137.901176 
+z
+" clip-path="url(#p75db42d4ef)" style="fill: #292830; stroke: #9085e9; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 499.764706 137.901176 
+L 660.367059 137.901176 
+Q 666.465882 137.901176 666.465882 131.802353 
+L 666.465882 62.682353 
+Q 666.465882 56.583529 660.367059 56.583529 
+L 499.764706 56.583529 
+Q 493.665882 56.583529 493.665882 62.682353 
+L 493.665882 131.802353 
+Q 493.665882 137.901176 499.764706 137.901176 
+z
+" clip-path="url(#p75db42d4ef)" style="fill: #212830; stroke: #3987e5; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #e66767" x="23.548235" y="69.289412" transform="rotate(-0 23.548235 69.289412)">header</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; fill: #f2f1ec" transform="translate(23.548235 90.247146)">{"alg":"EdDSA",</text>
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; fill: #f2f1ec" transform="translate(23.548235 98.168951)"> "kid":"2026-10",</text>
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; fill: #f2f1ec" transform="translate(23.548235 106.090756)"> "typ":"at+jwt"}</text>
+   </g>
+   <g id="text_3">
+    <text style="font-weight: 700; font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #9085e9" x="196.348235" y="69.289412" transform="rotate(-0 196.348235 69.289412)">payload (claims)</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; fill: #f2f1ec" transform="translate(196.348235 90.212084)">{"iss":"https://id.mekong.vn",</text>
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; fill: #f2f1ec" transform="translate(196.348235 98.133889)"> "aud":"invoice-api", "sub":"pos-001",</text>
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; fill: #f2f1ec" transform="translate(196.348235 106.055693)"> "tid":7, "scope":"invoice:write",</text>
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; fill: #f2f1ec" transform="translate(196.348235 114.241498)"> "iat":…, "exp":… (+10 phút)}</text>
+   </g>
+   <g id="text_5">
+    <text style="font-weight: 700; font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #3987e5" x="501.289412" y="69.289412" transform="rotate(-0 501.289412 69.289412)">signature</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; fill: #f2f1ec" transform="translate(501.289412 90.498771)">Ed25519(khóa bí mật IdP,</text>
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; fill: #f2f1ec" transform="translate(501.289412 98.455639)"> base64url(header) + "." +</text>
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Computer Modern Typewriter', 'Andale Mono', 'Nimbus Mono L', 'Courier New', 'Courier', 'Fixed', 'Terminal', monospace; fill: #f2f1ec" transform="translate(501.289412 106.412506)"> base64url(payload))</text>
+   </g>
+   <g id="text_7">
+    <text style="font-size: 18px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #c3c2b7" x="163.312941" y="102.324706" transform="rotate(-0 163.312941 102.324706)">.</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 18px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #c3c2b7" x="468.254118" y="102.324706" transform="rotate(-0 468.254118 102.324706)">.</text>
+   </g>
+   <g id="text_9">
+    <text style="font-weight: 700; font-size: 9px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #f2f1ec" x="15.924706" y="26.089412" transform="rotate(-0 15.924706 26.089412)">JWT = base64url(header) . base64url(payload) . base64url(signature) — đọc được, KHÔNG mã hóa</text>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #c3c2b7" x="15.924706" y="163.312941" transform="rotate(-0 15.924706 163.312941)">① alg ∈ danh sách cố định của server (không đọc từ header để quyết định)</text>
+   </g>
+   <g id="text_11">
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #c3c2b7" x="15.924706" y="188.724706" transform="rotate(-0 15.924706 188.724706)">② chữ ký đúng với khóa công khai theo kid (JWKS)</text>
+   </g>
+   <g id="text_12">
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #c3c2b7" x="15.924706" y="214.136471" transform="rotate(-0 15.924706 214.136471)">③ exp, nbf (lệch đồng hồ ≤ 30 s) · iss = IdP mong đợi · aud = invoice-api</text>
+   </g>
+   <g id="text_13">
+    <text style="font-size: 7.6px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #c3c2b7" x="15.924706" y="239.548235" transform="rotate(-0 15.924706 239.548235)">④ claims qua model Pydantic: tid &gt; 0, scope tách thành tập → Principal</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p75db42d4ef">
+   <rect x="5.76" y="5.76" width="691.2" height="264.282353"/>
+  </clipPath>
+ </defs>
+</svg>

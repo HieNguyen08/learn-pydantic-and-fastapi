@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="673.92pt" height="276.48pt" viewBox="0 0 673.92 276.48" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 276.48 
+L 673.92 276.48 
+L 673.92 0 
+L 0 0 
+L 0 276.48 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 22.065231 179.003077 
+L 162.697846 179.003077 
+Q 168.812308 179.003077 168.812308 172.888615 
+L 168.812308 62.828308 
+Q 168.812308 56.713846 162.697846 56.713846 
+L 22.065231 56.713846 
+Q 15.950769 56.713846 15.950769 62.828308 
+L 15.950769 172.888615 
+Q 15.950769 179.003077 22.065231 179.003077 
+z
+" clip-path="url(#p5e25b6313e)" style="fill: #322524; stroke: #e66767; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 215.689846 97.476923 
+L 295.177846 97.476923 
+Q 301.292308 97.476923 301.292308 91.362462 
+L 301.292308 73.019077 
+Q 301.292308 66.904615 295.177846 66.904615 
+L 215.689846 66.904615 
+Q 209.575385 66.904615 209.575385 73.019077 
+L 209.575385 91.362462 
+Q 209.575385 97.476923 215.689846 97.476923 
+z
+" clip-path="url(#p5e25b6313e)" style="fill: #262624; stroke: #5a5955; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 170.340923 117.858462 
+Q 189.193846 100.024615 207.234553 82.959082 
+" clip-path="url(#p5e25b6313e)" style="fill: none; stroke: #e66767; stroke-linecap: round"/>
+    <path d="M 202.098225 84.514117 
+L 207.234553 82.959082 
+L 205.396784 88.001166 
+z
+" clip-path="url(#p5e25b6313e)" style="fill: #e66767; stroke: #e66767; stroke-linecap: round"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 215.689846 143.335385 
+L 295.177846 143.335385 
+Q 301.292308 143.335385 301.292308 137.220923 
+L 301.292308 118.877538 
+Q 301.292308 112.763077 295.177846 112.763077 
+L 215.689846 112.763077 
+Q 209.575385 112.763077 209.575385 118.877538 
+L 209.575385 137.220923 
+Q 209.575385 143.335385 215.689846 143.335385 
+z
+" clip-path="url(#p5e25b6313e)" style="fill: #262624; stroke: #5a5955; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 170.340923 117.858462 
+Q 189.193846 122.953846 206.96746 127.757526 
+" clip-path="url(#p5e25b6313e)" style="fill: none; stroke: #e66767; stroke-linecap: round"/>
+    <path d="M 202.959898 124.18829 
+L 206.96746 127.757526 
+L 201.707534 128.822034 
+z
+" clip-path="url(#p5e25b6313e)" style="fill: #e66767; stroke: #e66767; stroke-linecap: round"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 215.689846 189.193846 
+L 295.177846 189.193846 
+Q 301.292308 189.193846 301.292308 183.079385 
+L 301.292308 164.736 
+Q 301.292308 158.621538 295.177846 158.621538 
+L 215.689846 158.621538 
+Q 209.575385 158.621538 209.575385 164.736 
+L 209.575385 183.079385 
+Q 209.575385 189.193846 215.689846 189.193846 
+z
+" clip-path="url(#p5e25b6313e)" style="fill: #262624; stroke: #5a5955; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 170.340923 117.858462 
+Q 189.193846 145.883077 207.422709 172.980035 
+" clip-path="url(#p5e25b6313e)" style="fill: none; stroke: #e66767; stroke-linecap: round"/>
+    <path d="M 206.734794 167.657745 
+L 207.422709 172.980035 
+L 202.752128 170.336993 
+z
+" clip-path="url(#p5e25b6313e)" style="fill: #e66767; stroke: #e66767; stroke-linecap: round"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 368.551385 117.858462 
+L 478.611692 117.858462 
+Q 484.726154 117.858462 484.726154 111.744 
+L 484.726154 62.828308 
+Q 484.726154 56.713846 478.611692 56.713846 
+L 368.551385 56.713846 
+Q 362.436923 56.713846 362.436923 62.828308 
+L 362.436923 111.744 
+Q 362.436923 117.858462 368.551385 117.858462 
+z
+" clip-path="url(#p5e25b6313e)" style="fill: #222e3a; stroke: #3987e5; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 348.169846 199.384615 
+L 427.657846 199.384615 
+Q 433.772308 199.384615 433.772308 193.270154 
+L 433.772308 174.926769 
+Q 433.772308 168.812308 427.657846 168.812308 
+L 348.169846 168.812308 
+Q 342.055385 168.812308 342.055385 174.926769 
+L 342.055385 193.270154 
+Q 342.055385 199.384615 348.169846 199.384615 
+z
+" clip-path="url(#p5e25b6313e)" style="fill: #1a2a19; stroke: #008300; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 387.913846 167.283692 
+Q 400.652308 143.335385 412.865726 120.374158 
+" clip-path="url(#p5e25b6313e)" style="fill: none; stroke: #008300; stroke-linecap: round"/>
+    <path d="M 408.49269 123.484875 
+L 412.865726 120.374158 
+L 412.730477 125.739017 
+z
+" clip-path="url(#p5e25b6313e)" style="fill: #008300; stroke: #008300; stroke-linecap: round"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 450.077538 199.384615 
+L 529.565538 199.384615 
+Q 535.68 199.384615 535.68 193.270154 
+L 535.68 174.926769 
+Q 535.68 168.812308 529.565538 168.812308 
+L 450.077538 168.812308 
+Q 443.963077 168.812308 443.963077 174.926769 
+L 443.963077 193.270154 
+Q 443.963077 199.384615 450.077538 199.384615 
+z
+" clip-path="url(#p5e25b6313e)" style="fill: #1a2a19; stroke: #008300; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_13">
+    <path d="M 489.821538 167.283692 
+Q 451.606154 143.335385 414.33815 119.980769 
+" clip-path="url(#p5e25b6313e)" style="fill: none; stroke: #008300; stroke-linecap: round"/>
+    <path d="M 417.131058 124.563308 
+L 414.33815 119.980769 
+L 419.679926 120.495965 
+z
+" clip-path="url(#p5e25b6313e)" style="fill: #008300; stroke: #008300; stroke-linecap: round"/>
+   </g>
+   <g id="patch_14">
+    <path d="M 551.985231 199.384615 
+L 631.473231 199.384615 
+Q 637.587692 199.384615 637.587692 193.270154 
+L 637.587692 174.926769 
+Q 637.587692 168.812308 631.473231 168.812308 
+L 551.985231 168.812308 
+Q 545.870769 168.812308 545.870769 174.926769 
+L 545.870769 193.270154 
+Q 545.870769 199.384615 551.985231 199.384615 
+z
+" clip-path="url(#p5e25b6313e)" style="fill: #1a2a19; stroke: #008300; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_15">
+    <path d="M 591.729231 167.283692 
+Q 502.56 143.335385 414.470539 119.677072 
+" clip-path="url(#p5e25b6313e)" style="fill: none; stroke: #008300; stroke-linecap: round"/>
+    <path d="M 418.48375 123.239956 
+L 414.470539 119.677072 
+L 419.728772 118.604234 
+z
+" clip-path="url(#p5e25b6313e)" style="fill: #008300; stroke: #008300; stroke-linecap: round"/>
+   </g>
+   <g id="patch_16">
+    <path d="M 541.794462 117.858462 
+L 651.854769 117.858462 
+Q 657.969231 117.858462 657.969231 111.744 
+L 657.969231 62.828308 
+Q 657.969231 56.713846 651.854769 56.713846 
+L 541.794462 56.713846 
+Q 535.68 56.713846 535.68 62.828308 
+L 535.68 111.744 
+Q 535.68 117.858462 541.794462 117.858462 
+z
+" clip-path="url(#p5e25b6313e)" style="fill: #1a2a19; stroke: #008300; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_17">
+    <path d="M 486.254769 87.286154 
+Q 510.203077 87.286154 532.474334 87.286154 
+" clip-path="url(#p5e25b6313e)" style="fill: none; stroke: #008300; stroke-width: 1.5; stroke-linecap: round"/>
+    <path d="M 527.674334 84.886154 
+L 532.474334 87.286154 
+L 527.674334 89.686154 
+z
+" clip-path="url(#p5e25b6313e)" style="fill: #008300; stroke: #008300; stroke-width: 1.5; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 9px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #e66767" x="15.950769" y="26.141538" transform="rotate(-0 15.950769 26.141538)">Tự lấy / service locator</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 7.8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(77.485976 99.706399)">handler</text>
+    <text style="font-size: 7.8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(73.342226 109.480774)">Settings()</text>
+    <text style="font-size: 7.8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(70.072929 120.303274)">connect(...)</text>
+    <text style="font-size: 7.8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(63.586132 130.432305)">decode_jwt(...)</text>
+    <text style="font-size: 7.8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(72.083257 141.36754)">… close()?</text>
+   </g>
+   <g id="text_3">
+    <text style="font-size: 7.8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #f2f1ec" x="255.433846" y="84.319316" transform="rotate(-0 255.433846 84.319316)">env</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 7.8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #f2f1ec" x="255.433846" y="130.081496" transform="rotate(-0 255.433846 130.081496)">Postgres</text>
+   </g>
+   <g id="text_5">
+    <text style="font-size: 7.8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #f2f1ec" x="255.433846" y="175.970427" transform="rotate(-0 255.433846 175.970427)">JWT secret</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 7.8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #c3c2b7" transform="translate(15.950769 217.081209)">phụ thuộc ẩn trong thân hàm,</text>
+    <text style="font-size: 7.8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #c3c2b7" transform="translate(15.950769 227.34156)">khó test, dễ quên dọn dẹp</text>
+   </g>
+   <g id="text_7">
+    <text style="font-weight: 700; font-size: 9px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #008300" x="362.436923" y="26.141538" transform="rotate(-0 362.436923 26.141538)">Dependency injection (FastAPI)</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(409.216538 84.745529)">FastAPI</text>
+    <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(403.624663 95.241154)">giải đồ thị</text>
+   </g>
+   <g id="text_9">
+    <text style="font-size: 7.4px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #f2f1ec" x="387.913846" y="186.140399" transform="rotate(-0 387.913846 186.140399)">settings</text>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 7.4px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #f2f1ec" x="489.821538" y="186.037493" transform="rotate(-0 489.821538 186.037493)">db_session</text>
+   </g>
+   <g id="text_11">
+    <text style="font-size: 7.4px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #f2f1ec" x="591.729231" y="185.824165" transform="rotate(-0 591.729231 185.824165)">current_tenant</text>
+   </g>
+   <g id="text_12">
+    <text style="font-size: 7.8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(580.407444 84.470232)">handler(</text>
+    <text style="font-size: 7.8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(567.4631 95.000232)"> tenant, db, …)</text>
+   </g>
+   <g id="text_13">
+    <text style="font-size: 7.8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #c3c2b7" transform="translate(362.436923 231.9603)">phụ thuộc hiện trên chữ ký · vòng đời do framework quản lý</text>
+    <text style="font-size: 7.8px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #c3c2b7" transform="translate(362.436923 242.236495)">· thay thế bằng dependency_overrides khi test</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p5e25b6313e">
+   <rect x="5.76" y="5.76" width="662.4" height="264.96"/>
+  </clipPath>
+ </defs>
+</svg>

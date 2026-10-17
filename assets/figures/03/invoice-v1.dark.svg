@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="645.12pt" height="195.468387pt" viewBox="0 0 645.12 195.468387" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 195.468387 
+L 645.12 195.468387 
+L 645.12 0 
+L 0 0 
+L 0 195.468387 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 22.110968 128.392258 
+L 127.370323 128.392258 
+Q 133.501935 128.392258 133.501935 122.260645 
+L 133.501935 62.988387 
+Q 133.501935 56.856774 127.370323 56.856774 
+L 22.110968 56.856774 
+Q 15.979355 56.856774 15.979355 62.988387 
+L 15.979355 122.260645 
+Q 15.979355 128.392258 22.110968 128.392258 
+z
+" clip-path="url(#p716fa10c97)" style="fill: #32322f; stroke: #8f8e86; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 146.787097 128.392258 
+L 252.046452 128.392258 
+Q 258.178065 128.392258 258.178065 122.260645 
+L 258.178065 62.988387 
+Q 258.178065 56.856774 252.046452 56.856774 
+L 146.787097 56.856774 
+Q 140.655484 56.856774 140.655484 62.988387 
+L 140.655484 122.260645 
+Q 140.655484 128.392258 146.787097 128.392258 
+z
+" clip-path="url(#p716fa10c97)" style="fill: #193017; stroke: #008300; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 271.463226 128.392258 
+L 376.722581 128.392258 
+Q 382.854194 128.392258 382.854194 122.260645 
+L 382.854194 62.988387 
+Q 382.854194 56.856774 376.722581 56.856774 
+L 271.463226 56.856774 
+Q 265.331613 56.856774 265.331613 62.988387 
+L 265.331613 122.260645 
+Q 265.331613 128.392258 271.463226 128.392258 
+z
+" clip-path="url(#p716fa10c97)" style="fill: #193017; stroke: #008300; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 396.139355 128.392258 
+L 501.39871 128.392258 
+Q 507.530323 128.392258 507.530323 122.260645 
+L 507.530323 62.988387 
+Q 507.530323 56.856774 501.39871 56.856774 
+L 396.139355 56.856774 
+Q 390.007742 56.856774 390.007742 62.988387 
+L 390.007742 122.260645 
+Q 390.007742 128.392258 396.139355 128.392258 
+z
+" clip-path="url(#p716fa10c97)" style="fill: #3d3117; stroke: #c98500; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 520.815484 128.392258 
+L 626.074839 128.392258 
+Q 632.206452 128.392258 632.206452 122.260645 
+L 632.206452 62.988387 
+Q 632.206452 56.856774 626.074839 56.856774 
+L 520.815484 56.856774 
+Q 514.683871 56.856774 514.683871 62.988387 
+L 514.683871 122.260645 
+Q 514.683871 128.392258 520.815484 128.392258 
+z
+" clip-path="url(#p716fa10c97)" style="fill: #32322f; stroke: #8f8e86; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_1">
+    <text style="font-size: 7.9px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(45.12984 89.87618)">0 · Vận chuyển</text>
+    <text style="font-size: 7.9px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(51.63438 100.902235)">middleware</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 7.9px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #c3c2b7" x="74.740645" y="146.276129" transform="rotate(-0 74.740645 146.276129)">Module 07/11</text>
+   </g>
+   <g id="text_3">
+    <text style="font-size: 7.9px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(176.681438 89.629922)">1 · Cú pháp</text>
+    <text style="font-size: 7.9px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(178.604595 100.136922)">jiter (Rust)</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 7.9px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #c3c2b7" x="199.416774" y="146.276129" transform="rotate(-0 199.416774 146.276129)">xong</text>
+   </g>
+   <g id="text_5">
+    <text style="font-size: 7.9px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(282.333997 89.813227)">2 · Cấu trúc &amp; trường</text>
+    <text style="font-size: 7.9px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(285.835302 100.437493)">core schema (Rust)</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 7.9px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #c3c2b7" x="324.092903" y="146.276129" transform="rotate(-0 324.092903 146.276129)">xong (InvoiceIn v1)</text>
+   </g>
+   <g id="text_7">
+    <text style="font-size: 7.9px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(422.236142 89.539196)">3 · Ngữ nghĩa</text>
+    <text style="font-size: 7.9px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(416.351259 100.136922)">validator Python</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 7.9px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #c3c2b7" x="448.769032" y="146.276129" transform="rotate(-0 448.769032 146.276129)">Module 04</text>
+   </g>
+   <g id="text_9">
+    <text style="font-size: 7.9px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(548.34538 89.67004)">4 · Ngữ cảnh</text>
+    <text style="font-size: 7.9px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #f2f1ec" transform="translate(537.54213 100.136922)">dependency + DB</text>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 7.9px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: middle; fill: #c3c2b7" x="573.445161" y="146.276129" transform="rotate(-0 573.445161 146.276129)">Module 08/10</text>
+   </g>
+   <g id="text_11">
+    <text style="font-weight: 700; font-size: 9.2px; font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans CJK JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; text-anchor: start; fill: #f2f1ec" x="15.979355" y="31.308387" transform="rotate(-0 15.979355 31.308387)">InvoiceIn phiên bản 1 phủ tầng 1–2 hoàn toàn trong Rust; tầng 3 ở Module 04</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p716fa10c97">
+   <rect x="5.76" y="5.76" width="633.6" height="183.948387"/>
+  </clipPath>
+ </defs>
+</svg>

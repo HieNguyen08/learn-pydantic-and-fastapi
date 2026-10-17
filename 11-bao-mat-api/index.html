@@ -1,0 +1,3813 @@
+
+<!doctype html>
+<html lang="vi" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Pydantic & FastAPI từ nền tảng đến hệ thống production — xoay quanh API hóa đơn điện tử và AI gateway của Mekong Cloud">
+      
+      
+        <meta name="author" content="HieNguyen08">
+      
+      
+        <link rel="canonical" href="https://hienguyen08.github.io/learn-pydantic-and-fastapi/11-bao-mat-api/">
+      
+      
+        <link rel="prev" href="../10-database-va-persistence/">
+      
+      
+        <link rel="next" href="../12-testing-va-chat-luong/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>11 · Bảo mật API - Pydantic & FastAPI Masterclass</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Be+Vietnam+Pro:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Be Vietnam Pro";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="deep-orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#module-11-bao-mat-api" class="md-skip">
+          Bỏ qua
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Đầu trang">
+    <a href=".." title="Pydantic &amp; FastAPI Masterclass" class="md-header__button md-logo" aria-label="Pydantic & FastAPI Masterclass" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 7H5a2 2 0 0 0-2 2v8h2v-4h2v4h2V9a2 2 0 0 0-2-2m0 4H5V9h2m7-2h-4v10h2v-4h2a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2m0 4h-2V9h2m6 0v6h1v2h-4v-2h1V9h-1V7h4v2Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Pydantic & FastAPI Masterclass
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              11 · Bảo mật API
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="deep-orange"  aria-label="Chuyển sang nền tối"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Chuyển sang nền tối" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="deep-orange"  aria-label="Chuyển sang nền sáng"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Chuyển sang nền sáng" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Tìm kiếm" placeholder="Tìm kiếm" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Tìm kiếm">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Xoá" aria-label="Xoá" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/HieNguyen08/learn-pydantic-and-fastapi" title="Xem mã nguồn" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    HieNguyen08/learn-pydantic-and-fastapi
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Trang chủ
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../00-tong-quan-va-bai-toan/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Phần I · Nền tảng
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../03-pydantic-v2-kien-truc/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Phần II · Pydantic
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../07-fastapi-vong-doi-request/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Phần III · FastAPI
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../12-testing-va-chat-luong/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Phần IV · Chất lượng & vận hành
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../15-pydantic-cho-llm/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Phần V · Chuyên đề
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../labs/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Thực hành
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Thanh điều hướng" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Pydantic &amp; FastAPI Masterclass" class="md-nav__button md-logo" aria-label="Pydantic & FastAPI Masterclass" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 7H5a2 2 0 0 0-2 2v8h2v-4h2v4h2V9a2 2 0 0 0-2-2m0 4H5V9h2m7-2h-4v10h2v-4h2a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2m0 4h-2V9h2m6 0v6h1v2h-4v-2h1V9h-1V7h4v2Z"/></svg>
+
+    </a>
+    Pydantic & FastAPI Masterclass
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/HieNguyen08/learn-pydantic-and-fastapi" title="Xem mã nguồn" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    HieNguyen08/learn-pydantic-and-fastapi
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trang chủ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phần I · Nền tảng
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phần I · Nền tảng
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-tong-quan-va-bai-toan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    00 · Tổng quan & bài toán
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-kieu-du-lieu-va-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01 · Kiểu dữ liệu & validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-http-rest-asgi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02 · HTTP, REST & ASGI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phần II · Pydantic
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phần II · Pydantic
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-pydantic-v2-kien-truc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03 · Pydantic v2: kiến trúc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-validators-kieu-tuy-bien-union/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04 · Validator, kiểu tùy biến & union
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-serialization-json-schema-settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05 · Serialization, JSON Schema & settings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-hieu-nang-pydantic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06 · Hiệu năng Pydantic
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phần III · FastAPI
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phần III · FastAPI
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-fastapi-vong-doi-request/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07 · Vòng đời request
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-dependency-injection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08 · Dependency injection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09-async-dong-thoi-hieu-nang/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09 · Async, đồng thời & hiệu năng
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10-database-va-persistence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10 · Database & persistence
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11 · Bảo mật API
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11 · Bảo mật API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Mục lục">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Mục lục
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#muc-tieu-hoc-tap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mục tiêu học tập
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-mo-hinh-e-doa-truoc-cong-cu-sau" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Mô hình đe dọa trước, công cụ sau
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Mô hình đe dọa trước, công cụ sau">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-luong-du-lieu-va-ranh-gioi-tin-cay" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1. Luồng dữ liệu và ranh giới tin cậy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-owasp-api-security-top-10-2023" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2. OWASP API Security Top 10 (2023)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-xac-thuc-ai-ang-goi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Xác thực: ai đang gọi?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Xác thực: ai đang gọi?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-ba-loai-client-ba-co-che" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1. Ba loại client, ba cơ chế
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-jwt-cau-truc-va-nhung-gi-phai-kiem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. JWT: cấu trúc và những gì phải kiểm
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-thi-nghiem-decoder-tu-viet-va-pyjwt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3. Thí nghiệm: decoder tự viết và PyJWT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-cai-at-dependency-xac-thuc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4. Cài đặt: dependency xác thực
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-chi-phi-kiem-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5. Chi phí kiểm token
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26-api-key-cho-may" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6. API key cho máy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-mat-khau-argon2id-va-toan-brute-force" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Mật khẩu: Argon2id và toán brute-force
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Mật khẩu: Argon2id và toán brute-force">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-vi-sao-khong-dung-sha-256-cho-mat-khau" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1. Vì sao không dùng SHA-256 cho mật khẩu
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-toan-brute-force" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2. Toán brute-force
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-cai-at-trong-fastapi-ung-chan-event-loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3. Cài đặt trong FastAPI: đừng chặn event loop
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-phan-quyen-ba-loi-ung-au-owasp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Phân quyền: ba lỗi đứng đầu OWASP
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Phân quyền: ba lỗi đứng đầu OWASP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-bola-oi-tuong-cua-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1. BOLA: đối tượng của ai?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-bopla-truong-nao-uoc-oc-truong-nao-uoc-ghi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2. BOPLA: trường nào được đọc, trường nào được ghi?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-bfla-chuc-nang-nao-uoc-goi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3. BFLA: chức năng nào được gọi?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-rate-limiting-bao-nhieu-lan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Rate limiting: bao nhiêu lần?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Rate limiting: bao nhiêu lần?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-vi-sao-can-va-gioi-han-theo-cai-gi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1. Vì sao cần, và giới hạn theo cái gì
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-toan-cua-so-co-inh-va-token-bucket-gcra" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2. Toán: cửa sổ cố định và token bucket / GCRA
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-cai-at-tren-redis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3. Cài đặt trên Redis
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-dos-qua-payload-gioi-han-moi-thu-co-the-lon" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. DoS qua payload: giới hạn mọi thứ có thể lớn
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. DoS qua payload: giới hạn mọi thứ có thể lớn">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-o-sau-json" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1. Độ sâu JSON
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-kich-thuoc-danh-sach-va-body" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2. Kích thước danh sách và body
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-cau-hinh-ssrf-va-bi-mat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Cấu hình, SSRF và bí mật
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Cấu hình, SSRF và bí mật">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-cors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1. CORS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-ssrf-url-webhook-do-nguoi-dung-nhap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2. SSRF: URL webhook do người dùng nhập
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-bi-mat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3. Bí mật
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-case-mekong-cloud-cac-lop-bao-ve-cua-post-v1invoices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Case Mekong Cloud: các lớp bảo vệ của POST /v1/invoices
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#loi-thuong-gap-cach-xu-ly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lỗi thường gặp &amp; cách xử lý
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tom-tat-cheat-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tóm tắt (cheat-sheet)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cau-hoi-tu-kiem-tra-phong-van" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Câu hỏi tự kiểm tra / phỏng vấn
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bai-tap-thuc-hanh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bài tập thực hành
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tai-lieu-tham-khao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tài liệu tham khảo
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phần IV · Chất lượng & vận hành
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phần IV · Chất lượng & vận hành
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12-testing-va-chat-luong/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12 · Testing & chất lượng
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../13-production-va-observability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13 · Production & observability
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../14-capstone-thiet-ke-he-thong/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14 · Capstone: thiết kế hệ thống
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phần V · Chuyên đề
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phần V · Chuyên đề
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../15-pydantic-cho-llm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15 · Pydantic cho LLM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../labs/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Thực hành
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Thực hành
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab01_invoice_models/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 01 · Mô hình hóa hóa đơn
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab02_benchmark_validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 02 · Benchmark validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab03_invoice_api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 03 · invoice-api hoàn chỉnh
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab04_concurrency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 04 · Đo đồng thời
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab05_property_fuzz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 05 · Property-based & fuzz
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab06_llm_structured_sse/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 06 · Structured output & SSE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Mục lục">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Mục lục
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#muc-tieu-hoc-tap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mục tiêu học tập
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-mo-hinh-e-doa-truoc-cong-cu-sau" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Mô hình đe dọa trước, công cụ sau
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Mô hình đe dọa trước, công cụ sau">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-luong-du-lieu-va-ranh-gioi-tin-cay" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1. Luồng dữ liệu và ranh giới tin cậy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-owasp-api-security-top-10-2023" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2. OWASP API Security Top 10 (2023)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-xac-thuc-ai-ang-goi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Xác thực: ai đang gọi?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Xác thực: ai đang gọi?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-ba-loai-client-ba-co-che" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1. Ba loại client, ba cơ chế
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-jwt-cau-truc-va-nhung-gi-phai-kiem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. JWT: cấu trúc và những gì phải kiểm
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-thi-nghiem-decoder-tu-viet-va-pyjwt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3. Thí nghiệm: decoder tự viết và PyJWT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-cai-at-dependency-xac-thuc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4. Cài đặt: dependency xác thực
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-chi-phi-kiem-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5. Chi phí kiểm token
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26-api-key-cho-may" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6. API key cho máy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-mat-khau-argon2id-va-toan-brute-force" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Mật khẩu: Argon2id và toán brute-force
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Mật khẩu: Argon2id và toán brute-force">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-vi-sao-khong-dung-sha-256-cho-mat-khau" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1. Vì sao không dùng SHA-256 cho mật khẩu
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-toan-brute-force" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2. Toán brute-force
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-cai-at-trong-fastapi-ung-chan-event-loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3. Cài đặt trong FastAPI: đừng chặn event loop
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-phan-quyen-ba-loi-ung-au-owasp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Phân quyền: ba lỗi đứng đầu OWASP
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Phân quyền: ba lỗi đứng đầu OWASP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-bola-oi-tuong-cua-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1. BOLA: đối tượng của ai?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-bopla-truong-nao-uoc-oc-truong-nao-uoc-ghi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2. BOPLA: trường nào được đọc, trường nào được ghi?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-bfla-chuc-nang-nao-uoc-goi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3. BFLA: chức năng nào được gọi?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-rate-limiting-bao-nhieu-lan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Rate limiting: bao nhiêu lần?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Rate limiting: bao nhiêu lần?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-vi-sao-can-va-gioi-han-theo-cai-gi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1. Vì sao cần, và giới hạn theo cái gì
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-toan-cua-so-co-inh-va-token-bucket-gcra" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2. Toán: cửa sổ cố định và token bucket / GCRA
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-cai-at-tren-redis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3. Cài đặt trên Redis
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-dos-qua-payload-gioi-han-moi-thu-co-the-lon" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. DoS qua payload: giới hạn mọi thứ có thể lớn
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. DoS qua payload: giới hạn mọi thứ có thể lớn">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-o-sau-json" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1. Độ sâu JSON
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-kich-thuoc-danh-sach-va-body" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2. Kích thước danh sách và body
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-cau-hinh-ssrf-va-bi-mat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Cấu hình, SSRF và bí mật
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Cấu hình, SSRF và bí mật">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-cors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1. CORS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-ssrf-url-webhook-do-nguoi-dung-nhap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2. SSRF: URL webhook do người dùng nhập
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-bi-mat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3. Bí mật
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-case-mekong-cloud-cac-lop-bao-ve-cua-post-v1invoices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Case Mekong Cloud: các lớp bảo vệ của POST /v1/invoices
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#loi-thuong-gap-cach-xu-ly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lỗi thường gặp &amp; cách xử lý
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tom-tat-cheat-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tóm tắt (cheat-sheet)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cau-hoi-tu-kiem-tra-phong-van" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Câu hỏi tự kiểm tra / phỏng vấn
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bai-tap-thuc-hanh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bài tập thực hành
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tai-lieu-tham-khao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tài liệu tham khảo
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/HieNguyen08/learn-pydantic-and-fastapi/edit/main/docs/11-bao-mat-api.md" title="Chỉnh sửa" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="module-11-bao-mat-api">Module 11 — Bảo mật API<a class="headerlink" href="#module-11-bao-mat-api" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>Thời lượng: ~55 phút · Mức độ: Trung bình → Nâng cao · Tiên quyết: Module 07, 08, 10</p>
+</blockquote>
+<p><code>invoice-api</code> giữ hóa đơn của 3.000 doanh nghiệp: tên khách hàng, mã số thuế, doanh thu. Đó là dữ liệu mà đối thủ cạnh tranh, kẻ lừa đảo và cơ quan thuế đều quan tâm, mỗi bên vì lý do riêng. <code>ai-gateway</code> nhận email khách hàng (có PII) và gọi LLM bằng khóa API trả tiền theo token. Module này trả lời câu hỏi: <strong>ai được làm gì, với dữ liệu nào, bao nhiêu lần</strong>, và làm sao để mỗi câu trả lời được <strong>thực thi bằng code</strong> chứ không chỉ nằm trên giấy.</p>
+<p>Module không nhằm liệt kê mọi lỗ hổng. Nó đi theo <strong>OWASP API Security Top 10 (2023)</strong> và với mỗi rủi ro chính chỉ ra <strong>cơ chế cụ thể</strong> trong Pydantic, FastAPI hoặc database dùng để chặn nó. Kèm theo là một thí nghiệm chạy thật cho thấy điều gì xảy ra khi không chặn. Số đo trong <code>scripts/bench/bench_security.py</code>, chạy trên máy 4 vCPU, PyJWT 2.15, argon2-cffi 25.1, Redis 7.</p>
+<h2 id="muc-tieu-hoc-tap">Mục tiêu học tập<a class="headerlink" href="#muc-tieu-hoc-tap" title="Permanent link">&para;</a></h2>
+<p>Sau module này, bạn có thể:</p>
+<ol>
+<li>Lập <strong>mô hình đe dọa</strong> cho một API: vẽ luồng dữ liệu, xác định ranh giới tin cậy, áp STRIDE.</li>
+<li>Chọn cơ chế xác thực phù hợp (OAuth 2.0/2.1 client credentials, authorization code + PKCE, API key) theo <strong>RFC 9700</strong>, và kiểm JWT đúng theo <strong>RFC 8725</strong>. Giải thích bằng thí nghiệm các lỗi <code>alg=none</code>, nhầm thuật toán, thiếu <code>aud</code>/<code>exp</code>.</li>
+<li>Lưu mật khẩu bằng <strong>Argon2id</strong> với tham số OWASP và tính <strong>chi phí brute-force</strong> cho từng loại hàm băm.</li>
+<li>Chặn <strong>BOLA, BOPLA/mass assignment, BFLA</strong> bằng tổ hợp: truy vấn có <code>tenant_id</code>, model Pydantic vào/ra riêng (<code>extra="forbid"</code>), và <code>Security(..., scopes=...)</code>.</li>
+<li>Thiết kế <strong>rate limiting</strong> theo tenant bằng GCRA/token bucket (toán và cài đặt trên Redis), và đặt giới hạn tài nguyên chống <strong>DoS qua payload</strong>.</li>
+<li>Cấu hình <strong>CORS</strong> đúng, chặn <strong>SSRF</strong> cho URL webhook, và quản lý <strong>bí mật</strong>.</li>
+</ol>
+<hr />
+<h2 id="1-mo-hinh-e-doa-truoc-cong-cu-sau">1. Mô hình đe dọa trước, công cụ sau<a class="headerlink" href="#1-mo-hinh-e-doa-truoc-cong-cu-sau" title="Permanent link">&para;</a></h2>
+<h3 id="11-luong-du-lieu-va-ranh-gioi-tin-cay">1.1. Luồng dữ liệu và ranh giới tin cậy<a class="headerlink" href="#11-luong-du-lieu-va-ranh-gioi-tin-cay" title="Permanent link">&para;</a></h3>
+<p>Câu hỏi "API có an toàn không?" không có câu trả lời. Câu hỏi đúng là "<strong>ai</strong> có thể làm <strong>gì</strong> sai, ở <strong>đâu</strong>". Kỹ thuật cơ bản gồm hai bước:</p>
+<ol>
+<li>Vẽ <strong>sơ đồ luồng dữ liệu</strong> (DFD).</li>
+<li>Đánh dấu <strong>ranh giới tin cậy</strong> (trust boundary): mọi chỗ dữ liệu đi từ vùng ít tin cậy sang vùng tin cậy hơn.</li>
+</ol>
+<p>Mọi ranh giới đều phải có kiểm tra.</p>
+<!-- placeholder-threat -->
+
+<!-- fig:threat -->
+<figure>
+  <img alt="Sơ đồ luồng dữ liệu của Mekong Cloud với các ranh giới tin cậy và đe dọa STRIDE tương ứng" loading="lazy" src="../assets/figures/11/threat.light.svg#only-light" />
+  <img alt="Sơ đồ luồng dữ liệu của Mekong Cloud với các ranh giới tin cậy và đe dọa STRIDE tương ứng" loading="lazy" src="../assets/figures/11/threat.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 11.1 — Sơ đồ luồng dữ liệu của Mekong Cloud với các ranh giới tin cậy và đe dọa STRIDE tương ứng.</figcaption>
+</figure>
+<!-- /fig -->
+
+<p>Với mỗi ranh giới, đi qua sáu loại đe dọa của <strong>STRIDE</strong>. Mô hình này do Kohnfelder và Garg đề xuất ở Microsoft năm 1999, và ngày nay vẫn là khung phổ biến nhất:</p>
+<table>
+<thead>
+<tr>
+<th>STRIDE</th>
+<th>Tính chất bị vi phạm</th>
+<th>Ví dụ ở <code>invoice-api</code></th>
+<th>Cơ chế chặn (module)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>S</strong>poofing — giả mạo danh tính</td>
+<td>xác thực</td>
+<td>dùng token của POS khác</td>
+<td>JWT có chữ ký, kiểm <code>aud</code>/<code>iss</code>/<code>exp</code> (M11)</td>
+</tr>
+<tr>
+<td><strong>T</strong>ampering — sửa dữ liệu</td>
+<td>toàn vẹn</td>
+<td>sửa <code>total</code> của hóa đơn đã ký</td>
+<td>model Patch không có <code>total</code>; hóa đơn ký rồi bất biến (M04, M11)</td>
+</tr>
+<tr>
+<td><strong>R</strong>epudiation — chối bỏ</td>
+<td>không chối bỏ</td>
+<td>"tôi không hủy hóa đơn đó"</td>
+<td>log kiểm toán có <code>sub</code>, <code>tenant</code>, request id (M13)</td>
+</tr>
+<tr>
+<td><strong>I</strong>nformation disclosure — lộ thông tin</td>
+<td>bảo mật</td>
+<td>đọc hóa đơn tenant khác (BOLA)</td>
+<td><code>WHERE tenant_id</code>, RLS, <code>InvoiceOut</code> (M10, M11)</td>
+</tr>
+<tr>
+<td><strong>D</strong>enial of service — từ chối dịch vụ</td>
+<td>sẵn sàng</td>
+<td>gửi body 24 MB, JSON sâu 100.000 tầng</td>
+<td>giới hạn body, độ sâu, rate limit (M11)</td>
+</tr>
+<tr>
+<td><strong>E</strong>levation of privilege — leo thang quyền</td>
+<td>phân quyền</td>
+<td>POS gọi endpoint hủy hóa đơn</td>
+<td><code>Security(scopes=...)</code> (M08, M11)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="12-owasp-api-security-top-10-2023">1.2. OWASP API Security Top 10 (2023)<a class="headerlink" href="#12-owasp-api-security-top-10-2023" title="Permanent link">&para;</a></h3>
+<p>OWASP tổng kết các rủi ro phổ biến nhất <strong>riêng cho API</strong>. Đây là bản thứ hai, sau bản 2019. Năm trong mười rủi ro là <strong>lỗi phân quyền và lỗi tiêu thụ tài nguyên</strong>, không phải lỗi "kỹ thuật" như injection. Điều đó phản ánh một thực tế: API hiện đại ít khi bị SQL injection (vì ORM và tham số hóa), nhưng rất hay <strong>trả dữ liệu cho sai người</strong>.</p>
+<!-- placeholder-owasp -->
+
+<!-- fig:owasp -->
+<figure>
+  <img alt="OWASP API Security Top 10 (2023) và cơ chế chặn từng rủi ro trong khóa học" loading="lazy" src="../assets/figures/11/owasp.light.svg#only-light" />
+  <img alt="OWASP API Security Top 10 (2023) và cơ chế chặn từng rủi ro trong khóa học" loading="lazy" src="../assets/figures/11/owasp.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 11.2 — OWASP API Security Top 10 (2023) và cơ chế chặn từng rủi ro trong khóa học.</figcaption>
+</figure>
+<!-- /fig -->
+
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Rủi ro</th>
+<th>Một câu</th>
+<th>Mục</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>API1</td>
+<td>Broken Object Level Authorization (BOLA)</td>
+<td>đổi <code>id</code> trong URL là đọc được đối tượng của người khác</td>
+<td>4.1</td>
+</tr>
+<tr>
+<td>API2</td>
+<td>Broken Authentication</td>
+<td>token giả, token hết hạn vẫn dùng được, brute-force mật khẩu</td>
+<td>2, 3</td>
+</tr>
+<tr>
+<td>API3</td>
+<td>Broken Object Property Level Authorization (BOPLA)</td>
+<td>lộ trường nhạy cảm, hoặc ghi được trường không được phép (mass assignment)</td>
+<td>4.2</td>
+</tr>
+<tr>
+<td>API4</td>
+<td>Unrestricted Resource Consumption</td>
+<td>không giới hạn kích thước, tần suất, chi phí</td>
+<td>5, 6</td>
+</tr>
+<tr>
+<td>API5</td>
+<td>Broken Function Level Authorization (BFLA)</td>
+<td>người dùng thường gọi được chức năng quản trị</td>
+<td>4.3</td>
+</tr>
+<tr>
+<td>API6</td>
+<td>Unrestricted Access to Sensitive Business Flows</td>
+<td>lạm dụng luồng nghiệp vụ hợp lệ (vd: tạo hàng loạt hóa đơn nháp)</td>
+<td>5</td>
+</tr>
+<tr>
+<td>API7</td>
+<td>Server Side Request Forgery (SSRF)</td>
+<td>server bị lừa gọi tới địa chỉ nội bộ</td>
+<td>7.2</td>
+</tr>
+<tr>
+<td>API8</td>
+<td>Security Misconfiguration</td>
+<td>CORS sai, lộ stack trace, thiếu header</td>
+<td>7.1</td>
+</tr>
+<tr>
+<td>API9</td>
+<td>Improper Inventory Management</td>
+<td>endpoint cũ, bản v1 quên tắt, docs lộ ra internet</td>
+<td>M13</td>
+</tr>
+<tr>
+<td>API10</td>
+<td>Unsafe Consumption of APIs</td>
+<td>tin dữ liệu từ API bên thứ ba (hoặc từ LLM) mà không kiểm tra</td>
+<td>M15</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="2-xac-thuc-ai-ang-goi">2. Xác thực: ai đang gọi?<a class="headerlink" href="#2-xac-thuc-ai-ang-goi" title="Permanent link">&para;</a></h2>
+<h3 id="21-ba-loai-client-ba-co-che">2.1. Ba loại client, ba cơ chế<a class="headerlink" href="#21-ba-loai-client-ba-co-che" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Client</th>
+<th>Ví dụ</th>
+<th>Cơ chế khuyến nghị</th>
+<th>Lý do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Máy với máy</td>
+<td>12.000 máy POS/ERP gọi <code>invoice-api</code></td>
+<td><strong>OAuth 2.0 client credentials</strong> → access token ngắn hạn (JWT); hoặc <strong>API key</strong> nếu đối tác không hỗ trợ OAuth</td>
+<td>không có người dùng; bí mật nằm trên máy</td>
+</tr>
+<tr>
+<td>Người dùng qua trình duyệt</td>
+<td>~60 nhân viên CS dùng UI của <code>ai-gateway</code></td>
+<td><strong>Authorization code + PKCE</strong> qua IdP (OIDC), phiên bằng cookie <code>HttpOnly; Secure; SameSite</code></td>
+<td>không để token trong JavaScript (chống XSS lấy token)</td>
+</tr>
+<tr>
+<td>Dịch vụ nội bộ</td>
+<td><code>ai-gateway</code> gọi <code>invoice-api</code></td>
+<td>client credentials hoặc <strong>mTLS</strong> (RFC 8705) / workload identity của nền tảng</td>
+<td>không có bí mật dài hạn trong mã</td>
+</tr>
+</tbody>
+</table>
+<p><strong>RFC 9700</strong> (<em>Best Current Practice for OAuth 2.0 Security</em>, 01/2025) gom các bài học sau một thập kỷ triển khai OAuth 2.0. Những điểm quan trọng nhất cho người viết API:</p>
+<ul>
+<li>Bỏ <strong>implicit grant</strong> và <strong>resource owner password credentials grant</strong>.</li>
+<li>Mọi authorization code flow đều dùng <strong>PKCE</strong> (RFC 7636), kể cả client có bí mật.</li>
+<li><strong>Access token phải bị giới hạn</strong>: theo audience (chỉ dùng được cho đúng resource server), theo scope (quyền tối thiểu), và nên <strong>ràng buộc vào người gửi</strong> (sender-constrained, bằng mTLS hoặc DPoP — RFC 9449) để token bị lộ không dùng lại được ở nơi khác.</li>
+<li><strong>Refresh token</strong> của client công khai phải được xoay vòng (rotation) hoặc ràng buộc vào người gửi.</li>
+</ul>
+<p><strong>OAuth 2.1</strong> (Internet-Draft của IETF, chưa thành RFC tính đến 10/2026) hợp nhất OAuth 2.0 với các BCP này thành một tài liệu.</p>
+<!-- placeholder-oauth -->
+
+<!-- fig:oauth -->
+<figure>
+  <img alt="Hai luồng OAuth: client credentials cho máy POS, authorization code + PKCE cho nhân viên qua trình duyệt" loading="lazy" src="../assets/figures/11/oauth.light.svg#only-light" />
+  <img alt="Hai luồng OAuth: client credentials cho máy POS, authorization code + PKCE cho nhân viên qua trình duyệt" loading="lazy" src="../assets/figures/11/oauth.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 11.3 — Hai luồng OAuth: client credentials cho máy POS, authorization code + PKCE cho nhân viên qua trình duyệt.</figcaption>
+</figure>
+<!-- /fig -->
+
+<h3 id="22-jwt-cau-truc-va-nhung-gi-phai-kiem">2.2. JWT: cấu trúc và những gì phải kiểm<a class="headerlink" href="#22-jwt-cau-truc-va-nhung-gi-phai-kiem" title="Permanent link">&para;</a></h3>
+<p>Một JWT (RFC 7519) gồm <code>header.payload.signature</code>, mỗi phần mã hóa base64url. <strong>Header và payload không được mã hóa</strong>: ai cầm token cũng đọc được. Chữ ký chỉ chứng minh rằng <strong>nội dung chưa bị sửa từ khi được ký bởi người giữ khóa</strong>. Nó không nói gì về việc token dành cho ai, còn hạn không, hay ai đang cầm nó.</p>
+<!-- placeholder-jwt -->
+
+<!-- fig:jwt -->
+<figure>
+  <img alt="Cấu trúc JWT và bốn bước kiểm tra bắt buộc ở resource server" loading="lazy" src="../assets/figures/11/jwt.light.svg#only-light" />
+  <img alt="Cấu trúc JWT và bốn bước kiểm tra bắt buộc ở resource server" loading="lazy" src="../assets/figures/11/jwt.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 11.4 — Cấu trúc JWT và bốn bước kiểm tra bắt buộc ở resource server.</figcaption>
+</figure>
+<!-- /fig -->
+
+<p><strong>RFC 8725</strong> (<em>JSON Web Token Best Current Practices</em>, 2020) liệt kê những gì resource server <strong>phải</strong> làm:</p>
+<ol>
+<li><strong>Cố định danh sách thuật toán</strong> phía server. Không bao giờ đọc thuật toán từ header rồi làm theo.</li>
+<li>Kiểm <strong><code>exp</code></strong> (hết hạn), <strong><code>nbf</code></strong>, <strong><code>iss</code></strong> (ai phát hành), <strong><code>aud</code></strong> (token này cho ai).</li>
+<li>Dùng khóa đúng loại cho đúng thuật toán: khóa công khai RSA/EC/Ed25519 không bao giờ được dùng làm bí mật HMAC.</li>
+<li>Phân biệt các loại JWT khác nhau (access token, ID token…) bằng <code>typ</code> hoặc <code>aud</code> riêng, để một loại không bị dùng thay cho loại kia.</li>
+</ol>
+<h3 id="23-thi-nghiem-decoder-tu-viet-va-pyjwt">2.3. Thí nghiệm: decoder tự viết và PyJWT<a class="headerlink" href="#23-thi-nghiem-decoder-tu-viet-va-pyjwt" title="Permanent link">&para;</a></h3>
+<p>Thí nghiệm <code>s2</code> so một decoder "tự viết" (đọc <code>alg</code> từ header rồi làm theo, kiểu code vẫn gặp trong các dự án nội bộ) với PyJWT dùng đúng cách:</p>
+<table>
+<thead>
+<tr>
+<th>Tấn công</th>
+<th>Decoder tự viết</th>
+<th>PyJWT (<code>algorithms=["RS256"]</code>, <code>audience=...</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>alg: none</code>, không chữ ký, <code>scope: admin</code></td>
+<td><strong>CHẤP NHẬN</strong></td>
+<td>từ chối: <code>InvalidAlgorithmError</code></td>
+</tr>
+<tr>
+<td><strong>Nhầm thuật toán</strong>: ký HS256 bằng <strong>khóa công khai</strong> RSA</td>
+<td><strong>CHẤP NHẬN</strong></td>
+<td>từ chối: <code>InvalidAlgorithmError</code></td>
+</tr>
+<tr>
+<td>Như trên, server lỡ cho phép <code>["RS256", "HS256"]</code></td>
+<td><strong>CHẤP NHẬN</strong></td>
+<td>từ chối: <code>InvalidKeyError: The specified key is an asymmetric key … should not be used as an HMAC secret</code></td>
+</tr>
+<tr>
+<td>Token hợp lệ nhưng cho dịch vụ khác (<code>aud: ai-gateway</code>)</td>
+<td><strong>CHẤP NHẬN</strong></td>
+<td>từ chối: <code>InvalidAudienceError</code></td>
+</tr>
+<tr>
+<td>Token hết hạn 1 giờ</td>
+<td><strong>CHẤP NHẬN</strong> (tắt kiểm <code>exp</code> "cho dễ test")</td>
+<td>từ chối: <code>ExpiredSignatureError</code></td>
+</tr>
+</tbody>
+</table>
+<!-- placeholder-jwt-attacks -->
+
+<!-- fig:jwt-attacks -->
+<figure>
+  <img alt="Số đo thật: năm token tấn công qua decoder tự viết và PyJWT dùng đúng cách" loading="lazy" src="../assets/figures/11/jwt-attacks.light.svg#only-light" />
+  <img alt="Số đo thật: năm token tấn công qua decoder tự viết và PyJWT dùng đúng cách" loading="lazy" src="../assets/figures/11/jwt-attacks.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 11.5 — Số đo thật: năm token tấn công qua decoder tự viết và PyJWT dùng đúng cách.</figcaption>
+</figure>
+<!-- /fig -->
+
+<p><strong>Tấn công nhầm thuật toán</strong> (algorithm confusion) đáng hiểu kỹ. Server kiểm token RS256 bằng khóa <strong>công khai</strong>, mà khóa công khai thì ai cũng lấy được (thường công bố qua JWKS). Kẻ tấn công tạo token với header <code>alg: HS256</code> và <strong>ký HMAC bằng chính chuỗi khóa công khai đó</strong>. Một decoder làm theo header sẽ gọi <code>HMAC(public_key_bytes, …)</code>, và chữ ký khớp. Lỗi này đã xuất hiện trong nhiều thư viện thật, ví dụ <strong>CVE-2022-29217</strong> của PyJWT (trước 2.4.0) khi ứng dụng cho phép mọi thuật toán. PyJWT hiện chặn ở hai lớp: danh sách <code>algorithms</code> cố định, và từ chối dùng khóa bất đối xứng làm bí mật HMAC.</p>
+<h3 id="24-cai-at-dependency-xac-thuc">2.4. Cài đặt: dependency xác thực<a class="headerlink" href="#24-cai-at-dependency-xac-thuc" title="Permanent link">&para;</a></h3>
+<p>Ghép JWT với Pydantic và DI (Module 08). Claims được <strong>validate như mọi input khác</strong>:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">jwt</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">Depends</span><span class="p">,</span> <span class="n">HTTPException</span><span class="p">,</span> <span class="n">Security</span><span class="p">,</span> <span class="n">status</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi.security</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTTPAuthorizationCredentials</span><span class="p">,</span> <span class="n">HTTPBearer</span><span class="p">,</span> <span class="n">SecurityScopes</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ConfigDict</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">ValidationError</span><span class="p">,</span> <span class="n">field_validator</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="k">class</span><span class="w"> </span><span class="nc">Principal</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="n">sub</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="n">tenant_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">alias</span><span class="o">=</span><span class="s2">"tid"</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    <span class="n">scopes</span><span class="p">:</span> <span class="nb">frozenset</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">alias</span><span class="o">=</span><span class="s2">"scope"</span><span class="p">)</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">"scopes"</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"before"</span><span class="p">)</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>    <span class="nd">@classmethod</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">split_scope</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">frozenset</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>   <span class="c1"># claim "scope" là chuỗi cách nhau bởi dấu cách</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>        <span class="k">return</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="n">bearer</span> <span class="o">=</span> <span class="n">HTTPBearer</span><span class="p">(</span><span class="n">auto_error</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">current_principal</span><span class="p">(</span>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>    <span class="n">security_scopes</span><span class="p">:</span> <span class="n">SecurityScopes</span><span class="p">,</span>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>    <span class="n">cred</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">HTTPAuthorizationCredentials</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span><span class="n">bearer</span><span class="p">)],</span>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Principal</span><span class="p">:</span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>    <span class="n">unauthorized</span> <span class="o">=</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_401_UNAUTHORIZED</span><span class="p">,</span> <span class="s2">"token không hợp lệ"</span><span class="p">,</span>
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>                                 <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">"WWW-Authenticate"</span><span class="p">:</span> <span class="s2">"Bearer"</span><span class="p">})</span>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>    <span class="k">if</span> <span class="n">cred</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>        <span class="k">raise</span> <span class="n">unauthorized</span>
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>    <span class="k">try</span><span class="p">:</span>
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>        <span class="n">claims</span> <span class="o">=</span> <span class="n">jwt</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">cred</span><span class="o">.</span><span class="n">credentials</span><span class="p">,</span> <span class="n">PUBLIC_KEY</span><span class="p">,</span>
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a>                            <span class="n">algorithms</span><span class="o">=</span><span class="p">[</span><span class="s2">"EdDSA"</span><span class="p">],</span>                    <span class="c1"># danh sách CỐ ĐỊNH</span>
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a>                            <span class="n">audience</span><span class="o">=</span><span class="s2">"invoice-api"</span><span class="p">,</span> <span class="n">issuer</span><span class="o">=</span><span class="s2">"https://id.mekong.vn"</span><span class="p">,</span>
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a>                            <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">"require"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"exp"</span><span class="p">,</span> <span class="s2">"iat"</span><span class="p">,</span> <span class="s2">"sub"</span><span class="p">,</span> <span class="s2">"aud"</span><span class="p">,</span> <span class="s2">"iss"</span><span class="p">]},</span>
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a>                            <span class="n">leeway</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>                               <span class="c1"># lệch đồng hồ tối đa 30 s</span>
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a>        <span class="n">p</span> <span class="o">=</span> <span class="n">Principal</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">claims</span><span class="p">)</span>
+</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a>    <span class="k">except</span> <span class="p">(</span><span class="n">jwt</span><span class="o">.</span><span class="n">PyJWTError</span><span class="p">,</span> <span class="n">ValidationError</span><span class="p">):</span>
+</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a>        <span class="k">raise</span> <span class="n">unauthorized</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>                                 <span class="c1"># không lộ lý do chi tiết ra ngoài</span>
+</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a>    <span class="n">missing</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">security_scopes</span><span class="o">.</span><span class="n">scopes</span><span class="p">)</span> <span class="o">-</span> <span class="n">p</span><span class="o">.</span><span class="n">scopes</span>
+</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42" href="#__codelineno-0-42"></a>    <span class="k">if</span> <span class="n">missing</span><span class="p">:</span>
+</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43" href="#__codelineno-0-43"></a>        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_403_FORBIDDEN</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"thiếu scope: </span><span class="si">{</span><span class="s1">' '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">missing</span><span class="p">))</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44" href="#__codelineno-0-44"></a>    <span class="k">return</span> <span class="n">p</span>
+</span></code></pre></div>
+<p>Chạy thật với một bộ request:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>không token              401 {"detail":"token không hợp lệ"}
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>hóa đơn của mình         200 {"id":101,"tenant_id":7,"total":55000}
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>hóa đơn tenant khác      404 {"detail":"không tìm thấy"}
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>thiếu scope cancel       403 {"detail":"thiếu scope: invoice:cancel"}
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>thiếu claim exp          401 {"detail":"token không hợp lệ"}
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>tid = 0                  401 {"detail":"token không hợp lệ"}       ← Pydantic chặn claim sai kiểu/miền
+</span></code></pre></div>
+<p>Phân biệt <strong>401</strong> và <strong>403</strong>: 401 nghĩa là "tôi không biết bạn là ai" (thiếu token hoặc token sai), và phải kèm <code>WWW-Authenticate</code>. 403 nghĩa là "tôi biết bạn là ai, nhưng bạn không được làm việc này".</p>
+<h3 id="25-chi-phi-kiem-token">2.5. Chi phí kiểm token<a class="headerlink" href="#25-chi-phi-kiem-token" title="Permanent link">&para;</a></h3>
+<p>Mỗi request đều kiểm chữ ký, nên chi phí đó cộng thẳng vào latency (thí nghiệm <code>s1</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Thuật toán</th>
+<th>Ký</th>
+<th><strong>Kiểm</strong></th>
+<th>Kích thước token</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HS256</td>
+<td>22 µs</td>
+<td><strong>39 µs</strong></td>
+<td>235 byte</td>
+</tr>
+<tr>
+<td>RS256 (2048 bit)</td>
+<td>373 µs</td>
+<td><strong>82 µs</strong></td>
+<td>534 byte</td>
+</tr>
+<tr>
+<td>ES256</td>
+<td>42 µs</td>
+<td><strong>111 µs</strong></td>
+<td>278 byte</td>
+</tr>
+<tr>
+<td>EdDSA (Ed25519)</td>
+<td>43 µs</td>
+<td><strong>137 µs</strong></td>
+<td>278 byte</td>
+</tr>
+</tbody>
+</table>
+<!-- placeholder-jwt-cost -->
+
+<!-- fig:jwt-cost -->
+<figure>
+  <img alt="Số đo thật: chi phí ký và kiểm JWT theo thuật toán" loading="lazy" src="../assets/figures/11/jwt-cost.light.svg#only-light" />
+  <img alt="Số đo thật: chi phí ký và kiểm JWT theo thuật toán" loading="lazy" src="../assets/figures/11/jwt-cost.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 11.6 — Số đo thật: chi phí ký và kiểm JWT theo thuật toán.</figcaption>
+</figure>
+<!-- /fig -->
+
+<p>Ở 500 req/s, 137 µs mỗi request là ~7% của một core. Chi phí này đáng kể nhưng không phải nút thắt (Module 09 đo ~0,5 ms CPU mỗi request cho HTTP + FastAPI). <strong>HS256 nhanh nhất nhưng là khóa đối xứng</strong>: mọi dịch vụ kiểm token cũng <strong>ký được</strong> token. Với một IdP phục vụ nhiều dịch vụ, dùng thuật toán bất đối xứng (EdDSA hoặc ES256 cho token ngắn; RS256 nếu cần tương thích rộng) để chỉ IdP giữ khóa bí mật.</p>
+<p>Mẹo vận hành: <strong>cache khóa công khai theo <code>kid</code></strong> từ endpoint JWKS của IdP và làm mới khi gặp <code>kid</code> lạ. Không gọi JWKS mỗi request. Cũng không <strong>cache kết quả kiểm token</strong> theo chuỗi token: tiết kiệm được 100 µs nhưng tạo thêm một nơi phải xử lý thu hồi và hết hạn.</p>
+<h3 id="26-api-key-cho-may">2.6. API key cho máy<a class="headerlink" href="#26-api-key-cho-may" title="Permanent link">&para;</a></h3>
+<p>Không phải đối tác nào cũng tích hợp được OAuth. Với API key, ba quy tắc:</p>
+<ol>
+<li><strong>Định dạng có tiền tố</strong>, ví dụ <code>mk_live_7Hq2…</code>: nhìn là biết của ai, môi trường nào, và các công cụ quét bí mật (GitHub secret scanning) nhận diện được khi key bị đẩy lên repo công khai.</li>
+<li><strong>Chỉ lưu hash.</strong> Với key ngẫu nhiên 256 bit, <strong>SHA-256 là đủ</strong>. Không cần Argon2, vì không gian key quá lớn để brute-force, khác hẳn mật khẩu do người đặt (mục 3). Tra cứu bằng hash, so sánh bằng <code>hmac.compare_digest</code>.</li>
+<li>Key gắn với <strong>tenant và scope</strong>. Dependency biến key thành cùng một <code>Principal</code> như JWT, để phần còn lại của app không cần biết client xác thực bằng cách nào.</li>
+</ol>
+<hr />
+<h2 id="3-mat-khau-argon2id-va-toan-brute-force">3. Mật khẩu: Argon2id và toán brute-force<a class="headerlink" href="#3-mat-khau-argon2id-va-toan-brute-force" title="Permanent link">&para;</a></h2>
+<h3 id="31-vi-sao-khong-dung-sha-256-cho-mat-khau">3.1. Vì sao không dùng SHA-256 cho mật khẩu<a class="headerlink" href="#31-vi-sao-khong-dung-sha-256-cho-mat-khau" title="Permanent link">&para;</a></h3>
+<p>Khi database bị lộ, kẻ tấn công có bảng hash và thử đoán <strong>offline</strong>, không có rate limit nào ngăn được. Tốc độ đoán do <strong>hàm băm</strong> quyết định. Mục tiêu của hàm băm mật khẩu ngược với mọi hàm băm khác: <strong>càng chậm và càng tốn bộ nhớ càng tốt</strong>, trong giới hạn server chấp nhận được.</p>
+<p>Số đo trên máy đo (một lần băm, một core):</p>
+<table>
+<thead>
+<tr>
+<th>Hàm</th>
+<th>Thời gian</th>
+<th>Bộ nhớ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SHA-256</td>
+<td>0,0007 ms</td>
+<td>—</td>
+</tr>
+<tr>
+<td>PBKDF2-SHA256 600.000 vòng (OWASP)</td>
+<td>369 ms</td>
+<td>—</td>
+</tr>
+<tr>
+<td>bcrypt cost 10 (OWASP tối thiểu)</td>
+<td>68 ms</td>
+<td>4 KiB</td>
+</tr>
+<tr>
+<td>bcrypt cost 12</td>
+<td>276 ms</td>
+<td>4 KiB</td>
+</tr>
+<tr>
+<td><strong>Argon2id m = 19 MiB, t = 2, p = 1 (OWASP)</strong></td>
+<td><strong>36 ms</strong></td>
+<td>19 MiB</td>
+</tr>
+<tr>
+<td>Argon2id m = 46 MiB, t = 1, p = 1 (OWASP)</td>
+<td>70 ms</td>
+<td>46 MiB</td>
+</tr>
+<tr>
+<td>Argon2id m = 64 MiB, t = 3, p = 4 (RFC 9106)</td>
+<td>231 ms</td>
+<td>64 MiB</td>
+</tr>
+</tbody>
+</table>
+<!-- placeholder-hash -->
+
+<!-- fig:hash -->
+<figure>
+  <img alt="Số đo thật: chi phí một lần băm theo hàm; và ước lượng thời gian phá mật khẩu 8 ký tự" loading="lazy" src="../assets/figures/11/hash.light.svg#only-light" />
+  <img alt="Số đo thật: chi phí một lần băm theo hàm; và ước lượng thời gian phá mật khẩu 8 ký tự" loading="lazy" src="../assets/figures/11/hash.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 11.7 — Số đo thật: chi phí một lần băm theo hàm; và ước lượng thời gian phá mật khẩu 8 ký tự.</figcaption>
+</figure>
+<!-- /fig -->
+
+<p><strong>Argon2id</strong> (RFC 9106, thắng Password Hashing Competition 2015) là lựa chọn mặc định của OWASP. Lý do là nó <strong>memory-hard</strong>: mỗi lần thử phải dùng 19 MiB RAM. Một GPU có hàng nghìn lõi nhưng bộ nhớ có hạn, và băng thông bộ nhớ, chứ không phải số lõi, trở thành giới hạn. Vì vậy lợi thế song song của GPU/ASIC bị triệt tiêu phần lớn. SHA-256 thì ngược lại: một GPU RTX 4090 băm khoảng <strong>21,8 tỷ SHA-256 mỗi giây</strong> (benchmark <code>hashcat -m 1400</code> công bố trên diễn đàn hashcat, 2023).</p>
+<h3 id="32-toan-brute-force">3.2. Toán brute-force<a class="headerlink" href="#32-toan-brute-force" title="Permanent link">&para;</a></h3>
+<p>Thời gian kỳ vọng để tìm một mật khẩu là <strong>nửa không gian tìm kiếm chia cho tốc độ thử</strong>:</p>
+<div class="arithmatex">\[
+T = \frac{|\Sigma|^{L} / 2}{R}
+\]</div>
+<p>Ước lượng (giả định: SHA-256 trên 1 GPU RTX 4090; bcrypt/Argon2id trên 1.000 core CPU thuê cloud, tốc độ mỗi core lấy từ số đo trên):</p>
+<table>
+<thead>
+<tr>
+<th>Không gian mật khẩu</th>
+<th>Kích thước</th>
+<th>SHA-256, 1 GPU</th>
+<th>bcrypt-10, 1.000 core</th>
+<th>Argon2id 19 MiB, 1.000 core</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>top 10.000 mật khẩu phổ biến</td>
+<td><span class="arithmatex">\(10^4\)</span></td>
+<td>0,0002 ms</td>
+<td>0,34 s</td>
+<td>0,18 s</td>
+</tr>
+<tr>
+<td>8 ký tự <code>a-z0-9</code></td>
+<td><span class="arithmatex">\(2{,}8 \times 10^{12}\)</span></td>
+<td><strong>65 s</strong></td>
+<td>3,1 năm</td>
+<td>1,6 năm</td>
+</tr>
+<tr>
+<td>4 từ ngẫu nhiên (diceware, 7.776 từ)</td>
+<td><span class="arithmatex">\(3{,}7 \times 10^{15}\)</span></td>
+<td>23 giờ</td>
+<td>~4.000 năm</td>
+<td>~2.100 năm</td>
+</tr>
+<tr>
+<td>12 ký tự <code>a-zA-Z0-9</code></td>
+<td><span class="arithmatex">\(3{,}2 \times 10^{21}\)</span></td>
+<td>~2.300 năm</td>
+<td><span class="arithmatex">\(3 \times 10^{9}\)</span> năm</td>
+<td><span class="arithmatex">\(2 \times 10^{9}\)</span> năm</td>
+</tr>
+</tbody>
+</table>
+<p>Hai kết luận:</p>
+<ol>
+<li><strong>Hàm băm chậm biến "65 giây" thành "vài năm"</strong> cho cùng một mật khẩu trung bình, tức nhân chi phí của kẻ tấn công lên khoảng <span class="arithmatex">\(10^6\)</span> lần.</li>
+<li><strong>Không hàm băm nào cứu được mật khẩu phổ biến</strong>: dưới 1 giây cho cả danh sách top 10.000. Vì vậy NIST SP 800-63B yêu cầu <strong>so mật khẩu mới với danh sách mật khẩu đã lộ</strong> khi người dùng đặt mật khẩu, và ưu tiên độ dài hơn quy tắc ký tự phức tạp.</li>
+</ol>
+<h3 id="33-cai-at-trong-fastapi-ung-chan-event-loop">3.3. Cài đặt trong FastAPI: đừng chặn event loop<a class="headerlink" href="#33-cai-at-trong-fastapi-ung-chan-event-loop" title="Permanent link">&para;</a></h3>
+<p>Argon2id tốn 36 ms CPU. Gọi nó trực tiếp trong <code>async def</code> sẽ chặn event loop 36 ms mỗi lần đăng nhập (Module 09: một request chặn loop làm chậm <strong>mọi</strong> request khác). Tin tốt là argon2-cffi và bcrypt <strong>nhả GIL</strong> khi băm (thí nghiệm <code>s8</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Hàm</th>
+<th>1 luồng</th>
+<th>2 luồng</th>
+<th>4 luồng</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Argon2id 19 MiB</td>
+<td>36 lần/s</td>
+<td>73 lần/s</td>
+<td>119 lần/s</td>
+</tr>
+<tr>
+<td>bcrypt cost 10</td>
+<td>13 lần/s</td>
+<td>28 lần/s</td>
+<td>52 lần/s</td>
+</tr>
+</tbody>
+</table>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">argon2</span><span class="w"> </span><span class="kn">import</span> <span class="n">PasswordHasher</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">argon2.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">VerifyMismatchError</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi.concurrency</span><span class="w"> </span><span class="kn">import</span> <span class="n">run_in_threadpool</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">ph</span> <span class="o">=</span> <span class="n">PasswordHasher</span><span class="p">(</span><span class="n">time_cost</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">memory_cost</span><span class="o">=</span><span class="mi">19</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">,</span> <span class="n">parallelism</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>   <span class="c1"># OWASP: m=19 MiB, t=2, p=1</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">verify_password</span><span class="p">(</span><span class="n">stored_hash</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">password</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>    <span class="k">try</span><span class="p">:</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>        <span class="k">await</span> <span class="n">run_in_threadpool</span><span class="p">(</span><span class="n">ph</span><span class="o">.</span><span class="n">verify</span><span class="p">,</span> <span class="n">stored_hash</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>          <span class="c1"># chạy trong threadpool, nhả GIL</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>    <span class="k">except</span> <span class="n">VerifyMismatchError</span><span class="p">:</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>        <span class="k">return</span> <span class="kc">False</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>    <span class="k">return</span> <span class="kc">True</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>    <span class="c1"># sau khi đúng: ph.check_needs_rehash(stored_hash) → băm lại với tham số mới khi đã tăng chi phí</span>
+</span></code></pre></div>
+<p>Một hệ quả về DoS: mỗi lần thử đăng nhập tốn 36 ms CPU <strong>của server</strong>, nên kẻ tấn công gửi 100 lần thử/s là chiếm 3,6 core. Endpoint đăng nhập phải được <strong>rate limit trước khi băm</strong> (theo IP và theo tài khoản), không phải sau.</p>
+<hr />
+<h2 id="4-phan-quyen-ba-loi-ung-au-owasp">4. Phân quyền: ba lỗi đứng đầu OWASP<a class="headerlink" href="#4-phan-quyen-ba-loi-ung-au-owasp" title="Permanent link">&para;</a></h2>
+<p>Xác thực trả lời "bạn là ai". Phân quyền trả lời "bạn được làm gì <strong>với đối tượng này</strong>, <strong>với trường này</strong>, <strong>với chức năng này</strong>". Ba câu hỏi đó ứng với ba mục OWASP: BOLA, BOPLA, BFLA.</p>
+<h3 id="41-bola-oi-tuong-cua-ai">4.1. BOLA: đối tượng của ai?<a class="headerlink" href="#41-bola-oi-tuong-cua-ai" title="Permanent link">&para;</a></h3>
+<p><strong>Broken Object Level Authorization</strong> là rủi ro số 1. Kịch bản: POS của tenant 7 gọi <code>GET /v1/invoices/101</code> hợp lệ, rồi thử <code>102</code>, <code>103</code>… Nếu server chỉ kiểm "token hợp lệ" mà không kiểm "hóa đơn này thuộc tenant của token", mọi hóa đơn của 3.000 doanh nghiệp đều đọc được.</p>
+<p>Case công khai: năm 2021, Pen Test Partners phát hiện API của Peloton trả dữ liệu tài khoản (tuổi, giới tính, cân nặng, thống kê tập luyện, kể cả của hồ sơ đặt chế độ riêng tư) cho request <strong>không xác thực</strong>. Lần sửa đầu tiên chỉ yêu cầu đăng nhập, nên dữ liệu vẫn lộ cho <strong>mọi tài khoản đã đăng nhập</strong>: xác thực đã được thêm, nhưng phân quyền theo đối tượng thì chưa (TechCrunch, 05/2021).</p>
+<!-- placeholder-bola -->
+
+<!-- fig:bola -->
+<figure>
+  <img alt="BOLA: truy vấn không gắn tenant làm lộ hóa đơn; gắn tenant từ principal trả 404" loading="lazy" src="../assets/figures/11/bola.light.svg#only-light" />
+  <img alt="BOLA: truy vấn không gắn tenant làm lộ hóa đơn; gắn tenant từ principal trả 404" loading="lazy" src="../assets/figures/11/bola.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 11.8 — BOLA: truy vấn không gắn tenant làm lộ hóa đơn; gắn tenant từ principal trả 404.</figcaption>
+</figure>
+<!-- /fig -->
+
+<p>Phòng thủ nhiều lớp cho <code>invoice-api</code>:</p>
+<ol>
+<li><strong>Mọi truy vấn có <code>tenant_id</code> lấy từ <code>Principal</code></strong>, không bao giờ từ request body hay query. Repository nhận <code>tenant_id</code> lúc khởi tạo (dependency <code>invoice_repo</code>, Module 08), nên không có phương thức nào truy vấn mà thiếu nó.</li>
+<li><strong>RLS</strong> ở database (Module 10) là lưới an toàn cho lần quên duy nhất.</li>
+<li>Trả <strong>404</strong>, không phải 403, khi đối tượng thuộc tenant khác. 403 xác nhận "hóa đơn 102 tồn tại", và chừng đó đã đủ để dò xem đối thủ phát hành bao nhiêu hóa đơn.</li>
+<li><strong>ID không đoán được</strong> (UUIDv7 hoặc UUIDv4) cho tài nguyên công khai. Đây chỉ là <strong>giảm thiểu</strong>, không phải phân quyền: ID lộ qua log, email, URL được chia sẻ. Đừng bao giờ dựa vào "ID khó đoán" thay cho kiểm quyền.</li>
+</ol>
+<p>Kiểm tra trong test: với <strong>mỗi</strong> endpoint có ID trong path, viết test "tenant A truy cập đối tượng của tenant B → 404". Module 12 tự động hóa việc này bằng fuzz theo schema.</p>
+<h3 id="42-bopla-truong-nao-uoc-oc-truong-nao-uoc-ghi">4.2. BOPLA: trường nào được đọc, trường nào được ghi?<a class="headerlink" href="#42-bopla-truong-nao-uoc-oc-truong-nao-uoc-ghi" title="Permanent link">&para;</a></h3>
+<p><strong>Broken Object Property Level Authorization</strong> gộp hai lỗi cũ: <strong>lộ dữ liệu quá mức</strong> (trả về trường không nên trả) và <strong>mass assignment</strong> (ghi được trường không nên ghi). Cả hai đều chặn được bằng một nguyên tắc: <strong>model Pydantic riêng cho từng hướng và từng thao tác</strong>.</p>
+<p>Thí nghiệm <code>s7</code>: client gửi <code>PATCH /v1/invoices/101</code> với body</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span><span class="nt">"buyer_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Cty A (sửa)"</span><span class="p">,</span><span class="w"> </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"signed"</span><span class="p">,</span><span class="w"> </span><span class="nt">"tenant_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nt">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">}</span>
+</span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Cách xử lý</th>
+<th>Kết quả trên đối tượng hóa đơn</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ngây thơ: <code>for k, v in body.items(): setattr(inv, k, v)</code></td>
+<td><code>tenant_id = 1</code> (<strong>chuyển hóa đơn sang tenant khác</strong>), <code>status = 'signed'</code> (<strong>bỏ qua quy trình ký</strong>), <code>total = 0</code></td>
+</tr>
+<tr>
+<td><code>InvoicePatch</code> chỉ có <code>buyer_name</code>, <code>extra</code> mặc định (<code>"ignore"</code>)</td>
+<td>chỉ <code>buyer_name</code> đổi; các trường khác bị <strong>lặng lẽ bỏ qua</strong></td>
+</tr>
+<tr>
+<td><code>InvoicePatch</code> với <code>extra="forbid"</code></td>
+<td><strong>422</strong>: <code>status</code>, <code>tenant_id</code>, <code>total</code> → <code>extra_forbidden</code></td>
+</tr>
+</tbody>
+</table>
+<!-- placeholder-bopla -->
+
+<!-- fig:bopla -->
+<figure>
+  <img alt="Số đo thật: cùng một body PATCH độc hại qua ba cách xử lý" loading="lazy" src="../assets/figures/11/bopla.light.svg#only-light" />
+  <img alt="Số đo thật: cùng một body PATCH độc hại qua ba cách xử lý" loading="lazy" src="../assets/figures/11/bopla.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 11.9 — Số đo thật: cùng một body PATCH độc hại qua ba cách xử lý.</figcaption>
+</figure>
+<!-- /fig -->
+
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ConfigDict</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="k">class</span><span class="w"> </span><span class="nc">InvoicePatch</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">extra</span><span class="o">=</span><span class="s2">"forbid"</span><span class="p">)</span>      <span class="c1"># gửi trường lạ → 422, không lặng lẽ bỏ qua</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="n">buyer_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    <span class="n">buyer_email</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="nd">@app</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="s2">"/v1/invoices/</span><span class="si">{invoice_id}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">patch_invoice</span><span class="p">(</span><span class="n">invoice_id</span><span class="p">:</span> <span class="n">UUID</span><span class="p">,</span> <span class="n">body</span><span class="p">:</span> <span class="n">InvoicePatch</span><span class="p">,</span> <span class="n">repo</span><span class="p">:</span> <span class="n">InvoiceRepo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InvoiceOut</span><span class="p">:</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>    <span class="n">inv</span> <span class="o">=</span> <span class="k">await</span> <span class="n">repo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">invoice_id</span><span class="p">)</span>                                   <span class="c1"># đã lọc theo tenant → 404 nếu không phải của mình</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">body</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span><span class="n">exclude_unset</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>          <span class="c1"># chỉ trường client THỰC SỰ gửi</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>        <span class="nb">setattr</span><span class="p">(</span><span class="n">inv</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>    <span class="k">return</span> <span class="n">InvoiceOut</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">inv</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Chọn <code>"forbid"</code> hay <code>"ignore"</code>? Với API ghi, <code>"forbid"</code> tốt hơn: client gửi nhầm <code>"buyer_nme"</code> sẽ nhận lỗi rõ ràng thay vì tưởng đã sửa thành công. Cái giá là khó tiến hóa hơn: thêm trường mới ở client trước khi server hỗ trợ sẽ bị 422. Ở chiều ra, <code>InvoiceOut</code> liệt kê <strong>đúng</strong> những trường được trả, và <code>response_model</code> của FastAPI lọc mọi thứ khác (Module 07), nên <code>tenant_id</code> hay <code>signed_xml</code> không bao giờ lọt ra ngoài.</p>
+<h3 id="43-bfla-chuc-nang-nao-uoc-goi">4.3. BFLA: chức năng nào được gọi?<a class="headerlink" href="#43-bfla-chuc-nang-nao-uoc-goi" title="Permanent link">&para;</a></h3>
+<p><strong>Broken Function Level Authorization</strong> là khi máy POS gọi được <code>POST /v1/invoices/{id}/cancel</code>, một chức năng chỉ dành cho kế toán. Cơ chế của FastAPI: <code>Security(dependency, scopes=[...])</code> khai báo quyền <strong>ngay trên chữ ký endpoint</strong>, và scope hiện trong OpenAPI:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">"/v1/invoices/</span><span class="si">{invoice_id}</span><span class="s2">/cancel"</span><span class="p">)</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cancel_invoice</span><span class="p">(</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="n">invoice_id</span><span class="p">:</span> <span class="n">UUID</span><span class="p">,</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="n">p</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">Principal</span><span class="p">,</span> <span class="n">Security</span><span class="p">(</span><span class="n">current_principal</span><span class="p">,</span> <span class="n">scopes</span><span class="o">=</span><span class="p">[</span><span class="s2">"invoice:cancel"</span><span class="p">])],</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="p">):</span> <span class="o">...</span>
+</span></code></pre></div>
+<p>Hai thói quen giúp BFLA không lọt:</p>
+<ul>
+<li><strong>Mặc định từ chối.</strong> Router quản trị khai báo <code>dependencies=[Security(current_principal, scopes=["admin"])]</code> ở cấp <code>APIRouter</code>, để endpoint mới thêm vào tự động được bảo vệ.</li>
+<li><strong>Test bằng ma trận</strong> (vai trò × endpoint → mã trạng thái mong đợi), sinh tự động từ danh sách route của app.</li>
+</ul>
+<hr />
+<h2 id="5-rate-limiting-bao-nhieu-lan">5. Rate limiting: bao nhiêu lần?<a class="headerlink" href="#5-rate-limiting-bao-nhieu-lan" title="Permanent link">&para;</a></h2>
+<h3 id="51-vi-sao-can-va-gioi-han-theo-cai-gi">5.1. Vì sao cần, và giới hạn theo cái gì<a class="headerlink" href="#51-vi-sao-can-va-gioi-han-theo-cai-gi" title="Permanent link">&para;</a></h3>
+<p>Rate limit bảo vệ ba thứ:</p>
+<ul>
+<li><strong>Tài nguyên</strong>: API4. Một tenant gửi 10.000 req/s làm chậm 2.999 tenant còn lại.</li>
+<li><strong>Luồng nghiệp vụ</strong>: API6. Thử 1 triệu mật khẩu, tạo hàng loạt hóa đơn nháp.</li>
+<li><strong>Chi phí</strong>: mỗi lượt <code>ai-gateway</code> gọi LLM tốn tiền thật.</li>
+</ul>
+<p>Giới hạn theo <strong>tenant</strong> (từ <code>Principal</code>), không theo IP: 12.000 máy POS có thể đứng sau vài NAT, và một tenant có thể dùng hàng trăm IP.</p>
+<h3 id="52-toan-cua-so-co-inh-va-token-bucket-gcra">5.2. Toán: cửa sổ cố định và token bucket / GCRA<a class="headerlink" href="#52-toan-cua-so-co-inh-va-token-bucket-gcra" title="Permanent link">&para;</a></h3>
+<p><strong>Cửa sổ cố định</strong> đếm số request trong mỗi giây lịch rồi chặn khi vượt ngưỡng. Nó đơn giản nhưng có lỗi ở <strong>ranh giới cửa sổ</strong>: client gửi 10 request ở cuối giây 0 và 10 request ở đầu giây 1, cả 20 đều qua, tức <strong>gấp đôi</strong> giới hạn trong 0,2 giây.</p>
+<p><strong>Token bucket</strong> có xô dung tích <span class="arithmatex">\(b\)</span> (burst) được rót <span class="arithmatex">\(r\)</span> token mỗi giây, và mỗi request lấy 1 token. Tính chất quan trọng: trong <strong>mọi</strong> khoảng thời gian dài <span class="arithmatex">\(t\)</span>,</p>
+<div class="arithmatex">\[
+\text{số request được nhận} \le b + r \cdot t
+\]</div>
+<p><strong>GCRA</strong> (Generic Cell Rate Algorithm, có nguồn gốc từ mạng ATM) tương đương toán học với token bucket nhưng chỉ lưu <strong>một số</strong> cho mỗi khóa: thời điểm đến lý thuyết <span class="arithmatex">\(\mathrm{TAT}\)</span>. Với <span class="arithmatex">\(T = 1/r\)</span> và dung sai <span class="arithmatex">\(\tau = (b-1)\,T\)</span>, một request đến lúc <span class="arithmatex">\(t\)</span> được xử lý như sau:</p>
+<div class="arithmatex">\[
+\mathrm{TAT}' = \max(\mathrm{TAT}, t); \quad \text{nhận nếu } \mathrm{TAT}' - t \le \tau, \text{ khi đó } \mathrm{TAT} \leftarrow \mathrm{TAT}' + T
+\]</div>
+<p>Mô phỏng (thí nghiệm <code>s3</code>, giới hạn 10 req/s, burst 10) với đúng kịch bản ranh giới: trong 0,2 giây quanh mốc 1 s, cửa sổ cố định cho qua <strong>20</strong> request, GCRA cho qua <strong>10</strong>.</p>
+<!-- placeholder-ratelimit -->
+
+<!-- fig:ratelimit -->
+<figure>
+  <img alt="Mô phỏng: cửa sổ cố định để lọt gấp đôi giới hạn quanh ranh giới, GCRA thì không" loading="lazy" src="../assets/figures/11/ratelimit.light.svg#only-light" />
+  <img alt="Mô phỏng: cửa sổ cố định để lọt gấp đôi giới hạn quanh ranh giới, GCRA thì không" loading="lazy" src="../assets/figures/11/ratelimit.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 11.10 — Mô phỏng: cửa sổ cố định để lọt gấp đôi giới hạn quanh ranh giới, GCRA thì không.</figcaption>
+</figure>
+<!-- /fig -->
+
+<h3 id="53-cai-at-tren-redis">5.3. Cài đặt trên Redis<a class="headerlink" href="#53-cai-at-tren-redis" title="Permanent link">&para;</a></h3>
+<p>Với nhiều pod, trạng thái rate limit phải nằm ở chỗ dùng chung. GCRA trên Redis chỉ cần một script Lua (nguyên tử, dùng đồng hồ của Redis để tránh lệch giờ giữa các pod):</p>
+<div class="language-lua highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1">-- KEYS[1] = rl:tenant:&lt;id&gt;   ARGV[1] = T = 1/rate   ARGV[2] = tau = (burst-1)*T</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kd">local</span><span class="w"> </span><span class="nv">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">redis</span><span class="p">.</span><span class="nf">call</span><span class="p">(</span><span class="s1">'TIME'</span><span class="p">);</span><span class="w"> </span><span class="kd">local</span><span class="w"> </span><span class="nv">now</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">tonumber</span><span class="p">(</span><span class="nv">t</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">tonumber</span><span class="p">(</span><span class="nv">t</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1e6</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="kd">local</span><span class="w"> </span><span class="nv">tat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">tonumber</span><span class="p">(</span><span class="nv">redis</span><span class="p">.</span><span class="nf">call</span><span class="p">(</span><span class="s1">'GET'</span><span class="p">,</span><span class="w"> </span><span class="nv">KEYS</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="nv">now</span><span class="p">)</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="kr">if</span><span class="w"> </span><span class="nv">tat</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nv">now</span><span class="w"> </span><span class="kr">then</span><span class="w"> </span><span class="nv">tat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">now</span><span class="w"> </span><span class="kr">end</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="kr">if</span><span class="w"> </span><span class="nv">tat</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nv">now</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nb">tonumber</span><span class="p">(</span><span class="nv">ARGV</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="w"> </span><span class="kr">then</span><span class="w"> </span><span class="kr">return</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="kr">end</span><span class="w">            </span><span class="c1">-- từ chối → 429 + Retry-After</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="nv">redis</span><span class="p">.</span><span class="nf">call</span><span class="p">(</span><span class="s1">'SET'</span><span class="p">,</span><span class="w"> </span><span class="nv">KEYS</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="nv">tat</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">tonumber</span><span class="p">(</span><span class="nv">ARGV</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span><span class="w"> </span><span class="s1">'PX'</span><span class="p">,</span><span class="w"> </span><span class="nb">math.ceil</span><span class="p">((</span><span class="nv">tat</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">tonumber</span><span class="p">(</span><span class="nv">ARGV</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nv">now</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1000</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1000</span><span class="p">)</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="kr">return</span><span class="w"> </span><span class="mi">1</span>
+</span></code></pre></div>
+<p>Chạy thật: giới hạn 100 req/s, burst 20, <strong>50 client đồng thời</strong> dồn dập trong 3 giây. Kết quả: 28.441 lần thử (9.478 lần kiểm tra/s từ một tiến trình Python), <strong>314 lần được nhận</strong>, trong khi trần lý thuyết <span class="arithmatex">\(b + r t = 20 + 100 \times 3 = 320\)</span>. Giới hạn được giữ đúng dưới tranh chấp. Một lần kiểm tra không tranh chấp tốn p50 <strong>133 µs</strong>, p99 283 µs (một round trip tới Redis), nhỏ so với ngân sách 300 ms.</p>
+<p>Ba quyết định vận hành:</p>
+<ul>
+<li>Trả <strong><code>429 Too Many Requests</code></strong> kèm <code>Retry-After</code> (giây, từ <span class="arithmatex">\(\mathrm{TAT} - \tau - t\)</span>), và nên có thêm header <code>RateLimit</code> / <code>RateLimit-Policy</code> theo Internet-Draft của nhóm httpapi IETF, để client biết còn bao nhiêu.</li>
+<li><strong>Redis sập thì sao?</strong> Với <code>invoice-api</code>, chọn <strong>fail open</strong> (cho qua và ghi log) vì không tạo được hóa đơn còn tệ hơn bị lạm dụng ngắn hạn. Với endpoint đăng nhập, chọn <strong>fail closed</strong>.</li>
+<li><strong>Giới hạn theo chi phí, không chỉ theo số lần</strong>: batch 500 hóa đơn tiêu 500 token chứ không phải 1. Ở <code>ai-gateway</code>, giới hạn theo <strong>số token LLM</strong> mỗi tenant mỗi giờ.</li>
+</ul>
+<hr />
+<h2 id="6-dos-qua-payload-gioi-han-moi-thu-co-the-lon">6. DoS qua payload: giới hạn mọi thứ có thể lớn<a class="headerlink" href="#6-dos-qua-payload-gioi-han-moi-thu-co-the-lon" title="Permanent link">&para;</a></h2>
+<p>Một request nhỏ về số lượng vẫn có thể rất đắt về tài nguyên. Pydantic và FastAPI có sẵn vài giới hạn, nhưng không phải tất cả.</p>
+<h3 id="61-o-sau-json">6.1. Độ sâu JSON<a class="headerlink" href="#61-o-sau-json" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Độ sâu <code>[[[…]]]</code></th>
+<th><code>model_validate_json</code> (jiter)</th>
+<th><code>json.loads</code> (FastAPI dùng)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>ok</td>
+<td>ok</td>
+</tr>
+<tr>
+<td>1.000</td>
+<td><strong>từ chối</strong>: <code>recursion limit exceeded</code></td>
+<td>ok</td>
+</tr>
+<tr>
+<td>100.000</td>
+<td>từ chối</td>
+<td><strong><code>RecursionError</code></strong></td>
+</tr>
+</tbody>
+</table>
+<p>Parser jiter của pydantic-core có <strong>giới hạn đệ quy ~200 tầng</strong>, đủ cho mọi dữ liệu hợp lý và chặn được JSON bệnh hoạn. <code>json.loads</code> của thư viện chuẩn thì đi sâu tới giới hạn đệ quy của Python. Ở độ sâu 100.000, nó ném <code>RecursionError</code>, một ngoại lệ không phải lỗi JSON, nên nếu không có handler thì thành 500. Đây là một lý do nữa để đọc body thô và gọi <code>model_validate_json</code> (Module 06).</p>
+<h3 id="62-kich-thuoc-danh-sach-va-body">6.2. Kích thước danh sách và body<a class="headerlink" href="#62-kich-thuoc-danh-sach-va-body" title="Permanent link">&para;</a></h3>
+<p><code>lines: Annotated[list[Line], Field(max_length=500)]</code> chặn hóa đơn quá 500 dòng. Nhưng <strong>chi phí từ chối vẫn tăng theo kích thước input</strong>, vì JSON phải được phân tích hết:</p>
+<table>
+<thead>
+<tr>
+<th>Số dòng</th>
+<th>Kích thước</th>
+<th>Thời gian <code>model_validate_json</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>500</td>
+<td>0,02 MB</td>
+<td>0,3 ms (nhận)</td>
+</tr>
+<tr>
+<td>5.000</td>
+<td>0,24 MB</td>
+<td>5,1 ms (từ chối)</td>
+</tr>
+<tr>
+<td>50.000</td>
+<td>2,35 MB</td>
+<td>68 ms (từ chối)</td>
+</tr>
+<tr>
+<td>200.000</td>
+<td>9,4 MB</td>
+<td>325 ms (từ chối)</td>
+</tr>
+</tbody>
+</table>
+<p>Và qua FastAPI, với body 24 MB (500.000 dòng):</p>
+<table>
+<thead>
+<tr>
+<th>Cấu hình</th>
+<th>Kết quả</th>
+<th>Thời gian</th>
+<th>Đỉnh bộ nhớ Python</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>không giới hạn</td>
+<td>422 (vì <code>max_length</code>)</td>
+<td><strong>2.615 ms</strong></td>
+<td><strong>296 MiB</strong></td>
+</tr>
+<tr>
+<td><code>RequestBodyLimitMiddleware(max_body_size=1 MiB)</code></td>
+<td><strong>413</strong></td>
+<td><strong>0,6 ms</strong></td>
+<td>~0 (không đọc chunk nào)</td>
+</tr>
+</tbody>
+</table>
+<!-- placeholder-payload -->
+
+<!-- fig:payload -->
+<figure>
+  <img alt="Số đo thật: chi phí từ chối tăng theo kích thước input; giới hạn body trả 413 gần như miễn phí" loading="lazy" src="../assets/figures/11/payload.light.svg#only-light" />
+  <img alt="Số đo thật: chi phí từ chối tăng theo kích thước input; giới hạn body trả 413 gần như miễn phí" loading="lazy" src="../assets/figures/11/payload.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 11.11 — Số đo thật: chi phí từ chối tăng theo kích thước input; giới hạn body trả 413 gần như miễn phí.</figcaption>
+</figure>
+<!-- /fig -->
+
+<p>Không có giới hạn body, mỗi request 24 MB chiếm <strong>2,6 giây CPU và 296 MiB RAM</strong> trước khi bị từ chối. Mười request như vậy đồng thời là đủ làm một pod bị OOM-kill. Starlette 1.x có <code>RequestBodyLimitMiddleware</code>: nó kiểm <code>Content-Length</code> trước khi đọc, và đếm byte khi body được gửi kiểu chunked, nên từ chối với <strong>413 Content Too Large</strong> gần như miễn phí. Đặt giới hạn theo endpoint: <code>invoice-api</code> cần ~5 KB cho một hóa đơn và ~2,5 MB cho batch 500 hóa đơn, nên 4 MiB là dư.</p>
+<p>Bảng giới hạn đầy đủ cho <code>invoice-api</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Tài nguyên</th>
+<th>Giới hạn</th>
+<th>Cơ chế</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Kích thước body</td>
+<td>4 MiB (batch), 64 KiB (còn lại)</td>
+<td><code>RequestBodyLimitMiddleware</code>, hoặc proxy (nginx <code>client_max_body_size</code>)</td>
+</tr>
+<tr>
+<td>Độ sâu JSON</td>
+<td>~200</td>
+<td>jiter (dùng <code>model_validate_json</code>)</td>
+</tr>
+<tr>
+<td>Số phần tử</td>
+<td>500 dòng/hóa đơn, 500 hóa đơn/batch</td>
+<td><code>Field(max_length=...)</code></td>
+</tr>
+<tr>
+<td>Độ dài chuỗi</td>
+<td>tên hàng ≤ 500 ký tự</td>
+<td><code>Field(max_length=...)</code> / <code>StringConstraints</code></td>
+</tr>
+<tr>
+<td>Kích thước số</td>
+<td>tiền ≤ <span class="arithmatex">\(10^{15}\)</span> VND</td>
+<td><code>Field(le=...)</code>. Python <code>int</code> không giới hạn kích thước. Số JSON dài hơn 4.300 chữ số bị cả jiter lẫn <code>json.loads</code> từ chối (giới hạn Python thêm sau CVE-2020-10735, đã chạy thử)</td>
+</tr>
+<tr>
+<td>Tham số phân trang</td>
+<td><code>limit</code> ≤ 200</td>
+<td><code>Query(le=200)</code></td>
+</tr>
+<tr>
+<td>Thời gian request</td>
+<td>10 s</td>
+<td>timeout ở proxy + <code>asyncio.timeout</code> cho lời gọi ra ngoài (M13)</td>
+</tr>
+<tr>
+<td>Tần suất</td>
+<td>theo tenant</td>
+<td>GCRA (mục 5)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="7-cau-hinh-ssrf-va-bi-mat">7. Cấu hình, SSRF và bí mật<a class="headerlink" href="#7-cau-hinh-ssrf-va-bi-mat" title="Permanent link">&para;</a></h2>
+<h3 id="71-cors">7.1. CORS<a class="headerlink" href="#71-cors" title="Permanent link">&para;</a></h3>
+<p>CORS <strong>không phải cơ chế bảo vệ API</strong>. Nó là cách <strong>trình duyệt</strong> nới lỏng Same-Origin Policy cho những origin bạn chỉ định. Client không phải trình duyệt (curl, máy POS) bỏ qua CORS hoàn toàn. CORS chỉ quan trọng khi API dùng <strong>cookie</strong>: một trang độc hại mở trong trình duyệt của nhân viên CS có thể gửi request kèm cookie phiên của họ.</p>
+<p>Thí nghiệm <code>s6</code>: request từ <code>Origin: https://evil.example</code>, kèm cookie, tới ba cấu hình <code>CORSMiddleware</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Cấu hình</th>
+<th><code>Access-Control-Allow-Origin</code></th>
+<th><code>…-Allow-Credentials</code></th>
+<th>Hệ quả</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>allow_origins=["*"]</code></td>
+<td><code>*</code></td>
+<td>—</td>
+<td>trình duyệt không gửi cookie kèm <code>*</code>; an toàn cho API công khai không dùng cookie</td>
+</tr>
+<tr>
+<td><code>allow_origins=["*"], allow_credentials=True</code></td>
+<td><strong><code>https://evil.example</code></strong></td>
+<td><strong><code>true</code></strong></td>
+<td><strong>nguy hiểm</strong>: Starlette phản chiếu lại origin của request, và mọi trang web đều đọc được response có cookie</td>
+</tr>
+<tr>
+<td><code>allow_origins=["https://app.mekong.vn"], allow_credentials=True</code></td>
+<td>(không có)</td>
+<td><code>true</code></td>
+<td>đúng: origin lạ không được phép</td>
+</tr>
+</tbody>
+</table>
+<p>Cấu hình thứ hai là lỗi cấu hình kinh điển (API8). Theo đặc tả Fetch, trình duyệt từ chối <code>*</code> khi có credentials. Starlette "chiều" người dùng bằng cách phản chiếu origin, nên thực chất cho phép <strong>mọi</strong> origin gửi request có cookie. Quy tắc: có <code>allow_credentials=True</code> thì <strong>liệt kê origin cụ thể</strong>.</p>
+<h3 id="72-ssrf-url-webhook-do-nguoi-dung-nhap">7.2. SSRF: URL webhook do người dùng nhập<a class="headerlink" href="#72-ssrf-url-webhook-do-nguoi-dung-nhap" title="Permanent link">&para;</a></h3>
+<p><code>ai-gateway</code> cho tenant đăng ký <strong>URL webhook</strong> để nhận thông báo khi draft sẵn sàng. Server sẽ gửi request tới URL đó. Nếu tenant nhập <code>http://169.254.169.254/latest/meta-data/</code> (metadata service của cloud, nơi chứa credential tạm của máy), server sẽ tự đi lấy credential của chính nó. Đó là <strong>SSRF</strong> (API7). Đây cũng là con đường của vụ Capital One năm 2019.</p>
+<p>Pydantic <code>HttpUrl</code> giải quyết được một phần quan trọng: nó <strong>phân tích URL theo chuẩn WHATWG</strong> và <strong>chuẩn hóa host</strong>. Thí nghiệm <code>s5</code> đưa vào các cách viết "lách" kinh điển:</p>
+<table>
+<thead>
+<tr>
+<th>URL nhập vào</th>
+<th><code>HttpUrl(...).host</code></th>
+<th>Bộ lọc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>https://1.1.1.1/hook</code></td>
+<td><code>1.1.1.1</code></td>
+<td>cho phép</td>
+</tr>
+<tr>
+<td><code>http://0x7f000001/</code></td>
+<td><code>127.0.0.1</code></td>
+<td>chặn</td>
+</tr>
+<tr>
+<td><code>http://2130706433/</code></td>
+<td><code>127.0.0.1</code></td>
+<td>chặn</td>
+</tr>
+<tr>
+<td><code>http://0177.0.0.1/</code></td>
+<td><code>127.0.0.1</code></td>
+<td>chặn</td>
+</tr>
+<tr>
+<td><code>http://127.1/</code></td>
+<td><code>127.0.0.1</code></td>
+<td>chặn</td>
+</tr>
+<tr>
+<td><code>http://[::ffff:127.0.0.1]/</code></td>
+<td><code>[::ffff:7f00:1]</code></td>
+<td>chặn (IPv4-mapped)</td>
+</tr>
+<tr>
+<td><code>http://169.254.169.254/latest/meta-data/</code></td>
+<td><code>169.254.169.254</code></td>
+<td>chặn</td>
+</tr>
+<tr>
+<td><code>http://evil.com@127.0.0.1/</code></td>
+<td><code>127.0.0.1</code></td>
+<td>chặn</td>
+</tr>
+<tr>
+<td><code>http://127.0.0.1#@evil.com/</code></td>
+<td><code>127.0.0.1</code></td>
+<td>chặn</td>
+</tr>
+<tr>
+<td><code>file:///etc/passwd</code>, <code>gopher://…</code></td>
+<td>—</td>
+<td><code>HttpUrl</code> từ chối scheme</td>
+</tr>
+</tbody>
+</table>
+<!-- placeholder-ssrf -->
+
+<!-- fig:ssrf -->
+<figure>
+  <img alt="Quy trình chặn SSRF cho URL webhook: chuẩn hóa, phân giải, kiểm từng địa chỉ, kết nối đúng IP" loading="lazy" src="../assets/figures/11/ssrf.light.svg#only-light" />
+  <img alt="Quy trình chặn SSRF cho URL webhook: chuẩn hóa, phân giải, kiểm từng địa chỉ, kết nối đúng IP" loading="lazy" src="../assets/figures/11/ssrf.dark.svg#only-dark" />
+<br />
+<figcaption>Hình 11.12 — Quy trình chặn SSRF cho URL webhook: chuẩn hóa, phân giải, kiểm từng địa chỉ, kết nối đúng IP.</figcaption>
+</figure>
+<!-- /fig -->
+
+<p>Bộ lọc <strong>phải dùng host đã chuẩn hóa bởi chính parser mà HTTP client sẽ dùng</strong>, rồi <strong>phân giải DNS và kiểm mọi địa chỉ</strong> bằng <code>ipaddress.ip_address(...).is_global</code>. Lọc bằng regex trên chuỗi thô là công thức cho parser differential (Module 01). Ví dụ <code>http://127.0.0.1#@evil.com/</code>: regex "host nằm sau <code>@</code>" sẽ thấy <code>evil.com</code>, trong khi HTTP client thật kết nối tới <code>127.0.0.1</code>.</p>
+<p>Còn một lỗ hổng mà validate lúc nhập không chặn được: <strong>DNS rebinding</strong>. Tên miền của kẻ tấn công trả IP công khai lúc kiểm, rồi trả <code>127.0.0.1</code> lúc server thật sự gọi. Có hai cách chặn: <strong>kiểm lại tại thời điểm kết nối</strong> (resolve một lần, kết nối thẳng tới IP đã kiểm, giữ header <code>Host</code>), hoặc đơn giản và chắc hơn, đưa mọi request đi ra ngoài qua một <strong>egress proxy</strong> chỉ cho phép đi internet và chặn dải nội bộ ở tầng mạng.</p>
+<h3 id="73-bi-mat">7.3. Bí mật<a class="headerlink" href="#73-bi-mat" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Bí mật (khóa ký JWT, mật khẩu DB, API key LLM) đọc từ môi trường hoặc secret manager qua <code>pydantic-settings</code>, với kiểu <strong><code>SecretStr</code></strong> để không lọt vào log và <code>repr</code> (Module 05).</li>
+<li><strong>Không</strong> ghi <code>Authorization</code>, cookie, body chứa PII vào log. Lọc ở tầng logging (Module 13).</li>
+<li>Khóa ký có <strong><code>kid</code></strong> để xoay vòng: phát hành khóa mới, công bố trong JWKS, ký bằng khóa mới, giữ khóa cũ cho tới khi token cũ hết hạn, rồi gỡ.</li>
+<li>Bật <strong>secret scanning</strong> trên repo, và chuẩn bị quy trình thu hồi trước khi cần đến nó.</li>
+</ul>
+<hr />
+<h2 id="8-case-mekong-cloud-cac-lop-bao-ve-cua-post-v1invoices">8. Case Mekong Cloud: các lớp bảo vệ của <code>POST /v1/invoices</code><a class="headerlink" href="#8-case-mekong-cloud-cac-lop-bao-ve-cua-post-v1invoices" title="Permanent link">&para;</a></h2>
+<pre class="mermaid"><code>flowchart LR
+    A[Request từ POS] --&gt; B{Body ≤ 4 MiB?}
+    B -- không --&gt; X1[413]
+    B -- có --&gt; C{JWT hợp lệ?&lt;br/&gt;alg cố định, aud, iss, exp}
+    C -- không --&gt; X2[401]
+    C -- có --&gt; D{Scope invoice:write?}
+    D -- không --&gt; X3[403]
+    D -- có --&gt; E{GCRA tenant&lt;br/&gt;còn hạn mức?}
+    E -- không --&gt; X4[429 + Retry-After]
+    E -- có --&gt; F{InvoiceIn hợp lệ?&lt;br/&gt;extra=forbid, max_length,&lt;br/&gt;MST, thuế suất}
+    F -- không --&gt; X5[422 Problem Details]
+    F -- có --&gt; G[Transaction: SET LOCAL tenant&lt;br/&gt;RLS · idempotency · cấp số]
+    G --&gt; H[InvoiceOut&lt;br/&gt;chỉ trường công khai]</code></pre>
+<table>
+<thead>
+<tr>
+<th>Lớp</th>
+<th>Chặn</th>
+<th>Chi phí đo được</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Giới hạn body</td>
+<td>DoS payload (API4)</td>
+<td>0,6 ms cho body 24 MB bị từ chối</td>
+</tr>
+<tr>
+<td>Kiểm JWT EdDSA</td>
+<td>giả mạo, token sai <code>aud</code>/hết hạn (API2)</td>
+<td>137 µs</td>
+</tr>
+<tr>
+<td><code>Security(scopes=...)</code></td>
+<td>BFLA (API5)</td>
+<td>~9 µs (một dependency <code>async</code>, Module 08)</td>
+</tr>
+<tr>
+<td>GCRA Redis</td>
+<td>lạm dụng tài nguyên/luồng nghiệp vụ (API4, API6)</td>
+<td>~133 µs</td>
+</tr>
+<tr>
+<td><code>InvoiceIn</code> (<code>extra="forbid"</code>)</td>
+<td>mass assignment (API3), dữ liệu sai</td>
+<td>~23 µs (Module 06)</td>
+</tr>
+<tr>
+<td><code>tenant_id</code> + RLS + 404</td>
+<td>BOLA (API1)</td>
+<td>≈ 0 (một điều kiện <code>WHERE</code> có index)</td>
+</tr>
+<tr>
+<td><code>InvoiceOut</code></td>
+<td>lộ dữ liệu quá mức (API3)</td>
+<td>vài µs</td>
+</tr>
+</tbody>
+</table>
+<p>Tổng chi phí của mọi lớp bảo vệ dưới <strong>0,4 ms</strong> mỗi request, chưa tới 0,15% ngân sách p99 300 ms. Bảo mật đúng cách gần như không bao giờ là nút thắt hiệu năng. Thứ đắt là bảo mật <strong>sai</strong> cách: không giới hạn body, băm mật khẩu trên event loop.</p>
+<hr />
+<h2 id="loi-thuong-gap-cach-xu-ly">Lỗi thường gặp &amp; cách xử lý<a class="headerlink" href="#loi-thuong-gap-cach-xu-ly" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Triệu chứng</th>
+<th>Nguyên nhân gốc</th>
+<th>Cách xử lý</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Token của dịch vụ khác dùng được ở <code>invoice-api</code></td>
+<td>không kiểm <code>aud</code></td>
+<td><code>audience="invoice-api"</code>; <code>options={"require": [...]}</code></td>
+</tr>
+<tr>
+<td>Token ký giả vẫn qua</td>
+<td>đọc <code>alg</code> từ header; cho phép cả HS256 và RS256</td>
+<td><code>algorithms=[...]</code> cố định, một họ thuật toán</td>
+</tr>
+<tr>
+<td>Đổi ID trong URL thấy hóa đơn người khác</td>
+<td>truy vấn thiếu <code>tenant_id</code> (BOLA)</td>
+<td>repository gắn tenant; RLS; test chéo tenant</td>
+</tr>
+<tr>
+<td>Client sửa được <code>status</code>/<code>tenant_id</code></td>
+<td>gán thẳng dict vào ORM (mass assignment)</td>
+<td>model Patch riêng, <code>extra="forbid"</code>, <code>exclude_unset=True</code></td>
+</tr>
+<tr>
+<td>Trả 403 cho hóa đơn tenant khác</td>
+<td>lộ sự tồn tại</td>
+<td>trả 404</td>
+</tr>
+<tr>
+<td>Đăng nhập làm chậm cả API</td>
+<td>Argon2 chạy trên event loop</td>
+<td><code>run_in_threadpool</code>; rate limit trước khi băm</td>
+</tr>
+<tr>
+<td>Pod bị OOM khi có request lạ</td>
+<td>không giới hạn body</td>
+<td><code>RequestBodyLimitMiddleware</code>, giới hạn ở proxy</td>
+</tr>
+<tr>
+<td>500 với JSON lồng sâu</td>
+<td><code>RecursionError</code> từ <code>json.loads</code></td>
+<td><code>model_validate_json</code> (jiter giới hạn độ sâu); handler</td>
+</tr>
+<tr>
+<td>Rate limit để lọt gấp đôi ở đầu mỗi phút</td>
+<td>cửa sổ cố định</td>
+<td>GCRA/token bucket</td>
+</tr>
+<tr>
+<td>Mọi website đọc được API khi đăng nhập</td>
+<td><code>allow_origins=["*"]</code> + <code>allow_credentials=True</code></td>
+<td>liệt kê origin cụ thể</td>
+</tr>
+<tr>
+<td>Webhook gọi được metadata service</td>
+<td>không lọc SSRF; lọc bằng regex</td>
+<td><code>HttpUrl</code> + resolve + <code>is_global</code>; egress proxy</td>
+</tr>
+<tr>
+<td>Bí mật xuất hiện trong log</td>
+<td><code>str</code> thay vì <code>SecretStr</code>; log header</td>
+<td><code>SecretStr</code>; lọc log</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tom-tat-cheat-sheet">Tóm tắt (cheat-sheet)<a class="headerlink" href="#tom-tat-cheat-sheet" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Mô hình đe dọa</strong>: DFD + ranh giới tin cậy + STRIDE; đối chiếu OWASP API Top 10 2023.</li>
+<li><strong>Xác thực</strong>: máy → client credentials (hoặc API key, lưu SHA-256); người → authorization code + PKCE; RFC 9700: token giới hạn theo audience, scope, người gửi.</li>
+<li><strong>JWT (RFC 8725)</strong>: <code>algorithms</code> cố định; bắt buộc <code>exp</code>, <code>iss</code>, <code>aud</code>; khóa đúng loại; claims validate bằng Pydantic; 401 vs 403.</li>
+<li><strong>Mật khẩu</strong>: Argon2id m = 19 MiB, t = 2, p = 1; chạy trong threadpool; rate limit trước khi băm; kiểm danh sách mật khẩu đã lộ.</li>
+<li><strong>BOLA</strong>: <code>tenant_id</code> từ principal + RLS + 404. <strong>BOPLA</strong>: model vào/ra riêng, <code>extra="forbid"</code>, <code>exclude_unset</code>. <strong>BFLA</strong>: <code>Security(scopes=...)</code>, mặc định từ chối ở cấp router.</li>
+<li><strong>Rate limit</strong>: GCRA trên Redis, theo tenant, <span class="arithmatex">\(\le b + r t\)</span>; 429 + <code>Retry-After</code>.</li>
+<li><strong>Payload</strong>: giới hạn body (413), độ sâu (jiter), <code>max_length</code> cho list/chuỗi, <code>le</code> cho số.</li>
+<li><strong>CORS</strong>: có credentials thì liệt kê origin. <strong>SSRF</strong>: <code>HttpUrl</code> + resolve + <code>is_global</code> + egress proxy. <strong>Bí mật</strong>: <code>SecretStr</code>, <code>kid</code>, xoay vòng.</li>
+</ul>
+<h2 id="cau-hoi-tu-kiem-tra-phong-van">Câu hỏi tự kiểm tra / phỏng vấn<a class="headerlink" href="#cau-hoi-tu-kiem-tra-phong-van" title="Permanent link">&para;</a></h2>
+<p><strong>1.</strong> JWT đã có chữ ký. Vì sao vẫn phải kiểm <code>aud</code>?</p>
+<details>
+<summary>Đáp án</summary>
+<p>Chữ ký chỉ chứng minh token do IdP phát hành và chưa bị sửa. Nếu IdP phát token cho nhiều dịch vụ (<code>invoice-api</code>, <code>ai-gateway</code>…), một token hợp lệ cho <code>ai-gateway</code> cũng có chữ ký hợp lệ. Không kiểm <code>aud</code> thì một dịch vụ bị xâm nhập, hoặc một client chỉ có quyền ở dịch vụ A, có thể dùng token của mình ở dịch vụ B. Thí nghiệm <code>s2</code>: decoder không kiểm <code>aud</code> chấp nhận token <code>aud: ai-gateway</code>.</p>
+</details>
+<p><strong>2.</strong> Giải thích tấn công nhầm thuật toán (algorithm confusion). Vì sao nó cần khóa công khai?</p>
+<details>
+<summary>Đáp án</summary>
+<p>Server kiểm RS256 bằng khóa công khai. Kẻ tấn công lấy khóa công khai (vốn công khai, thường qua JWKS), tạo token với <code>alg: HS256</code> và ký HMAC bằng chính bytes của khóa công khai. Decoder đọc <code>alg</code> từ header sẽ gọi HMAC với "khóa" là khóa công khai, và chữ ký khớp. Cách chặn: cố định <code>algorithms</code> phía server, và thư viện từ chối dùng khóa bất đối xứng làm bí mật HMAC (PyJWT ném <code>InvalidKeyError</code>).</p>
+</details>
+<p><strong>3.</strong> Vì sao API key ngẫu nhiên 256 bit có thể lưu bằng SHA-256, còn mật khẩu thì không?</p>
+<details>
+<summary>Đáp án</summary>
+<p>Hàm băm chậm chống lại việc <strong>đoán</strong>: kẻ tấn công thử các ứng viên có xác suất cao. Mật khẩu do người đặt nằm trong không gian nhỏ và phân bố lệch (8 ký tự: <span class="arithmatex">\(2{,}8 \times 10^{12}\)</span>, một GPU duyệt hết trong ~1 phút với SHA-256). Key ngẫu nhiên 256 bit có <span class="arithmatex">\(2^{256}\)</span> khả năng, và không phần cứng nào duyệt được dù băm nhanh đến đâu. Băm nhanh còn giúp tra cứu key mỗi request với chi phí không đáng kể.</p>
+</details>
+<p><strong>4.</strong> Tính thời gian kỳ vọng để phá một mật khẩu 8 ký tự <code>a-z0-9</code> khi hash là SHA-256 (GPU 21,8 tỷ/s) và khi là Argon2id 36 ms trên 1.000 core.</p>
+<details>
+<summary>Đáp án</summary>
+<p>Không gian <span class="arithmatex">\(36^8 \approx 2{,}82 \times 10^{12}\)</span>, kỳ vọng thử một nửa: <span class="arithmatex">\(1{,}41 \times 10^{12}\)</span>. SHA-256: <span class="arithmatex">\(1{,}41 \times 10^{12} / 2{,}18 \times 10^{10} \approx 65\)</span> s. Argon2id: tốc độ <span class="arithmatex">\(1000 / 0{,}036 \approx 27.800\)</span> lần/s, nên <span class="arithmatex">\(1{,}41 \times 10^{12} / 27.800 \approx 5{,}1 \times 10^7\)</span> s ≈ 1,6 năm.</p>
+</details>
+<p><strong>5.</strong> Vì sao trả 404 thay vì 403 khi tenant A truy cập hóa đơn của tenant B?</p>
+<details>
+<summary>Đáp án</summary>
+<p>403 xác nhận đối tượng tồn tại. Với ID tuần tự, kẻ tấn công dò được số hóa đơn đối thủ phát hành mỗi ngày, tức doanh số. 404 làm "không tồn tại" và "không phải của bạn" không phân biệt được. Ngoại lệ: tài nguyên mà sự tồn tại của nó vốn công khai.</p>
+</details>
+<p><strong>6.</strong> <code>extra="ignore"</code> (mặc định) đã ngăn mass assignment. Vì sao vẫn nên dùng <code>"forbid"</code> cho model ghi?</p>
+<details>
+<summary>Đáp án</summary>
+<p><code>"ignore"</code> chặn được việc ghi trường cấm, nhưng <strong>lặng lẽ</strong>. Client gửi <code>"buyer_nme"</code> (gõ sai) nhận 200 và tưởng đã sửa xong. Một kẻ dò quét cũng không biết là đã bị chặn, và log không có dấu vết. <code>"forbid"</code> trả 422 rõ ràng, giúp phát hiện lỗi tích hợp sớm và thấy được hành vi bất thường. Cái giá là cần cẩn thận khi tiến hóa schema (client mới gửi trường mới tới server cũ).</p>
+</details>
+<p><strong>7.</strong> Cửa sổ cố định 10 req/s cho qua 20 request trong 0,2 s. Token bucket với <span class="arithmatex">\(r = 10\)</span>, <span class="arithmatex">\(b = 10\)</span> thì sao? Chứng minh cận trên.</p>
+<details>
+<summary>Đáp án</summary>
+<p>Xô chứa tối đa <span class="arithmatex">\(b\)</span> token ở đầu khoảng, và trong khoảng dài <span class="arithmatex">\(t\)</span> được rót thêm tối đa <span class="arithmatex">\(r t\)</span> token. Mỗi request cần 1 token, nên số request nhận <span class="arithmatex">\(\le b + r t = 10 + 10 \times 0{,}2 = 12\)</span>. Mô phỏng GCRA cho 10: xô đầy 10 token bị 10 request đầu tiêu hết, và trong 0,09 s sau đó chỉ được rót thêm chưa tới 1 token. Cận này đúng cho <strong>mọi</strong> khoảng, không phụ thuộc mốc lịch.</p>
+</details>
+<p><strong>8.</strong> <code>Field(max_length=500)</code> đã giới hạn số dòng. Vì sao vẫn cần giới hạn kích thước body?</p>
+<details>
+<summary>Đáp án</summary>
+<p><code>max_length</code> chỉ được kiểm <strong>sau khi</strong> JSON đã được đọc và phân tích. Thí nghiệm: từ chối 200.000 dòng mất 325 ms; qua FastAPI, body 24 MB mất 2,6 s và 296 MiB trước khi trả 422. Giới hạn body kiểm <code>Content-Length</code> hoặc đếm byte trước khi phân tích, nên trả 413 trong 0,6 ms và không cấp phát gì.</p>
+</details>
+<p><strong>9.</strong> Một đồng nghiệp lọc SSRF bằng <code>if "127.0.0.1" in url or "localhost" in url</code>. Liệt kê ít nhất 4 URL lách qua bộ lọc này.</p>
+<details>
+<summary>Đáp án</summary>
+<p><code>http://0x7f000001/</code>, <code>http://2130706433/</code>, <code>http://0177.0.0.1/</code>, <code>http://127.1/</code>, <code>http://[::ffff:127.0.0.1]/</code>, <code>http://169.254.169.254/</code> (metadata), <code>http://10.0.0.5:6379/</code> (dịch vụ nội bộ), và một tên miền trỏ về 127.0.0.1 hoặc DNS rebinding. Cách đúng: phân tích bằng <code>HttpUrl</code>, resolve, kiểm <code>is_global</code> cho mọi địa chỉ, kết nối tới đúng IP đã kiểm, hoặc dùng egress proxy.</p>
+</details>
+<p><strong>10.</strong> Vì sao <code>allow_origins=["*"]</code> an toàn với API dùng Bearer token, nhưng thêm <code>allow_credentials=True</code> thì nguy hiểm?</p>
+<details>
+<summary>Đáp án</summary>
+<p>Với Bearer token, trang độc hại không có token của nạn nhân (token không tự động đính kèm), nên đọc được response cũng không lấy được gì. Cookie thì trình duyệt <strong>tự đính kèm</strong>. Với <code>allow_credentials=True</code>, Starlette phản chiếu origin của request (thí nghiệm <code>s6</code>: <code>ACAO=https://evil.example</code>, <code>ACAC=true</code>), nên trang độc hại gửi request kèm cookie phiên của nạn nhân và đọc được response.</p>
+</details>
+<p><strong>11.</strong> Đăng nhập dùng Argon2id 36 ms. Kẻ tấn công gửi 200 lần thử/s tới <code>/login</code>. Điều gì xảy ra với server 4 core, và bạn đặt rate limit ở đâu?</p>
+<details>
+<summary>Đáp án</summary>
+<p>200 × 36 ms = 7,2 core-giây mỗi giây, vượt 4 core. Server bão hòa CPU, threadpool đầy, mọi request khác chậm theo. Nếu băm trên event loop thì tệ hơn nữa: loop bị chặn hoàn toàn. Rate limit phải đặt <strong>trước</strong> bước băm: theo IP, theo tài khoản (chống thử nhiều mật khẩu cho một tài khoản), và theo tổng (chống credential stuffing phân tán), kèm giới hạn đồng thời cho endpoint đăng nhập.</p>
+</details>
+<p><strong>12.</strong> Kể ba chỗ trong <code>ai-gateway</code> mà dữ liệu đi qua ranh giới tin cậy, và cơ chế kiểm tra ở mỗi chỗ.</p>
+<details>
+<summary>Đáp án</summary>
+<p>(1) Webhook từ Zendesk vào: xác thực chữ ký HMAC của Zendesk, validate payload bằng Pydantic, idempotency theo ticket id. (2) Nội dung email khách hàng đi vào prompt LLM: không tin, coi chừng prompt injection (Module 15), tách vai trò system/user, không cho LLM quyền gọi tool nguy hiểm. (3) Output LLM đi vào hệ thống: validate bằng Pydantic như input người dùng (API10), không thực thi, không dùng làm URL hay SQL khi chưa kiểm. Thêm nữa: (4) URL webhook do tenant đăng ký → lọc SSRF.</p>
+</details>
+<h2 id="bai-tap-thuc-hanh">Bài tập thực hành<a class="headerlink" href="#bai-tap-thuc-hanh" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Test ma trận phân quyền.</strong> Viết fixture sinh token cho ba vai trò (POS, kế toán, admin). Duyệt <code>app.routes</code> và assert mã trạng thái mong đợi cho từng cặp (vai trò, endpoint). Thêm một endpoint mới mà quên <code>Security(...)</code> để thấy test đỏ.</li>
+<li><strong>BOLA tự động.</strong> Với mỗi route có tham số path là ID, tạo đối tượng ở tenant A, gọi bằng token tenant B, assert 404. Chạy trên <code>invoice-api</code> của Lab 03.</li>
+<li><strong>Rate limit theo chi phí.</strong> Mở rộng script Lua GCRA để nhận <code>cost</code> (số hóa đơn trong batch): <span class="arithmatex">\(\mathrm{TAT} \leftarrow \mathrm{TAT}' + \text{cost} \cdot T\)</span>. Viết test chứng minh batch 500 hóa đơn tiêu đúng 500 đơn vị hạn mức.</li>
+<li><strong>Bộ lọc SSRF chống rebinding.</strong> Viết transport cho <code>httpx</code> resolve host một lần, kiểm <code>is_global</code>, rồi kết nối tới IP đó với header <code>Host</code> gốc. Kiểm bằng một tên miền thử nghiệm trả về IP nội bộ.</li>
+</ol>
+<h2 id="tai-lieu-tham-khao">Tài liệu tham khảo<a class="headerlink" href="#tai-lieu-tham-khao" title="Permanent link">&para;</a></h2>
+<ul>
+<li>OWASP. <em>API Security Top 10 — 2023</em>. <a href="https://owasp.org/API-Security/editions/2023/en/0x11-t10/">owasp.org/API-Security/editions/2023/en/0x11-t10/</a></li>
+<li>OWASP. <em>Password Storage Cheat Sheet</em>. <a href="https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html">cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html</a></li>
+<li>OWASP. <em>Server Side Request Forgery Prevention Cheat Sheet</em>. <a href="https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html">cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html</a></li>
+<li>T. Lodderstedt, J. Bradley, A. Labunets, D. Fett. <em>RFC 9700 — Best Current Practice for OAuth 2.0 Security</em>. IETF, 01/2025.</li>
+<li>D. Hardt (ed.). <em>RFC 6749 — The OAuth 2.0 Authorization Framework</em>. IETF, 2012.</li>
+<li>N. Sakimura, J. Bradley, N. Agarwal. <em>RFC 7636 — Proof Key for Code Exchange (PKCE)</em>. IETF, 2015.</li>
+<li>D. Fett et al. <em>RFC 9449 — OAuth 2.0 Demonstrating Proof of Possession (DPoP)</em>. IETF, 2023.</li>
+<li>M. Jones, J. Bradley, N. Sakimura. <em>RFC 7519 — JSON Web Token (JWT)</em>. IETF, 2015.</li>
+<li>Y. Sheffer, D. Hardt, M. Jones. <em>RFC 8725 — JSON Web Token Best Current Practices</em>. IETF, 2020.</li>
+<li>V. Bertocci. <em>RFC 9068 — JWT Profile for OAuth 2.0 Access Tokens</em>. IETF, 2021.</li>
+<li>A. Biryukov, D. Dinu, D. Khovratovich, S. Josefsson. <em>RFC 9106 — Argon2 Memory-Hard Function for Password Hashing and Proof-of-Work Applications</em>. IETF, 2021.</li>
+<li>NIST. <em>SP 800-63B — Digital Identity Guidelines: Authentication and Lifecycle Management</em>.</li>
+<li>L. Kohnfelder, P. Garg. <em>The threats to our products</em>. Microsoft, 1999 (nguồn gốc STRIDE).</li>
+<li>GitHub Advisory GHSA-ffqj-6fqr-9h24 / <strong>CVE-2022-29217</strong> — PyJWT key confusion (sửa ở 2.4.0).</li>
+<li>hashcat forum — benchmark RTX 4090 (<code>-m 1400</code> SHA-256 ≈ 21,8 GH/s), 01/2023. <a href="https://hashcat.net/forum/post-57490.html">hashcat.net/forum/post-57490.html</a></li>
+<li>TechCrunch. <em>Peloton's leaky API let anyone grab riders' private account data</em>, 05/05/2021. <a href="https://techcrunch.com/2021/05/05/peloton-bug-account-data-leak/">techcrunch.com/2021/05/05/peloton-bug-account-data-leak/</a></li>
+<li>ATM Forum. <em>Traffic Management Specification 4.0</em> (1996) — định nghĩa GCRA.</li>
+<li>WHATWG. <em>URL Standard</em>. <a href="https://url.spec.whatwg.org/">url.spec.whatwg.org</a></li>
+<li>WHATWG. <em>Fetch Standard — CORS protocol</em>. <a href="https://fetch.spec.whatwg.org/#http-cors-protocol">fetch.spec.whatwg.org/#http-cors-protocol</a></li>
+<li>Starlette Documentation: <a href="https://www.starlette.io/middleware/">Middleware</a>. FastAPI Documentation: <a href="https://fastapi.tiangolo.com/tutorial/security/">Security</a>, <a href="https://fastapi.tiangolo.com/advanced/security/oauth2-scopes/">OAuth2 scopes</a>.</li>
+<li>PyJWT Documentation: <a href="https://pyjwt.readthedocs.io/en/stable/usage.html">Usage examples</a>.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Trở lại mục lục
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Chân trang" >
+        
+          
+          <a href="../10-database-va-persistence/" class="md-footer__link md-footer__link--prev" aria-label="Trước: 10 · Database &amp; persistence">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Trước
+              </span>
+              <div class="md-ellipsis">
+                10 · Database & persistence
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../12-testing-va-chat-luong/" class="md-footer__link md-footer__link--next" aria-label="Sau: 12 · Testing &amp; chất lượng">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Sau
+              </span>
+              <div class="md-ellipsis">
+                12 · Testing & chất lượng
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Tài liệu học tập — Pydantic & FastAPI Masterclass · 2026
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/HieNguyen08/learn-pydantic-and-fastapi" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.top", "navigation.footer", "navigation.indexes", "navigation.tracking", "toc.follow", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "content.action.edit"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u0110\u00e3 sao ch\u00e9p", "clipboard.copy": "Sao ch\u00e9p v\u00e0o b\u1ed9 nh\u1edb t\u1ea1m", "search.result.more.one": "1 t\u1eeb kh\u00e1c trong trang", "search.result.more.other": "# t\u1eeb kh\u00e1c trong trang", "search.result.none": "Kh\u00f4ng t\u00ecm th\u1ea5y t\u00e0i li\u1ec7u li\u00ean quan", "search.result.one": "1 t\u00e0i li\u1ec7u li\u00ean quan", "search.result.other": "# t\u00e0i li\u1ec7u li\u00ean quan", "search.result.placeholder": "Nh\u1eadp \u0111\u1ec3 b\u1eaft \u0111\u1ea7u t\u00ecm ki\u1ebfm", "search.result.term.missing": "Kh\u00f4ng", "select.version": "Ch\u1ecdn phi\u00ean b\u1ea3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
